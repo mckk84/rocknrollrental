@@ -119,9 +119,7 @@
                                 </nav>
                                 
                                 <div class="apt_header_search dropdown ms-4">
-                                    <button class="apt_search_toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa-solid fa-user"></i>
-                                    </button>                                    
+                                    <a href="<?=base_url('Login')?>" class="btn header-white-btn d-none d-lg-inline-block me-3">Login/Sign Up</a>                
                                 </div>
                                 <button class="ofcanvus-toggle header-toggle-btn ms-4 d-none d-lg-block">
                                     <i class="fa-solid fa-bars-staggered"></i>
