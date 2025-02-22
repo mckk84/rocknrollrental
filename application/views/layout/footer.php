@@ -28,7 +28,7 @@
                                             <div class="col-4">
                                                 <a href="index.html" class="footer-logo d-inline-block"><img style="width:150px" src="logo/logo2.png" alt="logo"></a>
                                             </div>
-                                            <div class="col-8">
+                                            <div class="col-6">
                                                 <div class="d-inline text-start m-1 p-1">
                                                     <span class="h5 text-white w-75 mt-1 d-block">ROCK N ROLL</span>
                                                     <span style="border-top: 2px dashed #fdfd06;" class="h5 text-white pt-1 d-block w-75">RENTALS</span>
