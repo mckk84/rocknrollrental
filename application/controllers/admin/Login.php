@@ -4,7 +4,7 @@
  * Class : Login (LoginController)
  * Login class to control to authenticate user credentials and starts user's session.
  */
-class Admin extends CI_Controller
+class Login extends CI_Controller
 {
     /**
      * This is default constructor of the class
@@ -32,7 +32,7 @@ class Admin extends CI_Controller
         
         if(!isset($isLoggedIn) || $isLoggedIn != TRUE)
         {
-            $data['page_title'] = 'Rock N Roll Bike Rentals | Bike rentals in Chikmangaluru | Unlimited Kilometers | Home';
+            $data['page_title'] = 'Rock N Roll Bike Rentals | Admin';
             $this->load->view('backend/login', $data);
         }
         else
