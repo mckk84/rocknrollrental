@@ -134,9 +134,7 @@ class CI_Session {
 			unset($_COOKIE[$this->_config['cookie_name']]);
 		}
 
-		if (!isset($_SESSION)
-		    && !headers_sent()
-		) {
+		if(session_status()==PHP_SESSION_NONE){
 		    session_start();
 		}
 
