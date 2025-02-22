@@ -12,13 +12,11 @@ class Admin extends CI_Controller
      */
     public function index()
     {
-    	session_destroy();
     	$this->load->library('session');
         $isLoggedIn = $this->session->userdata('isLoggedIn');
         
         if(!isset($isLoggedIn) || $isLoggedIn != TRUE)
         {
-        	session_destroy();
             $data['page_title'] = 'Rock N Roll Bike Rentals | Admin';
 	        $this->load->view('backend/login', $data);
         }
@@ -27,8 +25,7 @@ class Admin extends CI_Controller
             redirect('admin/Dashboard');
         }
     }
-    
-    
+        
     /**
      * This function used to logged in user
      */
