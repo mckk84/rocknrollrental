@@ -29,7 +29,7 @@ class Dashboard extends CI_Controller
             $data['user'] = $this->session->userdata();
             $data['page_title'] = "Dashboard";
             
-            $this->load->view('layout_admin/header');
+            $this->load->view('layout_admin/header', $data);
             $this->load->view('backend/dashboard', $data);
             $this->load->view('layout_admin/footer');
         }
