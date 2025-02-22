@@ -1,4 +1,5 @@
 <?php
+ob_flush();
 /**
  * CodeIgniter
  *
