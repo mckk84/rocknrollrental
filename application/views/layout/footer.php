@@ -23,10 +23,20 @@
                         <div class="col-xl-6 col-lg-7">
                             <div class="ms-lg-5 ms-xl-0 mt-5 mt-lg-0">
                                 <div class="row align-items-center">
-                                    <div class="col-6">
-                                        <a href="<?=base_url()?>" class="footer-logo d-inline-block"><img style="width:190px" src="logo/logo2.png" alt="logo"></a>
+                                    <div class="col-9">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <a href="index.html" class="footer-logo d-inline-block"><img style="width:150px" src="logo/logo2.png" alt="logo"></a>
+                                            </div>
+                                            <div class="col-8">
+                                                <div class="d-inline text-start m-1 p-1">
+                                                    <span class="h5 text-white w-75 mt-1 d-block">ROCK N ROLL</span>
+                                                    <span style="border-top: 2px dashed #fdfd06;" class="h5 text-white pt-1 d-block w-75">RENTALS</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-3">
                                         <div class="text-end">
                                             <div class="footer-social d-inline-block text-start">
                                                 <h6 class="text-white">Follow us on</h6>
