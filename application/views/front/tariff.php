@@ -1,0 +1,215 @@
+<!--breadcrumb section start-->
+        <section class="breadcrumb-section position-relative z-2 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
+            <img src="<?=base_url()?>/assets/img/shapes/tire-print-left.png" alt="tire print" class="position-absolute start-0 z-1 tire-print">
+            <img src="<?=base_url()?>/assets/img/shapes/tire-print-right.png" alt="tire print" class="position-absolute end-0 z-1 tire-print">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="breadcrumb-content-wrapper text-center position-relative z-3">
+                            <h1 class="text-white">Tariff</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--breadcrumb section end-->
+
+        <!--about section start-->
+        <section class="h3-about-section ptb-80">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="at-section-title text-center">
+                            <h2 class="h1 mt-2 mb-4"><mark class="p-0 bg-transparent text-md-primary">Rock N Roll Rentals</mark></h2>
+                            <p class="fw-500 mb-0">RENT, RIDE, REPEAT!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-4 g-4">
+                    <div class="col-xl-6 col-lg-6" style="border-right: 5px solid #ffc107;">
+                        <div class="h2-about-item-box rounded position-relative z-1">
+                            <p class="mb-0">A <mark class="p-0 bg-transparent text-primary">hassle-free</mark> and simple bike rental company. We remain loyal to our customers by making it easy to <mark class="p-0 bg-transparent text-primary">rent</mark> a bike. We have a <mark class="p-0 bg-transparent text-primary">wide range</mark> of scooters & bikes available to rent and move on. </p>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6">
+                        <div class="h2-about-item-box rounded position-relative z-1">
+                            <p class="mb-0">Rock N Roll, the first in town and <mark class="p-0 bg-transparent text-primary">RTO</mark> authorized bike rental firm in <mark class="p-0 bg-transparent text-primary">Chikmagaluru</mark>. We offer affordable riding experience for our travelers to <mark class="p-0 bg-transparent text-primary">discover</mark> places in and around the town with ease.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--about section end-->
+  
+        <!--feature section start-->
+        <section class="sr-feature-section ptb-120 position-relative overflow-hidden z-1 bg-white">
+            <span class="primary-blur rounded-circle position-absolute start-0 top-0 z--1"></span>
+            <span class="yellow-blur rounded-circle position-absolute end-0 bottom-0 z--1"></span>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-6 col-lg-8">
+                        <div class="section-title text-center">
+                            <h2 class="h1">We Are Ensuring the Best Customer Experience</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <div class="row justify-content-center align-items-center">
+                        <table class="table table-hover table-bordered">
+                        <tbody><tr>
+                            <td style="font-weight: bolder;" rowspan="2" align="center" valign="middle">Bike Name</td>
+                            <td align="center" colspan="2" style="font-weight: bolder;">Weekdays <br> Mon-Thu</td>
+                            <td align="center" colspan="2" style="font-weight: bolder;">Weekends  <br>Fri-Sun</td>                      
+                        </tr>
+                        <tr>
+                            <td align="center" style="font-weight: bolder;">8:00 AM - 12:00 PM</td>
+                            <td align="center" style="font-weight: bolder;">8:00 AM - 8:00 PM</td>
+                            <td align="center" style="font-weight: bolder;">8:00 AM - 8:00 PM</td>              
+                        </tr>
+                        <tr>
+                             <td>Honda Dio</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 300</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 499</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 499</td>
+                             </tr><tr></tr><tr>
+                             <td>Honda Activa 6G</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 300</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 499</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 499</td>
+                             </tr><tr></tr><tr>
+                             <td>Honda Dio 6G</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 300</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 499</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 499</td>
+                             </tr><tr></tr><tr>
+                             <td>TVS NTORQ 125cc</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 400</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 599</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 699</td>
+                             </tr><tr></tr><tr>
+                             <td>Yamaha Fasino</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 400</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 599</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 699</td>
+                             </tr><tr></tr><tr>
+                             <td>Pulsar 150cc</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 400</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 600</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 800</td>
+                             </tr><tr></tr><tr>
+                             <td>Pulsar 220</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 400</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 650</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 900</td>
+                             </tr><tr></tr><tr>
+                             <td>Enfield Classic</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 500</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 800</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 1200</td>
+                             </tr><tr></tr><tr>
+                             <td>Avenger</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 500</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 800</td>
+                             <td align="center"><i class="fa fa-rupee"></i> 1000</td>
+                             </tr><tr>                  </tr></tbody></table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--feature section end-->
+
+        <!--countdown section start-->
+        <section class="h3-counter-section pt-120 pb-80 position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-shape.png">
+            <div class="overlay position-absolute start-0 top-0 bg-secondary-gradient z--1 w-100 h-100"></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="title-style-2 text-center mb-5">
+                            <span class="subtitle text-white lead">Interesting <mark class="bg-transparent text-primary p-0">Numbers</mark></span>
+                            <h2 class="h1 text-white mt-20 mb-0">Fun Facts By The Numbers</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-xxl-3 col-lg-4 col-sm-6">
+                        <div class="h3-counter-box bg-white rounded d-md-flex text-center text-md-start align-items-center position-relative">
+                            <span class="icon-wrapper d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle flex-shrink-0">
+                               <img src="<?=base_url()?>/assets/images/heart.png">
+                          </span>
+                            <div class="h3-counter-box-right mt-3 mt-md-0 ms-md-3">
+                                <h3 class="mb-1"><span class="counter">2248</span><span>+</span></h3>
+                                <span>Happy Customers</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-lg-4 col-sm-6">
+                        <div class="h3-counter-box bg-white rounded d-md-flex text-center text-md-start align-items-center position-relative">
+                            <span class="icon-wrapper d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle flex-shrink-0">
+                              <img src="<?=base_url()?>/assets/images/motorcyclist.png">
+                          </span>
+                            <div class="h3-counter-box-right mt-3 mt-md-0 ms-md-3">
+                                <h3 class="mb-1"><span class="counter">28</span><span>+</span></h3>
+                                <span>FLEETS TO CHOOSE</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-lg-4 col-sm-6">
+                        <div class="h3-counter-box bg-white rounded d-md-flex text-center text-md-start align-items-center position-relative">
+                            <span class="icon-wrapper d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle flex-shrink-0">
+                              <img src="<?=base_url()?>/assets/images/mileage.png">
+                          </span>
+                            <div class="h3-counter-box-right mt-3 mt-md-0 ms-md-3">
+                                <h3 class="mb-1"><span class="counter">142140</span><span>+</span></h3>
+                                <span>TOTAL KILOMETERS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--countdown section end-->
+
+        <!--feedback section start-->
+        <section class="h2-feedback-section pb-80 bg-white" style="background-repeat: no-repeat;background-size: cover;" data-background="<?=base_url()?>/assets/images/bg.jpg">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-6 col-lg-7">
+                        <div class="at-section-title text-center">
+                            <span class="subtitle text-primary lead">Customer <mark class="bg-transparent p-0 text-dark">Feedback</mark></span>
+                            <h2 class="h1 mt-3 mb-3">Our Happy Customer Saying</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper h2-feedback-slider mt-5">
+                    <div class="swiper-wrapper">
+                        <div class="h2-feedback-single swiper-slide">                            
+                            <div class="h2-feedback-content mt-1 bg-white rounded position-relative">
+                                <div class="feedback-top mt-1 d-flex align-items-center justify-content-between">
+                                    <img src="<?=base_url()?>/assets/images/user.png" alt="client" class="rounded-circle mt-0 border border-2 border-white">
+                                    <span class="star-rating rounded-pill"><span class="me-2"><i class="fa-solid fa-star"></i></span>4.5</span>
+                                </div>
+                                <p class="mt-3 mb-4">Assertive disseminate integrated human capital through dynamic bandwidth. independent partnerships. Energy statically extend B2C potentialities without backend synergy.</p>
+                                <div class="client-info">
+                                    <h6 class="mb-0">Adam Smith</h6>                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h2-feedback-single swiper-slide">
+                            <div class="h2-feedback-content mt-1 bg-white rounded position-relative">
+                                <div class="feedback-top mt-1 d-flex align-items-center justify-content-between">
+                                    <img src="<?=base_url()?>/assets/images/user.png" alt="client" class="rounded-circle mt-0 border border-2 border-white">
+                                    <span class="star-rating rounded-pill"><span class="me-2"><i class="fa-solid fa-star"></i></span>4.5</span>
+                                </div>
+                                <p class="mt-3 mb-4">Assertive disseminate integrated human capital through dynamic bandwidth. independent partnerships. Energy statically extend B2C potentialities without backend synergy.</p>
+                                <div class="client-info">
+                                    <h6 class="mb-0">Adam Smith</h6>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+        <!--feedback section end-->

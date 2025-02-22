@@ -104,104 +104,71 @@
     <div class="modal fade" id="at_product_view">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content product_modal shadow">
-                <div class="close-btn-wrapper text-end">
-                    <button class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
                 <div class="at_product_view">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <div class="product_view_slider">
-                                <div class="product_feature_img_slider swiper">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <img src="<?=base_url()?>/assets/img/home4/pd-1.jpg" alt="feature img" class="img-fluid">
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="<?=base_url()?>/assets/img/home4/pd-1.jpg" alt="feature img" class="img-fluid">
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="<?=base_url()?>/assets/img/home4/pd-1.jpg" alt="feature img" class="img-fluid">
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="<?=base_url()?>/assets/img/home4/pd-1.jpg" alt="feature img" class="img-fluid">
-                                        </div>
+                    <div class="card w-100" style="max-width: 480px;">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h1 class="card-title h3">Sign in</h1>
+                                <p class="card-text text-muted">Sign in below to access your account</p>
+                            </div>
+                            <div class="mt-4">
+                                <form action="">
+                                    <div class="mb-4">
+                                        <input type="tel" class="form-control" id="phone" placeholder="Phone" required>
                                     </div>
-                                </div>
-                                <div class="product_thumb_slider swiper mt-3">
-                                    <div class="swiper-wrapper">
-                                        <div class="swiper-slide">
-                                            <img src="<?=base_url()?>/assets/img/home4/pd-thumb-1.png" alt="thumbnail" class="img-fluid">
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="<?=base_url()?>/assets/img/home4/pd-thumb-1.png" alt="thumbnail" class="img-fluid">
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="<?=base_url()?>/assets/img/home4/pd-thumb-1.png" alt="thumbnail" class="img-fluid">
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <img src="<?=base_url()?>/assets/img/home4/pd-thumb-1.png" alt="thumbnail" class="img-fluid">
-                                        </div>
+                                    <div class="mb-2">
+                                        <input type="password" class="form-control" id="password" placeholder="Password" required>
                                     </div>
-                                </div>
+                                    <div class="d-flex mb-2 justify-content-between">
+                                        <a href="javascript:void(0)" id="OTP-Login" class="forgot_pass_inside">Login with OTP</a>
+                                        <a href="javascript:void(0)" id="forgot-pass" class="forgot_pass_inside">Forgot password?</a>
+                                    </div>
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary btn-lg">Sign in</button>
+                                    </div>
+                                    <p class="text-center text-muted mt-4">Don't have an account yet?
+                                        <a data-bs-toggle="modal" data-bs-target="#at_signup" href="javascript:void(0)" class="text-decoration-none">Sign up</a>.
+                                    </p>
+                                </form>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="product_view_right mt-4 mt-md-0">
-                                <ul class="product_review d-flex align-items-center">
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li class="review-total ms-2 text-primary fw-semibold"><a href="#">( 95 Reviews )</a>
-                                    </li>
-                                </ul>
-                                <h5 class="product_title mt-3">Aluminium Wheel AR-19 <br> Tire Parts</h5>
-                                <p>Monotonectally simplify frictionless communities via clicks-and-mortar Interactively
-                                    disseminate relationships. </p>
-                                <ul class="key_features">
-                                    <li>Speed: 750 RPM</li>
-                                    <li>Power Source: Cordless-Electric</li>
-                                    <li>Battery Cell Type: Lithium</li>
-                                    <li>Voltage: 20 Volts</li>
-                                    <li>Battery Capacity: 2 Ah</li>
-                                </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                                <form action="#">
-                                    <div class="product_color_select mt-3">
-                                        <span class="title text-secondary fw-semibold">Color</span>
-                                        <ul class="d-flex align-items-center">
-                                            <li>
-                                                <input type="radio" name="color">
-                                                <span class="color_circle bg-white border border-1"></span>
-                                            </li>
-                                            <li>
-                                                <input type="radio" name="color">
-                                                <span class="color_circle black-color bg-secondary"></span>
-                                            </li>
-                                            <li>
-                                                <input type="radio" name="color">
-                                                <span class="color_circle red-color bg-primary"></span>
-                                            </li>
-                                            <li>
-                                                <input type="radio" name="color">
-                                                <span class="color_circle bg-warning"></span>
-                                            </li>
-                                        </ul>
+    <!-- Modal -->
+    <div class="modal fade" id="at_signup">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content product_modal shadow">
+                <div class="at_product_view">
+                    <div class="card w-100" style="max-width: 480px;">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h1 class="card-title h3">Sign Up</h1>
+                                <p class="card-text text-muted">Sign up for New Account</p>
+                            </div>
+                            <div class="mt-4">
+                                <form class="login-form">
+                                    <div class="mb-4">
+                                        <input type="name" placeholder="Name" class="form-control">
                                     </div>
-
-                                    <div class="product_price mt-4">
-                                        <del class="fw-semibold">$59.00</del>
-                                        <span class="text-primary fw-semibold ms-2">$29.00</span>
+                                    <div class="mb-4">
+                                        <input type="email" placeholder="Email" class="form-control">
                                     </div>
-                                    <div class="add_to_cart_product d-flex align-items-center mb-4 mt-3">
-                                        <div class="d-inline-flex align-items-center tt-quantity">
-                                            <button type="button" class="decrement px-4 py-3">-</button>
-                                            <input type="text" value="1" class="px-1 text-center">
-                                            <button type="button" class="increment px-4 py-3">+</button>
-                                        </div>
-                                        <a href="#" class="btn btn-secondary"><span class="me-1"><i
-                                                    class="fa-solid fa-cart-plus"></i></span>Add To Cart</a>
+                                    <div class="mb-4">
+                                        <input type="tel" maxlength="10" placeholder="Phone" class="form-control">
+                                    </div>
+                                    <div class="mb-4">
+                                        <input type="password" placeholder="Password" class="form-control">
+                                    </div>
+                                    <div class="cookies-area d-flex align-items-center flex-wrap justify-content-between mt-3">
+                                        <label><input type="checkbox" checked class="me-1">Get Updates on Whatsapp</label>
+                                    </div>
+                                    <div class="d-grid mt-2">
+                                        <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+                                        <p class="mt-2 text-center" style="font-size:12px;font-weight:600;width: 100%;">By clicking through, I agree with the <a href="<?=base_url('Terms')?>">Terms & Conditions</a> and <a  href="<?=base_url('Privacy')?>">Privacy Policy</a></p>
                                     </div>
                                 </form>
                             </div>

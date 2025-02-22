@@ -119,7 +119,7 @@
                                 </nav>
                                 
                                 <div class="apt_header_search dropdown ms-4">
-                                    <a href="<?=base_url('Login')?>" class="btn header-white-btn d-none d-lg-inline-block me-3">Login/Sign Up</a>                
+                                    <a href="javascript:void(0)" class="btn header-white-btn d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#at_product_view">Login/Sign Up</a>                    
                                 </div>
                                 <button class="ofcanvus-toggle header-toggle-btn ms-4 d-none d-lg-block">
                                     <i class="fa-solid fa-bars-staggered"></i>
