@@ -27,6 +27,7 @@ class Dashboard extends CI_Controller
         else
         {
             $data['user'] = $this->session->userdata();
+            $data['page_title'] = "Dashboard";
             
             $this->load->view('layout_admin/header');
             $this->load->view('backend/dashboard', $data);
