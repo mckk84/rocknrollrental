@@ -12,6 +12,7 @@ class Admin extends CI_Controller
      */
     public function index()
     {
+    	session_destroy();
     	$this->load->library('session');
         $isLoggedIn = $this->session->userdata('isLoggedIn');
         
