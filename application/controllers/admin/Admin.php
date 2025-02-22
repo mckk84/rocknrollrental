@@ -1,31 +1,47 @@
-<?php
-if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Class : Admin (LoginController)
- * Admin class to control to authenticate user credentials and starts user's session.
+ * Class : Login (LoginController)
+ * Login class to control to authenticate user credentials and starts user's session.
  */
 class Admin extends CI_Controller
 {
-     /**
+    /**
+     * This is default constructor of the class
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('login_model');
+    }
+
+    /**
      * Index Page for this controller.
      */
     public function index()
     {
-    	$this->load->library('session');
+        $this->isLoggedIn();
+    }
+    
+    /**
+     * This function used to check the user is logged in or not
+     */
+    function isLoggedIn()
+    {
         $isLoggedIn = $this->session->userdata('isLoggedIn');
         
         if(!isset($isLoggedIn) || $isLoggedIn != TRUE)
         {
-            $data['page_title'] = 'Rock N Roll Bike Rentals | Admin';
-	        $this->load->view('backend/login', $data);
+            $data['page_title'] = 'Rock N Roll Bike Rentals | Bike rentals in Chikmangaluru | Unlimited Kilometers | Home';
+            $this->load->view('backend/login', $data);
         }
         else
         {
             redirect('admin/Dashboard');
         }
     }
-        
+    
+    
     /**
      * This function used to logged in user
      */
@@ -44,7 +60,7 @@ class Admin extends CI_Controller
         {
             $username = strtolower($this->security->xss_clean($this->input->post('username')));
             $password = $this->input->post('password');
-            $this->load->model('login_model');
+            
             $result = $this->login_model->loginMe($username, $password);
 
             //pre($result); die;
@@ -56,7 +72,7 @@ class Admin extends CI_Controller
                                         'isAdmin'=>$result->isAdmin,
                                         'isLoggedIn' => TRUE
                                 );
-                $this->load->library('session');
+
                 $this->session->set_userdata($sessionArray);
 
                 unset($sessionArray['userId'], $sessionArray['isLoggedIn']);
@@ -76,4 +92,3 @@ class Admin extends CI_Controller
  }
 
 ?>
-  
