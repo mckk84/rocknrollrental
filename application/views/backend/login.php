@@ -51,8 +51,24 @@
                     <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
-
-                  <form class="row g-3 needs-validation" novalidate>
+                  <?php
+                    $error = $this->session->flashdata('error');
+                    if($error)
+                    {
+                        ?>
+                        <div class="alert alert-danger">
+                            <?php echo $error; ?>                    
+                        </div>
+                    <?php }
+                    $success = $this->session->flashdata('success');
+                    if($success)
+                    {
+                        ?>
+                        <div class="alert alert-success">
+                            <?php echo $success; ?>                    
+                        </div>
+                    <?php } ?>
+                  <form class="row g-3 needs-validation" action="<? echo base_url('admin/login/loginMe');?>" method="POST">
 
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
