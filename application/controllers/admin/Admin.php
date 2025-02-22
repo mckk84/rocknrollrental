@@ -17,6 +17,7 @@ class Admin extends CI_Controller
         
         if(!isset($isLoggedIn) || $isLoggedIn != TRUE)
         {
+        	session_destroy();
             $data['page_title'] = 'Rock N Roll Bike Rentals | Admin';
 	        $this->load->view('backend/login', $data);
         }
