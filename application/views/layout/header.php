@@ -100,7 +100,7 @@
                     <div class="row align-items-center">
                         <div class="col-6 col-lg-3">
                             <div class="logo-wrapper d-flex">
-                                <a href="index.html"><img style="width:90px" src="logo/logo2.png" alt="logo"></a>
+                                <a href="<?=base_url()?>"><img style="width:90px" src="logo/logo2.png" alt="logo"></a>
                                 <div class="d-inline m-1 p-1">
                                     <span class="h5 w-100 mt-1 text-center d-block">ROCK N ROLL</span>
                                     <span style="border-top: 2px dashed black;" class="h5 pt-1 d-block w-100 text-center">RENTALS</span>
@@ -111,10 +111,10 @@
                             <div class="at_header_right d-flex align-items-center justify-content-end">
                                 <nav class="at_nav_menu d-none d-lg-block">
                                     <ul>
-                                        <li><a class="text-dark" href="index.html">Home</a></li>
-                                        <li><a class="text-dark" href="about.html">About Us</a></li>
-                                        <li><a class="text-dark" href="tariff.html">Tariff</a></li>  
-                                        <li><a class="text-dark" href="contact.html">Contact Us</a></li>  
+                                        <li><a class="text-dark" href="<?=base_url()?>">Home</a></li>
+                                        <li><a class="text-dark" href="<?=base_url('About')?>">About Us</a></li>
+                                        <li><a class="text-dark" href="<?=base_url('Tariff')?>">Tariff</a></li>  
+                                        <li><a class="text-dark" href="<?=base_url('Contact')?>">Contact Us</a></li>  
                                     </ul>
                                 </nav>
                                 
@@ -142,13 +142,13 @@
         <!--mobile menu start-->
         <div class="mobile-menu position-fixed bg-white deep-shadow">
             <button class="close-menu position-absolute"><i class="fa-solid fa-xmark"></i></button>
-            <a href="index.html" class="logo-wrapper bg-secondary d-block mt-4 p-3 rounded-1 text-center"><img src="<?=base_url()?>/assets/img/logo.png" alt="logo" class="img-fluid"></a>
+            <a href="<?=base_url()?>" class="logo-wrapper bg-secondary d-block mt-4 p-3 rounded-1 text-center"><img src="<?=base_url()?>/assets/img/logo.png" alt="logo" class="img-fluid"></a>
             <nav class="mobile-menu-wrapper mt-40">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="tariff.html">Tariff</a></li>  
-                    <li><a href="contact.html">Contact Us</a></li>  
+                    <li><a href="<?=base_url()?>">Home</a></li>
+                    <li><a href="<?=base_url('About')?>">About Us</a></li>
+                    <li><a href="<?=base_url('Tariff')?>">Tariff</a></li>  
+                    <li><a href="<?=base_url('Contact')?>">Contact Us</a></li>  
                 </ul>
             </nav>
             <div class="contact-info mt-60">

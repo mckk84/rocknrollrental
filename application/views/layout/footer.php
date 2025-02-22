@@ -24,7 +24,7 @@
                             <div class="ms-lg-5 ms-xl-0 mt-5 mt-lg-0">
                                 <div class="row align-items-center">
                                     <div class="col-6">
-                                        <a href="index.html" class="footer-logo d-inline-block"><img style="width:190px" src="logo/logo2.png" alt="logo"></a>
+                                        <a href="<?=base_url()?>" class="footer-logo d-inline-block"><img style="width:190px" src="logo/logo2.png" alt="logo"></a>
                                     </div>
                                     <div class="col-6">
                                         <div class="text-end">
@@ -44,8 +44,8 @@
                                         <div class="footer-widget footer-nav-widget mb-5 mb-sm-0">
                                             <h6 class="widget-title text-white mb-3">About Company</h6>
                                             <ul class="footer-nav">
-                                                <li><a href="about.html">About Us</a></li>
-                                                <li><a href="contact.html">Contact Us</a></li>
+                                                <li><a href="<?=base_url('About')?>">About Us</a></li>
+                                                <li><a href="<?=base_url('Contact')?>">Contact Us</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -53,8 +53,8 @@
                                         <div class="footer-widget footer-nav-widget mb-5 mb-sm-0">
                                             <h6 class="widget-title text-white mb-3">Book a Ride</h6>
                                             <ul class="footer-nav">
-                                                <li><a href="tariff.html">Tariff</a></li>
-                                                <li><a href="book.html">Book a Ride</a></li>
+                                                <li><a href="<?=base_url('Tariff')?>">Tariff</a></li>
+                                                <li><a href="<?=base_url('Bookaride')?>">Book a Ride</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -62,9 +62,9 @@
                                         <div class="footer-widget footer-nav-widget mb-5 mb-sm-0">
                                             <h6 class="widget-title text-white mb-3">Quick links</h6>
                                             <ul class="footer-nav">
-                                                <li><a href="terms.html">Terms</a></li>
-                                                <li><a href="Privacy.html">Privacy</a></li>
-                                                <li><a href="refund.html">Refund & Cancellation</a></li>
+                                                <li><a href="<?=base_url('Terms')?>">Terms</a></li>
+                                                <li><a href="<?=base_url('Privacy')?>">Privacy</a></li>
+                                                <li><a href="<?=base_url('Refund')?>">Refund & Cancellation</a></li>
                                             </ul>
                                         </div>
                                     </div>
