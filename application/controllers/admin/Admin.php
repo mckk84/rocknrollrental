@@ -12,6 +12,7 @@ class Admin extends CI_Controller
      */
     public function index()
     {
+    	$this->load->library('session');
         $isLoggedIn = $this->session->userdata('isLoggedIn');
         
         if(!isset($isLoggedIn) || $isLoggedIn != TRUE)
@@ -56,7 +57,7 @@ class Admin extends CI_Controller
                                         'isAdmin'=>$result->isAdmin,
                                         'isLoggedIn' => TRUE
                                 );
-
+                $this->load->library('session');
                 $this->session->set_userdata($sessionArray);
 
                 unset($sessionArray['userId'], $sessionArray['isLoggedIn']);
