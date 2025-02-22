@@ -6,7 +6,7 @@
 
   <title><?=$page_title?></title>
     <!-- Favicons -->
-  <link href="<?=base_url()?>assets/admin/assets/img/favicon.png" rel="icon">
+  <link href="<?=base_url()?>assets/admin/assets/img/favicon-32x32.png" rel="icon">
   <link href="<?=base_url()?>assets/admin/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -24,14 +24,6 @@
 
   <!-- Template Main CSS File -->
   <link href="<?=base_url()?>assets/admin/assets/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Updated: Apr 20 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
@@ -42,7 +34,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.html" class="logo d-flex align-items-center">
         <img src="<?=base_url()?>assets/admin/assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">NiceAdmin</span>
+        <span class="d-none d-lg-block">Rock N Roll Rentals</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
