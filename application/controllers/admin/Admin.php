@@ -7,16 +7,7 @@ if(!defined('BASEPATH')) exit('No direct script access allowed');
  */
 class Admin extends CI_Controller
 {
-    /**
-     * This is default constructor of the class
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('login_model');
-    }
-
-    /**
+     /**
      * Index Page for this controller.
      */
     public function index()
@@ -53,7 +44,7 @@ class Admin extends CI_Controller
         {
             $username = strtolower($this->security->xss_clean($this->input->post('username')));
             $password = $this->input->post('password');
-            
+            $this->load->model('login_model');
             $result = $this->login_model->loginMe($username, $password);
 
             //pre($result); die;
