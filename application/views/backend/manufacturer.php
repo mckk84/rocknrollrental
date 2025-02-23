@@ -18,23 +18,25 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">Manufacturer <button type="button" data-bs-toggle="modal" data-bs-target="#add-manufacturer" class="btn btn-primary float-right">Add <i class="bi bi-plus-circle ms-1"></i></button></h5>
-                <?php if( count($records) == 0 ) { ?>
-                <div class="alert alert-danger m-2">No Records found.</div>
-                <?php } else { ?>
+                <div class="d-inline showalert">
+                  <?php if( count($records) == 0 ) { ?>
+                  <div class="alert alert-danger m-2">No Records found.</div>
+                  <?php } else { 
 
-                <?php $error = $this->session->flashdata('error');
-                    if($error) { ?>
-                <div class="alert alert-danger">
-                    <?php echo $this->session->flashdata('error'); ?>
+                   $error = $this->session->flashdata('error');
+                        if($error) { ?>
+                    <div class="alert alert-danger">
+                        <?php echo $this->session->flashdata('error'); ?>
+                    </div>
+                    <?php } ?>
+                    <?php $success = $this->session->flashdata('success');
+                        if($success) {
+                    ?>
+                    <div class="alert alert-success alert-dismissable">
+                        <?php echo $this->session->flashdata('success'); ?>
+                    </div>
+                    <?php } ?>
                 </div>
-                <?php } ?>
-                <?php $success = $this->session->flashdata('success');
-                    if($success) {
-                ?>
-                <div class="alert alert-success alert-dismissable">
-                    <?php echo $this->session->flashdata('success'); ?>
-                </div>
-                <?php } ?>
                 <table class="table datatable table-hover table-sm">
                   <thead>
                     <tr>
@@ -75,6 +77,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <form id="addmanufacturer" action="<?=base_url('admin/Manufacturer/save_record')?>" method="POST">
+            <input type="hidden" name="record_id" value="">
             <div class="modal-header">
               <h5 class="modal-title">Add Manufacturer</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

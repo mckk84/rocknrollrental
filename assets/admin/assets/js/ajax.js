@@ -30,7 +30,7 @@ $(document).ready(function(){
                 	mbody.append("<div class='alert alert-success mt-1 mb-0'>"+d.success_message+"</div>");
                 	setTimeout(function(){
                 		window.location.reload();
-                	}, 3000);
+                	}, 2000);
                 }
             },
             error: function (data) {
@@ -43,35 +43,19 @@ $(document).ready(function(){
     $(".edit-record").click(function (event) {
         event.preventDefault(); // Prevent default form submission
 
-        let form = $("#addmanufacturer");
-        let mbody = $("#addmanufacturer .modal-body");
-        let url = form.attr('action');
-
-        mbody.find(".alert").each(function(){
-        	$(this).remove();
-        });
-
+        let id = $(this).attr('record-data');
+        let url = window.location.href+"/getRecord?id="+id;
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: url,
-            data: form.serialize(), // Serialize form data
             success: function (data) {
                 var d = JSON.parse(data);
-                console.log(d);
-                if( d.error == 1 )
-                {
-                	mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
-                }
-                else
-                {
-                	mbody.append("<div class='alert alert-success mt-1 mb-0'>"+d.success_message+"</div>");
-                	setTimeout(function(){
-                		window.location.reload();
-                	}, 3000);
-                }
+                $('#add-manufacturer').modal('show');    
+                $('#add-manufacturer input[name="record_id"]').val(d.id);
+                $('#add-manufacturer input[name="manufacturer_name"]').val(d.name);   
             },
             error: function (data) {
-                mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                console.log("Error occured");
             }
         });
     });
@@ -80,37 +64,37 @@ $(document).ready(function(){
     $(".delete-record").click(function (event) {
         event.preventDefault(); // Prevent default form submission
 
-        let form = $("#addmanufacturer");
-        let mbody = $("#addmanufacturer .modal-body");
-        let url = form.attr('action');
+        var result = confirm("Are you sure to delete?");
+		if (result==false) {
+		   return true;
+		} 		
 
-        mbody.find(".alert").each(function(){
-        	$(this).remove();
-        });
-
+		let id = $(this).attr('record-data');
+        let url = window.location.href+"/deleteRecord/"+id;
+        
         $.ajax({
-            type: "POST",
-            url: url,
-            data: form.serialize(), // Serialize form data
-            success: function (data) {
-                var d = JSON.parse(data);
-                console.log(d);
+		    url: url,
+		    method: 'DELETE',
+		    contentType: 'application/json',
+		    success: function(data) {
+		        var d = JSON.parse(data);
+                //console.log(d);
                 if( d.error == 1 )
                 {
-                	mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
+                	$(".showalert").append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
                 }
                 else
                 {
-                	mbody.append("<div class='alert alert-success mt-1 mb-0'>"+d.success_message+"</div>");
+                	$(".showalert").append("<div class='alert alert-success mt-1 mb-0'>"+d.success_message+"</div>");
                 	setTimeout(function(){
                 		window.location.reload();
-                	}, 3000);
+                	}, 2000);
                 }
-            },
-            error: function (data) {
-                mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
-            }
-        });
+		    },
+		    error: function(request,msg,error) {
+		       	console.log(error);
+		    }
+		});
     });
 
 })
