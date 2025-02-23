@@ -32,7 +32,7 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="<?=base_url()?>" class="logo d-flex align-items-center">
         <img src="<?=base_url()?>assets/admin/assets/img/logo.png" alt="">
         <span class="d-none d-lg-block">Rock N Roll Rentals</span>
       </a>
@@ -197,10 +197,10 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#" aria-expanded="true">
           <i class="bi bi-menu-button-wide"></i><span>Rentals</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
           <li>
             <a href="components-alerts.html">
               <i class="bi bi-card-list"></i><span>Online Bookings</span>
