@@ -203,17 +203,17 @@
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="components-alerts.html">
-              <i class="bi bi-circle"></i><span>Online Bookings</span>
+              <i class="bi bi-card-list"></i><span>Online Bookings</span>
             </a>
           </li>
           <li>
             <a href="components-accordion.html">
-              <i class="bi bi-circle"></i><span>Payments</span>
+              <i class="bi bi-currency-rupee"></i><span>Payments</span>
             </a>
           </li>
           <li>
             <a href="components-accordion.html">
-              <i class="bi bi-circle"></i><span>Customers</span>
+              <i class="bi bi-people"></i><span>Customers</span>
             </a>
           </li>
         </ul>
@@ -221,27 +221,27 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>Bikes</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-menu-button-wide"></i><span>Bikes</span><i class="bi bi-list ms-auto"></i>
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="components-alerts.html">
-              <i class="bi bi-circle"></i><span>Bikes</span>
+              <i class="bi bi-bycycle"></i><span>Bikes</span>
             </a>
           </li>
           <li>
             <a href="components-accordion.html">
-              <i class="bi bi-circle"></i><span>Manufacturer</span>
+              <i class="bi bi-list"></i><span>Manufacturer</span>
             </a>
           </li>
           <li>
             <a href="components-accordion.html">
-              <i class="bi bi-circle"></i><span>Bike Types</span>
+              <i class="bi bi-list"></i><span>Bike Types</span>
             </a>
           </li>
           <li>
             <a href="components-accordion.html">
-              <i class="bi bi-circle"></i><span>Payment Modes</span>
+              <i class="bi bi-list"></i><span>Payment Modes</span>
             </a>
           </li>
         </ul>
@@ -249,17 +249,17 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Admin</span><i class="bi bi-chevron-down ms-auto"></i>
+          <i class="bi bi-layout-text-window-reverse"></i><span>Admin</span><i class="bi bi-gear ms-auto"></i>
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="tables-general.html">
-              <i class="bi bi-circle"></i><span>Users</span>
+              <i class="bi bi-people"></i><span>Users</span>
             </a>
           </li>
           <li>
             <a href="tables-data.html">
-              <i class="bi bi-circle"></i><span>Holidays</span>
+              <i class="bi bi-calendar"></i><span>Holidays</span>
             </a>
           </li>
           <li>
@@ -269,7 +269,7 @@
           </li>
           <li>
             <a href="tables-data.html">
-              <i class="bi bi-circle"></i><span>Contact</span>
+              <i class="bi bi-person-lines-fill"></i><span>Contact</span>
             </a>
           </li>
         </ul>
