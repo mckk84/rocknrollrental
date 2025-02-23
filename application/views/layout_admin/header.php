@@ -197,7 +197,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#" aria-expanded="true">
+        <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#" aria-expanded="true">
           <i class="bi bi-menu-button-wide"></i><span>Rentals</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
@@ -221,7 +221,7 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#Bikes-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>Bikes</span><i class="bi bi-list ms-auto"></i>
+          <i class="bi bi-menu-button-wide"></i><span>Bikes</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="Bikes-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
@@ -249,7 +249,7 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Admin</span><i class="bi bi-gear ms-auto"></i>
+          <i class="bi bi-layout-text-window-reverse"></i><span>Admin</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
