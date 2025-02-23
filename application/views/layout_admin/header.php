@@ -177,14 +177,14 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="<?=base_url('admin/Booknew')?>">
-          <i class="bi bi-person"></i>
+          <i class="bi bi-card-list"></i>
           <span>Book New</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="<?=base_url('admin/Availability')?>">
-          <i class="bi bi-person"></i>
+          <i class="bi bi-search"></i>
           <span>Availability</span>
         </a>
       </li>
@@ -264,7 +264,7 @@
           </li>
           <li>
             <a href="tables-data.html">
-              <i class="bi bi-circle"></i><span>Public Holidays</span>
+              <i class="bi bi-calendar2-day"></i><span>Public Holidays</span>
             </a>
           </li>
           <li>
