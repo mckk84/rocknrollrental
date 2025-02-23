@@ -202,17 +202,17 @@
         </a>
         <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
           <li>
-            <a href="components-alerts.html">
+            <a href="<?=base_url('admin/Bookings')?>">
               <i class="bi bi-card-list"></i><span>Online Bookings</span>
             </a>
           </li>
           <li>
-            <a href="components-accordion.html">
+            <a href="<?=base_url('admin/Payments')?>">
               <i class="bi bi-currency-rupee"></i><span>Payments</span>
             </a>
           </li>
           <li>
-            <a href="components-accordion.html">
+            <a href="<?=base_url('admin/Customers')?>">
               <i class="bi bi-people"></i><span>Customers</span>
             </a>
           </li>
@@ -225,22 +225,22 @@
         </a>
         <ul id="Bikes-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="components-alerts.html">
+            <a href="<?=base_url('admin/Bikes')?>">
               <i class="bi bi-bicycle"></i><span>Bikes</span>
             </a>
           </li>
           <li>
-            <a href="components-accordion.html">
+            <a href="<?=base_url('admin/Manufacturer')?>">
               <i class="bi bi-list"></i><span>Manufacturer</span>
             </a>
           </li>
           <li>
-            <a href="components-accordion.html">
+            <a href="<?=base_url('admin/Biketypes')?>">
               <i class="bi bi-list"></i><span>Bike Types</span>
             </a>
           </li>
           <li>
-            <a href="components-accordion.html">
+            <a href="<?=base_url('admin/Paymentmodes')?>">
               <i class="bi bi-list"></i><span>Payment Modes</span>
             </a>
           </li>
@@ -253,22 +253,22 @@
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="tables-general.html">
+            <a href="<?=base_url('admin/Users')?>">
               <i class="bi bi-people"></i><span>Users</span>
             </a>
           </li>
           <li>
-            <a href="tables-data.html">
+            <a href="<?=base_url('admin/Holidays')?>">
               <i class="bi bi-calendar"></i><span>Holidays</span>
             </a>
           </li>
           <li>
-            <a href="tables-data.html">
+            <a href="<?=base_url('admin/Publicholidays')?>">
               <i class="bi bi-calendar2-day"></i><span>Public Holidays</span>
             </a>
           </li>
           <li>
-            <a href="tables-data.html">
+            <a href="<?=base_url('admin/Contact')?>">
               <i class="bi bi-person-lines-fill"></i><span>Contact</span>
             </a>
           </li>

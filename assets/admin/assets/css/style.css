@@ -15,7 +15,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
-  background: #FFFBF1;
+  background: #fffdfa;
   color: #444444;
 }
 
@@ -683,7 +683,7 @@ h6 {
   display: flex;
   align-items: center;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   color: #3674B5;
   transition: 0.3;
   background: #f6f9ff;
@@ -709,6 +709,7 @@ h6 {
 .sidebar-nav .nav-link:hover {
   color: #3674B5;
   background: #f6f9ff;
+  font-weight: 600;
 }
 
 .sidebar-nav .nav-link:hover i {
@@ -734,7 +735,7 @@ h6 {
   display: flex;
   align-items: center;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   color: #444;
   transition: 0.3;
   padding: 10px 0 10px 25px;
@@ -751,6 +752,7 @@ h6 {
 .sidebar-nav .nav-content a:hover,
 .sidebar-nav .nav-content a.active {
   color: var(--bs-primary-text-emphasis);
+  font-weight: 600;
 }
 
 .sidebar-nav .nav-content a.active i {
