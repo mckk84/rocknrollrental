@@ -68,7 +68,7 @@
                             <?php echo $success; ?>                    
                         </div>
                     <?php } ?>
-                  <form class="row g-3 needs-validation" action="<? echo base_url('admin/login/loginMe');?>" method="POST">
+                  <form class="row g-3 needs-validation" action="<?=base_url('admin/login/loginMe')?>" method="POST">
 
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Username</label>
