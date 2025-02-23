@@ -17,57 +17,50 @@
 
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Manufacturer <button type="button" data-bs-toggle="modal" data-bs-target="#disablebackdrop" class="btn btn-primary float-right">Add <i class="bi bi-plus-circle ms-1"></i></button></h5>
+                <h5 class="card-title">Manufacturer <button type="button" data-bs-toggle="modal" data-bs-target="#add-manufacturer" class="btn btn-primary float-right">Add <i class="bi bi-plus-circle ms-1"></i></button></h5>
+                <?php if( count($records) == 0 ) { ?>
+                <div class="alert alert-danger m-2">No Records found.</div>
+                <?php } else { ?>
+
+                <?php $error = $this->session->flashdata('error');
+                    if($error) { ?>
+                <div class="alert alert-danger">
+                    <?php echo $this->session->flashdata('error'); ?>
+                </div>
+                <?php } ?>
+                <?php $success = $this->session->flashdata('success');
+                    if($success) {
+                ?>
+                <div class="alert alert-success alert-dismissable">
+                    <?php echo $this->session->flashdata('success'); ?>
+                </div>
+                <?php } ?>
                 <table class="table datatable table-hover table-sm">
                   <thead>
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Name</th>
-                      <th scope="col">Position</th>
-                      <th scope="col">Age</th>
-                      <th scope="col">Start Date</th>
+                      <th scope="col">Added By</th>
+                      <th scope="col">Added On</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
+                    <?php foreach($records as $index => $row) {?>
                     <tr>
-                      <th scope="row">1</th>
-                      <td>Brandon Jacob</td>
-                      <td>Designer</td>
-                      <td>28</td>
-                      <td>2016-05-25</td>
+                      <th scope="row"><?=$row['id']?></th>
+                      <td><?=$row['name']?></td>
+                      <td><?=$row['created_by']?></td>
+                      <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
+                      <td><div class="d-flex justify-content-start">
+                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-record text-warning float-right mx-2"><i class="bi bi-pencil"></i></a>
+                        <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record text-danger float-right mx-2"><i class="bi bi-trash"></i></a>
+                      </div></td>
                     </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Bridie Kessler</td>
-                      <td>Developer</td>
-                      <td>35</td>
-                      <td>2014-12-05</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>Ashleigh Langosh</td>
-                      <td>Finance</td>
-                      <td>45</td>
-                      <td>2011-08-12</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">4</th>
-                      <td>Angus Grady</td>
-                      <td>HR</td>
-                      <td>34</td>
-                      <td>2012-06-11</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">5</th>
-                      <td>Raheem Lehner</td>
-                      <td>Dynamic Division Officer</td>
-                      <td>47</td>
-                      <td>2011-04-19</td>
-                    </tr>
+                     <?php } ?>
                   </tbody>
-                </table>
-                <!-- End small tables -->
-
+                </table>                
+                <?php } ?>
               </div>
             </div>
           
@@ -78,10 +71,10 @@
 
   </main><!-- End #main -->
 
-  <div class="modal fade" id="disablebackdrop" tabindex="-1" data-bs-backdrop="false">
+  <div class="modal fade" id="add-manufacturer" tabindex="-1" data-bs-backdrop="false">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form id="add-manufacturer" method="POST">
+        <form id="addmanufacturer" action="<?=base_url('admin/Manufacturer/save_record')?>" method="POST">
             <div class="modal-header">
               <h5 class="modal-title">Add Manufacturer</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -93,7 +86,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-primary" id="submitButton" type="submit">Submit</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </form>

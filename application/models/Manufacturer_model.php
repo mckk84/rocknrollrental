@@ -8,9 +8,12 @@ class Manufacturer_model extends CI_Model
 {
     function getAll()
     {
-        $this->db->order_by('id', 'DESC');
-        $query = $this->db->get('tbl_manufacturer');
-        
+        $this->db->order_by('tbl_manufacturer.id', 'ASC');
+        $this->db->select('tbl_manufacturer.*, tbl_users.name as created_by');
+        $this->db->from('tbl_manufacturer');
+        $this->db->join('tbl_users', 'tbl_users.userId = tbl_manufacturer.created_by');
+        $query = $this->db->get();
+
         if ($query->num_rows() > 0){
             return $query->result_array();
         } else {
@@ -38,10 +41,10 @@ class Manufacturer_model extends CI_Model
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkProjectExist($project_id)
+    function checkRecordExists($name)
     {
-        $this->db->select('project_id');
-        $this->db->where('project_id', $project_id);
+        $this->db->select('name');
+        $this->db->where('name', $name);
         $query = $this->db->get('tbl_manufacturer');
 
         if ($query->num_rows() > 0){

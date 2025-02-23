@@ -21,6 +21,11 @@
   <!-- Template Main JS File -->
   <script src="<?=base_url()?>assets/admin/assets/js/main.js"></script>
 
+  <script src="<?php echo base_url();?>/assets/admin/assets/js/jquery.min.js"></script>
+
+  <!-- Ajax Calls -->
+  <script src="<?=base_url()?>assets/admin/assets/js/ajax.js"></script>
+
 </body>
 
 </html>

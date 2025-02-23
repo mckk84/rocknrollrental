@@ -36,6 +36,49 @@ class Manufacturer extends CI_Controller
             $this->load->view('layout_admin/footer');
         }
     }
+
+    public function save_record()
+    {
+        $response = array("error" => 0, "error_message" => "", "success_message" => "");
+        $this->load->library('form_validation');            
+        $this->form_validation->set_rules('manufacturer_name','Name','trim|required|max_length[128]');
+                
+        if($this->form_validation->run() == FALSE)
+        {
+            $response["error"] = 1;
+            $response["error_message"] = $this->form_validation->error_string();
+            die(json_encode($response));
+        }
+        else
+        {
+            $user = $this->session->userdata();
+            $name = $this->security->xss_clean($this->input->post('manufacturer_name'));
+                        
+            $recordInfo = array('name' => $name, 'created_by' => $user['userId']);
+            
+            if( $this->manufacturer_model->checkRecordExists($name) )
+            {
+                $response["error"] = 1;
+                $response["error_message"] = "Record already exists.";
+            }
+            else
+            {
+                $result = $this->manufacturer_model->addNew($recordInfo);
+                if($result > 0)
+                {
+                    $response["error"] = 0;
+                    $response["error_message"] = "";
+                    $response["success_message"] = "Record added successfully";
+                } 
+                else 
+                {
+                    $response["error"] = 1;
+                    $response["error_message"] = "Record add failed.";
+                }
+            }
+            die(json_encode($response));            
+        }
+    }
     
 }
 
