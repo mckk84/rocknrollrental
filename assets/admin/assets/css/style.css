@@ -1288,3 +1288,8 @@ select, input{
     margin: 8% 35%;
     min-width: 560px;
 }
+
+.modal-dialog.modal-xl {
+    margin: 8% 35%;
+    min-width: 700px;
+}

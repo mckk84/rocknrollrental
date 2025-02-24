@@ -13,6 +13,8 @@ class Bikes extends CI_Controller
     {
         parent::__construct();
         $this->load->model('bike_model');
+        $this->load->model('manufacturer_model');
+        $this->load->model('biketypes_model');
     }
 
     /**
@@ -30,6 +32,9 @@ class Bikes extends CI_Controller
             $data['user'] = $this->session->userdata();
             $data['page_title'] = "Bikes";
             $data['records'] = $this->bike_model->getAll();
+
+            $data['manufacturers'] = $this->manufacturer_model->getAll();
+            $data['biketypes'] = $this->biketypes_model->getAll();
             
             $this->load->view('layout_admin/header', $data);
             $this->load->view('backend/bikes', $data);
@@ -57,6 +62,15 @@ class Bikes extends CI_Controller
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
         $this->load->library('form_validation');            
         $this->form_validation->set_rules('name','Name','trim|required|max_length[128]');
+        $this->form_validation->set_rules('number','Number','trim|required|max_length[128]');
+        $this->form_validation->set_rules('manufacturer_id','Manufacturer','trim|required');
+        $this->form_validation->set_rules('type_id','Bike Type','trim|required');
+        $this->form_validation->set_rules('cc','CC','trim|required|max_length[10]');
+        $this->form_validation->set_rules('color','Color','trim|required|max_length[25]');
+        $this->form_validation->set_rules('model','Model','trim|required|max_length[25]');
+        $this->form_validation->set_rules('milage','Milage','trim|required|max_length[50]');
+        $this->form_validation->set_rules('weight','Weight','trim|required|max_length[50]');
+        $this->form_validation->set_rules('power','Power','trim|required|max_length[50]');
                 
         if($this->form_validation->run() == FALSE)
         {
@@ -69,7 +83,16 @@ class Bikes extends CI_Controller
             $user = $this->session->userdata();
             $id = $this->security->xss_clean($this->input->post('record_id'));
             $name = $this->security->xss_clean($this->input->post('name'));
-
+            $vehicle_number = $this->security->xss_clean($this->input->post('number'));
+            $manufacturer_id = $this->security->xss_clean($this->input->post('manufacturer_id'));
+            $type_id = $this->security->xss_clean($this->input->post('type_id'));
+            $cc = $this->security->xss_clean($this->input->post('cc'));
+            $color = $this->security->xss_clean($this->input->post('color'));
+            $model = $this->security->xss_clean($this->input->post('model'));
+            $milage = $this->security->xss_clean($this->input->post('milage'));
+            $weight = $this->security->xss_clean($this->input->post('weight'));
+            $power = $this->security->xss_clean($this->input->post('power'));
+          
             if( $id == "" )
             {
                 $recordInfo = array('name' => $name, 'created_by' => $user['userId']);

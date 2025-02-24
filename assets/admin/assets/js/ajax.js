@@ -28,7 +28,7 @@ $(document).ready(function(){
                 {
                     mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
                     $("#submitbike").prop('disabled', false);
-                    $(this).html("Submit");
+                    $("#submitbike").html("Submit");
                 }
                 else
                 {
@@ -72,7 +72,7 @@ $(document).ready(function(){
                 {
                 	mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
                     $("#submitmanufacturer").prop('disabled', false);
-                    $(this).html("Submit");
+                    $("#submitmanufacturer").html("Submit");
                 }
                 else
                 {
@@ -113,7 +113,7 @@ $(document).ready(function(){
                 {
                     mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
                     $("#submitBiketype").prop('disabled', false);
-                    $(this).html("Submit");
+                    $("#submitBiketype").html("Submit");
                 }
                 else
                 {
@@ -154,7 +154,7 @@ $(document).ready(function(){
                 {
                     mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
                     $("#submitpaymentmode").prop('disabled', false);
-                    $(this).html("Submit");
+                    $("#submitpaymentmode").html("Submit");
                 }
                 else
                 {

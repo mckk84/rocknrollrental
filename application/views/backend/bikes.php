@@ -73,7 +73,7 @@
   </main><!-- End #main -->
 
   <div class="modal fade" id="add-bike" tabindex="-1" data-bs-backdrop="false">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <form id="addbike" action="<?=base_url('admin/Bikes/save_record')?>" method="POST">
             <input type="hidden" name="record_id" value="">
@@ -82,14 +82,64 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="col-md-6">
-                  <label for="validationDefault01" class="form-label">Name</label>
-                  <input type="text" class="form-control" name="name" id="validationDefault01" value="" required>
-                </div>
-                <div class="col-md-6">
-                  <label for="validationDefault01" class="form-label">Name</label>
-                  <input type="text" class="form-control" name="name" id="validationDefault01" value="" required>
-                </div>
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <label for="bikename" class="form-label">Bike Name</label>
+                    <input type="text" class="form-control" name="name" id="bikename" placeholder="Bike Name" required>
+                  </div>
+                  <div class="col-md-12">
+                    <label for="bikenumber" class="form-label">Bike Number</label>
+                    <input type="text" class="form-control" name="number" id="bikenumber" placeholder="Bike Number" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="manufacturer" class="form-label">Manufacturer</label>
+                    <select id="manufacturer" name="manufacturer_id" class="form-select">
+                      <option selected>-Select-</option>
+                      <?php foreach($manufacturers as $index => $row) {?>
+                      <option value="<?=$row['id']?>"><?=$row['name']?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="biketype" class="form-label">Bike Type</label>
+                    <select id="biketype" name="type_id" class="form-select">
+                      <option selected>-Select-</option>
+                      <?php foreach($biketypes as $index => $row) {?>
+                      <option value="<?=$row['id']?>"><?=$row['type']?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="cc" class="form-label">CC</label>
+                    <input type="text" class="form-control" id="cc" name="cc" placeholder="CC" required>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="color" class="form-label">Color</label>
+                    <input type="text" id="color" class="form-control" name="color" placeholder="Color" required>
+                  </div>
+                  <div class="col-4">
+                    <label for="model" class="form-label">Model</label>
+                    <input type="text" class="form-control" id="model" name="model" placeholder="Model" required>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="milage" class="form-label">Milage</label>
+                    <input type="text" id="milage" class="form-control" name="milage" placeholder="Milage" required>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="weight" class="form-label">Weight</label>
+                    <input type="text" id="weight" class="form-control" name="weight" placeholder="Weight" required>
+                  </div>
+                  <div class="col-4">
+                    <label for="power" class="form-label">Power</label>
+                    <input type="text" id="power" class="form-control" name="power" placeholder="Power" required>
+                  </div>
+
+                  <div class="col-md-12">
+                    <label for="bikeimage" class="form-label">Bike Image</label>
+                    <input type="file" class="form-control" id="bikeimage" name="image" placeholder="Bike Image">
+                  </div>
+
+              </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" id="submitbike" type="submit">Submit</button>
