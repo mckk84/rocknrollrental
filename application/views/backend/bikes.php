@@ -75,7 +75,7 @@
   <div class="modal fade" id="add-bike" tabindex="-1" data-bs-backdrop="false">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <form id="addbike" action="<?=base_url('admin/Bikes/save_record')?>" method="POST">
+        <form id="addbike" action="<?=base_url('admin/Bikes/save_record')?>" method="POST" encypt="multipart/data">
             <input type="hidden" name="record_id" value="">
             <div class="modal-header">
               <h5 class="modal-title">Add Bike</h5>
