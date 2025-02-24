@@ -4,14 +4,14 @@
  * Class : Manufacturer_model (Manufacturer Model)
  * Manufacturer model class to manage Manufacturer master data 
  */
-class Manufacturer_model extends CI_Model
+class Biketypes_model extends CI_Model
 {
     function getAll()
     {
-        $this->db->order_by('tbl_manufacturer.id', 'ASC');
-        $this->db->select('tbl_manufacturer.*, tbl_users.name as created_by');
-        $this->db->from('tbl_manufacturer');
-        $this->db->join('tbl_users', 'tbl_users.userId = tbl_manufacturer.created_by');
+        $this->db->order_by('tbl_bike_types.id', 'ASC');
+        $this->db->select('tbl_bike_types.*, tbl_users.name as created_by');
+        $this->db->from('tbl_bike_types');
+        $this->db->join('tbl_users', 'tbl_users.userId = tbl_bike_types.created_by');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0){
@@ -24,7 +24,7 @@ class Manufacturer_model extends CI_Model
     function getById($id)
     {
         $this->db->select('*');
-        $this->db->from('tbl_manufacturer');
+        $this->db->from('tbl_bike_types');
         $this->db->where('id', $id);
         $query = $this->db->get();
         
@@ -41,11 +41,11 @@ class Manufacturer_model extends CI_Model
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkRecordExists($name)
+    function checkRecordExists($type)
     {
-        $this->db->select('name');
-        $this->db->where('name', $name);
-        $query = $this->db->get('tbl_manufacturer');
+        $this->db->select('type');
+        $this->db->where('type', $type);
+        $query = $this->db->get('tbl_bike_types');
 
         if ($query->num_rows() > 0){
             return true;
@@ -59,12 +59,12 @@ class Manufacturer_model extends CI_Model
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkRecordExists1($name, $record_id)
+    function checkRecordExists1($type, $record_id)
     {
-        $this->db->select('name');
-        $this->db->where('name', $name);
+        $this->db->select('type');
+        $this->db->where('type', $type);
         $this->db->where('id !=', $record_id);
-        $query = $this->db->get('tbl_manufacturer');
+        $query = $this->db->get('tbl_bike_types');
 
         if ($query->num_rows() > 0){
             return true;
@@ -80,7 +80,7 @@ class Manufacturer_model extends CI_Model
     function addNew($info)
     {
         $this->db->trans_start();
-        $this->db->insert('tbl_manufacturer', $info);
+        $this->db->insert('tbl_bike_types', $info);
         
         $insert_id = $this->db->insert_id();
         
@@ -95,7 +95,7 @@ class Manufacturer_model extends CI_Model
         $this->db->trans_start();
         
         $this->db->where('id', $id);
-        $this->db->update('tbl_manufacturer', $info);
+        $this->db->update('tbl_bike_types', $info);
         
         $this->db->trans_complete();
         
@@ -107,7 +107,7 @@ class Manufacturer_model extends CI_Model
         $this->db->trans_start();
         
         $this->db->where('id', $id);
-        $this->db->delete('tbl_manufacturer');
+        $this->db->delete('tbl_bike_types');
         
         $this->db->trans_complete();
         

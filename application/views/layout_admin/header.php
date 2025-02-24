@@ -230,6 +230,11 @@
             </a>
           </li>
           <li>
+            <a href="<?=base_url('admin/Prices')?>">
+              <i class="bi bi-list"></i><span>Prices</span>
+            </a>
+          </li>
+          <li>
             <a href="<?=base_url('admin/Manufacturer')?>">
               <i class="bi bi-list"></i><span>Manufacturer</span>
             </a>

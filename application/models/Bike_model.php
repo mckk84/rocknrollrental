@@ -1,16 +1,19 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Class : Bikes_model (Bikes Model)
- * Bikes model class to manage bikes mastaer data 
+ * Class : Bike_model (Bike Model)
+ * Bike model class to manage bike master data 
  */
-class Bikes_model extends CI_Model
+class Bike_model extends CI_Model
 {
     function getAll()
     {
-        $this->db->order_by('id', 'DESC');
-        $query = $this->db->get('tbl_bikes');
-        
+        $this->db->order_by('tbl_bikes.id', 'ASC');
+        $this->db->select('tbl_bikes.*, tbl_users.name as created_by');
+        $this->db->from('tbl_bikes');
+        $this->db->join('tbl_users', 'tbl_users.userId = tbl_bikes.created_by');
+        $query = $this->db->get();
+
         if ($query->num_rows() > 0){
             return $query->result_array();
         } else {
@@ -38,10 +41,10 @@ class Bikes_model extends CI_Model
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkProjectExist($project_id)
+    function checkRecordExists($name)
     {
-        $this->db->select('project_id');
-        $this->db->where('project_id', $project_id);
+        $this->db->select('name');
+        $this->db->where('name', $name);
         $query = $this->db->get('tbl_bikes');
 
         if ($query->num_rows() > 0){
@@ -56,10 +59,10 @@ class Bikes_model extends CI_Model
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkProjectExist1($project_id, $record_id)
+    function checkRecordExists1($name, $record_id)
     {
-        $this->db->select('project_id');
-        $this->db->where('project_id', $project_id);
+        $this->db->select('name');
+        $this->db->where('name', $name);
         $this->db->where('id !=', $record_id);
         $query = $this->db->get('tbl_bikes');
 

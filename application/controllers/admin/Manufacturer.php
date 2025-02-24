@@ -97,22 +97,30 @@ class Manufacturer extends CI_Controller
             else
             {
                 $recordInfo = array('name' => $name);
-                $result = $this->manufacturer_model->updateRecord($recordInfo, $id);
-                if($result > 0)
-                {
-                    $response["error"] = 0;
-                    $response["error_message"] = "";
-                    $response["success_message"] = "Record updated successfully";
-                } 
-                else 
+
+                $result = $this->manufacturer_model->checkRecordExists1($name, $id);
+                if( $result )
                 {
                     $response["error"] = 1;
-                    $response["error_message"] = "Record update failed.";
+                    $response["error_message"] = "Record already exists";
+                    $response["success_message"] = "";
                 }
-                
-            }
-
-            
+                else
+                {
+                    $result = $this->manufacturer_model->updateRecord($recordInfo, $id);
+                    if($result > 0)
+                    {
+                        $response["error"] = 0;
+                        $response["error_message"] = "";
+                        $response["success_message"] = "Record updated successfully";
+                    } 
+                    else 
+                    {
+                        $response["error"] = 1;
+                        $response["error_message"] = "Record update failed.";
+                    }
+                }                
+            }            
             die(json_encode($response));            
         }
     }
