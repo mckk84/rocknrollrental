@@ -12,7 +12,7 @@ $(document).ready(function(){
         let form = $("#addbike")[0];
         var formData = new FormData(form);
         let mbody = $("#addbike .modal-body");
-        let url = form.attr('action');
+        let url = $("#addbike").attr('action');
 
         mbody.find(".alert").each(function(){
             $(this).remove();

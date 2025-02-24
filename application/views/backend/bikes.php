@@ -41,6 +41,13 @@
                     <tr>
                       <th scope="col">#</th>
                       <th scope="col">Name</th>
+                      <th scope="col">Manufacturer</th>
+                      <th scope="col">Bike Type</th>
+                      <th scope="col">Number</th>
+                      <th scope="col">Image</th>
+                      <th scope="col">CC</th>
+                      <th scope="col">Model</th>
+                      <th scope="col">Color</th>
                       <th scope="col">Added By</th>
                       <th scope="col">Added On</th>
                       <th scope="col">Action</th>
@@ -51,6 +58,13 @@
                     <tr>
                       <th scope="row"><?=$row['id']?></th>
                       <td><?=$row['name']?></td>
+                      <td><?=$row['manufacturer']?></td>
+                      <td><?=$row['bike_type']?></td>
+                      <td><?=$row['vehicle_number']?></td>
+                      <td><img src="<?=base_url('bikes/'.$row['image'])?>" style="width: 100px;"/></td>
+                      <td><?=$row['cc']?></td>
+                      <td><?=$row['model']?></td>
+                      <td><?=$row['color']?></td>
                       <td><?=$row['created_by']?></td>
                       <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
                       <td><div class="d-flex justify-content-start">

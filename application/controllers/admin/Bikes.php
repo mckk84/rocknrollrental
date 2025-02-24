@@ -80,7 +80,7 @@ class Bikes extends CI_Controller
 
         $image = "";
         $image_type = "";
-        $target_file = $_SERVER['DOCUMENT_ROOT']."/bikes/";
+        $target_file = $_SERVER['DOCUMENT_ROOT']."/rocknrollrental/bikes/";
 
         $bike_image = $_FILES['image']; // Get the uploaded file
         if ( $bike_image && $bike_image['name']) 
@@ -88,7 +88,7 @@ class Bikes extends CI_Controller
             $image = trim($bike_image['name']);
             $imageFileType = strtolower(pathinfo($image,PATHINFO_EXTENSION));
             
-            $new_image_name = ucwords(strtolower($this->security->xss_clean(trim($this->input->post('heading')))));
+            $new_image_name = ucwords(strtolower($this->security->xss_clean(trim($this->input->post('name')))));
             $new_image_name = preg_replace('/\s+/', '', $new_image_name);
             $new_image_name = preg_replace('/[^a-z\d ]/i', '', $new_image_name);
             $new_image_name = $new_image_name.".".$imageFileType;
@@ -130,9 +130,17 @@ class Bikes extends CI_Controller
         } 
         else 
         {
-            $response["error"] = 1;
-            $response["error_message"] = "Please upload Image";
-            die(json_encode($response));
+            if( $id == "" )
+            {
+                $response["error"] = 1;
+                $response["error_message"] = "Please upload Image";
+                die(json_encode($response));
+            }
+            else
+            {
+                $bikerecord = $this->bike_model->getById($id);
+                $image = $bikerecord['image'];
+            }
         }
         
         $user = $this->session->userdata();
@@ -158,6 +166,7 @@ class Bikes extends CI_Controller
                 'model' => $model,
                 'milage' => $milage,
                 'power' => $power,
+                'image' => $image,
                 'created_by' => $user['userId']
             );
 
