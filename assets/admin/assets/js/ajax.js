@@ -9,7 +9,8 @@ $(document).ready(function(){
         $(this).prop('disabled', true);
         $(this).html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
 
-        let form = $("#addbike");
+        let form = $("#addbike")[0];
+        var formData = new FormData(form);
         let mbody = $("#addbike .modal-body");
         let url = form.attr('action');
 
@@ -20,7 +21,10 @@ $(document).ready(function(){
         $.ajax({
             type: "POST",
             url: url,
-            data: form.serialize(), // Serialize form data
+            data: formData, // Serialize form data
+            contentType: false,       
+            cache: false,             
+            processData:false, 
             success: function (data) {
                 var d = JSON.parse(data);
                 console.log(d);

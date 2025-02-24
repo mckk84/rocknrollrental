@@ -45,7 +45,6 @@ class Bikes extends CI_Controller
     public function getRecord()
     {
         $id = isset($_GET['id']) ? $_GET['id'] : 0;
-
         if( $id )
         {
             $record = $this->bike_model->getById($id);
@@ -210,8 +209,7 @@ class Bikes extends CI_Controller
                 }
             }                
         }            
-        die(json_encode($response));            
-        
+        die(json_encode($response));        
     }
 
     public function deleteRecord()
