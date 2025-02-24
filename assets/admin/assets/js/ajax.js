@@ -175,6 +175,40 @@ $(document).ready(function(){
         });
     });
 
+
+    //edit bike
+    $(".edit-bike-record").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let id = $(this).attr('record-data');
+        let url = window.location.href+"/getRecord?id="+id;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var d = JSON.parse(data);
+                $('#add-bike').modal('show');    
+                $('#add-bike input[name="record_id"]').val(d.id);
+                $('#add-bike input[name="name"]').val(d.name);
+                $('#add-bike select[name="manufacturer_id"]').val(d.manufacturer_id);
+                $('#add-bike select[name="type_id"]').val(d.type_id);
+                $('#add-bike input[name="number"]').val(d.vehicle_number);
+                $('#add-bike input[name="cc"]').val(d.cc);
+                $('#add-bike input[name="color"]').val(d.color);
+                $('#add-bike input[name="model"]').val(d.model);   
+
+                $('#add-bike input[name="milage"]').val(d.milage);   
+                $('#add-bike input[name="weight"]').val(d.weight);   
+                $('#add-bike input[name="power"]').val(d.power);   
+
+                $('#add-bike #preview_image').attr('src', '/bikes/'+d.image);  
+            },
+            error: function (data) {
+                console.log("Error occured");
+            }
+        });
+    });
+
 	//edit manaufacturer
     $(".edit-manaufacturer-record").click(function (event) {
         event.preventDefault(); // Prevent default form submission

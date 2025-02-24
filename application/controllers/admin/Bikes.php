@@ -59,7 +59,8 @@ class Bikes extends CI_Controller
     public function save_record()
     {
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
-        $this->load->library('form_validation');            
+        $this->load->library('form_validation');       
+        $id = $this->security->xss_clean($this->input->post('record_id'));     
         $this->form_validation->set_rules('name','Name','trim|required|max_length[128]');
         $this->form_validation->set_rules('number','Number','trim|required|max_length[128]');
         $this->form_validation->set_rules('manufacturer_id','Manufacturer','trim|required');
@@ -165,6 +166,7 @@ class Bikes extends CI_Controller
                 'color' => $color,
                 'model' => $model,
                 'milage' => $milage,
+                'weight' => $weight,
                 'power' => $power,
                 'image' => $image,
                 'created_by' => $user['userId']

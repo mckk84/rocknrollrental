@@ -68,7 +68,7 @@
                       <td><?=$row['created_by']?></td>
                       <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
                       <td><div class="d-flex justify-content-start">
-                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-manaufacturer-record text-warning float-right mx-2"><i class="bi bi-pencil"></i></a>
+                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-bike-record text-warning float-right mx-2"><i class="bi bi-pencil"></i></a>
                         <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record text-danger float-right mx-2"><i class="bi bi-trash"></i></a>
                       </div></td>
                     </tr>
@@ -98,13 +98,27 @@
             <div class="modal-body">
                 <div class="row g-3">
                   <div class="col-md-12">
-                    <label for="bikename" class="form-label">Bike Name</label>
-                    <input type="text" class="form-control" name="name" id="bikename" placeholder="Bike Name" required>
+                    <div class="row g-1">
+                      <div class="col-md-6">
+                        <div class="row g-1">
+                          <div class="col-md-12">
+                            <label for="bikename" class="form-label">Bike Name</label>
+                            <input type="text" class="form-control" name="name" id="bikename" placeholder="Bike Name" required>
+                          </div>
+                          
+                          <div class="col-md-12">
+                            <label for="bikenumber" class="form-label">Bike Number</label>
+                            <input type="text" class="form-control" name="number" id="bikenumber" placeholder="Bike Number" required>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 p-2">
+                        <img style="max-width:200px;border:1px solid grey;border-radius:2px;margin: auto;display: block;" id="preview_image" src="#" title="Preview Image" />
+                      </div>
+                    </div>
+
                   </div>
-                  <div class="col-md-12">
-                    <label for="bikenumber" class="form-label">Bike Number</label>
-                    <input type="text" class="form-control" name="number" id="bikenumber" placeholder="Bike Number" required>
-                  </div>
+
                   <div class="col-md-6">
                     <label for="manufacturer" class="form-label">Manufacturer</label>
                     <select id="manufacturer" name="manufacturer_id" class="form-select">
@@ -150,7 +164,7 @@
 
                   <div class="col-md-12">
                     <label for="bikeimage" class="form-label">Bike Image</label>
-                    <input type="file" class="form-control" id="bikeimage" name="image" placeholder="Bike Image">
+                    <input type="file" class="form-control" onchange="loadFile(event)" id="bikeimage" name="image" placeholder="Bike Image">
                   </div>
 
               </div>
@@ -164,4 +178,14 @@
     </div>
   </div><!-- End Disabled Backdrop Modal-->
 
+
+<script>
+  var loadFile = function(event) {
+    var output = document.getElementById('preview_image');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src) // free memory
+    }
+  };
+</script>
   
