@@ -1,11 +1,11 @@
   <main id="main" class="main">
-    
+
     <div class="pagetitle">
-      <h1>Prices</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Prices</li>
+          <li class="breadcrumb-item"><a href="<?=base_url('admin/Bikes')?>">Bikes</a></li>
+          <li class="breadcrumb-item active">Rental Prices</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -14,6 +14,71 @@
       <div class="row">
 
         <div class="col-lg-12">
+
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Rental Prices <button type="button" id="add_price" class="btn btn-primary float-right">Add <i class="bi bi-plus-circle ms-1"></i></button></h5>
+                <div class="d-inline showalert">
+                  <?php if( count($records) == 0 ) { ?>
+                  <div class="alert alert-danger m-2">No Records found.</div>
+                  <?php } else { 
+
+                   $error = $this->session->flashdata('error');
+                        if($error) { ?>
+                    <div class="alert alert-danger">
+                        <?php echo $this->session->flashdata('error'); ?>
+                    </div>
+                    <?php } ?>
+                    <?php $success = $this->session->flashdata('success');
+                        if($success) {
+                    ?>
+                    <div class="alert alert-success alert-dismissable">
+                        <?php echo $this->session->flashdata('success'); ?>
+                    </div>
+                    <?php } ?>
+                </div>
+                <table class="table datatable table-hover table-sm">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Week Day</th>
+                      <th scope="col">Week Half Day</th>
+                      <th scope="col">Weekend Day</th>
+                      <th scope="col">Weekend Half Day</th>
+                      <th scope="col">Holiday</th>
+                      <th scope="col">Holiday Half Day</th>
+                      <th scope="col">Added By</th>
+                      <th scope="col">Added On</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php foreach($records as $index => $row) {?>
+                    <tr>
+                      <th scope="row"><?=$row['id']?></th>
+                      <td><?=$row['bike_type']?></td>
+
+                      <td><?=$row['week_day_price']?></td>
+                      <td><?=$row['week_day_half_price']?></td>
+                      <td><?=$row['weekend_day_price']?></td>
+                      <td><?=$row['weekend_day_half_price']?></td>
+                      <td><?=$row['holiday_day_price']?></td>
+                      <td><?=$row['holiday_day_half_price']?></td>
+
+                      <td><?=$row['created_by']?></td>
+                      <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
+                      <td><div class="d-flex justify-content-start">
+                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-price-record text-warning float-right mx-2"><i class="bi bi-pencil"></i></a>
+                        <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record text-danger float-right mx-2"><i class="bi bi-trash"></i></a>
+                      </div></td>
+                    </tr>
+                     <?php } ?>
+                  </tbody>
+                </table>                
+                <?php } ?>
+              </div>
+            </div>
           
         </div>
 
@@ -21,5 +86,74 @@
     </section>
 
   </main><!-- End #main -->
+
+  <div class="modal fade" id="add-price" tabindex="-1" data-bs-backdrop="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="addprice" action="<?=base_url('admin/Prices/save_record')?>" method="POST">
+            <input type="hidden" name="record_id" value="">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Prices</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-6">
+                  <label class="form-label">Bike Type</label>
+                  <select id="type_id" name="type_id" class="form-select">
+                      <option value="" selected>-Select-</option>
+                      <?php foreach($biketypes as $index => $row) {?>
+                      <option value="<?=$row['id']?>"><?=$row['type']?></option>
+                      <?php } ?>
+                    </select>
+                </div>
+                <div class="col-md-6">&nbsp;</div>
+                <div class="col-md-12">
+                  <div class="row mt-2">
+                      <div class="col-md-6">
+                        <label class="form-label">Week Day Price</label>
+                        <input type="number" autocomplete="off" class="form-control" name="week_day_price" value="" required>
+                      </div>
+                      <div class="col-md-6">
+                        <label class="form-label">Week Day Half Price</label>
+                        <input type="number" autocomplete="off" class="form-control" name="week_day_half_price" value="" required>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="row mt-2">
+                    <div class="col-md-6">
+                      <label class="form-label">Weekend Day Price</label>
+                      <input type="number" autocomplete="off" class="form-control" name="weekend_day_price" value="" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Weekend Day Half Price</label>
+                      <input type="number" autocomplete="off" class="form-control" name="weekend_day_half_price" value="" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="row mt-2">
+                    <div class="col-md-6">
+                      <label class="form-label">Holiday Day Price</label>
+                      <input type="number" autocomplete="off" class="form-control" name="holiday_day_price" value="" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Holiday Day Half Price</label>
+                      <input type="number" autocomplete="off" class="form-control" name="holiday_day_half_price" value="" required>
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="submitprice" type="submit">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div><!-- End Disabled Backdrop Modal-->
 
   

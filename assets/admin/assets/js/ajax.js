@@ -2,6 +2,104 @@
 
 $(document).ready(function(){
 
+    $("#add_price").click(function(){
+        $("#add-price").modal('show');
+        $("#add-price").find("input[type=text], select").val("");
+    });
+
+    $("#add_user").click(function(){
+        $("#add-user").modal('show');
+        $("#add-user").find("input[type=text], select").val("");
+    });
+
+    //add user
+    $("#submituser").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        $(this).prop('disabled', true);
+        $(this).html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
+
+        let form = $("#adduser");
+        let mbody = $("#adduser .modal-body");
+        let url = form.attr('action');
+
+        mbody.find(".alert").each(function(){
+            $(this).remove();
+        });
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(), // Serialize form data
+            success: function (data) {
+                var d = JSON.parse(data);
+                if( d.error == 1 )
+                {
+                    mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
+                    $("#submituser").prop('disabled', false);
+                    $("#submituser").html("Submit");
+                }
+                else
+                {
+                    mbody.append("<div class='alert alert-success mt-1 mb-0'>"+d.success_message+"</div>");
+                    $("#submituser").html("Success");
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 2000);
+                }
+            },
+            error: function (data) {
+                mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                $("#submituser").prop('disabled', false);
+                $("#submituser").html("Submit");
+            }
+        });
+    });
+
+    // add price
+    $("#submitprice").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        $(this).prop('disabled', true);
+        $(this).html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
+
+        let form = $("#addprice");
+        let mbody = $("#addprice .modal-body");
+        let url = form.attr('action');
+
+        mbody.find(".alert").each(function(){
+            $(this).remove();
+        });
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(), // Serialize form data
+            success: function (data) {
+                var d = JSON.parse(data);
+                if( d.error == 1 )
+                {
+                    mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
+                    $("#submitprice").prop('disabled', false);
+                    $("#submitprice").html("Submit");
+                }
+                else
+                {
+                    mbody.append("<div class='alert alert-success mt-1 mb-0'>"+d.success_message+"</div>");
+                    $("#submitprice").html("Success");
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 2000);
+                }
+            },
+            error: function (data) {
+                mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                $("#submitprice").prop('disabled', false);
+                $("#submitprice").html("Submit");
+            }
+        });
+    });
+
     // add customer
     $("#submitcustomer").click(function (event) {
         event.preventDefault(); // Prevent default form submission
@@ -222,6 +320,65 @@ $(document).ready(function(){
                 mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
                 $("#submitpaymentmode").prop('disabled', false);
                     $("#submitpaymentmode").html("Submit");
+            }
+        });
+    });
+
+    //edit user
+    $(".edit-user-record").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let id = $(this).attr('record-data');
+        let url = window.location.href+"/getRecord?id="+id;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var d = JSON.parse(data);
+                $('#add-user').modal('show');    
+                $('#add-user input[name="record_id"]').val(d.userId);
+                $('#add-user select[name="user_type"]').val(d.user_type);
+                $('#add-user input[name="name"]').val(d.name);
+                $('#add-user input[name="email"]').val(d.email);
+
+                $('#add-user input[name="phone"]').val(d.phone);
+                $('#add-user input[name="username"]').val(d.username);
+
+                $('#add-user input[name="password"]').prop('disabled', true);
+                
+            },
+            error: function (data) {
+                console.log("Error occured");
+            }
+        });
+    });
+
+    //edit customer
+    $(".edit-price-record").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let id = $(this).attr('record-data');
+        let url = window.location.href+"/getRecord?id="+id;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var d = JSON.parse(data);
+                $('#add-price').modal('show');    
+                $('#add-price input[name="record_id"]').val(d.id);
+                $('#add-price select[name="type_id"]').val(d.type_id);
+                $('#add-price input[name="week_day_price"]').val(d.week_day_price);
+                $('#add-price input[name="week_day_half_price"]').val(d.week_day_half_price);
+
+                $('#add-price input[name="weekend_day_price"]').val(d.weekend_day_price);
+                $('#add-price input[name="weekend_day_half_price"]').val(d.weekend_day_half_price);
+
+                $('#add-price input[name="holiday_day_price"]').val(d.holiday_day_price);
+                $('#add-price input[name="holiday_day_half_price"]').val(d.holiday_day_half_price);
+                
+            },
+            error: function (data) {
+                console.log("Error occured");
             }
         });
     });
