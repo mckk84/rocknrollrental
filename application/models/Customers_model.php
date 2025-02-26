@@ -6,7 +6,20 @@
  */
 class Customers_model extends CI_Model
 {
-    
+    function getAll()
+    {
+        $this->db->order_by('tbl_customers.id', 'ASC');
+        $this->db->select('tbl_customers.*, tbl_users.name as created_by');
+        $this->db->from('tbl_customers');
+        $this->db->join('tbl_users', 'tbl_users.userId = tbl_customers.created_by',  'left');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0){
+            return $query->result_array();
+        } else {
+            return array();
+        }
+    }
+
     function getById($id)
     {
         $this->db->select('*');
@@ -55,6 +68,25 @@ class Customers_model extends CI_Model
     {
         $this->db->select('id');
         $this->db->where('phone', $phone);
+        $query = $this->db->get('tbl_customers');
+
+        if ($query->num_rows() > 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * This function used to check email exists or not
+     * @param {string} $email : This is users email id
+     * @return {boolean} $result : TRUE/FALSE
+     */
+    function checkPhoneExists1($phone, $id)
+    {
+        $this->db->select('id');
+        $this->db->where('phone', $phone);
+        $this->db->where('id !=', $id);
         $query = $this->db->get('tbl_customers');
 
         if ($query->num_rows() > 0){

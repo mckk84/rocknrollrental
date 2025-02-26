@@ -43,10 +43,11 @@ class Bike_model extends CI_Model
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkRecordExists($name)
+    function checkRecordExists($name, $vehicle_number)
     {
         $this->db->select('name');
         $this->db->where('name', $name);
+        $this->db->where('vehicle_number', $vehicle_number);
         $query = $this->db->get('tbl_bikes');
 
         if ($query->num_rows() > 0){
@@ -61,10 +62,11 @@ class Bike_model extends CI_Model
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkRecordExists1($name, $record_id)
+    function checkRecordExists1($name, $vehicle_number, $record_id)
     {
         $this->db->select('name');
         $this->db->where('name', $name);
+        $this->db->where('vehicle_number', $vehicle_number);
         $this->db->where('id !=', $record_id);
         $query = $this->db->get('tbl_bikes');
 

@@ -81,7 +81,7 @@ class Bikes extends CI_Controller
 
         $image = "";
         $image_type = "";
-        $target_file = $_SERVER['DOCUMENT_ROOT']."/rocknrollrental/bikes/";
+        $target_folder = $_SERVER['DOCUMENT_ROOT']."/rocknrollrental/bikes/";
 
         $bike_image = $_FILES['image']; // Get the uploaded file
         if ( $bike_image && $bike_image['name']) 
@@ -89,11 +89,11 @@ class Bikes extends CI_Controller
             $image = trim($bike_image['name']);
             $imageFileType = strtolower(pathinfo($image,PATHINFO_EXTENSION));
             
-            $new_image_name = ucwords(strtolower($this->security->xss_clean(trim($this->input->post('name')))));
-            $new_image_name = preg_replace('/\s+/', '', $new_image_name);
-            $new_image_name = preg_replace('/[^a-z\d ]/i', '', $new_image_name);
-            $new_image_name = $new_image_name.".".$imageFileType;
-            $target_file = $target_file.$new_image_name;
+            $temp_image_name = ucwords(strtolower($this->security->xss_clean(trim($this->input->post('name')))));
+            $temp_image_name = preg_replace('/\s+/', '', $temp_image_name);
+            $temp_image_name = preg_replace('/[^a-z\d ]/i', '', $temp_image_name);
+            $new_image_name = $temp_image_name.".".$imageFileType;
+            $target_file = $target_folder.$new_image_name;
             
             // Allow certain file formats
             if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" ) 
@@ -113,9 +113,16 @@ class Bikes extends CI_Controller
             
             if( file_exists($target_file) )
             {
-                $response["error"] = 1;
-                $response["error_message"] = "Image already exists";
-                die(json_encode($response));
+                for($i=0; $i < 25; $i++)
+                {
+                    $concat = ( $i < 10 ) ? "0".$i: $i;
+                    $new_image_name = $temp_image_name."_".$concat.".".$imageFileType;
+                    if( !file_exists($target_folder.$new_image_name) )
+                    {
+                        $target_file = $target_folder.$new_image_name;
+                        break;
+                    }
+                }
             }
             
             // upload file
@@ -174,7 +181,7 @@ class Bikes extends CI_Controller
 
         if( $id == "" )
         {
-            if( $this->bike_model->checkRecordExists($name) )
+            if( $this->bike_model->checkRecordExists($name, $vehicle_number) )
             {
                 $response["error"] = 1;
                 $response["error_message"] = "Record already exists.";
@@ -197,7 +204,7 @@ class Bikes extends CI_Controller
         }
         else
         {
-            $result = $this->bike_model->checkRecordExists1($name, $id);
+            $result = $this->bike_model->checkRecordExists1($name, $vehicle_number, $id);
             if( $result )
             {
                 $response["error"] = 1;

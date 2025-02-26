@@ -2,7 +2,51 @@
 
 $(document).ready(function(){
 
-    // add manufacturer
+    // add customer
+    $("#submitcustomer").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        $(this).prop('disabled', true);
+        $(this).html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
+
+        let form = $("#addcustomer");
+        let mbody = $("#addcustomer .modal-body");
+        let url = form.attr('action');
+
+        mbody.find(".alert").each(function(){
+            $(this).remove();
+        });
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(), // Serialize form data
+            success: function (data) {
+                var d = JSON.parse(data);
+                if( d.error == 1 )
+                {
+                    mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
+                    $("#submitcustomer").prop('disabled', false);
+                    $("#submitcustomer").html("Submit");
+                }
+                else
+                {
+                    mbody.append("<div class='alert alert-success mt-1 mb-0'>"+d.success_message+"</div>");
+                    $("#submitcustomer").html("Success");
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 2000);
+                }
+            },
+            error: function (data) {
+                mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                $("#submitcustomer").prop('disabled', false);
+                    $("#submitcustomer").html("Submit");
+            }
+        });
+    });
+
+    // add bike
     $("#submitbike").click(function (event) {
         event.preventDefault(); // Prevent default form submission
 
@@ -45,10 +89,11 @@ $(document).ready(function(){
             },
             error: function (data) {
                 mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                $("#submitbike").prop('disabled', false);
+                    $("#submitbike").html("Submit");
             }
         });
     });
-
 
 	// add manufacturer
 	$("#submitmanufacturer").click(function (event) {
@@ -89,6 +134,8 @@ $(document).ready(function(){
             },
             error: function (data) {
                 mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                $("#submitmanufacturer").prop('disabled', false);
+                    $("#submitmanufacturer").html("Submit");
             }
         });
     });
@@ -130,6 +177,8 @@ $(document).ready(function(){
             },
             error: function (data) {
                 mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                $("#submitBiketype").prop('disabled', false);
+                    $("#submitBiketype").html("Submit");
             }
         });
     });
@@ -171,10 +220,35 @@ $(document).ready(function(){
             },
             error: function (data) {
                 mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                $("#submitpaymentmode").prop('disabled', false);
+                    $("#submitpaymentmode").html("Submit");
             }
         });
     });
 
+    //edit customer
+    $(".edit-customer-record").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let id = $(this).attr('record-data');
+        let url = window.location.href+"/getRecord?id="+id;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var d = JSON.parse(data);
+                $('#add-customer').modal('show');    
+                $('#add-customer input[name="record_id"]').val(d.id);
+                $('#add-customer input[name="name"]').val(d.name);
+                $('#add-customer input[name="email"]').val(d.email);
+                $('#add-customer input[name="phone"]').val(d.phone);
+                $('#add-customer input[name="password"]').attr("disabled", true);
+            },
+            error: function (data) {
+                console.log("Error occured");
+            }
+        });
+    });
 
     //edit bike
     $(".edit-bike-record").click(function (event) {

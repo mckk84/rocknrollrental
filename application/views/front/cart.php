@@ -36,7 +36,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <img src="assets/img/products/tire.png" alt="tire" class="img-fluid">
+                                            <img src="bikes/honda_activa_6g.jpg" alt="tire" class="img-fluid">
                                         </td>
                                         <td>
                                             <h6 class="mb-0">Honda Active 6g</h6>
