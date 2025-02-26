@@ -130,7 +130,7 @@
                                 </nav>
                                 
                                 <div class="apt_header_search dropdown ms-4">
-                                    <?php if( !isset($user) || ( isset($user['isLoggedIn']) && $user['isLoggedIn'] == false) ) { ?>
+                                    <?php if( !isset($user) || !isset($user['isLoggedIn']) || ( isset($user['isLoggedIn']) && $user['isLoggedIn'] == false) ) { ?>
                                         <a href="javascript:void(0)" class="btn header-white-btn d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#at_product_view">Login/Sign Up</a>       
                                     <?php } ?>             
                                 </div>
