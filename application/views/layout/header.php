@@ -116,7 +116,7 @@
                                         <li><a class="text-dark" href="<?=base_url('Tariff')?>">Tariff</a></li>  
                                         <li><a class="text-dark" href="<?=base_url('Contact')?>">Contact Us</a></li>  
 
-                                        <?php if( isset($user) && $user['isLoggedIn'] == true ){?>
+                                        <?php if( isset($user) && isset($user['isLoggedIn']) && $user['isLoggedIn'] == true ){?>
 
                                         <li class="has-submenu"><a href="javascript:void(0)" class="p-2 d-lg-inline-block"><img class="me-2" src="<?=base_url()?>assets/images/motorcyclist.png"><span class="text-dark fw-bold"><?=$user['name']?></span></a>
                                             <ul class="submenu-wrapper">
