@@ -1,3 +1,11 @@
+<div id="whatsapp-widget">
+  <a href="https://api.whatsapp.com/send?phone=919980318883&amp;text=Hi!%20Can%20I%20get%20more%20information%20on%20this?" target="_blank">
+<img width="45" height="45" style="border-radius:25px;" src="<?=base_url('assets/images/whatsapp.png')?>" alt="whatsapp--v1">
+  </a>
+  <a class="call-widget" href="tel:+919980318883" target="_blank">
+        <img width="45" height="45" src="<?=base_url('assets/images/call.svg')?>" alt="call">
+  </a>
+</div>
 <!--footer section start-->
         <footer class="footer-section">
             <div class="footer-wrapper pt-50 position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
@@ -109,7 +117,6 @@
     </div>
     <!-- main content wrapper ends -->
 
-
     <!-- Modal -->
     <div class="modal fade" id="at_product_view">
         <div class="modal-dialog modal-dialog-centered">
@@ -122,19 +129,19 @@
                                 <p class="card-text text-muted">Sign in below to access your account</p>
                             </div>
                             <div class="mt-4">
-                                <form action="">
+                                <form id="signin" method="POST" action="<?=base_url('Auth/signin')?>">
                                     <div class="mb-4">
-                                        <input type="tel" class="form-control" id="phone" placeholder="Phone" required>
+                                        <input type="tel" autocomplete="off" class="form-control" name="phone" placeholder="Phone" required>
                                     </div>
                                     <div class="mb-2">
-                                        <input type="password" class="form-control" id="password" placeholder="Password" required>
+                                        <input type="password" autocomplete="off" class="form-control" name="password" placeholder="Password" required>
                                     </div>
                                     <div class="d-flex mb-2 justify-content-between">
                                         <a href="javascript:void(0)" id="OTP-Login" class="forgot_pass_inside">Login with OTP</a>
                                         <a href="javascript:void(0)" id="forgot-pass" class="forgot_pass_inside">Forgot password?</a>
                                     </div>
                                     <div class="d-grid">
-                                        <button type="submit" class="btn btn-primary btn-lg">Sign in</button>
+                                        <button type="button" class="signin btn btn-primary btn-lg">Sign in</button>
                                     </div>
                                     <p class="text-center text-muted mt-4">Don't have an account yet?
                                         <a data-bs-toggle="modal" data-bs-target="#at_signup" href="javascript:void(0)" class="text-decoration-none">Sign up</a>.
@@ -160,24 +167,24 @@
                                 <p class="card-text text-muted">Sign up for New Account</p>
                             </div>
                             <div class="mt-4">
-                                <form class="login-form">
+                                <form form id="signup" method="POST" action="<?=base_url('Auth/signup')?>" class="login-form">
                                     <div class="mb-4">
-                                        <input type="name" placeholder="Name" class="form-control">
+                                        <input type="text" name="name" autocomplete="off" placeholder="Name" class="form-control" required>
                                     </div>
                                     <div class="mb-4">
-                                        <input type="email" placeholder="Email" class="form-control">
+                                        <input type="email" name="email" autocomplete="off" placeholder="Email" class="form-control" required>
                                     </div>
                                     <div class="mb-4">
-                                        <input type="tel" maxlength="10" placeholder="Phone" class="form-control">
+                                        <input type="tel" name="phone" autocomplete="off" maxlength="10" placeholder="Phone" class="form-control" required>
                                     </div>
                                     <div class="mb-4">
-                                        <input type="password" placeholder="Password" class="form-control">
+                                        <input type="password" name="password" autocomplete="off" placeholder="Password" class="form-control" required>
                                     </div>
                                     <div class="cookies-area d-flex align-items-center flex-wrap justify-content-between mt-3">
                                         <label><input type="checkbox" checked class="me-1">Get Updates on Whatsapp</label>
                                     </div>
                                     <div class="d-grid mt-2">
-                                        <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+                                        <button type="button" class="signup btn btn-primary btn-lg">Sign Up</button>
                                         <p class="mt-2 text-center" style="font-size:12px;font-weight:600;width: 100%;">By clicking through, I agree with the <a href="<?=base_url('Terms')?>">Terms & Conditions</a> and <a  href="<?=base_url('Privacy')?>">Privacy Policy</a></p>
                                     </div>
                                 </form>
@@ -193,29 +200,30 @@
     <!--scrolltop button end-->
 
     <!--build:js-->
-    <script src="<?=base_url()?>/assets/js/vendors/jquery.min.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/jquery-ui.min.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/appear.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/popper.min.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/bootstrap.min.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/easing.min.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/swiper.min.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/massonry.min.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/bootstrap-slider.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/magnific-popup.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/waypoints.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/counterup.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/isotop.pkgd.min.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/moment.min.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/date-picker.min.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/progressbar.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/slick.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/countdown.min.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/custom-scrollbar.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/price-range.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/image-rotate.min.js"></script>
-    <script src="<?=base_url()?>/assets/js/vendors/typeit.js"></script>
-    <script src="<?=base_url()?>/assets/js/app.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/jquery.min.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/jquery-ui.min.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/appear.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/popper.min.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/bootstrap.min.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/easing.min.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/swiper.min.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/massonry.min.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/bootstrap-slider.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/magnific-popup.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/waypoints.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/counterup.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/isotop.pkgd.min.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/moment.min.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/date-picker.min.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/progressbar.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/slick.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/countdown.min.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/custom-scrollbar.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/price-range.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/image-rotate.min.js"></script>
+    <script src="<?=base_url()?>assets/js/vendors/typeit.js"></script>
+    <script src="<?=base_url()?>assets/js/app.js"></script>
+    <script src="<?=base_url()?>assets/js/auth.js"></script>
     <!--endbuild-->
 </body>
 </html>

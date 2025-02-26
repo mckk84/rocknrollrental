@@ -1,14 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class About extends CI_Controller {
+class Refund extends CI_Controller {
 
 	public function index()
 	{
-		$data['page_title'] = 'Rock N Roll Bike Rentals | Bike rentals in Chikmangaluru | Unlimited Kilometers | About';
+		$data['page_title'] = 'Rock N Roll Bike Rentals | Bike rentals in Chikmangaluru | Refund and Cancellation';
 		$data['user'] = $this->session->userdata();
         $this->load->view('layout/header', $data);
-        $this->load->view('front/about', $data);
+        $this->load->view('front/refund', $data);
         $this->load->view('layout/footer');
 	}
 }

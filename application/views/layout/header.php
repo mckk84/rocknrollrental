@@ -115,11 +115,24 @@
                                         <li><a class="text-dark" href="<?=base_url('About')?>">About Us</a></li>
                                         <li><a class="text-dark" href="<?=base_url('Tariff')?>">Tariff</a></li>  
                                         <li><a class="text-dark" href="<?=base_url('Contact')?>">Contact Us</a></li>  
+
+                                        <?php if( isset($user) && $user['isLoggedIn'] == true ){?>
+
+                                        <li class="has-submenu"><a href="javascript:void(0)" class="p-2 d-lg-inline-block"><img class="me-2" src="<?=base_url()?>assets/images/motorcyclist.png"><span class="text-dark fw-bold"><?=$user['name']?></span></a>
+                                            <ul class="submenu-wrapper">
+                                                <li><a href="<?=base_url('Cart')?>"><i class="fa fa-shopping-basket me-2"></i>Cart</a></li>
+                                                <li><a href="<?=base_url('Account')?>"><i class="fa fa-gear me-2"></i>Account</a></li>
+                                                <li><a href="<?=base_url('/Auth/signoff')?>"><i class="fa fa-sign-out-alt me-2"></i>Logout</a></li>
+                                            </ul>
+                                        </li>
+                                        <?php } ?>
                                     </ul>
                                 </nav>
                                 
                                 <div class="apt_header_search dropdown ms-4">
-                                    <a href="javascript:void(0)" class="btn header-white-btn d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#at_product_view">Login/Sign Up</a>                    
+                                    <?php if( !isset($user) || $user['isLoggedIn'] == false ) { ?>
+                                        <a href="javascript:void(0)" class="btn header-white-btn d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#at_product_view">Login/Sign Up</a>       
+                                    <?php } ?>             
                                 </div>
                                 <button class="ofcanvus-toggle header-toggle-btn ms-4 d-none d-lg-block">
                                     <i class="fa-solid fa-bars-staggered"></i>
