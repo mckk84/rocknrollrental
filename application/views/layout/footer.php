@@ -200,7 +200,6 @@
     <!--scrolltop button end-->
 
     <!--build:js-->
-    <script src="<?=base_url()?>assets/js/vendors/jquery.min.js"></script>
     <script src="<?=base_url()?>assets/js/vendors/jquery-ui.min.js"></script>
     <script src="<?=base_url()?>assets/js/vendors/appear.js"></script>
     <script src="<?=base_url()?>assets/js/vendors/popper.min.js"></script>

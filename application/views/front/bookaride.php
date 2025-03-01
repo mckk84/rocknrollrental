@@ -25,7 +25,7 @@
                             <h4 class="mb-1 text-white">Search</h4>
                             <p class="mb-0 fs-sm text-white">Find your Motorcycle</p>
                         </div>
-                        <form class="blw-search-form mt-2 p-4">
+                        <form method="POST" action="<?=base_url('Bookaride')?>" class="blw-search-form mt-2 p-4">
                             <div class="blw-search-fields">
                                 <div class="row g-2 mb-2">
                                     <h4 class="h5 mb-1 text-black">Pickup</h4>
@@ -34,7 +34,6 @@
                                     </div>
                                     <div class="col-6">
                                         <select id="pickup_time" data-select="<?=$pickup_time?>" name="pickup_time" class="form-select">
-                                            <option value="">Time</option>
                                         </select>
                                     </div>
                                 </div>
@@ -45,7 +44,6 @@
                                     </div>
                                     <div class="col-6">
                                         <select id="dropoff_time" data-select="<?=$dropoff_time?>" name="dropoff_time" class="form-select">
-                                            <option value="">Time</option>
                                         </select>
                                     </div>
                                 </div>
@@ -69,18 +67,22 @@
             <div class="col-xl-9">
                 <div class="bike-inventory">
                     <div class="bike_listing_top rounded bg-white mb-20">
-                        <div class="row align-items-center justify-content-between g-3">
-                            <div class="col-sm-6">
-                                <p class="mb-0">Available for Rent</p>
+                        <div class="row align-items-center justify-content-between g-2">
+                            <div class="col-sm-9">
+                                <div id="selected" style="line-height:2rem;" class="mb-0">Available for Rent</div>
                             </div>
-                            <div class="col-sm-6">
-                                <!-- <div class="text-sm-end">
-                                    <select class="form-select d-inline-block">
-                                        <option value="">Default Sorting</option>
-                                        <option value="">Sort By Popular</option>
-                                        <option value="">Sort By Latest</option>
-                                    </select>
-                                </div> -->
+                            <div class="col-sm-3 justify-content-end">
+                                <form id="cartform" method="POST" action="<?=base_url('Cart')?>">
+                                    <input type="hidden" name="bike_ids" value="">
+                                    <input type="hidden" name="pickup_date" value="<?=$pickup_date?>">
+                                    <input type="hidden" name="pickup_time" value="<?=$pickup_time?>">
+                                    <input type="hidden" name="dropoff_date" value="<?=$dropoff_date?>">
+                                    <input type="hidden" name="dropoff_time" value="<?=$dropoff_time?>">
+                                    <input type="hidden" name="period_days" value="<?=$period_days?>">
+                                    <input type="hidden" name="period_hours" value="<?=$period_hours?>">
+
+                                    <a id="checkout" style="display: none;float: right;" class="btn btn-sm btn-primary" href="javascript:void(0)">Book Now</a>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -90,12 +92,12 @@
                             ?>
                             <div class="col-xxl-4 col-xl-6 col-lg-4 col-md-6">
                                 <div class="md-listing-single bg-white position-relative">
-                                    <span class="addtocart" bike-name="<?=$bike['name']?>" bike-id="<?=$bike['id']?>" title="Add to Cart"><i class="fa fa-circle-plus"></i></span>
+                                    <a href="javascript:void(0)" class="addtocart" bike-name="<?=$bike['name']?>" bike-id="<?=$bike['bike_id']?>" title="Add to Cart"><i class="fa fa-circle-plus"></i></a>
                                     <figure style="border-bottom: 1px solid #FFDD06;" class="overflow-hidden rounded-top mb-0">
                                         <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['name']?>" style="max-width: 315px;height: 186px;" class="img-fluid m-2">
                                     </figure>
                                     <div class="md-listing-single-content">
-                                        <a href="<?=base_url('Bookaride/view?id='.$bike['id'])?>">
+                                        <a href="<?=base_url('Bookaride/view?id='.$bike['bike_id'])?>">
                                             <h6 class="mb-1"><?=$bike['name']?></h6>
                                         </a>
                                         <ul style="border-top: 1px solid lightgrey;" class="meta-list d-flex flex-wrap mt-3 pt-2">
@@ -144,7 +146,7 @@
                                                 <span class="d-inline-block fa-sm font-bold text-black m-1"><?=$bike['weight']?></span></li>
                                         </ul>
                                         <div class="pricing-bottom d-flex align-items-center justify-content-between mt-4">
-                                            <a href="<?=base_url('Bookaride/view?id='.$bike['id'])?>" class="btn outline-btn btn-sm">View Details</a>
+                                            <a href="<?=base_url('Bookaride/view?id='.$bike['bike_id'])?>" class="btn outline-btn btn-sm">View Details</a>
                                             <h5 class="mb-0 text-md-primary">Rs. <?=$bike['week_day_half_price']?></h5>
                                         </div>
                                     </div>
@@ -171,3 +173,144 @@
     </div>
 </section>
 <!--bike listing end-->
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+    let bikesincart = 0;
+    let bike_ids = "";
+
+    function setTimeAll(ele)
+    {
+        let start = 7;
+        for (let i = 1; i <= 14; i++) 
+        {
+          if( start == 7 )
+          {
+            let t = ( start < 10 ) ? "0"+start : start;
+            let m = "30";
+            let ap = "AM";
+            ele.append($('<option>', {
+                value: t+":"+m+" "+ap,
+                text: t+":"+m+" "+ap
+            }));
+          }
+          else
+          {
+            console.log("start="+start);
+            let t = ( start < 10 ) ? "0"+start : start;
+            if( start > 12 )
+            {
+              t = start - 12;
+              t = ( t < 10 ) ? "0"+t : t;
+            }
+            let m = "00";
+            let ap = ( start >= 12 ) ? "PM" : "AM";
+            ele.append($('<option>', {
+                value: t+":"+m+" "+ap,
+                text: t+":"+m+" "+ap
+            }));
+
+            if( start != 20 ){
+              let mh = "30";
+              ele.append($('<option>', {
+                  value: t+":"+mh+" "+ap,
+                  text: t+":"+mh+" "+ap
+              }));
+            }
+          }      
+          start = start + 1;
+        }
+    }
+
+    function addtoCart(ele)
+    {
+        var bikeId = ele.attr("bike-id");
+        if( ele.hasClass('carted') )
+        {
+            ele.removeClass('carted');
+            ele.find('i').eq(0).removeClass('fa-check-circle').addClass('fa-circle-plus');
+            bikesincart = parseInt(bikesincart) - 1;
+            var temp = bike_ids.split(",");
+            temp = temp.filter(item => item !== bikeId);
+            bike_ids = temp.join(",");
+        }
+        else
+        {
+            bikesincart = parseInt(bikesincart) + 1;
+            ele.addClass('carted');
+            ele.find('i').eq(0).removeClass('fa-circle-plus').addClass('fa-check-circle');
+            bike_ids = (bike_ids == "") ? bikeId : bike_ids+","+bikeId;
+        }
+        console.log(bikesincart);
+        if( bikesincart == 0 )
+        {
+          $("#checkout").hide();
+        }
+        else
+        {
+          $("#checkout").show();
+        }
+
+        localStorage.setItem("bikesincart", bikesincart);
+        localStorage.setItem("bike_ids", bike_ids);
+    }
+
+    function checklocalStorage()
+    {
+        console.log('checklocalStorage');
+        var bikesincart_local = localStorage.getItem("bikesincart");
+        var bike_ids_local = localStorage.getItem("bike_ids");
+
+        console.log("localStorage"+bikesincart_local);
+        console.log("localStorage"+bike_ids_local);
+
+        if( bike_ids_local != null )
+        {
+            var bi = bike_ids_local.split(',');
+            for (var i = 0; i < bi.length; i++) 
+            {
+                $(".addtocart").each(function(index, element)
+                {
+                    if( $(this).attr('bike-id') == bi[i])
+                    {
+                        console.log('click'+bi[i]);
+                        addtoCart($(this));
+                    }
+                });
+            }
+            //bikesincart = parseInt(bikesincart_local);
+        }
+        else
+        {
+            bike_ids_local = "";
+            bikesincart_local = 0;
+        }
+        return true;
+    }
+
+    checklocalStorage();
+
+    $(".addtocart").click(function(){
+        addtoCart($(this));
+    });
+
+    $("#checkout").click(function(){
+
+        $("#cartform input[name='bikesincart']").val(bikesincart);
+        $("#cartform input[name='bike_ids']").val(bike_ids);
+        $("#cartform").submit();        
+    });
+
+    setTimeAll($("#pickup_time"));
+    setTimeAll($("#dropoff_time"));
+    var pt = $("#pickup_time").attr('data-select');
+    $("#pickup_time").val(pt);
+    console.log(pt);
+    var dt = $("#dropoff_time").attr('data-select');
+    $("#dropoff_time").val(dt);
+    console.log(dt);
+
+});
+
+</script>

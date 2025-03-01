@@ -37,14 +37,13 @@
 
     <!--title-->
     <title><?=$page_title?></title>
-
     <!--build:css-->
     <link rel="stylesheet" href="<?=base_url()?>/assets/css/main.css" />
     <!-- endbuild -->
-
     <!--custom css-->
     <link rel="stylesheet" href="<?=base_url()?>/assets/css/custom.css" />
-
+    <script src="<?=base_url()?>assets/js/vendors/jquery.min.js"></script>
+    
 </head>
 <body>
 

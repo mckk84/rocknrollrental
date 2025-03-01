@@ -10,6 +10,14 @@ class Bookaride extends CI_Controller {
 		$this->load->model('biketypes_model');
 		$this->load->model('searchbike_model');
 		$data['biketypes'] = $this->biketypes_model->getAll();
+
+		$data['pickup_date'] = "";
+		$data['pickup_time'] = "";
+		$data['dropoff_date'] = "";
+		$data['dropoff_time'] = "";
+		$data['period_days'] = "";
+		$data['period_hours'] = "";
+
 		if( isset($_POST) && count($_POST) > 0 )
 		{
 			$data['pickup_date'] = $this->input->post('pickup_date');
@@ -17,8 +25,14 @@ class Bookaride extends CI_Controller {
 			$data['dropoff_date'] = $this->input->post('dropoff_date');
 			$data['dropoff_time'] = $this->input->post('dropoff_time');
 
+			$d1= new DateTime($data['dropoff_date']." ".$data['dropoff_time']); // first date
+			$d2= new DateTime($data['pickup_date']." ".$data['pickup_time']); // second date
+			$interval= $d1->diff($d2); // get difference between two dates
+			$data['period_days'] = $interval->days;
+			$data['period_hours'] = $interval->h; 
 			$data['available_bikes'] = $this->searchbike_model->getAvailableBikes($data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time']);
 		}
+	
         $this->load->view('layout/header', $data);
         $this->load->view('front/bookaride', $data);
         $this->load->view('layout/footer');
