@@ -23,3 +23,27 @@
     border-radius: 50%;
     /*box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);*/
 }
+
+.addtocart {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 100;
+    float: right;
+    color: #000;
+    border-radius: 5px;
+    padding: 2px 5px;
+    text-align: center;
+    font-size: 25px;
+    background-color: #FFF;
+    cursor: pointer;
+}
+
+.addtocart:hover{
+    background-color: #FFF;
+    color: #FFDD06;
+}
+
+.addtocart.carted {
+    color: green;
+}

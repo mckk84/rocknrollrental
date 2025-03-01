@@ -24,4 +24,18 @@ class Bookaride extends CI_Controller {
         $this->load->view('layout/footer');
 	}
 
+	public function view()
+	{
+		$id = isset($_GET['id']) ? $_GET['id'] : 0;
+
+		$data['page_title'] = 'Rock N Roll Bike Rentals | Bike rentals in Chikmangaluru | Bike';
+		$data['user'] = $this->session->userdata();
+		$this->load->model('bike_model');
+		$data['bike'] = $this->bike_model->getById($id);
+
+        $this->load->view('layout/header', $data);
+        $this->load->view('front/viewbike', $data);
+        $this->load->view('layout/footer');
+	}
+
 }

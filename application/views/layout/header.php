@@ -100,7 +100,7 @@
                     <div class="row align-items-center">
                         <div class="col-6 col-lg-3">
                             <div class="logo-wrapper d-flex">
-                                <a href="<?=base_url()?>"><img style="width:90px" src="logo/logo2.png" alt="logo"></a>
+                                <a href="<?=base_url()?>"><img style="width:90px" src="<?=base_url()?>/logo/logo2.png" alt="logo"></a>
                                 <div class="d-inline m-1 p-1">
                                     <span class="h5 w-100 mt-1 text-center d-block">ROCK N ROLL</span>
                                     <span style="border-top: 2px dashed black;" class="h5 pt-1 d-block w-100 text-center">RENTALS</span>
@@ -180,7 +180,7 @@
         <!--ofcanvus menu start-->
         <div class="at_offcanvus_menu position-fixed">
             <button class="at-offcanvus-close"><i class="fa-solid fa-xmark"></i></button>
-            <a href="#" class="logo-wrapper d-inline-block mb-5"><img style="width:190px;" src="logo/logo2.png" alt="logo"></a>
+            <a href="#" class="logo-wrapper d-inline-block mb-5"><img style="width:190px;" src="<?=base_url()?>/logo/logo2.png" alt="logo"></a>
             <div class="offcanvus-content">
                 <h4 class="mb-4">About Us</h4>
                 <p>A hassle-free and simple bike rental company. We remain loyal to our customers by making it easy to rent a bike. We have a wide range of scooters & bikes available to rent and move on.</p>

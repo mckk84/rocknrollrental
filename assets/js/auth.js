@@ -1,5 +1,20 @@
 $(document).ready(function(){
 
+  $(".addtocart").click(function(){
+
+    if( $(this).hasClass('carted') )
+    {
+      $(this).removeClass('carted');
+      $(this).find('i').eq(0).removeClass('fa-check-circle').addClass('fa-circle-plus');
+    }
+    else
+    {
+      $(this).addClass('carted');
+      $(this).find('i').eq(0).removeClass('fa-circle-plus').addClass('fa-check-circle');
+    }
+
+  });
+
   function setTimeSpecial(ele, hour)
   {
     let start = hour;

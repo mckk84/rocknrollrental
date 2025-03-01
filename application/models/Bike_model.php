@@ -25,9 +25,11 @@ class Bike_model extends CI_Model
             
     function getById($id)
     {
-        $this->db->select('*');
+        $this->db->select('tbl_bikes.*,tbl_manufacturer.name as manufacturer,tbl_bike_types.type as bike_type');
         $this->db->from('tbl_bikes');
-        $this->db->where('id', $id);
+        $this->db->join('tbl_manufacturer', 'tbl_manufacturer.id = tbl_bikes.manufacturer_id');
+        $this->db->join('tbl_bike_types', 'tbl_bike_types.id = tbl_bikes.type_id');
+        $this->db->where('tbl_bikes.id', $id);
         $query = $this->db->get();
         
         if ($query->num_rows() > 0)
