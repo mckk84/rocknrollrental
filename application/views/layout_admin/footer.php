@@ -8,6 +8,9 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
+  <script type="text/javascript">
+    let base_url = '<?=base_url()?>';
+  </script>
   <!-- Vendor JS Files -->
   <script src="<?=base_url()?>assets/admin/assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="<?=base_url()?>assets/admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

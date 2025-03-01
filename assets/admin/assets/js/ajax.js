@@ -2,6 +2,77 @@
 
 $(document).ready(function(){
 
+    // changepassword
+  $(".update-password").click(function(e) {
+
+        $("#update-password :input").prop("disabled", true);
+        $("#update-password button[type='button']").prop("disabled", true);
+        $("#update-password button[type='button']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> PLease wait..");
+
+        let form = $("#update-password");
+        let url = form.attr('action');
+
+        form.find(".alert").each(function(){
+          $(this).remove();
+        });
+        
+        var formdata = {
+          current_password:$("#update-password input[name='current_password']").val(),
+          new_password:$("#update-password input[name='new_password']").val(),
+          retype_password:$("#update-password input[name='retype_password']").val(),
+        };
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            data: formdata,
+            success: function (data) {
+                console.log(data);
+                if( data.error == 1 )
+                {
+                  // error occured
+                  $("#update-password :input").prop("disabled", false);
+                  $("#update-password button[type='button']").prop("disabled", false);
+                  $("#update-password button[type='button']").html("Update");
+
+                  form.append("<div class='alert alert-danger mt-1 mb-0'>"+data.error_message+"</div>");
+                }
+                else
+                {
+                  form.append("<div class='alert alert-success mt-1 mb-0'>"+data.success_message+"</div>");
+                  $("#update-password button[type='button']").html("Success. Redirecting..");
+                  setTimeout(function(){
+                    window.location.href = base_url+"/admin/Logout";
+                  }, 2000);
+                }
+            },
+            error: function (data) {
+                form.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                // error occured
+                $("#update-password :input").prop("disabled", false);
+                $("#update-password button[type='submit']").prop("disabled", false);
+                $("#update-password button[type='submit']").html("Update");
+            }
+        });
+        return false;
+    });
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+     if(dd<10){
+            dd='0'+dd
+        } 
+        if(mm<10){
+            mm='0'+mm
+        } 
+
+    today = yyyy+'-'+mm+'-'+dd;
+    $("input[name='holiday_date']").attr("min", today);
+    $("input[name='publicholiday_date']").attr("min", today);
+
     $("#add_price").click(function(){
         $("#add-price").modal('show');
         $("#add-price").find("input[type=text], select").val("");
@@ -10,6 +81,94 @@ $(document).ready(function(){
     $("#add_user").click(function(){
         $("#add-user").modal('show');
         $("#add-user").find("input[type=text], select").val("");
+    });
+
+    // add public holiday
+    $("#submitpublicholiday").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        $(this).prop('disabled', true);
+        $(this).html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
+
+        let form = $("#addpublicholiday");
+        let mbody = $("#addpublicholiday .modal-body");
+        let url = form.attr('action');
+
+        mbody.find(".alert").each(function(){
+            $(this).remove();
+        });
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(), // Serialize form data
+            success: function (data) {
+                var d = JSON.parse(data);
+                if( d.error == 1 )
+                {
+                    mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
+                    $("#submitpublicholiday").prop('disabled', false);
+                    $("#submitpublicholiday").html("Submit");
+                }
+                else
+                {
+                    mbody.append("<div class='alert alert-success mt-1 mb-0'>"+d.success_message+"</div>");
+                    $("#submitpublicholiday").html("Success");
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 2000);
+                }
+            },
+            error: function (data) {
+                mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                $("#submitpublicholiday").prop('disabled', false);
+                $("#submitpublicholiday").html("Submit");
+            }
+        });
+    });
+
+    // add holiday
+    $("#submitholiday").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        $(this).prop('disabled', true);
+        $(this).html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
+
+        let form = $("#addholiday");
+        let mbody = $("#addholiday .modal-body");
+        let url = form.attr('action');
+
+        mbody.find(".alert").each(function(){
+            $(this).remove();
+        });
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(), // Serialize form data
+            success: function (data) {
+                var d = JSON.parse(data);
+                if( d.error == 1 )
+                {
+                    mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
+                    $("#submitholiday").prop('disabled', false);
+                    $("#submitholiday").html("Submit");
+                }
+                else
+                {
+                    mbody.append("<div class='alert alert-success mt-1 mb-0'>"+d.success_message+"</div>");
+                    $("#submitholiday").html("Success");
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 2000);
+                }
+            },
+            error: function (data) {
+                mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                $("#submitholiday").prop('disabled', false);
+                $("#submitholiday").html("Submit");
+            }
+        });
     });
 
     //add user
@@ -320,6 +479,72 @@ $(document).ready(function(){
                 mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
                 $("#submitpaymentmode").prop('disabled', false);
                     $("#submitpaymentmode").html("Submit");
+            }
+        });
+    });
+
+    //view-contact-record
+    $(".view-contact-record").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let id = $(this).attr('record-data');
+        let url = window.location.href+"/getRecord?id="+id;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var d = JSON.parse(data);
+                $('#view-contact').modal('show');    
+                $('#view-contact #name').html(d.name);
+                $('#view-contact #email').html(d.email);   
+                $('#view-contact #phone').html(d.phone);
+                $('#view-contact #subject').html(d.subject);
+                $('#view-contact #message').html(d.message);
+            },
+            error: function (data) {
+                console.log("Error occured");
+            }
+        });
+    });
+
+    //edit holiday
+    $(".edit-public-holiday-record").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let id = $(this).attr('record-data');
+        let url = window.location.href+"/getRecord?id="+id;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var d = JSON.parse(data);
+                $('#add-public-holiday').modal('show');    
+                $('#add-public-holiday input[name="record_id"]').val(d.id);
+                $('#add-public-holiday input[name="holiday_date"]').val(d.holiday_date);   
+            },
+            error: function (data) {
+                console.log("Error occured");
+            }
+        });
+    });
+
+    //edit holiday
+    $(".edit-holiday-record").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let id = $(this).attr('record-data');
+        let url = window.location.href+"/getRecord?id="+id;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var d = JSON.parse(data);
+                $('#add-holiday').modal('show');    
+                $('#add-holiday input[name="record_id"]').val(d.id);
+                $('#add-holiday input[name="holiday_date"]').val(d.holiday_date);   
+            },
+            error: function (data) {
+                console.log("Error occured");
             }
         });
     });

@@ -1,17 +1,17 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Class : Users
- * Users model class to manage admin users master data 
+ * Class : Publicholidays Model
+ * Publicholidays_model class to manage Public Holidays data 
  */
-class Users_model extends CI_Model
+class Publicholidays_model extends CI_Model
 {
     function getAll()
     {
-        $this->db->order_by('userId', 'ASC');
-        $this->db->select('*');
-        $this->db->from('tbl_users');
-        $this->db->where('user_type !=', "SuperAdmin");
+        $this->db->order_by('tbl_public_holidays.id', 'ASC');
+        $this->db->select('tbl_public_holidays.*, tbl_users.name as created_by');
+        $this->db->from('tbl_public_holidays');
+        $this->db->join('tbl_users', 'tbl_users.userId = tbl_public_holidays.created_by');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0){
@@ -24,8 +24,8 @@ class Users_model extends CI_Model
     function getById($id)
     {
         $this->db->select('*');
-        $this->db->from('tbl_users');
-        $this->db->where('userId', $id);
+        $this->db->from('tbl_public_holidays');
+        $this->db->where('id', $id);
         $query = $this->db->get();
         
         if ($query->num_rows() > 0)
@@ -41,11 +41,11 @@ class Users_model extends CI_Model
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkRecordExists($username)
+    function checkRecordExists($holiday_date)
     {
-        $this->db->select('name');
-        $this->db->where('username', $username);
-        $query = $this->db->get('tbl_users');
+        $this->db->select('holiday_date');
+        $this->db->where('holiday_date', $holiday_date);
+        $query = $this->db->get('tbl_public_holidays');
 
         if ($query->num_rows() > 0){
             return true;
@@ -59,12 +59,12 @@ class Users_model extends CI_Model
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkRecordExists1($username, $record_id)
+    function checkRecordExists1($holiday_date, $record_id)
     {
-        $this->db->select('name');
-        $this->db->where('username', $username);
-        $this->db->where('userId !=', $record_id);
-        $query = $this->db->get('tbl_users');
+        $this->db->select('holiday_date');
+        $this->db->where('holiday_date', $holiday_date);
+        $this->db->where('id !=', $record_id);
+        $query = $this->db->get('tbl_public_holidays');
 
         if ($query->num_rows() > 0){
             return true;
@@ -80,7 +80,7 @@ class Users_model extends CI_Model
     function addNew($info)
     {
         $this->db->trans_start();
-        $this->db->insert('tbl_users', $info);
+        $this->db->insert('tbl_public_holidays', $info);
         
         $insert_id = $this->db->insert_id();
         
@@ -94,8 +94,8 @@ class Users_model extends CI_Model
     {
         $this->db->trans_start();
         
-        $this->db->where('userId', $id);
-        $this->db->update('tbl_users', $info);
+        $this->db->where('id', $id);
+        $this->db->update('tbl_public_holidays', $info);
         
         $this->db->trans_complete();
         
@@ -106,19 +106,11 @@ class Users_model extends CI_Model
     {
         $this->db->trans_start();
         
-        $this->db->where('userId', $id);
-        $this->db->delete('tbl_users');
+        $this->db->where('id', $id);
+        $this->db->delete('tbl_public_holidays');
         
         $this->db->trans_complete();
         
-        return true;
-    }
-
-    // This function used to create new password by reset link
-    function createPasswordUser($userId, $password)
-    {
-        $this->db->where('userId', $userId);
-        $this->db->update('tbl_users', array('password'=>getHashedPassword($password)));
         return true;
     }
 

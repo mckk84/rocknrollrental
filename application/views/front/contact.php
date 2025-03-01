@@ -21,40 +21,40 @@
                     <div class="col-xl-8">
                         <div class="contact-form-area bg-white rounded">
                             <h4 class="mb-3">Need Help? Send Message</h4>
-                            <form action="#" class="ct-form-wrapper">
+                            <form id="contactform" method="POST" action="<?=base_url('Contact/savequery')?>" class="ct-form-wrapper">
                                 <div class="row g-4">
                                     <div class="col-sm-6">
                                         <div class="input-field">
                                             <label class="fw-semibold text-secondary mb-1">Name</label>
-                                            <input type="text" placeholder="Full Name" class="border w-100 rounded">
+                                            <input type="text" name="name" maxlength="100" required placeholder="Full Name" class="border w-100 rounded">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="input-field">
                                             <label class="fw-semibold text-secondary mb-1">Email</label>
-                                            <input type="email" placeholder="Email" class="border w-100 rounded">
+                                            <input type="email" name="email" maxlength="100" required placeholder="Email" class="border w-100 rounded">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="input-field">
                                             <label class="fw-semibold text-secondary mb-1">Phone</label>
-                                            <input type="tel" placeholder="Phone" class="border w-100 rounded">
+                                            <input type="tel" name="phone" maxlength="10" required placeholder="Phone" class="border w-100 rounded">
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="input-field">
                                             <label class="fw-semibold text-secondary mb-1">Subject</label>
-                                            <input type="text" placeholder="Subject" class="border w-100 rounded">
+                                            <input type="text" name="subject" maxlength="100" required placeholder="Subject" class="border w-100 rounded">
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="input-field">
                                             <label class="fw-semibold text-secondary mb-1">Message</label>
-                                            <textarea placeholder="Message" class="border w-100 rounded" rows="5"></textarea>
+                                            <textarea placeholder="Message" name="message" class="border w-100 rounded" rows="5"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary btn-md mt-4" type="submit">Get in Touch</button>
+                                <button class="btn btn-primary btn-md mt-4" id="submitContactForm" type="button">Get in Touch</button>
                             </form>
                         </div>
                     </div>

@@ -11,4 +11,62 @@ class Contact extends CI_Controller {
         $this->load->view('front/contact', $data);
         $this->load->view('layout/footer');
 	}
+
+	public function savequery()
+	{
+		$response = array("error" => 0, "error_message" => "", "success_message" => "");
+        $this->load->library('form_validation'); 
+        $this->load->model('contact_model');
+ 
+        $this->form_validation->set_rules('name','Name','trim|required|max_length[128]');
+        $this->form_validation->set_rules('email','Email','trim|required|valid_email|max_length[128]');
+        $this->form_validation->set_rules('phone','Phone','trim|required|max_length[10]');
+        $this->form_validation->set_rules('subject','Subject','trim|required|max_length[100]');
+        $this->form_validation->set_rules('message','Message','trim|required|max_length[255]');
+                        
+        if($this->form_validation->run() == FALSE)
+        {
+            $response["error"] = 1;
+            $response["error_message"] = $this->form_validation->error_string();
+            die(json_encode($response));
+        }
+        else
+        {
+            $name = $this->security->xss_clean($this->input->post('name'));
+            $email = $this->security->xss_clean($this->input->post('email'));
+            $phone = $this->security->xss_clean($this->input->post('phone'));
+            $subject = $this->security->xss_clean($this->input->post('subject'));
+            $message = $this->security->xss_clean($this->input->post('message'));
+
+            $recordInfo = array(
+                'name' => $name,
+                'email' => $email,
+                'phone' => $phone,
+                'subject' => $subject,
+                'message' => $message
+            );
+
+            if( $this->contact_model->checkPhoneExists($phone) )
+            {
+                $response["error"] = 1;
+                $response["error_message"] = "Query already submitted. We are looking into it.";
+            }
+            else
+            {
+                $result = $this->contact_model->addNew($recordInfo);
+                if($result > 0)
+                {
+                    $response["error"] = 0;
+                    $response["error_message"] = "";
+                    $response["success_message"] = "Query submitted successfully";
+                } 
+                else 
+                {
+                    $response["error"] = 1;
+                    $response["error_message"] = "Oops!! Error Occured. Please try again later.";
+                }
+            }                
+            die(json_encode($response));            
+        }
+	}
 }

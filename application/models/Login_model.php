@@ -14,7 +14,7 @@ class Login_model extends CI_Model
      */
     function loginMe($username, $password)
     {
-        $this->db->select('userId, password, name, isAdmin');
+        $this->db->select('userId, password, name, user_type');
         $this->db->from('tbl_users');
         $this->db->where('username', $username);
         
@@ -103,7 +103,6 @@ class Login_model extends CI_Model
     {
         $this->db->where('email', $email);
         $this->db->update('tbl_users', array('password'=>getHashedPassword($password)));
-        $this->db->delete('tbl_reset_password', array('email'=>$email));
     }
 
 }

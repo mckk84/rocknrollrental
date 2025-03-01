@@ -1,33 +1,31 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Class : Users
- * Users model class to manage admin users master data 
+ * Class : Contact_model
+ * Contact model class to manage customer contact messages 
  */
-class Users_model extends CI_Model
+class Contact_model extends CI_Model
 {
     function getAll()
     {
-        $this->db->order_by('userId', 'ASC');
+        $this->db->order_by('id', 'ASC');
         $this->db->select('*');
-        $this->db->from('tbl_users');
-        $this->db->where('user_type !=', "SuperAdmin");
+        $this->db->from('tbl_contact');
         $query = $this->db->get();
-
-        if ($query->num_rows() > 0){
+        if ($query->num_rows() > 0)
+        {
             return $query->result_array();
         } else {
             return array();
         }
     }
-            
+
     function getById($id)
     {
         $this->db->select('*');
-        $this->db->from('tbl_users');
-        $this->db->where('userId', $id);
+        $this->db->from('tbl_contact');
+        $this->db->where('id', $id);
         $query = $this->db->get();
-        
         if ($query->num_rows() > 0)
         {
             return $query->row_array();
@@ -41,11 +39,11 @@ class Users_model extends CI_Model
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkRecordExists($username)
+    function checkPhoneExists($phone)
     {
-        $this->db->select('name');
-        $this->db->where('username', $username);
-        $query = $this->db->get('tbl_users');
+        $this->db->select('id');
+        $this->db->where('phone', $phone);
+        $query = $this->db->get('tbl_contact');
 
         if ($query->num_rows() > 0){
             return true;
@@ -53,18 +51,18 @@ class Users_model extends CI_Model
             return false;
         }
     }
-    
+
     /**
      * This function used to check email exists or not
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkRecordExists1($username, $record_id)
+    function checkPhoneExists1($phone, $id)
     {
-        $this->db->select('name');
-        $this->db->where('username', $username);
-        $this->db->where('userId !=', $record_id);
-        $query = $this->db->get('tbl_users');
+        $this->db->select('id');
+        $this->db->where('phone', $phone);
+        $this->db->where('id !=', $id);
+        $query = $this->db->get('tbl_contact');
 
         if ($query->num_rows() > 0){
             return true;
@@ -72,7 +70,7 @@ class Users_model extends CI_Model
             return false;
         }
     }
-    
+
     /**
      * This function is used to add new user to system
      * @return number $insert_id : This is last inserted id
@@ -80,7 +78,7 @@ class Users_model extends CI_Model
     function addNew($info)
     {
         $this->db->trans_start();
-        $this->db->insert('tbl_users', $info);
+        $this->db->insert('tbl_contact', $info);
         
         $insert_id = $this->db->insert_id();
         
@@ -88,14 +86,13 @@ class Users_model extends CI_Model
         
         return $insert_id;
     }
-    
-    
+
     function updateRecord($info, $id)
     {
         $this->db->trans_start();
         
-        $this->db->where('userId', $id);
-        $this->db->update('tbl_users', $info);
+        $this->db->where('id', $id);
+        $this->db->update('tbl_contact', $info);
         
         $this->db->trans_complete();
         
@@ -106,22 +103,13 @@ class Users_model extends CI_Model
     {
         $this->db->trans_start();
         
-        $this->db->where('userId', $id);
-        $this->db->delete('tbl_users');
+        $this->db->where('id', $id);
+        $this->db->delete('tbl_contact');
         
         $this->db->trans_complete();
         
         return true;
     }
-
-    // This function used to create new password by reset link
-    function createPasswordUser($userId, $password)
-    {
-        $this->db->where('userId', $userId);
-        $this->db->update('tbl_users', array('password'=>getHashedPassword($password)));
-        return true;
-    }
-
 
 }
 

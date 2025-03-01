@@ -980,13 +980,7 @@
     e.preventDefault();
     $(".expanded-content").slideDown();
   });
-  $(".theme-date-input").datetimepicker({
-    format: 'DD-MM-Y',
-    icons: {
-      time: "fa-solid fa-clock"
-    }
-  }); //theme file upload
-
+  
   var file_upload = $(".file_upload");
   file_upload.children(".btn").on("click", function () {
     $(this).siblings("input").click();

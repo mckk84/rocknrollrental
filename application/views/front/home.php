@@ -2,14 +2,14 @@
 <section class="moto-rent-hero position-relative overflow-hidden z-1 bg-texture-gradient" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-xl-6">
+            <div class="col-xl-6 col-sm-12">
                 <div class="moto-rent-hero-content">
                     <h1 class="display-4 md-heading-bold text-white mb-4">Welcome to <mark class="p-0 bg-transparent text-md-primary">Rock N Roll </mark> Rentals</h1>
                     <h4 class="text-white fw-normal mb-5">A RTO authorized bike rental firm in Chikmagaluru. We offer affordable riding experience for our travelers to discover places in and around the town with ease.</h4>
                     
                 </div>
             </div>
-            <div class="col-xl-6">
+            <div class="d-none d-xl-block col-xl-6">
                 <div class="hero-bike-slider position-relative z-5 swiper">
                     <div class="swiper-wrapper">
                         <div class="hero-bike-single position-relative swiper-slide">
@@ -50,7 +50,6 @@
             <li><a href="#"><i class="fab fa-youtube"></i></a></li>
         </ul>
     </div>
-    <img src="<?=base_url()?>/assets/img/shapes/doted-white.png" alt="doted" class="position-absolute doted-white z-1">
     <img src="<?=base_url()?>/assets/img/shapes/texture-bg-yellow.jpg" alt="texture yellow" class="position-absolute texture-yellow z-1 d-none d-xl-block">
     <img src="<?=base_url()?>/assets/img/shapes/wave-yellow.png" alt="wave" class="position-absolute wave-shape z-2">
 </section>
@@ -62,35 +61,33 @@
             <div class="col-lg-12">
                 <div class="at-search-box-filter bg-white">
                     <ul class="nav nav-tabs border-0 justify-content-center justify-content-sm-start">
-                        <li><a href="#all_status" class="text-dark active">Search your next ride</a></li>
+                        <li><a href="javascript:void(0)" class="text-dark active">Search Your Next Ride</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="all_status">
-                            <form action="#" class="at-search-filter d-flex align-items-center">
+                            <form method="POST" action="<?=base_url('Bookaride')?>" class="at-search-filter d-flex align-items-center">
                                 <div class="input-field">
                                     <label>Pickup Date</label>
                                     <div class="form-input">                            
-                                        <input type="text" class="theme-date-input border w-100 rounded-2" placeholder="">
+                                        <input type="text" name="pickup_date" id="pickup_date" class="theme-date-input border w-100 rounded-2" placeholder="">
                                     </div>
                                 </div>
                                 <div class="input-field">
                                     <label>Time</label>
-                                    <select class="form-select">
+                                    <select id="pickup_time" name="pickup_time" class="form-select">
                                     	<option value="">Select</option>
-                                        <option value="05:00 PM">05:00 PM</option>
                                     </select>
                                 </div>
                                 <div class="input-field">
                                     <label>Dropping off date</label>
                                     <div class="form-input">                            
-                                        <input type="text" class="theme-date-input border w-100 rounded-2" placeholder="">
+                                        <input type="text" name="dropoff_date" id="dropoff_date" class="theme-date-input border w-100 rounded-2" placeholder="">
                                     </div>
                                 </div>
                                 <div class="input-field">
                                     <label>Time</label>
-                                    <select class="form-select">
+                                    <select id="dropoff_time" name="dropoff_time" class="form-select">
                                     	<option value="">Select</option>
-                                    	<option value="05:00 PM">05:00 PM</option>
                                     </select>
                                 </div>
                                 <div class="submit-btn align-self-end">

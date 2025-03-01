@@ -55,12 +55,12 @@
           </a>
         </li><!-- End Search Icon-->
 
-        <li class="nav-item dropdown">
+        <!-- <li class="nav-item dropdown">
 
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-bell"></i>
             <span class="badge bg-primary badge-number">4</span>
-          </a><!-- End Notification Icon -->
+          </a>
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
             <li class="dropdown-header">
@@ -125,10 +125,9 @@
             <li class="dropdown-footer">
               <a href="#">Show all notifications</a>
             </li>
+          </ul>
 
-          </ul><!-- End Notification Dropdown Items -->
-
-        </li><!-- End Notification Nav -->
+        </li> -->
 
         <li class="nav-item dropdown pe-3">
 
@@ -139,7 +138,7 @@
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="<?=base_url('admin/Myprofile')?>">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
