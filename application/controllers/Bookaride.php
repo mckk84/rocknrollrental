@@ -9,6 +9,7 @@ class Bookaride extends CI_Controller {
 		$data['user'] = $this->session->userdata();
 		$this->load->model('biketypes_model');
 		$this->load->model('searchbike_model');
+		$this->load->model('publicholidays_model');
 		$data['biketypes'] = $this->biketypes_model->getAll();
 
 		$data['pickup_date'] = "";
@@ -17,6 +18,9 @@ class Bookaride extends CI_Controller {
 		$data['dropoff_time'] = "";
 		$data['period_days'] = "";
 		$data['period_hours'] = "";
+		$data['weekend'] = 0;
+		$data['public_holiday'] = 0;
+		$data['bike_type'] = 0;
 
 		if( isset($_POST) && count($_POST) > 0 )
 		{
@@ -24,13 +28,27 @@ class Bookaride extends CI_Controller {
 			$data['pickup_time'] = $this->input->post('pickup_time');
 			$data['dropoff_date'] = $this->input->post('dropoff_date');
 			$data['dropoff_time'] = $this->input->post('dropoff_time');
+			$data['bike_type'] = $this->input->post('bike_type');
 
 			$d1= new DateTime($data['dropoff_date']." ".$data['dropoff_time']); // first date
 			$d2= new DateTime($data['pickup_date']." ".$data['pickup_time']); // second date
 			$interval= $d1->diff($d2); // get difference between two dates
 			$data['period_days'] = $interval->days;
 			$data['period_hours'] = $interval->h; 
-			$data['available_bikes'] = $this->searchbike_model->getAvailableBikes($data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time']);
+
+			$date=date_create($data['pickup_date']);
+			$day = date_format($date,"D");
+			if( $day == 'Sat' || $day == 'Sun' )
+			{
+				$data['weekend'] = 1;
+			}
+			$res = $this->publicholidays_model->checkRecordExists($data['pickup_date']);
+			if( $res )
+			{
+				$data['public_holiday'] = 1;
+			}
+
+			$data['available_bikes'] = $this->searchbike_model->getAvailableBikes($data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time'], $data['bike_type']);
 		}
 	
         $this->load->view('layout/header', $data);

@@ -29,10 +29,10 @@
                             <div class="blw-search-fields">
                                 <div class="row g-2 mb-2">
                                     <h4 class="h5 mb-1 text-black">Pickup</h4>
-                                    <div class="col-6">
+                                    <div class="col-6 position-relative">
                                         <input type="text" value="<?=$pickup_date?>" name="pickup_date" id="pickup_date" class="form-control theme-date-input" placeholder="Date">
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 position-relative">
                                         <select id="pickup_time" data-select="<?=$pickup_time?>" name="pickup_time" class="form-select">
                                         </select>
                                     </div>
@@ -51,9 +51,9 @@
                                     <h4 class="h5 mb-1 text-black">Bike Type</h4>
                                     <div class="col-12">
                                         <select id="bike_type" name="bike_type" class="form-select">
-                                            <option value="">-All-</option>
+                                            <option selected value="0">-All-</option>
                                             <?php foreach($biketypes as $type){?>
-                                            <option value="<?=$type['id']?>"><?=$type['type']?></option>    
+                                            <option <?=($bike_type == $type['id'])?"selected":"";?> value="<?=$type['id']?>"><?=$type['type']?></option>    
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -69,7 +69,7 @@
                     <div class="bike_listing_top rounded bg-white mb-20">
                         <div class="row align-items-center justify-content-between g-2">
                             <div class="col-sm-9">
-                                <div id="selected" style="line-height:2rem;" class="mb-0">Available for Rent</div>
+                                <div id="selected" style="line-height:2rem;" class="mb-0">Available for Rent(Days: <?=$period_days?>, Hours:<?=$period_hours?>, pHoliday:<?=$public_holiday?>, Weekend:<?=$weekend?>)</div>
                             </div>
                             <div class="col-sm-3 justify-content-end">
                                 <form id="cartform" method="POST" action="<?=base_url('Cart')?>">
@@ -147,7 +147,27 @@
                                         </ul>
                                         <div class="pricing-bottom d-flex align-items-center justify-content-between mt-4">
                                             <a href="<?=base_url('Bookaride/view?id='.$bike['bike_id'])?>" class="btn outline-btn btn-sm">View Details</a>
-                                            <h5 class="mb-0 text-md-primary"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$bike['week_day_half_price']?></h5>
+                                            <h5 class="mb-0 text-md-primary"><i class="fa fa-indian-rupee-sign me-1"></i> 
+                                            <?php 
+                                            if( $period_days > 0 ){
+                                                if( $public_holiday == 1 ){
+                                                    echo $bike['holiday_day_price'];
+                                                }
+                                                elseif( $weekend == 1 ){
+                                                    echo $bike['weekend_day_price'];
+                                                } else {
+                                                    echo $bike['week_day_price'];
+                                                }
+                                            } else {
+                                                if( $public_holiday == 1 ){
+                                                    echo $bike['holiday_day_half_price'];
+                                                } elseif( $weekend == 1 ){
+                                                    echo $bike['weekend_day_half_price'];
+                                                } else {
+                                                    echo $bike['week_day_half_price'];
+                                                } 
+                                            }
+                                            ?></h5>
                                         </div>
                                     </div>
                                 </div>
@@ -179,6 +199,50 @@ $(document).ready(function(){
 
     let bikesincart = 0;
     let bike_ids = "";
+
+    function setTimeSpecial(ele, hour)
+  {
+    let start = hour;
+    let len = 7 + 14 - hour;
+    for (let i = 1; i <= len; i++) 
+    {
+      if( start == 7 )
+      {
+        let t = ( start < 10 ) ? "0"+start : start;
+        let m = "30";
+        let ap = "AM";
+        ele.append($('<option>', {
+            value: t+":"+m+" "+ap,
+            text: t+":"+m+" "+ap
+        }));
+      }
+      else
+      {
+        //console.log("start="+start);
+        let t = ( start < 10 ) ? "0"+start : start;
+        if( start > 12 )
+        {
+          t = start - 12;
+          t = ( t < 10 ) ? "0"+t : t;
+        }
+        let m = "00";
+        let ap = ( start >= 12 ) ? "PM" : "AM";
+        ele.append($('<option>', {
+            value: t+":"+m+" "+ap,
+            text: t+":"+m+" "+ap
+        }));
+
+        if( start != 20 ){
+          let mh = "30";
+          ele.append($('<option>', {
+              value: t+":"+mh+" "+ap,
+              text: t+":"+mh+" "+ap
+          }));
+        }
+      }      
+      start = start + 1;
+    }
+  }
 
     function setTimeAll(ele)
     {
@@ -310,6 +374,102 @@ $(document).ready(function(){
     var dt = $("#dropoff_time").attr('data-select');
     $("#dropoff_time").val(dt);
     console.log(dt);
+
+    function dateformatstring(this_date)
+  {
+    var dt = this_date.split('-');
+    return dt[2]+"-"+dt[1]+"-"+dt[0];
+  }
+
+  function getdateformat(this_date)
+  {
+    var dt = this_date.getDate();
+    var mt = this_date.getMonth();
+    mt = mt + 1;
+    var yt = this_date.getFullYear();
+    if( mt < 10 ){
+      mt = "0"+mt;
+    }
+
+    if( dt < 10 ){
+      dt = "0"+dt;
+    }
+    return yt+"-"+mt+"-"+dt;
+  }
+
+  var today = new Date();
+  var today_date = getdateformat(today);
+  var hour = today.getHours();
+  console.log("="+today_date);
+  console.log(hour);
+  hour = hour + 1;
+
+    $("#pickup_date").datetimepicker({
+    format: 'DD-MM-Y',
+    minDate:moment(today_date),
+    icons: {
+      time: "fa-solid fa-clock"
+    }
+  }).on('dp.change', function(e) {
+    console.log('Pickup date');
+    pickupdate = $(this).val();
+    var temp = pickupdate.split('-');
+    pickupdate = temp[2]+"-"+temp[1]+"-"+temp[0];
+    $("#dropoff_date").datetimepicker('minDate', moment(pickupdate));
+
+    var pd = $("#pickup_date").val();
+
+    const date1 = moment(today_date);
+    const date2 = moment(dateformatstring(pd));
+    
+    const duration = moment.duration(date2 - date1);
+    const res = duration.as('hours');
+    console.log('pickupdate-today='+res+"hours");
+    if( res >= 24 )
+    {
+        $("#pickup_time").empty();
+        setTimeAll($("#pickup_time"));
+    }
+    else
+    {
+        $("#pickup_time").empty();
+        setTimeSpecial($("#pickup_time"), hour);
+    }
+
+  });
+
+  $("#dropoff_date").datetimepicker({
+    format: 'DD-MM-Y',
+    minDate:moment(today_date),
+    icons: {
+      time: "fa-solid fa-clock"
+    }
+  }).on('dp.change', function(e) {
+    console.log('Dropoff date');
+    console.log();
+
+    var pd = $("#pickup_date").val();
+    var dp = $(this).val();
+
+    const date1 = moment(dateformatstring(pd));
+    const date2 = moment(dateformatstring(dp));
+
+    const duration = moment.duration(date2 - date1);
+    const res = duration.as('hours');
+    console.log('pickupdate-drop='+res+"hours");
+    if( res >= 24 )
+    {
+        $("#dropoff_time").empty();
+        setTimeAll($("#dropoff_time"));
+    }
+    else
+    {
+        $("#dropoff_time").empty();
+        setTimeSpecial($("#dropoff_time"), hour);
+    }
+
+  });
+
 
 });
 

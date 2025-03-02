@@ -549,7 +549,7 @@ $(document).ready(function(){
       }
       else
       {
-        console.log("start="+start);
+        //console.log("start="+start);
         let t = ( start < 10 ) ? "0"+start : start;
         if( start > 12 )
         {
@@ -592,7 +592,7 @@ $(document).ready(function(){
       }
       else
       {
-        console.log("start="+start);
+        //console.log("start="+start);
         let t = ( start < 10 ) ? "0"+start : start;
         if( start > 12 )
         {
@@ -726,6 +726,26 @@ $(document).ready(function(){
     var temp = pickupdate.split('-');
     pickupdate = temp[2]+"-"+temp[1]+"-"+temp[0];
     $("#dropoff_date").datetimepicker('minDate', moment(pickupdate));
+
+    var pd = $("#pickup_date").val();
+
+    const date1 = moment(today_date);
+    const date2 = moment(dateformatstring(pd));
+    
+    const duration = moment.duration(date2 - date1);
+    const res = duration.as('hours');
+    console.log('pickupdate-today='+res+"hours");
+    if( res >= 24 )
+    {
+        $("#pickup_time").empty();
+        setTimeAll($("#pickup_time"));
+    }
+    else
+    {
+        $("#pickup_time").empty();
+        setTimeSpecial($("#pickup_time"), hour);
+    }
+
   });
 
   $("#dropoff_date").datetimepicker({
@@ -746,6 +766,7 @@ $(document).ready(function(){
 
     const duration = moment.duration(date2 - date1);
     const res = duration.as('hours');
+    console.log('pickupdate-drop='+res+"hours");
     if( res >= 24 )
     {
         $("#dropoff_time").empty();
