@@ -93,10 +93,10 @@ class Payment extends CI_Controller {
 	            	"gst" => $gst,
 	            	"payment_mode" => $pmode_row['id'],
 	            	"status" => 0,
-	            	"from_date" => dateformatdb($data['cart']['pickup_date']),
-	            	"from_time" => $data['cart']['pickup_time'],
-	            	"to_date" => dateformatdb($data['cart']['dropoff_date']),
-	            	"to_time" => $data['cart']['dropoff_time'],
+	            	"pickup_date" => dateformatdb($data['cart']['pickup_date']),
+	            	"pickup_time" => $data['cart']['pickup_time'],
+	            	"dropoff_date" => dateformatdb($data['cart']['dropoff_date']),
+	            	"dropoff_time" => $data['cart']['dropoff_time'],
 	            	"notes" => "",
 	            	"created_by" => 0,	
 	            );
@@ -110,6 +110,7 @@ class Payment extends CI_Controller {
 		            	"booking_id" => $booking_id,
 		            	"type_id" => $bike['type_id'],
 		            	"bike_id" => $bike['bike_id'],
+		            	"quantity" => 1,
 		            	"created_by" => 0,	
 		            );
 		            $this->bookingbikes_model->addNew($bookingbikes_record);
