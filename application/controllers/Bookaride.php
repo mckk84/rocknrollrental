@@ -42,7 +42,7 @@ class Bookaride extends CI_Controller {
 			{
 				$data['weekend'] = 1;
 			}
-			$res = $this->publicholidays_model->checkRecordExists($data['pickup_date']);
+			$res = $this->publicholidays_model->checkRecordExists(dateformatdb($data['pickup_date']));
 			if( $res )
 			{
 				$data['public_holiday'] = 1;
