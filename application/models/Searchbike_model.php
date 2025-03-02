@@ -43,6 +43,11 @@ class Searchbike_model extends CI_Model
 
     public function getCartBikes($bike_ids, $pickup_date, $pickup_time, $dropoff_date, $dropoff_time)
     {
+        if( $bike_ids == "" )
+        {
+            return array();
+        }
+
         $this->db->order_by('tbl_bikes.id', 'ASC');
         $this->db->select('tbl_bikes.*,tbl_bikes.id as bike_id,tbl_manufacturer.name as manufacturer,tbl_bike_types.type as bike_type, tbl_prices.*');
         $this->db->from('tbl_bikes');

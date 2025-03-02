@@ -1,5 +1,5 @@
 <!--breadcrumb section start-->
-        <section class="breadcrumb-section position-relative z-2 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
+        <section class="breadcrumb-section position-relative overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
             <img src="<?=base_url()?>/assets/img/shapes/tire-print-left.png" alt="tire print" class="position-absolute start-0 z-1 tire-print">
             <img src="<?=base_url()?>/assets/img/shapes/tire-print-right.png" alt="tire print" class="position-absolute end-0 z-1 tire-print">
             <div class="container">
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <div class="col-xl-9">
-                        <div class="car_listing_form w-75">
+                        <div class="car_listing_form w-100">
                             
                                 <div class="listing_info_box border bg-white rounded" id="basic">
                                     <h5 class="mb-4">Welcome Back!</h5>
@@ -93,10 +93,60 @@
                                 </div>
                                 <div class="listing_info_box border bg-white rounded mt-40" id="info">
                                     <h5 class="mb-4">Rental History</h5>
+                                    <?php if( isset($rentals) && count($rentals) == 0 ){ ?>
                                     <div class="row g-4">
                                         <span class="text-dark m-2 p-2">No records found.</span>                                    
                                     </div>
-                                </div>
+                                    <?php } else { ?>
+                                    <div class="row g-4">
+                                        <div class="col-12">
+                                            <div class="shopping-cart-left">
+                                                <?php 
+                                                $subtotal = 0;
+                                                $gst = 0;
+                                                $total = 0;
+                                                ?>
+                                                <div class="table-content table-responsive table-bordered bg-white rounded">
+                                                    <table class="table cartbikes">
+                                                        <tr class="bg-eq-primary">
+                                                            <th>Booking Id</th>
+                                                            <th>Quantity</th>
+                                                            <th>Period</th>
+                                                            <th>Total</th>
+                                                            <th>Paid</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                        <?php foreach($rentals as $row) { ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <h6 class="mb-0">#<?=$row['id']?></h6>
+                                                                </td>
+                                                                <td>
+                                                                    <h6 class="mb-0"><?=$row['quantity']?></h6>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($row['pickup_date']))." <b>".$row['pickup_time']?></b></span>
+                                                                    <span style="width:30px;display:block;margin:10px;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
+                                                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($row['dropoff_date']))." <b>".$row['dropoff_time']?></b></span>
+                                                                </td>
+                                                                <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['total_amount']?></td>
+                                                                <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['booking_amount']?></td>
+                                                                <td>
+                                                                    <?php if( $row['status'] == 1 ){ ?>
+                                                                        <button class="btn btn-sm btn-success">Complete</button>
+                                                                    <?php } else { ?>
+                                                                        <button class="btn btn-sm btn-warning">Pending</button>
+                                                                    <?php } ?>                                                                        
+                                                                </td>
+                                                            </tr>
+                                                            <?php } ?>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>                                                                            
+                                    </div>
+                                    <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </div>

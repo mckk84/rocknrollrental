@@ -1,6 +1,13 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 
+function dateformatdb($date)
+{
+    $d = explode("-", $date);
+    return $d[2]."-".$d[1]."-".$d[0];
+}
+
+
 /**
  * This function is used to print the content of any data
  */

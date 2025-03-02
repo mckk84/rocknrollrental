@@ -1,5 +1,5 @@
 <!--breadcrumb section start-->
-<section class="breadcrumb-section position-relative z-2 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
+<section class="breadcrumb-section position-relative overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
     <img src="<?=base_url()?>assets/img/shapes/tire-print-left.png" alt="tire print" class="position-absolute start-0 z-1 tire-print">
     <img src="<?=base_url()?>assets/img/shapes/tire-print-right.png" alt="tire print" class="position-absolute end-0 z-1 tire-print">
     <div class="container">
@@ -69,7 +69,9 @@
                     <div class="bike_listing_top rounded bg-white mb-20">
                         <div class="row align-items-center justify-content-between g-2">
                             <div class="col-sm-9">
-                                <div id="selected" style="line-height:2rem;" class="mb-0">Available for Rent(Days: <?=$period_days?>, Hours:<?=$period_hours?>, pHoliday:<?=$public_holiday?>, Weekend:<?=$weekend?>)</div>
+                                <div id="selected" style="line-height:2rem;" class="mb-0">Available for Rent
+                                    <span class="d-none">(Days: <?=$period_days?>, Hours:<?=$period_hours?>, pHoliday:<?=$public_holiday?>, Weekend:<?=$weekend?>)</span>
+                                </div>
                             </div>
                             <div class="col-sm-3 justify-content-end">
                                 <form id="cartform" method="POST" action="<?=base_url('Cart')?>">
@@ -80,7 +82,8 @@
                                     <input type="hidden" name="dropoff_time" value="<?=$dropoff_time?>">
                                     <input type="hidden" name="period_days" value="<?=$period_days?>">
                                     <input type="hidden" name="period_hours" value="<?=$period_hours?>">
-
+                                    <input type="hidden" name="public_holiday" value="<?=$public_holiday?>">
+                                    <input type="hidden" name="weekend" value="<?=$weekend?>">
                                     <a id="checkout" style="display: none;float: right;" class="btn btn-sm btn-primary" href="javascript:void(0)">Book Now</a>
                                 </form>
                             </div>

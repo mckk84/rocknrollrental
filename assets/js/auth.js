@@ -1,5 +1,23 @@
 $(document).ready(function(){
 
+  $(".payment_proceed").click(function()
+  {
+    $("#payment_form").find(".alert").each(function(){
+        $(this).remove();
+    });
+    var check1 = $("#agree_tc").prop("checked");
+    var check2 = $("#agree_id").prop("checked");
+    if( check1 && check2 )
+    {
+      $("#payment_form").submit();
+    }
+    else
+    {
+      $("#payment_form").prepend("<div class='alert alert-danger mt-1 mb-0'>Please check the terms and conditions to procced.</div>");
+    }
+    return false;
+  });
+
   $("#submitContactForm").click(function(e){
 
     e.preventDefault();

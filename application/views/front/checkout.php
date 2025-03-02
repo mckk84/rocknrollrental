@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="breadcrumb-content-wrapper text-center position-relative z-3">
-                    <h1 class="text-white">Cart</h1>
+                    <h1 class="text-white">Checkout</h1>
                 </div>
             </div>
         </div>
@@ -17,13 +17,37 @@
 <!--shopping cart-->
 <section class="shopping-cart ptb-60">
     <div class="container">
-        <?php if( !isset($cart) || count($cart['cart_bikes']) == 0 ){?>
-        <div class="row">
-            <h4 class="h4 text-danger">Your Cart is empty. <a class="btn btn-primary" href="<?=base_url('Bookaride')?>">Book a Ride</a></h4>
-        </div>    
-        <?php } else {?> 
         <div class="row">
             <div class="col-xxl-8">
+                <div class="checkout-badge bg-light px-0 d-flex align-items-center justify-content-between">
+                    <h4 class="h4">
+                        Personal Details
+                    </h4>
+                </div>
+                <div class="shopping-cart-left">
+                    <div class="table-content table-responsive table-bordered bg-white rounded">
+                        <table class="table cartbikes">
+                            <tr class="bg-eq-primary">
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                            <tr>
+                                <td><?=$user['name']?></td>
+                                <td>
+                                    <?=$user['email']?>
+                                </td>
+                                <td><?=$user['phone']?></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="checkout-badge bg-light px-0 d-flex align-items-center justify-content-between">
+                    <h4 class="h4">
+                        Your Order
+                    </h4>
+                </div>
                 <div class="shopping-cart-left">
                     <?php 
                     $subtotal = 0;
@@ -38,7 +62,6 @@
                                 <th>Price</th>
                                 <th>Quantity</th>
                                 <th>Subtotal</th>
-                                <th>Action</th>
                             </tr>
                             <?php 
                             if( isset($cart) && isset($cart['cart_bikes']) )
@@ -79,38 +102,16 @@
                                     </td>
                                     <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?></td>
                                     <td>
-                                        <div class="cart-count d-inline-flex align-items-center">
-                                            <button class="cart-minus bg-transparent"><i class="fa-solid fa-minus"></i></button>
-                                            <input type="text" class="cart-input" value="1">
-                                            <button class="cart-plus bg-transparent"><i class="fa-solid fa-plus"></i></button>
+                                        <div class="d-flex text-center">
+                                            <span class="d-block m-auto text-center font-normal">1</span>
                                         </div>
                                     </td>
                                     <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?></td>
-                                    <td><button bike-id="<?=$bike['bike_id']?>" class="cart-delete bg-transparent"><i class="fa-solid fa-trash"></i></button></td>
                                 </tr>
                                 <?php } 
                             }
                         ?>
                         </table>
-                        <form id="cartform" method="POST" action="<?=base_url('Cart')?>">
-                            <input type="hidden" name="bike_ids" value="<?=$cart['bike_ids']?>">
-                            <input type="hidden" name="pickup_date" value="<?=$cart['pickup_date']?>">
-                            <input type="hidden" name="pickup_time" value="<?=$cart['pickup_time']?>">
-                            <input type="hidden" name="dropoff_date" value="<?=$cart['dropoff_date']?>">
-                            <input type="hidden" name="dropoff_time" value="<?=$cart['dropoff_time']?>">
-                            <input type="hidden" name="period_days" value="<?=$cart['period_days']?>">
-                            <input type="hidden" name="period_hours" value="<?=$cart['period_hours']?>">
-                            <input type="hidden" name="public_holiday" value="<?=$cart['public_holiday']?>">
-                            <input type="hidden" name="weekend" value="<?=$cart['weekend']?>">
-                            <a id="checkout" style="display: none;float: right;" class="btn btn-sm btn-primary" href="javascript:void(0)">Book Now</a>
-                        </form>
-                    </div>
-                    <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-4 pt-4 pt-lg-0 mt-lg-0">
-                        <form class="d-flex align-items-center flex-wrap">
-                            <input type="text" placeholder="Coupon code">
-                            <button type="submit" class="btn btn-secondary btn-md">Apply Now</button>
-                        </form>
-                        <!-- <button type="button" class="btn btn-primary btn-md mt-3 mt-md-0">Update cart</button> -->
                     </div>
                 </div>
             </div>
@@ -119,7 +120,7 @@
                     <div class="table-responisve rounded">
                         <table class="table rounded">
                             <tr class="bg-eq-primary">
-                                <th class="text-start" colspan="2">Cart Total</th>
+                                <th class="text-start" colspan="2">Order Summary</th>
                             </tr>
                             <tr>
                                 <th class="text-start">Subtotal</th>
@@ -131,34 +132,31 @@
                             </tr>
                             <tr>
                                 <td class="text-start fw-bold">Total</td>
-                                <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$total?></td>
+                                <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$total;?></td>
                             </tr>
                             <tr>
-                                <td class="text-start text-warning fw-bold border-0">Refundable Deposit / Vehicle
-                                    <span class="d-block text-gray fw-normal text-sm">To be paid at the time of pickup</span></td>
-                                <td class="fw-bold text-end border-0"><i class="fa fa-indian-rupee-sign me-1"></i> 1000</td>
+                                <td class="text-start fw-bold">
+                                    Paying Now
+                                    <?php if( $cart['paymentOption'] != "PAY_FULL" ){?>
+                                        <span class="d-block text-gray fw-normal text-sm">(Remaining to be paid at the time of pickup)</span>
+                                    <?php } ?>
+                                </td>
+                                <?php if($cart['paymentOption'] == "PAY_FULL"){?>
+                                <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$total?></td>
+                                <?php } else { ?>
+                                <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=round( $total /2 , 2);?></td>
+                                <?php } ?>
                             </tr>                                                           
                         </table>
                         <div class="d-flex flex-column p-4">
-                            <form method="POST" action="<?=base_url('Checkout')?>">
-                                <div class="radio w-100 mb-2">
-                                    <label class="fa-md"><input type="radio" name="paymentOption" value="PAY_FULL" onclick="__setPayment('PAY_FULL');" checked> Make full payment</label>
-                                </div>
-                                <div class="radio w-100">
-                                    <label class="fa-md"><input type="radio" name="paymentOption" value="PAY_PARTIAL" onclick="__setPayment('PAY_PARTIAL');">  Pay cash on pickup (<span style="padding-left:3px;font-size:12px;">50% to be paid online</span>)</label>
-                                </div>
-                                 <?php if( !isset($user) || !isset($user['Authorization']) || ( isset($user['Authorization']) && $user['Authorization'] == false) ) { ?>
-                                    <a href="javascript:void(0)" class="btn btn-primary d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#at_product_view">Login/Sign Up</a>
-                                <?php } else { ?>  
-                                <button type="submit" class="btn btn-primary btn-md d-block mt-4">Proceed to Checkout</a>
-                                <?php } ?>
+                            <form method="POST" action="<?=base_url('Payment')?>">
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#terms_view" class="btn btn-primary btn-md d-block mt-4">Proceed to Pay</a>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <?php }?>
     </div>
 </section>
 <!--shopping cart end-->

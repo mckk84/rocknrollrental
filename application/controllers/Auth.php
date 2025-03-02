@@ -47,10 +47,10 @@ class Auth extends CI_Controller {
                                         'name'=>$result->name,
                                         'email'=>$result->email,
                                         'phone'=>$result->phone,
-                                        'isLoggedIn' => true
+                                        'Authorization' => true
                                 );
 
-                		$this->session->set_userdata($sessionArray);
+                		$this->session->set_userdata("Auth", $sessionArray);
 	                } 
 	                else 
 	                {
@@ -123,10 +123,10 @@ class Auth extends CI_Controller {
                                         'name'=>$name,
                                         'email'=>$email,
                                         'phone'=>$phone,
-                                        'isLoggedIn' => true
+                                        'Authorization' => true
                                 );
 
-                		$this->session->set_userdata($sessionArray);
+                		$this->session->set_userdata("Auth", $sessionArray);
 	                } 
 	                else 
 	                {
@@ -206,10 +206,9 @@ class Auth extends CI_Controller {
 
 	function signoff()
 	{
-		$sessionArray = array('userId' => 0, 'isLoggedIn' => false);
-        $this->session->set_userdata($sessionArray);
-        
-        unset($sessionArray['userId'], $sessionArray['isLoggedIn']);
+		$sessionArray = array('userId' => 0, 'Authorization' => false);
+        $this->session->set_userdata("Auth", $sessionArray);
+        unset($sessionArray['userId'], $sessionArray['Authorization']);
         
         $this->session->set_flashdata('success', 'Logged Out');
         redirect();

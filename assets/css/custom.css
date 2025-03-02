@@ -47,3 +47,7 @@
 .addtocart.carted {
     color: green;
 }
+
+.cart-sidebar table th, .cart-sidebar table td{
+    padding: 12px 20px;
+}

@@ -195,6 +195,51 @@
             </div>
         </div>
     </div>
+
+    <!-- Terms and Conditions Modal -->
+    <div class="modal fade" id="terms_view">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content product_modal shadow">
+                <div class="terms_view">
+                    <div class="card w-100" style="max-width: 480px;">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h1 class="card-title h3">Terms & Conditions</h1>
+                            </div>
+                            <div class="mt-4">
+                                <form id="payment_form" method="POST" action="<?=base_url('Payment')?>" class="payment-form">
+                                    <div class="mb-4">
+                                        <p>Following documents need to be provided:</p>
+                                        <ul style="list-style-type: circle;margin-left: 50px;">
+                                            <li>
+                                                <p class="mb-2">Valid Driving License</p>
+                                            </li>
+                                            <li>
+                                                <p class="mb-2">Any one of the IDs - Aadhar | PAN | Passport</p>
+                                            </li>                                
+                                        </ul>
+                                    </div>
+                                    <div class="mb-4">
+                                        <p>A ride can not commence until and unless required documents are submitted and verified. Cancellation policy will apply if proper documents are not uploaded for verification.</p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label><input type="checkbox" id="agree_tc" class="form-checkbox me-2" checked>I agree terms & conditions</label>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label><input type="checkbox" id="agree_id" class="form-checkbox me-2" checked>I agree to provide valid ID & DL before the ride starts</label>
+                                    </div>
+                                    <div class="d-grid mt-2">
+                                        <button type="button" class="payment_proceed btn btn-primary btn-lg">Proceed</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--scrolltop button-->
     <button class="theme-scrolltop-btn"><i class="fa-regular fa-hand-pointer"></i></button>
     <!--scrolltop button end-->

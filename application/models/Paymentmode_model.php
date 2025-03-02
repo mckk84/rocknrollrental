@@ -53,6 +53,19 @@ class Paymentmode_model extends CI_Model
             return false;
         }
     }
+
+    function getIdByMode($payment_mode)
+    {
+        $this->db->select('id');
+        $this->db->where('payment_mode', $payment_mode);
+        $query = $this->db->get('tbl_payment_mode');
+
+        if ($query->num_rows() > 0){
+            return $query->row_array();
+        } else {
+            return false;
+        }
+    }
     
     /**
      * This function used to check email exists or not

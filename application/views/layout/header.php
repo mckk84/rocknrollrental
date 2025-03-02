@@ -115,7 +115,7 @@
                                         <li><a class="text-dark" href="<?=base_url('Tariff')?>">Tariff</a></li>  
                                         <li><a class="text-dark" href="<?=base_url('Contact')?>">Contact Us</a></li>  
 
-                                        <?php if( isset($user) && isset($user['isLoggedIn']) && $user['isLoggedIn'] == true ){?>
+                                        <?php if( isset($user) && isset($user['Authorization']) && $user['Authorization'] == true ){?>
 
                                         <li class="has-submenu"><a href="javascript:void(0)" class="p-2 d-lg-inline-block"><img class="me-2" src="<?=base_url()?>assets/images/motorcyclist.png"><span class="text-dark fw-bold"><?=$user['name']?></span></a>
                                             <ul class="submenu-wrapper">
@@ -129,7 +129,7 @@
                                 </nav>
                                 
                                 <div class="apt_header_search dropdown ms-4">
-                                    <?php if( !isset($user) || !isset($user['isLoggedIn']) || ( isset($user['isLoggedIn']) && $user['isLoggedIn'] == false) ) { ?>
+                                    <?php if( !isset($user) || !isset($user['Authorization']) || ( isset($user['Authorization']) && $user['Authorization'] == false) ) { ?>
                                         <a href="javascript:void(0)" class="btn header-white-btn d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#at_product_view">Login/Sign Up</a>       
                                     <?php } ?>             
                                 </div>

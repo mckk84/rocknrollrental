@@ -6,7 +6,7 @@ class Bookaride extends CI_Controller {
 	public function index()
 	{
 		$data['page_title'] = 'Rock N Roll Bike Rentals | Bike rentals in Chikmangaluru | Bookaride';
-		$data['user'] = $this->session->userdata();
+		$data['user'] = $this->session->userdata("Auth");
 		$this->load->model('biketypes_model');
 		$this->load->model('searchbike_model');
 		$this->load->model('publicholidays_model');
