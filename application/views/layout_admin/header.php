@@ -175,9 +175,9 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="<?=base_url('admin/Booknew')?>">
+        <a class="nav-link collapsed" href="<?=base_url('admin/Returns')?>">
           <i class="bi bi-card-list"></i>
-          <span>Book New</span>
+          <span>Vehicle Returns</span>
         </a>
       </li>
 
