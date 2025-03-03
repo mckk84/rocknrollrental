@@ -42,14 +42,14 @@
         <!--about section end-->
   
         <!--feature section start-->
-        <section class="sr-feature-section ptb-120 position-relative overflow-hidden z-1 bg-white">
+        <section class="sr-feature-section ptb-80 position-relative overflow-hidden z-1 bg-white">
             <span class="primary-blur rounded-circle position-absolute start-0 top-0 z--1"></span>
             <span class="yellow-blur rounded-circle position-absolute end-0 bottom-0 z--1"></span>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-6 col-lg-8">
                         <div class="section-title text-center">
-                            <h2 class="h1">We Are Ensuring the Best Customer Experience</h2>
+                            <h2 class="h3">We are Ensuring the Best Customer Experience</h2>
                         </div>
                     </div>
                 </div>
@@ -66,52 +66,63 @@
                             <td align="center" style="font-weight: bolder;">8:00 AM - 8:00 PM</td>
                             <td align="center" style="font-weight: bolder;">8:00 AM - 8:00 PM</td>              
                         </tr>
-                        <tr>
-                             <td>Honda Dio</td>
-                             <td align="center"><i class="fa fa-rupee"></i> 300</td>
-                             <td align="center"><i class="fa fa-rupee"></i> 499</td>
-                             <td align="center"><i class="fa fa-rupee"></i> 499</td>
-                             </tr><tr></tr><tr>
+                        <?php foreach($bikes as $bike) { ?>
+                            <tr>
+                                 <td><?=$bike['bike_type_name']?></td>
+                                 <td align="center"><i class="fa fa-rupee"></i> <?=$bike['week_day_half_price']?></td>
+                                 <td align="center"><i class="fa fa-rupee"></i> <?=$bike['week_day_price']?></td>
+                                 <td align="center"><i class="fa fa-rupee"></i> <?=$bike['weekend_day_price']?></td>
+                            </tr>
+                        <?php } ?>
+                        <!-- <tr>
                              <td>Honda Activa 6G</td>
                              <td align="center"><i class="fa fa-rupee"></i> 300</td>
                              <td align="center"><i class="fa fa-rupee"></i> 499</td>
                              <td align="center"><i class="fa fa-rupee"></i> 499</td>
-                             </tr><tr></tr><tr>
+                             </tr>
+                        <tr>
                              <td>Honda Dio 6G</td>
                              <td align="center"><i class="fa fa-rupee"></i> 300</td>
                              <td align="center"><i class="fa fa-rupee"></i> 499</td>
                              <td align="center"><i class="fa fa-rupee"></i> 499</td>
-                             </tr><tr></tr><tr>
+                             </tr>
+                        <tr>
                              <td>TVS NTORQ 125cc</td>
                              <td align="center"><i class="fa fa-rupee"></i> 400</td>
                              <td align="center"><i class="fa fa-rupee"></i> 599</td>
                              <td align="center"><i class="fa fa-rupee"></i> 699</td>
-                             </tr><tr></tr><tr>
+                             </tr>
+                        <tr>
                              <td>Yamaha Fasino</td>
                              <td align="center"><i class="fa fa-rupee"></i> 400</td>
                              <td align="center"><i class="fa fa-rupee"></i> 599</td>
                              <td align="center"><i class="fa fa-rupee"></i> 699</td>
-                             </tr><tr></tr><tr>
+                             </tr>
+                        <tr>
                              <td>Pulsar 150cc</td>
                              <td align="center"><i class="fa fa-rupee"></i> 400</td>
                              <td align="center"><i class="fa fa-rupee"></i> 600</td>
                              <td align="center"><i class="fa fa-rupee"></i> 800</td>
-                             </tr><tr></tr><tr>
+                             </tr>
+                        <tr>
                              <td>Pulsar 220</td>
                              <td align="center"><i class="fa fa-rupee"></i> 400</td>
                              <td align="center"><i class="fa fa-rupee"></i> 650</td>
                              <td align="center"><i class="fa fa-rupee"></i> 900</td>
-                             </tr><tr></tr><tr>
+                             </tr>
+                        <tr>
                              <td>Enfield Classic</td>
                              <td align="center"><i class="fa fa-rupee"></i> 500</td>
                              <td align="center"><i class="fa fa-rupee"></i> 800</td>
                              <td align="center"><i class="fa fa-rupee"></i> 1200</td>
-                             </tr><tr></tr><tr>
+                             </tr>
+                        <tr>
                              <td>Avenger</td>
                              <td align="center"><i class="fa fa-rupee"></i> 500</td>
                              <td align="center"><i class="fa fa-rupee"></i> 800</td>
                              <td align="center"><i class="fa fa-rupee"></i> 1000</td>
-                             </tr><tr>                  </tr></tbody></table>
+                        </tr> -->
+                        </tbody></table>
                     </div>
                 </div>
             </div>
