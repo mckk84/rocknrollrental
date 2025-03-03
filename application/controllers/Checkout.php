@@ -12,6 +12,7 @@ class Checkout extends CI_Controller {
 		$data['cart_bikes'] = array();
 
 		$data['cart'] = $this->session->userdata("cart");
+		$bike_ids = json_decode($data['cart']['bike_ids']);
 		$data['cart']['paymentOption'] = "PAY_FULL";
 
 		if( isset($_POST) && count($_POST) > 0 )
@@ -19,7 +20,7 @@ class Checkout extends CI_Controller {
 			$data['cart']['paymentOption'] = $this->input->post('paymentOption');
 		}
 
-		if( isset($data['cart']['bike_ids']) )
+		if( isset($bike_ids) && count($bike_ids) > 0 )
 		{
 			$d1= new DateTime($data['cart']['dropoff_date']." ".$data['cart']['dropoff_time']); // first date
 			$d2= new DateTime($data['cart']['pickup_date']." ".$data['cart']['pickup_time']); // second date
@@ -39,9 +40,27 @@ class Checkout extends CI_Controller {
 				$data['cart']['public_holiday'] = 1;
 			}
 
-			$data['cart']['cart_bikes'] = $this->searchbike_model->getCartBikes($data['cart']['bike_ids'], $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time']);
+			$bike_id_string = "";
+			foreach($bike_ids as $i => $obj) 
+			{
+		        $bike_id_string .= ($bike_id_string == "") ? $obj->bike_id: ",".$obj->bike_id;
+		    }
 
-			$this->session->set_userdata("cart", $data["cart"]);
+			$data['cart']['cart_bikes'] = $this->searchbike_model->getCartBikes($bike_id_string, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time']);
+
+			foreach($data['cart']['cart_bikes'] as $index => $bike)
+			{
+				foreach($bike_ids as $i => $obj) 
+				{
+					if($obj->bike_id == $bike['bike_type_id'])
+					{
+						$bike['quantity'] = $obj->qty;
+						break;
+					}
+			    }					
+			    $data['cart']['cart_bikes'][$index] = $bike;
+			}
+			$this->session->set_userdata("cart", $data['cart']);
 		}
 
         $this->load->view('layout/header', $data);

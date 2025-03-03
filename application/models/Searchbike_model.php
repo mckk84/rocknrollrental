@@ -18,18 +18,14 @@ class Searchbike_model extends CI_Model
         $this->load->model('prices_model');
     }
 
-	public function getAvailableBikes($pickup_date, $pickup_time, $dropoff_date, $dropoff_time, $bike_type)
+	public function getAvailableBikes($pickup_date, $pickup_time, $dropoff_date, $dropoff_time)
 	{
-		$this->db->order_by('tbl_bikes.id', 'ASC');
-        $this->db->select('tbl_bikes.*,tbl_bikes.id as bike_id,tbl_manufacturer.name as manufacturer,tbl_bike_types.type as bike_type, tbl_prices.*');
-        $this->db->from('tbl_bikes');
-        $this->db->join('tbl_manufacturer', 'tbl_manufacturer.id = tbl_bikes.manufacturer_id');
-        $this->db->join('tbl_bike_types', 'tbl_bike_types.id = tbl_bikes.type_id');
-        $this->db->join('tbl_prices', 'tbl_prices.type_id = tbl_bikes.type_id');
-        if( $bike_type != 0 )
-        {
-            $this->db->where('tbl_bikes.type_id = '.$bike_type.'');
-        }
+        $this->db->group_by('tbl_bike_types.id');
+		$this->db->order_by('tbl_bikes.cc', 'ASC');
+        $this->db->select('tbl_bikes.image,tbl_bikes.milage,tbl_bikes.power,tbl_bikes.cc,COUNT(tbl_bikes.id) as bikes_available, tbl_bike_types.type as bike_type_name,tbl_bike_types.id as bike_type_id, tbl_prices.*');
+        $this->db->from('tbl_bike_types');
+        $this->db->join('tbl_bikes', 'tbl_bike_types.id = tbl_bikes.type_id', 'left');
+        $this->db->join('tbl_prices', 'tbl_prices.type_id = tbl_bikes.type_id', 'left');
         $query = $this->db->get();
 
         //echo "<pre>".$this->db->last_query();
@@ -47,14 +43,13 @@ class Searchbike_model extends CI_Model
         {
             return array();
         }
-
-        $this->db->order_by('tbl_bikes.id', 'ASC');
-        $this->db->select('tbl_bikes.*,tbl_bikes.id as bike_id,tbl_manufacturer.name as manufacturer,tbl_bike_types.type as bike_type, tbl_prices.*');
-        $this->db->from('tbl_bikes');
-        $this->db->join('tbl_manufacturer', 'tbl_manufacturer.id = tbl_bikes.manufacturer_id');
-        $this->db->join('tbl_bike_types', 'tbl_bike_types.id = tbl_bikes.type_id');
-        $this->db->join('tbl_prices', 'tbl_prices.type_id = tbl_bikes.type_id');
-        $this->db->where("tbl_bikes.id IN (".$bike_ids.") ");
+        $this->db->group_by('tbl_bike_types.id');
+        $this->db->order_by('tbl_bikes.cc', 'ASC');
+        $this->db->select('tbl_bikes.image,tbl_bikes.milage,tbl_bikes.power,tbl_bikes.cc, COUNT(tbl_bikes.id) as bikes_available, tbl_bike_types.type as bike_type_name,tbl_bike_types.id as bike_type_id, tbl_prices.*');
+        $this->db->from('tbl_bike_types');
+        $this->db->join('tbl_bikes', 'tbl_bike_types.id = tbl_bikes.type_id', 'left');
+        $this->db->join('tbl_prices', 'tbl_prices.type_id = tbl_bikes.type_id', 'left');
+        $this->db->where("tbl_bike_types.id IN (".$bike_ids.") ");
         $query = $this->db->get();
 
         //echo "<pre>".$this->db->last_query();

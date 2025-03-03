@@ -43,10 +43,12 @@
                             <?php 
                             if( isset($cart) && isset($cart['cart_bikes']) )
                             { 
+                                $duration = "";
                                 foreach($cart['cart_bikes'] as $bike) 
                                 {
                                     $rent_price = 0;
-                                    if( $cart['period_days'] > 0 ){
+                                    if( $cart['period_days'] > 0 || $cart['period_hours'] > 4  ){
+                                        $duration = "day";
                                         if( $cart['public_holiday'] == 1 ){
                                             $rent_price = $bike['holiday_day_price'];
                                         }
@@ -56,6 +58,7 @@
                                             $rent_price = $bike['week_day_price'];
                                         }
                                     } else {
+                                        $duration = "halfday";
                                         if( $cart['public_holiday'] == 1 ){
                                             $rent_price = $bike['holiday_day_half_price'];
                                         } elseif( $cart['weekend'] == 1 ){
@@ -67,26 +70,34 @@
 
                                     $total += $rent_price;
                                 ?>
-                                <tr class="bike-row" data-id="<?=$bike['bike_id']?>">
+                                <tr class="bike-row" data-id="<?=$bike['bike_type_id']?>">
                                     <td>
-                                        <h6 class="mb-0"><?=$bike['name']?></h6>
-                                        <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="tire" style="width: 150px;" class="img-fluid">
+                                        <span class="d-block mb-2 fw-bold fa-md w-100 text-center"><?=$bike['bike_type_name']?></span>
+                                        <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid">
                                     </td>
                                     <td>
-                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['pickup_date']))." <b>".$cart['pickup_time']?></b></span>
-                                        <span style="width:30px;display:block;margin:10px;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
-                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['dropoff_date']))." <b>".$cart['dropoff_time']?></b></span>
+                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
+                                        <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['pickup_time']?></b></span>
+                                        <span style="width:30px;display:block;margin:10px;margin-left:35px;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
+                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
+                                        <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['dropoff_time']?></b></span>
                                     </td>
-                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?></td>
+                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="rent_price d-inline-block p-1"><?=$rent_price?></span> / <span class="d-inline-block p-1"><?=$duration?></span></td>
                                     <td>
+                                        <?php if( $bike['bikes_available'] > 1 ){?>
                                         <div class="cart-count d-inline-flex align-items-center">
                                             <button class="cart-minus bg-transparent"><i class="fa-solid fa-minus"></i></button>
-                                            <input type="text" class="cart-input" value="1">
+                                            <input type="text" data-bike="<?=$bike['bike_type_id']?>" data-available="<?=$bike['bikes_available']?>" class="cart-input" value="<?=$bike['quantity']?>">
                                             <button class="cart-plus bg-transparent"><i class="fa-solid fa-plus"></i></button>
                                         </div>
+                                        <?php } else { ?>
+                                        <div class="cart-count d-inline-flex align-items-center">
+                                            <input type="text" disabled class="cart-input" value="<?=$bike['quantity']?>">
+                                        </div>
+                                        <?php } ?>
                                     </td>
-                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?></td>
-                                    <td><button bike-id="<?=$bike['bike_id']?>" class="cart-delete bg-transparent"><i class="fa-solid fa-trash"></i></button></td>
+                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=$rent_price?></span></td>
+                                    <td><button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" class="cart-delete bg-transparent"><i class="fa-solid fa-trash"></i></button></td>
                                 </tr>
                                 <?php } 
                             }
@@ -123,15 +134,15 @@
                             </tr>
                             <tr>
                                 <th class="text-start">Subtotal</th>
-                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$total - round($total * 0.05, 2)?></th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_subtotal d-inline-block p-1"><?=$total - round($total * 0.05, 2)?></span></th>
                             </tr>
                             <tr>
                                 <th class="text-start">GST</th>
-                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=round($total * 0.05, 2)?></th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_gst d-inline-block p-1"><?=round($total * 0.05, 2)?></span></th>
                             </tr>
                             <tr>
                                 <td class="text-start fw-bold">Total</td>
-                                <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$total?></td>
+                                <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block p-1"><?=$total?></span></td>
                             </tr>
                             <tr>
                                 <td class="text-start text-warning fw-bold border-0">Refundable Deposit / Vehicle
@@ -166,40 +177,80 @@
 
 $(document).ready(function(){
 
-    $(".cart-plus").click(function(){
-
+    $(".cart-plus").click(function()
+    {
         var v = $(".cart-input").val();
-        v = parseInt(v) + 1;
-        $(".cart-input").val(v);
+        var available = $(".cart-input").attr('data-available');
+        var bike_id = $(".cart-input").attr('data-bike');
+        var temp = localStorage.getItem("bike_ids");
+        var bike_ids = JSON.parse(temp);
+        if( available > v ) 
+        {
+            v = parseInt(v) + 1;
+            $(".cart-input").val(v);    
+            for (var prop in bike_ids) 
+            {
+                var p = bike_ids[prop];
+                if( p.bike_id == bike_id ){
+                    p.qty = v;
+                }
+                bike_ids[prop] = p;
+            }
+            localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
+        }
+        else
+        {
+            $(".table-bottom").append("<div class='alert alert-danger mt-1 mb-0'>Available limit crossed.</div>");
+            setTimeout(function(){
+                $(".table-bottom").find(".alert").each(function(){
+                  $(this).remove();
+                });
+            }, 2000);
+        }        
     });
 
-    $(".cart-minus").click(function(){
+    $(".cart-minus").click(function()
+    {
+        var bike_id = $(".cart-input").attr('data-bike');
+        var temp = localStorage.getItem("bike_ids");
+        var bike_ids = JSON.parse(temp);
         var v = $(".cart-input").val();
         if( v == 0 ){
             return false;
         }
         v = parseInt(v) - 1;
         $(".cart-input").val(v);
+
+        for (var prop in bike_ids) 
+        {
+            var p = bike_ids[prop];
+            if( p.bike_id == bike_id ){
+                p.qty = v;
+            }
+            bike_ids[prop] = p;
+        }
+        localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
+
     });
 
     $(".cart-delete").click(function(){
 
         var bikesincart = localStorage.getItem("bikesincart");
-        var bike_ids = localStorage.getItem("bike_ids");
+        var temp = localStorage.getItem("bike_ids");
+        var bike_ids = JSON.parse(temp);
 
         var bikeId = $(this).attr("bike-id");
         $(".cartbikes").find('[data-id="'+bikeId+'"]').remove()
         bikesincart = parseInt(bikesincart) - 1;
-        var temp = bike_ids.split(",");
-        temp = temp.filter(item => item !== bikeId);
-        bike_ids = temp.join(",");
+        bike_ids = bike_ids.filter(item => item.bike_id !== bikeId);
         
         console.log(bikesincart);
+        console.log(bike_ids);
         
         localStorage.setItem("bikesincart", bikesincart);
-        localStorage.setItem("bike_ids", bike_ids);
+        localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
 
-        $("#cartform input[name='bike_ids']").val(bike_ids);
+        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
         $("#cartform").submit();       
 
     });

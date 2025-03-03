@@ -16,10 +16,11 @@ class Payment extends CI_Controller {
 
 		$data['cart_bikes'] = array();
 		$data['cart'] = $this->session->userdata("cart");
+		$bike_ids = json_decode($data['cart']['bike_ids']);
 
 		$data['payment_status'] = "Failed";
 		
-		if( isset($data['cart']['bike_ids']) )
+		if( isset($bike_ids) && count($bike_ids) > 0 )
 		{
 			$d1= new DateTime($data['cart']['dropoff_date']." ".$data['cart']['dropoff_time']); // first date
 			$d2= new DateTime($data['cart']['pickup_date']." ".$data['cart']['pickup_time']); // second date
@@ -39,7 +40,13 @@ class Payment extends CI_Controller {
 				$data['cart']['public_holiday'] = 1;
 			}
 
-			$data['cart']['cart_bikes'] = $this->searchbike_model->getCartBikes($data['cart']['bike_ids'], $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time']);
+			$bike_id_string = "";
+			foreach($bike_ids as $i => $obj) 
+			{
+		        $bike_id_string .= ($bike_id_string == "") ? $obj->bike_id: ",".$obj->bike_id;
+		    }
+
+			$data['cart']['cart_bikes'] = $this->searchbike_model->getCartBikes($bike_id_string, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time']);
 
 			$subtotal = 0;
             $gst = 0;
@@ -109,7 +116,6 @@ class Payment extends CI_Controller {
 					$bookingbikes_record = array(
 		            	"booking_id" => $booking_id,
 		            	"type_id" => $bike['type_id'],
-		            	"bike_id" => $bike['bike_id'],
 		            	"quantity" => 1,
 		            	"created_by" => 0,	
 		            );

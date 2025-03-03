@@ -1,14 +1,18 @@
 #whatsapp-widget{
     position: fixed;
     left: 5px;
-    top: 90%;
+    top: 80%;
     transform: translateY(-50%);
     z-index: 1000;
 }
 
 #whatsapp-widget a{
     display:block;
-    margin-bottom:5px;
+    margin-bottom:10px;
+}
+
+#whatsapp-widget a:hover {
+  transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
 #whatsapp-widget img.call-widget{

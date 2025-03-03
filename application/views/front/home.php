@@ -83,7 +83,6 @@
                                 <div class="input-field">
                                     <label>Time</label>
                                     <select id="pickup_time" name="pickup_time" class="form-select">
-                                    	<option value="">Select</option>
                                     </select>
                                 </div>
                                 <div class="input-field">
@@ -95,7 +94,6 @@
                                 <div class="input-field">
                                     <label>Time</label>
                                     <select id="dropoff_time" name="dropoff_time" class="form-select">
-                                    	<option value="">Select</option>
                                     </select>
                                 </div>
                                 <div class="submit-btn align-self-end">
@@ -284,7 +282,7 @@
 <!--about section end-->
 
 <!--countdown section start-->
-<section class="h3-counter-section pt-120 pb-80 position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-shape.png">
+<section class="h3-counter-section pt-80 pb-80 position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-shape.png">
     <div class="overlay position-absolute start-0 top-0 bg-secondary-gradient z--1 w-100 h-100"></div>
     <div class="container">
         <div class="row justify-content-center">
@@ -508,12 +506,17 @@ $(document).ready(function(){
     console.log("Nextday="+today_date);
     // Settime
     setTimeAll($("#pickup_time"));
+    $("#pickup_time option:first").attr('selected','selected');
+
     setTimeAll($("#dropoff_time"));
+    $("#dropoff_time option:last").attr('selected','selected');
   }
   else if( hour <= 7 )
   {
     setTimeAll($("#pickup_time"));
+    $("#pickup_time option:first").attr('selected','selected');
     setTimeAll($("#dropoff_time"));
+    $("#dropoff_time option:last").attr('selected','selected');
   }
   else
   {

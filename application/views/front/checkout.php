@@ -69,7 +69,7 @@
                                 foreach($cart['cart_bikes'] as $bike) 
                                 {
                                     $rent_price = 0;
-                                    if( $cart['period_days'] > 0 ){
+                                    if( $cart['period_days'] > 0 || $cart['period_hours'] > 4  ){
                                         if( $cart['public_holiday'] == 1 ){
                                             $rent_price = $bike['holiday_day_price'];
                                         }
@@ -88,12 +88,14 @@
                                         } 
                                     }
 
-                                    $total += $rent_price;
+                                    $rent_total = round($bike['quantity'] * $rent_price, 2);
+
+                                    $total += $rent_total;
                                 ?>
-                                <tr class="bike-row" data-id="<?=$bike['bike_id']?>">
+                                <tr class="bike-row" data-id="<?=$bike['bike_type_id']?>">
                                     <td>
-                                        <h6 class="mb-0"><?=$bike['name']?></h6>
-                                        <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="tire" style="width: 150px;" class="img-fluid">
+                                        <span class="d-block mb-2 fw-bold fa-md w-100 text-center"><?=$bike['bike_type_name']?></span>
+                                        <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="tire" class="img-fluid">
                                     </td>
                                     <td>
                                         <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['pickup_date']))." <b>".$cart['pickup_time']?></b></span>
@@ -103,10 +105,10 @@
                                     <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?></td>
                                     <td>
                                         <div class="d-flex text-center">
-                                            <span class="d-block m-auto text-center font-normal">1</span>
+                                            <span class="d-block m-auto text-center font-normal"><?=$bike['quantity']?></span>
                                         </div>
                                     </td>
-                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?></td>
+                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_total?></td>
                                 </tr>
                                 <?php } 
                             }

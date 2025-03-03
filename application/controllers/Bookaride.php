@@ -20,16 +20,14 @@ class Bookaride extends CI_Controller {
 		$data['period_hours'] = "";
 		$data['weekend'] = 0;
 		$data['public_holiday'] = 0;
-		$data['bike_type'] = 0;
-
+		
 		if( isset($_POST) && count($_POST) > 0 )
 		{
 			$data['pickup_date'] = $this->input->post('pickup_date');
 			$data['pickup_time'] = $this->input->post('pickup_time');
 			$data['dropoff_date'] = $this->input->post('dropoff_date');
 			$data['dropoff_time'] = $this->input->post('dropoff_time');
-			$data['bike_type'] = $this->input->post('bike_type');
-
+			
 			$d1= new DateTime($data['dropoff_date']." ".$data['dropoff_time']); // first date
 			$d2= new DateTime($data['pickup_date']." ".$data['pickup_time']); // second date
 			$interval= $d1->diff($d2); // get difference between two dates
@@ -48,7 +46,7 @@ class Bookaride extends CI_Controller {
 				$data['public_holiday'] = 1;
 			}
 
-			$data['available_bikes'] = $this->searchbike_model->getAvailableBikes($data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time'], $data['bike_type']);
+			$data['available_bikes'] = $this->searchbike_model->getAvailableBikes($data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time']);
 		}
 	
         $this->load->view('layout/header', $data);
