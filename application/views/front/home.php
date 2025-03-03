@@ -21,6 +21,10 @@
                             <span class="slide-index text-dark position-absolute fw-bold">Honda Dio</span>
                         </div>
                         <div class="hero-bike-single position-relative swiper-slide">
+                            <img src="bikes/bg/fascino.png" alt="bike" class="img-fluid">
+                            <span class="slide-index text-dark position-absolute fw-bold">Yahama Fascino</span>
+                        </div>
+                        <div class="hero-bike-single position-relative swiper-slide">
                             <img src="bikes/bg/royal_enfield_classic_350.png" alt="bike" class="img-fluid">
                             <span class="slide-index text-dark position-absolute fw-bold">Royal Enfield Clasic 350</span>
                         </div>
@@ -29,14 +33,18 @@
                             <span class="slide-index text-dark position-absolute fw-bold">Bajaj Pulsar 150</span>
                         </div>
                         <div class="hero-bike-single position-relative swiper-slide">
+                            <img src="bikes/bg/1823744792.png" alt="bike" class="img-fluid">
+                            <span class="slide-index text-dark position-absolute fw-bold">Bajaj Pulsar 220</span>
+                        </div>
+                        <div class="hero-bike-single position-relative swiper-slide">
                             <img src="bikes/bg/bajaj_avenger_220.png" alt="bike" class="img-fluid">
-                            <span class="slide-index text-dark position-absolute fw-bold">Bajaj Avenger 220</span>
+                            <span class="slide-index text-dark position-absolute fw-bold">Bajaj Avenger</span>
                         </div>
                     </div>
                     <div class="bike-slider-pagination"></div>
                     <div class="bike-pagination-text">
-                        <span>Harley-Davidson</span>
-                        <span>Roadster Bike</span>
+                        <span>Honda Activa</span>
+                        <span>Bajaj Avenger</span>
                     </div>
                 </div>
             </div>
