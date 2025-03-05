@@ -8,6 +8,16 @@ function dateformatdb($date)
 }
 
 
+function result_to_array($result)
+{
+    $data = array();
+    foreach($result as $index => $row) 
+    {
+        $data[ $row['id'] ] = $row['type'];
+    }
+    return $data;
+}
+
 /**
  * This function is used to print the content of any data
  */

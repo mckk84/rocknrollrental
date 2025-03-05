@@ -2,12 +2,40 @@
 <section class="moto-rent-hero position-relative overflow-hidden z-1 bg-texture-gradient" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-xl-6 col-sm-12">
-                <div class="moto-rent-hero-content">
-                    <h1 class="display-4 md-heading-bold text-white mb-4">Welcome to <mark class="p-0 bg-transparent text-md-primary">Rock N Roll </mark> Rentals</h1>
-                    <h4 class="text-white fw-normal mb-5">A RTO authorized bike rental firm in Chikmagaluru. We offer affordable riding experience for our travelers to discover places in and around the town with ease.</h4>
-                    
-                </div>
+            <div class="col-xl-6 col-sm-12 px-4 py-4 ">
+                <form method="POST" action="<?=base_url('Bookaride')?>" class="row d-flex align-items-center bg-white rounded mx-4 my-4">
+                    <div class="col-xl-12 mt-4 px-4 pt-4">
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <label class="text-dark mb-2">Pickup Date</label>
+                                <input type="text" name="pickup_date" id="pickup_date" class="theme-date-input text-dark border w-100 rounded-2" placeholder="">
+                            </div>
+                            <div class="col-xl-6">
+                                <label class="text-dark mb-2">Time</label>
+                                <select id="pickup_time" name="pickup_time" class="form-select">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 mt-4 px-4 pt-4">
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <label class="text-dark mb-2">Dropping off date</label>
+                                <input type="text" name="dropoff_date" id="dropoff_date" class="theme-date-input text-dark border w-100 rounded-2" placeholder="">
+                            </div>
+                            <div class="col-xl-6">
+                                <label class="text-dark mb-2">Time</label>
+                                <select id="dropoff_time" name="dropoff_time" class="form-select">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 mt-2 px-4 pt-2 mb-4">
+                        <div class="text-end">
+                            <button class="btn btn-primary" type="submit">Search Now</button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="d-none d-xl-block col-xl-6">
                 <div class="hero-bike-slider position-relative z-5 swiper">
@@ -63,7 +91,7 @@
 </section>
 
 <!--search box -->
-<div class="at-search-box">
+<!-- <div class="at-search-box">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -106,7 +134,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!--search box end-->
 
 <!--about section start-->

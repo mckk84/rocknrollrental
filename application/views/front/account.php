@@ -14,115 +14,109 @@
             </div>
         </section>
         <!--breadcrumb section end-->
-  
-        <!--car listing section start-->
-        <section class="car-listing-section ptb-120">
+
+        <!--product details tab-section-->
+        <section class="product-details-tab-section pb-120 pt-60">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-3">
-                        <div class="car_listing_sidebar">
-                            <h4 class="mb-2">Your Information</h4>
-                            <div class="car_listing_nav mt-4">
-                                <ul>
-                                    <li><a href="#basic" class="active">Your Info</a></li>
-                                    <li><a href="#price">Change Password</a></li>
-                                    <li><a href="#info">Rental History</a></li>
-                                </ul>
-                            </div>
+                        <div class="product-details-tab-content bg-white border">
+                            <ul class="account_tabs nav nav-tabs py-3 px-4 border-0 mt-0">
+                                <li class="d-inline-block px-1 m-1 w-100"><a href="#basicinfo" id="tab_basicinfo" data-bs-toggle="tab" class="active"><i class="fa fa-user me-2"></i>Basic Info</a></li>
+                                <li class="d-inline-block px-1 m-1 w-100"><a href="#changepassword" id="tab_changepassword" data-bs-toggle="tab"><i class="fa fa-gear me-2"></i>Change Password</a></li>
+                                <li class="d-inline-block px-1 m-1 w-100"><a href="#rentals" data-bs-toggle="tab" id="tab_rentals"><i class="fa fa-book me-2"></i>Rentals</a></li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-xl-9">
-                        <div class="car_listing_form w-100">
-                            
-                                <div class="listing_info_box border bg-white rounded" id="basic">
-                                    <h5 class="mb-4">Welcome Back!</h5>
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="d-flex justify-content-between">
-                                                <label>Name</label>
-                                                <span class="text-dark fw-bold"><?=$record['name']?></span>
-                                            </div>
+                    <div class="col-xl-9 border">
+                            <div class="product-details-tab-content">
+                                <div class="tab-content mt-0">
+                                    <div class="tab-pane fade show active" id="basicinfo">
+                                        <div class="description-tab-box bg-white pt-20 pb-20 px-4 rounded" id="specification">
+                                            <h6 class="py-3 px-4 rounded bg-color">Basic Information</h6>
+                                            <table>
+                                                <tr>
+                                                    <td>Name:</td>
+                                                    <td><?=$record['name']?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Email:</td>
+                                                    <td><?=$record['email']?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Phone:</td>
+                                                    <td>+91 <?=$record['phone']?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Registered Since:</td>
+                                                    <td><?=date("d M Y", strtotime($record['created_date']))?></td>
+                                                </tr>
+                                            </table>
                                         </div>
-                                        <div class="col-md-8">
-                                            <div class="d-flex justify-content-between mt-2">
-                                                <label>Email</label>
-                                                <span class="text-dark fw-bold"><?=$record['email']?></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="d-flex justify-content-between mt-2">
-                                                <label>Phone</label>
-                                                <span class="text-dark fw-bold">+91 <?=$record['phone']?></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="d-flex justify-content-between mt-2">
-                                                <label>Registered since</label>
-                                                <span class="text-dark fw-bold"><?=date("d-m-Y", strtotime($record['created_date']))?></span>
+                                    </div>
+                                    <div class="tab-pane fade" id="changepassword">
+                                        <div class="description-tab-box bg-white pt-20 pb-20 px-4 rounded" id="specification">
+                                            <h6 class="py-3 px-4 rounded bg-color">Change Password</h6>
+                                            <div class="row">
+                                                <div class="col-8">
+                                                    <form class="form-control" id="update-password" method="POST" action="<?=base_url('Auth/changepassword')?>">
+                                                        <div class="col-12 col-sm-6">
+                                                            <div class="input-field">
+                                                                <label for="cp">Current Password</label>
+                                                                <input type="password" class="form-control" autocomplete="off" id="cp" name="current_password" value="" required>
+                                                            </div>
+                                                            <div class="input-field">
+                                                                <label>New Password</label>
+                                                                <div class="meta-checkbox mt-1">
+                                                                    <input type="password" class="form-control" autocomplete="off" name="new_password" value="" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="input-field">
+                                                                <label>Retype Password</label>
+                                                                <div class="meta-checkbox mt-1">
+                                                                    <input type="password" class="form-control" autocomplete="off" name="retype_password" value="" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="input-field mt-4">
+                                                                <button type="button" class="update-password btn btn-primary">Update</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="listing_info_box border bg-white rounded mt-40" id="price">
-                                    <h4 class="mb-4">Change Password</h4>
-                                    <div class="row">
-                                        <form class="form-control" id="update-password" method="POST" action="<?=base_url('Auth/changepassword')?>">
-                                            <div class="col-6 col-sm-5">
-                                                <div class="input-field">
-                                                    <label for="cp">Current Password</label>
-                                                    <input type="password" autocomplete="off" id="cp" name="current_password" value="" required>
-                                                </div>
-                                                <div class="input-field">
-                                                    <label>New Password</label>
-                                                    <div class="meta-checkbox mt-1">
-                                                        <input type="password" autocomplete="off" name="new_password" value="" required>
-                                                    </div>
-                                                </div>
-                                                <div class="input-field">
-                                                    <label>Retype Password</label>
-                                                    <div class="meta-checkbox mt-1">
-                                                        <input type="password" autocomplete="off" name="retype_password" value="" required>
-                                                    </div>
-                                                </div>
-                                                <div class="input-field mt-4">
-                                                    <button type="button" class="update-password btn btn-primary">Update</button>
-                                                </div>
+                                    <div class="tab-pane fade" id="rentals">
+                                        <div class="description-tab-box bg-white rounded pt-20 pb-20 px-4">
+                                            <h6 class="py-3 px-4 rounded bg-color">Rentals</h6>
+                                            <?php if( isset($rentals) && count($rentals) == 0 ){ ?>
+                                            <div class="row g-4">
+                                                <span class="text-dark m-2 p-2">No records found.</span>                                    
                                             </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="listing_info_box border bg-white rounded mt-40" id="info">
-                                    <h5 class="mb-4">Rental History</h5>
-                                    <?php if( isset($rentals) && count($rentals) == 0 ){ ?>
-                                    <div class="row g-4">
-                                        <span class="text-dark m-2 p-2">No records found.</span>                                    
-                                    </div>
-                                    <?php } else { ?>
-                                    <div class="row g-4">
-                                        <div class="col-12">
-                                            <div class="shopping-cart-left">
-                                                <?php 
-                                                $subtotal = 0;
-                                                $gst = 0;
-                                                $total = 0;
-                                                ?>
-                                                <div class="table-content table-responsive table-bordered bg-white rounded">
-                                                    <table class="table cartbikes">
-                                                        <tr class="bg-eq-primary">
-                                                            <th>Booking Id</th>
-                                                            <th>Quantity</th>
-                                                            <th>Period</th>
-                                                            <th>Total</th>
-                                                            <th>Paid</th>
-                                                            <th>Status</th>
-                                                        </tr>
-                                                        <?php foreach($rentals as $row) { ?>
+                                            <?php } else { ?>
+                                            <div class="row g-4">
+                                                <div class="col-12">
+                                                    <?php $subtotal = 0;$gst = 0;$total = 0;?>
+                                                    <div class="table border table-responsive bg-white rounded">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr class="bg-color">
+                                                                    <th>Booking Id</th>
+                                                                    <th>Quantity</th>
+                                                                    <th>Period</th>
+                                                                    <th>Total</th>
+                                                                    <th>Paid</th>
+                                                                    <th>Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <?php foreach($rentals as $row) { ?>
                                                             <tr>
                                                                 <td>
-                                                                    <h6 class="mb-0">#<?=$row['id']?></h6>
+                                                                    <?=$row['id']?>
                                                                 </td>
                                                                 <td>
-                                                                    <h6 class="mb-0"><?=$row['quantity']?></h6>
+                                                                    <?=$row['quantity']?>
                                                                 </td>
                                                                 <td>
                                                                     <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($row['pickup_date']))." <b>".$row['pickup_time']?></b></span>
@@ -140,16 +134,41 @@
                                                                 </td>
                                                             </tr>
                                                             <?php } ?>
-                                                    </table>
-                                                </div>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>                                                                            
                                             </div>
-                                        </div>                                                                            
+                                            <?php } ?>
+                                        </div>
                                     </div>
-                                    <?php } ?>
+                                </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!--car listing section end-->
+        <!--product details tab section end-->
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function(){
+
+                /*$(".account_tabs").find("a.btn_link").each(function(){
+                    $(this).removeClass('active');
+                });
+
+                $(".account_tabs").find("a.btn_link").eq(0).addClass('active');*/
+
+                /*$(".account_tabs a.btn_link").click(function(){
+
+                    $(".account_tabs").find("a.btn_link.active").eq(0).removeClass('active');
+
+                    $(this).addClass('active');
+                    return true;
+                });*/
+
+            });
+
+        </script>
