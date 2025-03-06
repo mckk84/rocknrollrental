@@ -263,6 +263,54 @@
 <!--latest collection end-->
 <?php } ?>
 
+<!--staff area start-->
+        <section class="staff-area ptb-80 bg-md-primary">
+            <div class="container">
+                <div class="row justify-content-center ">
+                    <div class="col-xl-6 col-lg-7">
+                        <div class="title-style-2 text-center">
+                            <span class="subtitle lead text-secondary">Our Plan Includes</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="staff-list mt-4">
+                    <div class="ct-row d-flex align-items-center justify-content-center flex-wrap">
+                        <div class="col-1 single-icon text-center">
+                            <img src="assets/img/icons/helmet.svg" alt="staff" class="img-fluid">
+                            <span class="mb-1 mt-2">Helmets</span>
+                        </div>
+                    
+                        <div class="col-1 single-icon text-center">
+                            <img src="assets/img/icons/assistance.svg" alt="staff" class="img-fluid">
+                            <span class="mb-1 mt-2">Assistance</span>
+                        </div>
+                    
+                        <div class="col-1 single-icon text-center">
+                            <img src="assets/img/icons/insurance.svg" alt="staff" class="img-fluid">
+                            <span class="mb-1 mt-2">Insurance</span>
+                        </div>
+                    
+                        <div class="col-1 single-icon text-center">
+                            <img src="assets/img/icons/cancellation.svg" alt="staff" class="img-fluid">
+                            <span class="mb-1 mt-2">Cancellation</span>
+                        </div>
+                    
+                        <div class="col-1 single-icon text-center">
+                            <img src="assets/img/icons/discount.svg" alt="staff" class="img-fluid">
+                            <span class="mb-1 mt-2">Discounts</span>
+                        </div>
+                    
+                        <div class="col-1 single-icon text-center">
+                            <img src="assets/img/icons/road-permit.svg" alt="staff" class="img-fluid">
+                            <span class="mb-1 mt-2">State Permit</span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--staff area end-->
+
 <!--about section start-->
 <section class="about-section pt-80 pb-80 bg-primary-light position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/about-bg.jpg">
     <img src="<?=base_url()?>/assets/img/shapes/tire-primary-light.png" alt="tire" class="tire-primary-light position-absolute end-0 top-0 z--1">
@@ -599,6 +647,7 @@ $(document).ready(function(){
   $("#pickup_date").datetimepicker({
     format: 'DD-MM-Y',
     minDate:moment(today_date),
+    defaultDate:moment(today_date),
     icons: {
       time: "fa-solid fa-clock"
     }
@@ -608,9 +657,7 @@ $(document).ready(function(){
     var temp = pickupdate.split('-');
     pickupdate = temp[2]+"-"+temp[1]+"-"+temp[0];
     $("#dropoff_date").datetimepicker('minDate', moment(pickupdate));
-
     var pd = $("#pickup_date").val();
-
     const date1 = moment(today_date);
     const date2 = moment(dateformatstring(pd));
     
@@ -627,12 +674,12 @@ $(document).ready(function(){
         $("#pickup_time").empty();
         setTimeSpecial($("#pickup_time"), hour);
     }
-
   });
 
   $("#dropoff_date").datetimepicker({
     format: 'DD-MM-Y',
     minDate:moment(today_date),
+    defaultDate:moment(today_date),
     icons: {
       time: "fa-solid fa-clock"
     }

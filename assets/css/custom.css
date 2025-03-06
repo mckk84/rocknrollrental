@@ -55,3 +55,27 @@
 .cart-sidebar table th, .cart-sidebar table td{
     padding: 12px 20px;
 }
+
+.single-icon:hover {
+    box-shadow: 0px 2px 5px rgba(0, 0, 0,.5);
+}
+
+.single-icon {
+    background: #fff;
+    padding: 10px;
+    border-radius: 25px;
+    border: 1px solid lavender;
+}
+
+.single-icon span{
+    display: block;
+    width: 100%;
+    font-size: 14px;
+}
+
+.single-icon img{
+    display: block;
+    width: 30px;
+    margin: auto;
+    margin-top: 5px;
+}
