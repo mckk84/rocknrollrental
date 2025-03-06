@@ -7,7 +7,7 @@
                     <div class="col-xl-12 mt-4 px-4 pt-4">
                         <div class="row">
                             <div class="col-xl-6">
-                                <label class="text-dark mb-2">Pickup Date</label>
+                                <label class="text-dark mb-2">Pickup date</label>
                                 <input type="text" name="pickup_date" id="pickup_date" class="theme-date-input text-dark border w-100 rounded-2" placeholder="">
                             </div>
                             <div class="col-xl-6">
@@ -212,12 +212,12 @@
                         <a href="#" class="icon-btn wish-btn position-absolute"><i class="fa-solid fa-heart"></i></a> -->
                         <!-- <span class="date position-absolute">2017</span> -->
                         <div class="feature-thumb position-relative overflow-hidden">
-                            <a href="inventory-details.html"><img src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid"></a>
+                            <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid">
                         </div>
                         <div class="filter-card-content">
-                            <a href="inventory-details.html" class="mt-4 d-block">
+                            <div class="mt-4 d-block">
                                 <h5><?=$bike['bike_type_name']?></h5>
-                            </a>
+                            </div>
                             <span class="meta-content"><strong class="text-primary">UNLIMITED KILOMETERS</strong></span>
                             <hr class="spacer mt-3 mb-3">
                             <div class="card-feature-box d-flex align-items-center mb-4">
@@ -251,7 +251,7 @@
                                     <?=$bike['power']?>
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" class="btn outline-btn btn-sm d-block">Customize</a>
+                            <a href="javascript:void(0)" data-bikeid="<?=$bike['bike_type_id']?>" data-bikename="<?=$bike['bike_type_name']?>" class="customize btn outline-btn btn-sm d-block">Customize</a>
                         </div>
                     </div>
                 </div>
@@ -264,52 +264,52 @@
 <?php } ?>
 
 <!--staff area start-->
-        <section class="staff-area ptb-80 bg-md-primary">
-            <div class="container">
-                <div class="row justify-content-center ">
-                    <div class="col-xl-6 col-lg-7">
-                        <div class="title-style-2 text-center">
-                            <span class="subtitle lead text-secondary">Our Plan Includes</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="staff-list mt-4">
-                    <div class="ct-row d-flex align-items-center justify-content-center flex-wrap">
-                        <div class="col-1 single-icon text-center">
-                            <img src="assets/img/icons/helmet.svg" alt="staff" class="img-fluid">
-                            <span class="mb-1 mt-2">Helmets</span>
-                        </div>
-                    
-                        <div class="col-1 single-icon text-center">
-                            <img src="assets/img/icons/assistance.svg" alt="staff" class="img-fluid">
-                            <span class="mb-1 mt-2">Assistance</span>
-                        </div>
-                    
-                        <div class="col-1 single-icon text-center">
-                            <img src="assets/img/icons/insurance.svg" alt="staff" class="img-fluid">
-                            <span class="mb-1 mt-2">Insurance</span>
-                        </div>
-                    
-                        <div class="col-1 single-icon text-center">
-                            <img src="assets/img/icons/cancellation.svg" alt="staff" class="img-fluid">
-                            <span class="mb-1 mt-2">Cancellation</span>
-                        </div>
-                    
-                        <div class="col-1 single-icon text-center">
-                            <img src="assets/img/icons/discount.svg" alt="staff" class="img-fluid">
-                            <span class="mb-1 mt-2">Discounts</span>
-                        </div>
-                    
-                        <div class="col-1 single-icon text-center">
-                            <img src="assets/img/icons/road-permit.svg" alt="staff" class="img-fluid">
-                            <span class="mb-1 mt-2">State Permit</span>
-                        </div>
-                        
-                    </div>
+<section class="staff-area ptb-80 bg-md-primary">
+    <div class="container">
+        <div class="row justify-content-center ">
+            <div class="col-xl-6 col-lg-7">
+                <div class="title-style-2 text-center">
+                    <span class="subtitle lead text-secondary">Our Plan Includes</span>
                 </div>
             </div>
-        </section>
-        <!--staff area end-->
+        </div>
+        <div class="staff-list mt-4">
+            <div class="ct-row d-flex align-items-center justify-content-center flex-wrap">
+                <div class="col-1 single-icon text-center">
+                    <img src="assets/img/icons/helmet.svg" alt="staff" class="img-fluid">
+                    <span class="mb-1 mt-2">Helmets</span>
+                </div>
+            
+                <div class="col-1 single-icon text-center">
+                    <img src="assets/img/icons/assistance.svg" alt="staff" class="img-fluid">
+                    <span class="mb-1 mt-2">Assistance</span>
+                </div>
+            
+                <div class="col-1 single-icon text-center">
+                    <img src="assets/img/icons/insurance.svg" alt="staff" class="img-fluid">
+                    <span class="mb-1 mt-2">Insurance</span>
+                </div>
+            
+                <div class="col-1 single-icon text-center">
+                    <img src="assets/img/icons/cancellation.svg" alt="staff" class="img-fluid">
+                    <span class="mb-1 mt-2">Cancellation</span>
+                </div>
+            
+                <div class="col-1 single-icon text-center">
+                    <img src="assets/img/icons/discount.svg" alt="staff" class="img-fluid">
+                    <span class="mb-1 mt-2">Discounts</span>
+                </div>
+            
+                <div class="col-1 single-icon text-center">
+                    <img src="assets/img/icons/road-permit.svg" alt="staff" class="img-fluid">
+                    <span class="mb-1 mt-2">State Permit</span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<!--staff area end-->
 
 <!--about section start-->
 <section class="about-section pt-80 pb-80 bg-primary-light position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/about-bg.jpg">
@@ -641,7 +641,6 @@ $(document).ready(function(){
     $("#dropoff_time").empty();
     console.log(hour);
     setTimeSpecial($("#dropoff_time"), hour);
-
   });
 
   $("#pickup_date").datetimepicker({
@@ -668,11 +667,18 @@ $(document).ready(function(){
     {
         $("#pickup_time").empty();
         setTimeAll($("#pickup_time"));
+
+        $("#dropoff_time").empty();
+        setTimeAll($("#dropoff_time"));
+        $("#dropoff_time option:last").attr('selected','selected');
     }
     else
     {
         $("#pickup_time").empty();
         setTimeSpecial($("#pickup_time"), hour);
+        $("#dropoff_time").empty();
+        setTimeSpecial($("#dropoff_time"), hour);
+        $("#dropoff_time option:last").attr('selected','selected');
     }
   });
 
@@ -706,6 +712,167 @@ $(document).ready(function(){
         $("#dropoff_time").empty();
         setTimeSpecial($("#dropoff_time"), hour);
     }
+  });
+
+
+  $(".customize").click(function(){
+
+    var bikeId = $(this).attr("data-bikeid");
+    var bikeName = $(this).attr("data-bikename");
+
+    $("#bike_customize .card-title").text(bikeName);
+
+    $("#bike_customize").modal('show');
+
+    var today = new Date();
+    var today_date = getdateformat(today);
+    var hour = today.getHours();
+    console.log("="+today_date);
+    console.log(hour);
+    hour = hour + 1;
+    let pickupdate = today_date;
+
+    if( hour >= 20 )
+    {
+        var date = new Date();
+        date.setDate(date.getDate() + 1);
+        today_date = getdateformat(date);
+        console.log("Nextday="+today_date);
+        // Settime
+        
+        setTimeAll($("#custom_bike #pickup_time"));
+        $("#custom_bike #pickup_time option:first").attr('selected','selected');
+
+
+        setTimeAll($("#custom_bike #dropoff_time"));
+        $("#custom_bike #dropoff_time option:last").attr('selected','selected');
+    }
+    else if( hour <= 7 )
+    {
+        setTimeAll($("#custom_bike #pickup_time"));
+        $("#custom_bike #pickup_time option:first").attr('selected','selected');
+        
+        setTimeAll($("#custom_bike #dropoff_time"));
+        $("#custom_bike #dropoff_time option:last").attr('selected','selected');
+    }
+    else
+    {
+        setTimeSpecial($("#custom_bike #pickup_time"), hour);
+
+        setTimeAll($("#custom_bike #dropoff_time"));
+    }
+
+    $("#custom_bike #pickup_time").change(function(){
+        console.log($(this).val());
+        let val = $(this).val().split(":");
+        let hour = parseInt(val[0]);
+        let mam = val[1].split(" ");
+        let min = mam[0];
+        let ampm = mam[1];
+
+        console.log(val);
+        if( ampm == "PM" )
+        {
+          console.log(ampm);
+          if( hour >= 1 && hour <= 7 )
+          {
+            console.log(hour);
+            hour = hour + 13;
+            console.log(hour);
+          }
+          else if( hour == 12 )
+          {
+            console.log(hour);
+            hour = 13;
+            console.log(hour);
+          }
+          if( hour == 8 )
+          {
+            var date = new Date(pickupdate);
+            date.setDate(date.getDate() + 1);
+            pickupdate = getdateformat(date);
+            $("#custom_bike #dropoff_date").datetimepicker('minDate', moment(pickupdate));
+            hour = 7;
+          }
+        }
+        else
+        {
+          hour = hour + 1;
+        }
+        $("#custom_bike #dropoff_time").empty();
+        console.log(hour);
+        setTimeSpecial($("#custom_bike #dropoff_time"), hour);
+    });
+
+    $("#custom_bike #pickup_date").datetimepicker({
+        format: 'DD-MM-Y',
+        minDate:moment(today_date),
+        defaultDate:moment(today_date),
+        icons: {
+          time: "fa-solid fa-clock"
+        }
+    }).on('dp.change', function(e) {
+        console.log('Pickup date');
+        pickupdate = $(this).val();
+        var temp = pickupdate.split('-');
+        pickupdate = temp[2]+"-"+temp[1]+"-"+temp[0];
+        $("#custom_bike #dropoff_date").datetimepicker('minDate', moment(pickupdate));
+        var pd = $("#custom_bike #pickup_date").val();
+        const date1 = moment(today_date);
+        const date2 = moment(dateformatstring(pd));
+
+        const duration = moment.duration(date2 - date1);
+        const res = duration.as('hours');
+        console.log('pickupdate-today='+res+"hours");
+        if( res >= 24 )
+        {
+            $("#custom_bike #pickup_time").empty();
+            setTimeAll($("#custom_bike #pickup_time"));
+            $("#custom_bike #pickup_time option:first").attr('selected','selected');
+
+            $("#custom_bike #dropoff_time").empty();
+            setTimeAll($("#custom_bike #dropoff_time"));
+            $("#custom_bike #dropoff_time option:last").attr('selected','selected');
+        }
+        else
+        {
+            $("#custom_bike #pickup_time").empty();
+            setTimeSpecial($("#custom_bike #pickup_time"), hour);
+        }
+    });
+
+    $("#custom_bike #dropoff_date").datetimepicker({
+    format: 'DD-MM-Y',
+    minDate:moment(today_date),
+    defaultDate:moment(today_date),
+    icons: {
+      time: "fa-solid fa-clock"
+    }
+    }).on('dp.change', function(e) {
+    console.log('Dropoff date');
+    console.log();
+
+    var pd = $("#custom_bike #pickup_date").val();
+    var dp = $(this).val();
+
+    const date1 = moment(dateformatstring(pd));
+    const date2 = moment(dateformatstring(dp));
+
+    const duration = moment.duration(date2 - date1);
+    const res = duration.as('hours');
+    console.log('pickupdate-drop='+res+"hours");
+    if( res >= 24 )
+    {
+        $("#custom_bike #dropoff_time").empty();
+        setTimeAll($("#custom_bike #dropoff_time"));
+    }
+    else
+    {
+        $("#custom_bike #dropoff_time").empty();
+        setTimeSpecial($("#custom_bike #dropoff_time"), hour);
+    }
+    });
+
 
   });
 

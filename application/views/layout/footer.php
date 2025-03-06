@@ -1,12 +1,12 @@
-<div id="whatsapp-widget">
-  <a title="Whatsapp Us" href="https://api.whatsapp.com/send?phone=919980318883&amp;text=Hi!%20Can%20I%20get%20more%20information%20on%20this?" target="_blank">
-    <img width="64" height="64" style="border-radius:25px;" src="<?=base_url('assets/images/whatsapp.png')?>" alt="whatsapp--v1">
-  </a>
-  <a title="Call Us"  class="call-widget" href="tel:+919980318883" target="_blank">
-    <img width="64" height="64" src="<?=base_url('assets/images/call.png')?>" alt="call">
-  </a>
-</div>
-<!--footer section start-->
+        <div id="whatsapp-widget">
+          <a title="Whatsapp Us" href="https://api.whatsapp.com/send?phone=919980318883&amp;text=Hi!%20Can%20I%20get%20more%20information%20on%20this?" target="_blank">
+            <img width="64" height="64" style="border-radius:25px;" src="<?=base_url('assets/images/whatsapp.png')?>" alt="whatsapp--v1">
+          </a>
+          <a title="Call Us"  class="call-widget" href="tel:+919980318883" target="_blank">
+            <img width="64" height="64" src="<?=base_url('assets/images/call.png')?>" alt="call">
+          </a>
+        </div>
+        <!--footer section start-->
         <footer class="footer-section">
             <div class="footer-wrapper pt-50 position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
                 <div class="container">
@@ -116,6 +116,92 @@
 
     </div>
     <!-- main content wrapper ends -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="bike_customize">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content product_modal px-4 py-4">
+                <div class="at_product_view">
+                    <div class="card w-100 bg-light">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h1 class="card-title h4"></h1>
+                            </div>
+                            <div class="mt-2 mb-4">
+                                <form id="custom_bike" method="POST" action="<?=base_url('Bookaride')?>" class="custom_bike row d-flex align-items-center mx-1 my-2">
+                                    <div class="col-xl-12 mt-2 px-1 pt-1">
+                                        <div class="row">
+                                            <div class="col-xl-6 col-sm-12">
+                                                <label class="text-black font-sm mb-1">Pickup</label>
+                                                <div class="row px-2">
+                                                    <div class="col-xl-6">
+                                                        <input type="text" name="pickup_date" id="pickup_date" class="w-100 theme-date-input text-dark border rounded-2" placeholder="">
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <select id="pickup_time" name="pickup_time" class="form-select">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6  col-sm-12">
+                                                <label class="text-black font-sm mb-1">Dropoff</label>
+                                                <div class="row px-2">
+                                                    <div class="col-xl-6">
+                                                        <input type="text" name="dropoff_date" id="dropoff_date" class="w-100 theme-date-input text-dark border rounded-2" placeholder="">
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <select id="dropoff_time" name="dropoff_time" class="form-select">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 mt-2 px-2 pt-1">
+                                        <div class="row">
+                                            <div class="col-xl-6 col-sm-12">
+                                                <label class="text-black font-sm mb-1">Pickup</label>
+                                                <p class="font-sm"><i class="fa fa-location"></i>&nbsp;Chokanna Street, near Mayura Hotel Opp: Sai Angels School, Chikkamagaluru, Karnataka 577101</p>
+                                            </div>
+                                            <div class="col-xl-6 col-sm-12">
+                                                <label class="text-black font-sm mb-1">Dropoff</label>
+                                                <p class="font-sm"><i class="fa fa-location"></i>&nbsp;Chokanna Street, near Mayura Hotel Opp: Sai Angels School, Chikkamagaluru, Karnataka 577101</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 mt-2 px-2 pt-2">
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <div class="cart-count d-flex justify-content-center">
+                                                    <button class="cart-minus bg-transparent"><i class="fa-solid fa-minus"></i></button>
+                                                    <input type="text" class="cart-input text-center text-black" value="1">
+                                                    <button class="cart-plus bg-transparent"><i class="fa-solid fa-plus"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-xl-12 mt-2 px-2 pt-2">
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <label class="text-dark mb-2">Availability</label>
+                                                <p><i class="fa fa-check"></i></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 mt-2 px-2 pt-2 mb-2">
+                                        <div class="text-end">
+                                            <button class="btn btn-primary" type="submit">Book Now</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="at_product_view">

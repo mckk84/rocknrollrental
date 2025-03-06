@@ -79,3 +79,40 @@
     margin: auto;
     margin-top: 5px;
 }
+
+.bg-light{
+    background-color: #f8f9fa !important;
+}
+
+.font-sm {
+    font-size: 12px;
+}
+
+.custom_bike .col-xl-6{
+    padding: 2px;
+}
+
+.custom_bike input {
+    padding: 10px 5px;
+    border: 0;
+    font-size: 12px;
+    outline: 0;
+    color: #ddd;
+}
+
+.custom_bike .form-select {
+    padding: 10px 5px;
+    font-size: 12px;
+}
+
+.custom_bike table { 
+    table-layout: fixed; 
+}
+
+.custom_bike table tr { 
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.datepicker {
+  z-index: 2050 !important; /* has to be larger than 1050 */
+}
