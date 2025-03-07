@@ -88,31 +88,33 @@
     font-size: 12px;
 }
 
+.font-md {
+    font-size: 14px;
+}
+
 .custom_bike .col-xl-6{
     padding: 2px;
 }
 
 .custom_bike input {
-    padding: 10px 5px;
+    padding: 10px 10px;
     border: 0;
-    font-size: 12px;
+    font-size: 14px;
     outline: 0;
-    color: #ddd;
 }
 
 .custom_bike .form-select {
-    padding: 10px 5px;
-    font-size: 12px;
+    padding: 10px 10px;
+    font-size: 14px;
+    color: black;
 }
 
-.custom_bike table { 
-    table-layout: fixed; 
+.cart-minus:hover, .cart-plus:hover{
+    background-color: #FFDC00 !important;
+    color: #000 !important;
+    border: 1px solid #FFDC00 !important;
 }
 
-.custom_bike table tr { 
-    border-bottom: 1px solid #f8f9fa;
-}
-
-.datepicker {
-  z-index: 2050 !important; /* has to be larger than 1050 */
+.border-bottom-primary{
+    border-bottom: 1px solid #FFDC00 !important;
 }

@@ -119,78 +119,68 @@
 
     <!-- Modal -->
     <div class="modal fade" id="bike_customize">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content product_modal px-4 py-4">
                 <div class="at_product_view">
-                    <div class="card w-100 bg-light">
-                        <div class="card-body">
+                    <div class="card w-100 bg-white border-0"  style="max-width: 480px;">
+                        <div class="card-body p-1">
                             <div class="text-center">
-                                <h1 class="card-title h4"></h1>
+                                <span class="card-title fw-bold mb-1 fs-5"></span>
                             </div>
-                            <div class="mt-2 mb-4">
-                                <form id="custom_bike" method="POST" action="<?=base_url('Bookaride')?>" class="custom_bike row d-flex align-items-center mx-1 my-2">
-                                    <div class="col-xl-12 mt-2 px-1 pt-1">
+                            <div class="mt-1 mb-4 text-center">
+                                <form id="custom_bike" method="POST" action="<?=base_url('Bookaride')?>" class="custom_bike row d-flex align-items-center mx-1 my-0">
+                                    <div class="col-xl-12 mt-2 px-1 pb-2 pt-1 border-bottom-primary">
                                         <div class="row">
                                             <div class="col-xl-6 col-sm-12">
-                                                <label class="text-black font-sm mb-1">Pickup</label>
+                                                <label class="text-black font-md mb-1">PICKUP</label>
                                                 <div class="row px-2">
-                                                    <div class="col-xl-6">
-                                                        <input type="text" name="pickup_date" id="pickup_date" class="w-100 theme-date-input text-dark border rounded-2" placeholder="">
+                                                    <div class="col-xl-12 mb-2">
+                                                        <input type="date" name="pickupdate" value="<?=date("Y-m-d", time())?>" id="pickupdate" class="w-100 text-dark border rounded-2" placeholder="">
                                                     </div>
-                                                    <div class="col-xl-6">
-                                                        <select id="pickup_time" name="pickup_time" class="form-select">
+                                                    <div class="col-xl-12">
+                                                        <select id="pickuptime" name="pickuptime" class="form-select">
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-xl-6  col-sm-12">
-                                                <label class="text-black font-sm mb-1">Dropoff</label>
+                                                <label class="text-black font-md mb-1">DROPOFF</label>
                                                 <div class="row px-2">
-                                                    <div class="col-xl-6">
-                                                        <input type="text" name="dropoff_date" id="dropoff_date" class="w-100 theme-date-input text-dark border rounded-2" placeholder="">
+                                                    <div class="col-xl-12 mb-2">
+                                                        <input type="date" name="dropoffdate" id="dropoffdate" value="<?=date("Y-m-d", time())?>" class="w-100 text-dark border rounded-2" placeholder="">
                                                     </div>
-                                                    <div class="col-xl-6">
-                                                        <select id="dropoff_time" name="dropoff_time" class="form-select">
+                                                    <div class="col-xl-12">
+                                                        <select id="dropofftime" name="dropofftime" class="form-select">
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-12 mt-2 px-2 pt-1">
+                                    <div class="col-xl-12 mt-2 px-2 pt-1 pb-2 border-bottom-primary">
                                         <div class="row">
-                                            <div class="col-xl-6 col-sm-12">
-                                                <label class="text-black font-sm mb-1">Pickup</label>
-                                                <p class="font-sm"><i class="fa fa-location"></i>&nbsp;Chokanna Street, near Mayura Hotel Opp: Sai Angels School, Chikkamagaluru, Karnataka 577101</p>
-                                            </div>
-                                            <div class="col-xl-6 col-sm-12">
-                                                <label class="text-black font-sm mb-1">Dropoff</label>
-                                                <p class="font-sm"><i class="fa fa-location"></i>&nbsp;Chokanna Street, near Mayura Hotel Opp: Sai Angels School, Chikkamagaluru, Karnataka 577101</p>
+                                            <div class="col-xl-12 col-sm-12">
+                                                <p class="font-md mb-1"><strong>LOCATION :</strong>&nbsp;Chokanna Street, near Mayura Hotel Opp: Sai Angels School, Chikkamagaluru, Karnataka 577101 <a href="https://maps.app.goo.gl/XkDwJyZ2tcNp9YUy6" class="text-success d-inline-block" title="View on Map"><img style="width:25px;" src="<?=base_url('assets/img/icons/map-pin.svg')?>" class="img-fluid"/></a></p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 mt-2 px-2 pt-2">
-                                        <div class="row">
-                                            <div class="col-xl-12">
+                                        <div class="row px-4">
+                                            <div class="col-xl-6">
                                                 <div class="cart-count d-flex justify-content-center">
-                                                    <button class="cart-minus bg-transparent"><i class="fa-solid fa-minus"></i></button>
-                                                    <input type="text" class="cart-input text-center text-black" value="1">
-                                                    <button class="cart-plus bg-transparent"><i class="fa-solid fa-plus"></i></button>
+                                                    <button class="btn btn-sm cart-minus bg-dark text-white rounded-0"><i class="fa-solid fa-minus"></i></button>
+                                                    <input type="text" class="w-50 cart-input text-center border text-black rounded-0" value="1">
+                                                    <button class="btn btn-sm cart-plus bg-dark text-white rounded-0"><i class="fa-solid fa-plus"></i></button>
                                                 </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <p class="text-success fw-bold m-1">Bike Availability : <i class="fa fa-check"></i></p>
                                             </div>
                                         </div>
                                     </div>
                                     
-                                    <div class="col-xl-12 mt-2 px-2 pt-2">
-                                        <div class="row">
-                                            <div class="col-xl-6">
-                                                <label class="text-dark mb-2">Availability</label>
-                                                <p><i class="fa fa-check"></i></p>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="col-xl-12 mt-2 px-2 pt-2 mb-2">
-                                        <div class="text-end">
+                                        <div class="text-center">
                                             <button class="btn btn-primary" type="submit">Book Now</button>
                                         </div>
                                     </div>

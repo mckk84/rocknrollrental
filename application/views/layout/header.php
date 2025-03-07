@@ -31,6 +31,9 @@
     <link rel="icon" href='logo/favicon-16x16.png' type="image/png" sizes="16x16">
     <link rel="canonical" href="http://www.rocknrollrental.com/bike-rentals" />
     <link rel="apple-touch-icon" href="<?=base_url()?>/logo/apple-touch-icon.png" />
+    <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
     
     <!--favicon icon-->
     <link rel="icon" href="<?=base_url()?>/logo/favicon.ico" type="image/png" sizes="16x16" />

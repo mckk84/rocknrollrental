@@ -715,166 +715,152 @@ $(document).ready(function(){
   });
 
 
-  $(".customize").click(function(){
-
-    var bikeId = $(this).attr("data-bikeid");
-    var bikeName = $(this).attr("data-bikename");
-
-    $("#bike_customize .card-title").text(bikeName);
-
-    $("#bike_customize").modal('show');
-
-    var today = new Date();
-    var today_date = getdateformat(today);
-    var hour = today.getHours();
-    console.log("="+today_date);
-    console.log(hour);
-    hour = hour + 1;
-    let pickupdate = today_date;
-
-    if( hour >= 20 )
+    $(".customize").click(function()
     {
-        var date = new Date();
-        date.setDate(date.getDate() + 1);
-        today_date = getdateformat(date);
-        console.log("Nextday="+today_date);
-        // Settime
-        
-        setTimeAll($("#custom_bike #pickup_time"));
-        $("#custom_bike #pickup_time option:first").attr('selected','selected');
+        var bikeId = $(this).attr("data-bikeid");
+        var bikeName = $(this).attr("data-bikename");
 
+        $("#bike_customize .card-title").html(bikeName);
 
-        setTimeAll($("#custom_bike #dropoff_time"));
-        $("#custom_bike #dropoff_time option:last").attr('selected','selected');
-    }
-    else if( hour <= 7 )
-    {
-        setTimeAll($("#custom_bike #pickup_time"));
-        $("#custom_bike #pickup_time option:first").attr('selected','selected');
-        
-        setTimeAll($("#custom_bike #dropoff_time"));
-        $("#custom_bike #dropoff_time option:last").attr('selected','selected');
-    }
-    else
-    {
-        setTimeSpecial($("#custom_bike #pickup_time"), hour);
+        $("#bike_customize").modal('show');
 
-        setTimeAll($("#custom_bike #dropoff_time"));
-    }
-
-    $("#custom_bike #pickup_time").change(function(){
-        console.log($(this).val());
-        let val = $(this).val().split(":");
-        let hour = parseInt(val[0]);
-        let mam = val[1].split(" ");
-        let min = mam[0];
-        let ampm = mam[1];
-
-        console.log(val);
-        if( ampm == "PM" )
-        {
-          console.log(ampm);
-          if( hour >= 1 && hour <= 7 )
-          {
-            console.log(hour);
-            hour = hour + 13;
-            console.log(hour);
-          }
-          else if( hour == 12 )
-          {
-            console.log(hour);
-            hour = 13;
-            console.log(hour);
-          }
-          if( hour == 8 )
-          {
-            var date = new Date(pickupdate);
-            date.setDate(date.getDate() + 1);
-            pickupdate = getdateformat(date);
-            $("#custom_bike #dropoff_date").datetimepicker('minDate', moment(pickupdate));
-            hour = 7;
-          }
-        }
-        else
-        {
-          hour = hour + 1;
-        }
-        $("#custom_bike #dropoff_time").empty();
+        var today = new Date();
+        var today_date = getdateformat(today);
+        var hour = today.getHours();
+        console.log("="+today_date);
         console.log(hour);
-        setTimeSpecial($("#custom_bike #dropoff_time"), hour);
-    });
+        hour = hour + 1;
+        let pickupdate = today_date;
 
-    $("#custom_bike #pickup_date").datetimepicker({
-        format: 'DD-MM-Y',
-        minDate:moment(today_date),
-        defaultDate:moment(today_date),
-        icons: {
-          time: "fa-solid fa-clock"
-        }
-    }).on('dp.change', function(e) {
-        console.log('Pickup date');
-        pickupdate = $(this).val();
-        var temp = pickupdate.split('-');
-        pickupdate = temp[2]+"-"+temp[1]+"-"+temp[0];
-        $("#custom_bike #dropoff_date").datetimepicker('minDate', moment(pickupdate));
-        var pd = $("#custom_bike #pickup_date").val();
-        const date1 = moment(today_date);
-        const date2 = moment(dateformatstring(pd));
-
-        const duration = moment.duration(date2 - date1);
-        const res = duration.as('hours');
-        console.log('pickupdate-today='+res+"hours");
-        if( res >= 24 )
+        if( hour >= 20 )
         {
-            $("#custom_bike #pickup_time").empty();
-            setTimeAll($("#custom_bike #pickup_time"));
+            var date = new Date();
+            date.setDate(date.getDate() + 1);
+            today_date = getdateformat(date);
+            console.log("Nextday="+today_date);
+            // Settime
+            
+            setTimeAll($("#custom_bike #pickuptime"));
             $("#custom_bike #pickup_time option:first").attr('selected','selected');
 
-            $("#custom_bike #dropoff_time").empty();
-            setTimeAll($("#custom_bike #dropoff_time"));
+
+            setTimeAll($("#custom_bike #dropofftime"));
+            $("#custom_bike #dropoff_time option:last").attr('selected','selected');
+        }
+        else if( hour <= 7 )
+        {
+            setTimeAll($("#custom_bike #pickuptime"));
+            $("#custom_bike #pickup_time option:first").attr('selected','selected');
+            
+            setTimeAll($("#custom_bike #dropofftime"));
             $("#custom_bike #dropoff_time option:last").attr('selected','selected');
         }
         else
         {
-            $("#custom_bike #pickup_time").empty();
-            setTimeSpecial($("#custom_bike #pickup_time"), hour);
+            setTimeSpecial($("#custom_bike #pickuptime"), hour);
+            $("#custom_bike #pickup_time option:first").attr('selected','selected');
+
+            setTimeAll($("#custom_bike #dropofftime"));
+            $("#custom_bike #dropoff_time option:last").attr('selected','selected');
         }
+
+        $("#custom_bike #pickuptime").change(function(){
+            console.log($(this).val());
+            let val = $(this).val().split(":");
+            let hour = parseInt(val[0]);
+            let mam = val[1].split(" ");
+            let min = mam[0];
+            let ampm = mam[1];
+
+            console.log(val);
+            if( ampm == "PM" )
+            {
+              console.log(ampm);
+              if( hour >= 1 && hour <= 7 )
+              {
+                console.log(hour);
+                hour = hour + 13;
+                console.log(hour);
+              }
+              else if( hour == 12 )
+              {
+                console.log(hour);
+                hour = 13;
+                console.log(hour);
+              }
+              if( hour == 8 )
+              {
+                var date = new Date(pickupdate);
+                date.setDate(date.getDate() + 1);
+                pickupdate = getdateformat(date);
+                $("#custom_bike #dropoff_date").datetimepicker('minDate', moment(pickupdate));
+                hour = 7;
+              }
+            }
+            else
+            {
+              hour = hour + 1;
+            }
+            $("#custom_bike #dropoff_time").empty();
+            console.log(hour);
+            setTimeSpecial($("#custom_bike #dropoff_time"), hour);
+        });
+
+        $("#custom_bike #pickupdate").change(function(e){
+            console.log('Pickup date');
+            pickupdate = $(this).val();
+            /*var temp = pickupdate.split('-');
+            pickupdate = temp[2]+"-"+temp[1]+"-"+temp[0];*/
+            $("#custom_bike #dropoffdate").val(pickupdate);
+            var pd = $("#custom_bike #pickupdate").val();
+            const date1 = moment(today_date);
+            const date2 = moment(pd);
+
+            const duration = moment.duration(date2 - date1);
+            const res = duration.as('hours');
+            console.log('pickupdate-today='+res+"hours");
+            if( res >= 24 )
+            {
+                $("#custom_bike #pickuptime").empty();
+                setTimeAll($("#custom_bike #pickuptime"));
+                $("#custom_bike #pickuptime option:first").attr('selected','selected');
+
+                $("#custom_bike #dropofftime").empty();
+                setTimeAll($("#custom_bike #dropofftime"));
+                $("#custom_bike #dropofftime option:last").attr('selected','selected');
+            }
+            else
+            {
+                $("#custom_bike #pickuptime").empty();
+                setTimeSpecial($("#custom_bike #pickuptime"), hour);
+            }
+        });
+
+        $("#custom_bike #dropoffdate").change(function(e) {
+            console.log('Dropoff date');
+
+            var pd = $("#custom_bike #pickupdate").val();
+            var dp = $(this).val();
+
+            const date1 = moment(dateformatstring(pd));
+            const date2 = moment(dateformatstring(dp));
+
+            const duration = moment.duration(date2 - date1);
+            const res = duration.as('hours');
+            console.log('pickupdate-drop='+res+"hours");
+            if( res >= 24 )
+            {
+                $("#custom_bike #dropofftime").empty();
+                setTimeAll($("#custom_bike #dropofftime"));
+            }
+            else
+            {
+                $("#custom_bike #dropofftime").empty();
+                setTimeSpecial($("#custom_bike #dropofftime"), hour);
+            }
+        });
+
     });
-
-    $("#custom_bike #dropoff_date").datetimepicker({
-    format: 'DD-MM-Y',
-    minDate:moment(today_date),
-    defaultDate:moment(today_date),
-    icons: {
-      time: "fa-solid fa-clock"
-    }
-    }).on('dp.change', function(e) {
-    console.log('Dropoff date');
-    console.log();
-
-    var pd = $("#custom_bike #pickup_date").val();
-    var dp = $(this).val();
-
-    const date1 = moment(dateformatstring(pd));
-    const date2 = moment(dateformatstring(dp));
-
-    const duration = moment.duration(date2 - date1);
-    const res = duration.as('hours');
-    console.log('pickupdate-drop='+res+"hours");
-    if( res >= 24 )
-    {
-        $("#custom_bike #dropoff_time").empty();
-        setTimeAll($("#custom_bike #dropoff_time"));
-    }
-    else
-    {
-        $("#custom_bike #dropoff_time").empty();
-        setTimeSpecial($("#custom_bike #dropoff_time"), hour);
-    }
-    });
-
-
-  });
 
 });
 
