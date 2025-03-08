@@ -130,12 +130,12 @@
                                                                 <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['booking_amount']?></td>
                                                                 <td>
                                                                     <?php if( $row['status'] == 0 ){ ?>
-                                                                        <span class="btn btn-sm btn-warning">Pre Booked</span>
+                                                                        <span class="text-white p-1 border rounded bg-warning font-sm">Pre Booked</span>
                                                                     <?php } elseif( $row['status'] == 1 ){ ?>
-                                                                        <span class="btn btn-sm btn-success">Rented</span>
+                                                                        <span class="text-white p-1 border rounded bg-success font-sm">Rented</span>
                                                                     <?php }
                                                                     else { ?>
-                                                                        <span class="btn btn-sm btn-info">Closed</span>
+                                                                        <span class="text-white p-1 border rounded bg-info font-sm">Closed</span>
                                                                     <?php } ?>                                                                        
                                                                 </td>
                                                             </tr>
