@@ -100,7 +100,7 @@
                                                     <div class="table border table-responsive bg-white rounded">
                                                         <table class="table">
                                                             <thead>
-                                                                <tr class="bg-color">
+                                                                <tr class="bg-primary">
                                                                     <th>Booking Id</th>
                                                                     <th>Quantity</th>
                                                                     <th>Period</th>
