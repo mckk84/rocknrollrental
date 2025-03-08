@@ -123,7 +123,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($row['pickup_date']))." <b>".$row['pickup_time']?></b></span>
-                                                                    <span style="width:30px;display:block;margin:10px 25%;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
+                                                                    <span style="width:30px;display:block;margin:auto;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
                                                                     <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($row['dropoff_date']))." <b>".$row['dropoff_time']?></b></span>
                                                                 </td>
                                                                 <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['total_amount']?></td>
