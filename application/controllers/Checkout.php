@@ -76,7 +76,7 @@ class Checkout extends CI_Controller {
 			{
 				$data['page_title'] = 'Rock N Roll Bike Rentals | Checkout';
 				$data['user'] = $this->session->userdata("Auth");
-				$data['cart']['  '] = $this->input->post('bike_type_id');
+				$data['cart']['bike_ids'] = $this->input->post('bike_type_id');
 				$data['cart']['pickup_date'] = $this->input->post('pickupdate');
 				$data['cart']['pickup_time'] = $this->input->post('pickuptime');
 				$data['cart']['dropoff_date'] = $this->input->post('dropoffdate');
