@@ -13,6 +13,7 @@ class Returns extends CI_Controller
     {
         parent::__construct();
         $this->load->model('bookings_model');
+        $this->load->model('biketypes_model');
     }
 
     /**

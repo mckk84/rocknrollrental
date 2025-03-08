@@ -40,6 +40,26 @@ class Bookings extends CI_Controller
         }
     }
 
+    public function new()
+    {
+        $isLoggedIn = $this->session->userdata('isLoggedIn');
+        if(!isset($isLoggedIn) || $isLoggedIn != TRUE)
+        {
+            redirect('admin');
+        }
+        else
+        {
+            $data['user'] = $this->session->userdata();
+            $data['page_title'] = "New Booking";
+            $biketypes = $this->biketypes_model->getAll();
+            $data['biketypes'] = result_to_array($biketypes);
+            
+            $this->load->view('layout_admin/header', $data);
+            $this->load->view('backend/new_booking', $data);
+            $this->load->view('layout_admin/footer');
+        }
+    }
+
     public function getRecord()
     {
         $id = isset($_GET['id']) ? $_GET['id'] : 0;

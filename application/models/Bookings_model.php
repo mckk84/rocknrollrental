@@ -6,8 +6,12 @@
  */
 class Bookings_model extends CI_Model
 {
-    function getAll()
+    function getAll($limit = 0)
     {
+        if( $limit != 0 )
+        {
+            $this->db->limit($limit);
+        }
         $this->db->group_by('tbl_bookings.id');
         $this->db->order_by('tbl_bookings.id', 'DESC');
         $this->db->select('tbl_bookings.*, tbl_customers.name, tbl_customers.email, tbl_customers.phone,tbl_payment_mode.payment_mode as paymentmode, GROUP_CONCAT(tbl_booking_bikes.type_id) as bikes_types, GROUP_CONCAT(tbl_booking_bikes.quantity) as bikes_qty, tbl_users.name as created_by');

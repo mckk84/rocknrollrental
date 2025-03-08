@@ -16,7 +16,7 @@
 
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Bookings</h5>
+                <h5 class="card-title">Bookings <a href="<?=base_url('admin/Bookings/new')?>" class="btn btn-primary float-right">Add <i class="bi bi-plus-circle ms-1"></i></a></h5>
                 <div class="d-inline showalert">
                   <?php if( count($records) == 0 ) { ?>
                   <div class="alert alert-danger m-2">No Records found.</div>
@@ -68,7 +68,10 @@
                         $ob = $biketypes[$bky]." (".$bk_qty[$index].")";
                         $bikes_ordered = ($bikes_ordered == "") ? $ob : $bikes_ordered."<br/>".$ob ;
                       }
-
+                      if( isset($row['helmet_quantity']) && $row['helmet_quantity'] > 0 )
+                      {
+                        $bikes_ordered .= "<br/>Helmet(".$row['helmet_quantity'].")";
+                      }
                       ?>
                     <tr>
                       <td scope="row"><?=$row['id']?></td>

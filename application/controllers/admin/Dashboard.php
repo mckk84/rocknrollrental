@@ -12,6 +12,8 @@ class Dashboard extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('bookings_model');
+        $this->load->model('biketypes_model');
     }
 
     /**
@@ -28,6 +30,9 @@ class Dashboard extends CI_Controller
         {
             $data['user'] = $this->session->userdata();
             $data['page_title'] = "Dashboard";
+            $biketypes = $this->biketypes_model->getAll();
+            $data['biketypes'] = result_to_array($biketypes);
+            $data['records'] = $this->bookings_model->getAll(5);
             
             $this->load->view('layout_admin/header', $data);
             $this->load->view('backend/dashboard', $data);

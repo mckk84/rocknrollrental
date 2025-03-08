@@ -14,10 +14,10 @@
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Nunito", sans-serif;
   background: #FFF;
   color: #444444;
-  font-size: 14px;
+  font-size: 0.85rem;
 }
 
 a {
@@ -1294,3 +1294,6 @@ select, input{
     min-width: 700px;
 }
 
+.form-control, .form-select{
+  font-size: 0.85rem !important;
+}

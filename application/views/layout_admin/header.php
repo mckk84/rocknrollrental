@@ -21,7 +21,7 @@
   <link href="<?=base_url()?>assets/admin/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="<?=base_url()?>assets/admin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="<?=base_url()?>assets/admin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
+  <script src="<?php echo base_url();?>/assets/admin/assets/js/jquery.min.js"></script>
   <!-- Template Main CSS File -->
   <link href="<?=base_url()?>assets/admin/assets/css/style.css" rel="stylesheet">
 </head>
