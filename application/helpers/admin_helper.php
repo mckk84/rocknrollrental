@@ -4,7 +4,11 @@
 function dateformatdb($date)
 {
     $d = explode("-", $date);
-    return $d[2]."-".$d[1]."-".$d[0];
+    if( strlen($d[2]) > 2 ){
+        return $d[2]."-".$d[1]."-".$d[0];
+    }else{
+        return $date;
+    }
 }
 
 
