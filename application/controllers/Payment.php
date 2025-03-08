@@ -67,7 +67,7 @@ class Payment extends CI_Controller {
         {
         	$bikes_quantity++;
             $rent_price = 0;
-            if( $data['cart']['period_days'] > 0 ){
+            if( $data['cart']['period_days'] > 0  || $data['cart']['period_hours'] > 4 ){
                 if( $data['cart']['public_holiday'] == 1 ){
                     $rent_price = $bike['holiday_day_price'];
                 }
