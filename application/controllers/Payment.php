@@ -95,7 +95,7 @@ class Payment extends CI_Controller {
         }
         else
         {
-        	$cart['helmets_qty'] = 0;
+        	$data['cart']['helmets_qty'] = 0;
         }
 
         $subtotal = $total - round($total * 0.05, 2);
