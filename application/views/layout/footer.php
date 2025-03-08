@@ -34,7 +34,7 @@
                                     <div class="col-9">
                                         <div class="row">
                                             <div class="col-4">
-                                                <a href="index.html" class="footer-logo d-inline-block"><img style="width:150px" src="logo/logo2.png" alt="logo"></a>
+                                                <a href="index.html" class="footer-logo d-inline-block"><img style="width:150px" src="<?=base_url()?>logo/logo2.png" alt="logo"></a>
                                             </div>
                                             <div class="col-6">
                                                 <div class="d-inline text-start m-1 p-1">
@@ -124,64 +124,102 @@
                 <div class="at_product_view">
                     <div class="card w-100 bg-white border-0"  style="max-width: 480px;">
                         <div class="card-body p-1">
-                            <div class="text-center">
+                            <div class="text-center border-bottom-primary">
                                 <span class="card-title fw-bold mb-1 fs-5"></span>
                             </div>
-                            <div class="mt-1 mb-4 text-center">
-                                <form id="custom_bike" method="POST" action="<?=base_url('Bookaride')?>" class="custom_bike row d-flex align-items-center mx-1 my-0">
-                                    <div class="col-xl-12 mt-2 px-1 pb-2 pt-1 border-bottom-primary">
+                            <div class="mt-1 mb-2 text-center">
+                                <form id="custom_bike" method="POST" action="<?=base_url('Checkout/instant')?>" class="custom_bike row d-flex align-items-center mx-1 my-0">
+                                    <input type="hidden" name="bike_type_id" value="">
+                                    <input type="hidden" name="bike_type_name" value="">
+                                    <div class="col-xl-12 border-bottom-primary">
                                         <div class="row">
                                             <div class="col-xl-6 col-sm-12">
-                                                <label class="text-black font-md mb-1">PICKUP</label>
+                                                <label class="text-black font-md font-bold mb-1">PICKUP</label>
                                                 <div class="row px-2">
-                                                    <div class="col-xl-12 mb-2">
-                                                        <input type="date" name="pickupdate" value="<?=date("Y-m-d", time())?>" id="pickupdate" class="w-100 text-dark border rounded-2" placeholder="">
+                                                    <div class="col-xl-12 mb-1">
+                                                        <input type="date" name="pickupdate" value="<?=date("Y-m-d", time())?>" id="pickupdate" class="w-50 text-dark border-0" placeholder="">
                                                     </div>
                                                     <div class="col-xl-12">
-                                                        <select id="pickuptime" name="pickuptime" class="form-select">
+                                                        <select id="pickuptime" name="pickuptime" class="w-50 form-select border-0">
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <span class="todivider d-none d-lg-block">TO</span>
                                             <div class="col-xl-6  col-sm-12">
-                                                <label class="text-black font-md mb-1">DROPOFF</label>
+                                                <label class="text-black font-md font-bold mb-1">DROPOFF</label>
                                                 <div class="row px-2">
-                                                    <div class="col-xl-12 mb-2">
-                                                        <input type="date" name="dropoffdate" id="dropoffdate" value="<?=date("Y-m-d", time())?>" class="w-100 text-dark border rounded-2" placeholder="">
+                                                    <div class="col-xl-12 mb-1">
+                                                        <input type="date" name="dropoffdate" id="dropoffdate" value="<?=date("Y-m-d", time())?>" class="w-50 text-dark border-0" placeholder="">
                                                     </div>
                                                     <div class="col-xl-12">
-                                                        <select id="dropofftime" name="dropofftime" class="form-select">
+                                                        <select id="dropofftime" name="dropofftime" class="w-50 form-select border-0">
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-12 mt-2 px-2 pt-1 pb-2 border-bottom-primary">
+                                    <div class="col-xl-12 border-bottom-primary">
                                         <div class="row">
                                             <div class="col-xl-12 col-sm-12">
-                                                <p class="font-md mb-1"><strong>LOCATION :</strong>&nbsp;Chokanna Street, near Mayura Hotel Opp: Sai Angels School, Chikkamagaluru, Karnataka 577101 <a href="https://maps.app.goo.gl/XkDwJyZ2tcNp9YUy6" class="text-success d-inline-block" title="View on Map"><img style="width:25px;" src="<?=base_url('assets/img/icons/map-pin.svg')?>" class="img-fluid"/></a></p>
+                                                <p class="font-md mb-1"><span class="text-dark">LOCATION :</span>&nbsp;Chokanna Street, near Mayura Hotel Opp: Sai Angels School, Chikkamagaluru, Karnataka 577101 <a href="https://maps.app.goo.gl/XkDwJyZ2tcNp9YUy6" class="text-success d-inline-block" title="View on Map"><img style="width:25px;" src="<?=base_url('assets/img/icons/map-pin.svg')?>" class="img-fluid"/></a></p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-12 mt-2 px-2 pt-2">
-                                        <div class="row px-4">
-                                            <div class="col-xl-6">
-                                                <div class="cart-count d-flex justify-content-center">
-                                                    <button class="btn btn-sm cart-minus bg-dark text-white rounded-0"><i class="fa-solid fa-minus"></i></button>
-                                                    <input type="text" class="w-50 cart-input text-center border text-black rounded-0" value="1">
-                                                    <button class="btn btn-sm cart-plus bg-dark text-white rounded-0"><i class="fa-solid fa-plus"></i></button>
+                                    <div class="col-xl-12 border-bottom-primary">
+                                        <div class="row px-2">
+                                            <div class="col-xl-8">
+                                                <div class="w-25 pt-1 text-dark float-left fw-bold">Qty</div>
+                                                <div class="w-75 cart-count d-flex justify-content-center">
+                                                    <span class="btn btn-sm cart-minus bg-primary text-white rounded-0"><i class="fa-solid fa-minus"></i></span>
+                                                    <input type="text" name="bikeqty" class="w-50 cart-input text-center border text-black rounded-0" value="1">
+                                                    <span class="btn btn-sm cart-plus bg-primary text-white rounded-0"><i class="fa-solid fa-plus"></i></span>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-6">
-                                                <p class="text-success fw-bold m-1">Bike Availability : <i class="fa fa-check"></i></p>
+                                            <div class="col-xl-4">
+                                                <span id="bike_availability" class="text-success fw-bold m-1">Availability : <i class="fa fa-check"></i></span>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <div class="col-xl-12 mt-2 px-2 pt-2 mb-2">
+                                    <div class="col-xl-12 border-bottom-primary">
+                                        <div class="row px-2">
+                                            <div class="col-xl-8">
+                                                <div class="text-dark fw-bold m-1">Rental Price : (<i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="bike_price"></span>x<span class="d-inline" id="bike_qty"></span>)</div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <div class="text-dark fw-bold m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="bike_price_subtotal"></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 border-bottom-primary">
+                                        <div class="row px-2">
+                                            <div class="col-xl-8">
+                                                <div class="w-25 pt-1 text-dark fw-bold float-left">Helmets</div>
+                                                <div class="cart-count w-75 d-flex justify-content-center">
+                                                    <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0"><i class="fa-solid fa-minus"></i></span>
+                                                    <input type="text" name="helmets_qty" class="w-50 cart-helmets text-center border text-black rounded-0" value="0">
+                                                    <span class="btn btn-sm cart-hplus bg-primary text-white rounded-0"><i class="fa-solid fa-plus"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <div class="text-dark fw-bold m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="helmets_total"></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <div class="row px-2">
+                                            <div class="col-xl-8">
+                                                <div class="w-25 pt-1 text-dark fw-bold float-left">Total</div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <div class="text-dark fw-bold m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="cart_total"></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="sumit_row" class="col-xl-12 mt-2 px-2 pt-2 mb-2">
                                         <div class="text-center">
-                                            <button class="btn btn-primary" type="submit">Book Now</button>
+                                            <button class="custom_bike_submit btn btn-primary" type="button">Book Now</button>
                                         </div>
                                     </div>
                                 </form>

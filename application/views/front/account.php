@@ -34,7 +34,7 @@
                                     <div class="tab-pane fade show active" id="basicinfo">
                                         <div class="description-tab-box bg-white pt-20 pb-20 px-4 rounded" id="specification">
                                             <h6 class="py-3 px-4 rounded bg-color">Basic Information</h6>
-                                            <table>
+                                            <table class="mb-4">
                                                 <tr>
                                                     <td>Name:</td>
                                                     <td><?=$record['name']?></td>
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="rentals">
-                                        <div class="description-tab-box bg-white rounded pt-20 pb-20 px-4">
+                                        <div class="rentals bg-white rounded pt-20 pb-20 px-4">
                                             <h6 class="py-3 px-4 rounded bg-color">Rentals</h6>
                                             <?php if( isset($rentals) && count($rentals) == 0 ){ ?>
                                             <div class="row g-4">
@@ -116,20 +116,26 @@
                                                                     <?=$row['id']?>
                                                                 </td>
                                                                 <td>
-                                                                    <?=$row['quantity']?>
+                                                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block">Bikes: <b><?=$row['quantity']?></b></span>
+                                                                    <?php if( $row['helmet_quantity'] != 0) {?>
+                                                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block">Helmets: <b><?=$row['helmet_quantity']?></b></span>
+                                                                    <?php } ?>
                                                                 </td>
                                                                 <td>
                                                                     <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($row['pickup_date']))." <b>".$row['pickup_time']?></b></span>
-                                                                    <span style="width:30px;display:block;margin:10px;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
+                                                                    <span style="width:30px;display:block;margin:10px 25%;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
                                                                     <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($row['dropoff_date']))." <b>".$row['dropoff_time']?></b></span>
                                                                 </td>
                                                                 <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['total_amount']?></td>
                                                                 <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['booking_amount']?></td>
                                                                 <td>
-                                                                    <?php if( $row['status'] == 1 ){ ?>
-                                                                        <button class="btn btn-sm btn-success">Complete</button>
-                                                                    <?php } else { ?>
-                                                                        <button class="btn btn-sm btn-warning">Pending</button>
+                                                                    <?php if( $row['status'] == 0 ){ ?>
+                                                                        <button class="btn btn-sm btn-warning">Pre Booked</button>
+                                                                    <?php } elseif( $row['status'] == 1 ){ ?>
+                                                                        <button class="btn btn-sm btn-success">Rented</button>
+                                                                    <?php }
+                                                                    else { ?>
+                                                                        <button class="btn btn-sm btn-info">Closed</button>
                                                                     <?php } ?>                                                                        
                                                                 </td>
                                                             </tr>

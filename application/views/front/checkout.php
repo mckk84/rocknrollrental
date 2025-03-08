@@ -19,8 +19,11 @@
     <div class="container">
         <div class="row">
             <div class="col-xxl-8">
+                <?php if( !isset($user) || !isset($user['Authorization']) || ( isset($user['Authorization']) && $user['Authorization'] == false) ) { ?>
+                    
+                <?php } else { ?> 
                 <div class="checkout-badge bg-light px-0 d-flex align-items-center justify-content-between">
-                    <h4 class="h4">
+                    <h4 class="h5 px-4 mb-0">
                         Personal Details
                     </h4>
                 </div>
@@ -41,10 +44,11 @@
                             </tr>
                         </table>
                     </div>
-                </div>
+                </div> 
+                <?php } ?>
 
                 <div class="checkout-badge bg-light px-0 d-flex align-items-center justify-content-between">
-                    <h4 class="h4">
+                    <h4 class="h5 px-4 mb-0">
                         Your Order
                     </h4>
                 </div>
@@ -53,6 +57,7 @@
                     $subtotal = 0;
                     $gst = 0;
                     $total = 0;
+                    $helmets_total = 0;
                     ?>
                     <div class="table-content table-responsive table-bordered bg-white rounded">
                         <table class="table cartbikes">
@@ -95,12 +100,14 @@
                                 <tr class="bike-row" data-id="<?=$bike['bike_type_id']?>">
                                     <td>
                                         <span class="d-block mb-2 fw-bold fa-md w-100 text-center"><?=$bike['bike_type_name']?></span>
-                                        <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="tire" class="img-fluid">
+                                        <img style="max-width:200px;" src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="d-block mx-auto img-fluid">
                                     </td>
-                                    <td>
-                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['pickup_date']))." <b>".$cart['pickup_time']?></b></span>
-                                        <span style="width:30px;display:block;margin:10px;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
-                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['dropoff_date']))." <b>".$cart['dropoff_time']?></b></span>
+                                    <td><span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
+                                        <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['pickup_time']?></b></span>
+                                        <span style="width:30px;display:block;margin:10px;margin-left:35px;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
+                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
+                                        <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['dropoff_time']?></b></span>
+
                                     </td>
                                     <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?></td>
                                     <td>
@@ -112,6 +119,30 @@
                                 </tr>
                                 <?php } 
                             }
+                            if( isset($cart['helmets_qty']) && $cart['helmets_qty'] > 0 ){
+
+                                $helmets_price = 50;
+                                $helmets_total = $cart['helmets_qty'] * $helmets_price;
+                                $total += $helmets_total;
+                            ?>
+                                <tr class="helmets-row">
+                                    <td>
+                                        <img style="max-width:100px;" src="<?=base_url()?>assets/img/icons/helmet_black.svg" alt="Helmet" class="d-block mx-auto img-fluid">
+                                    </td>
+                                    <td>
+                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['pickup_date']))." <b>".$cart['pickup_time']?></b></span>
+                                        <span style="width:30px;display:block;margin:10px 20%;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
+                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['dropoff_date']))." <b>".$cart['dropoff_time']?></b></span>
+                                    </td>
+                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$helmets_price?></td>
+                                    <td>
+                                        <div class="d-flex text-center">
+                                            <span class="d-block m-auto text-center font-normal"><?=$cart['helmets_qty']?></span>
+                                        </div>
+                                    </td>
+                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$helmets_total?></td>
+                                </tr>
+                                <?php }
                         ?>
                         </table>
                     </div>
@@ -151,9 +182,13 @@
                             </tr>                                                           
                         </table>
                         <div class="d-flex flex-column p-4">
+                            <?php if( isset($user) && ( isset($user['Authorization']) && $user['Authorization'] == true) ) { ?>
                             <form method="POST" action="<?=base_url('Payment')?>">
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#terms_view" class="btn btn-primary btn-md d-block mt-4">Proceed to Pay</a>
                             </form>
+                            <?php } else { ?>
+                            <a href="javascript:void(0)" class="btn btn-primary d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#at_product_view">Login/Sign Up</a>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

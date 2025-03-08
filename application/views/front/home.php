@@ -1,5 +1,5 @@
 <!--hero section start-->
-<section class="moto-rent-hero position-relative overflow-hidden z-1 bg-texture-gradient" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
+<section class="moto-rent-hero position-relative z-1 bg-texture-gradient" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-xl-6 col-sm-12 px-4 py-4 ">
@@ -251,7 +251,7 @@
                                     <?=$bike['power']?>
                                 </div>
                             </div>
-                            <a href="javascript:void(0)" data-bikeid="<?=$bike['bike_type_id']?>" data-bikename="<?=$bike['bike_type_name']?>" class="customize btn outline-btn btn-sm d-block">Customize</a>
+                            <a href="javascript:void(0)" data-bikeimage="<?=base_url('bikes/'.$bike['image'])?>" data-bikeid="<?=$bike['bike_type_id']?>" data-bikeprice="<?=$bike['week_day_half_price']?>" data-bikename="<?=$bike['bike_type_name']?>" class="customize btn outline-btn btn-sm d-block">Customize</a>
                         </div>
                     </div>
                 </div>
@@ -597,7 +597,9 @@ $(document).ready(function(){
   else
   {
     setTimeSpecial($("#pickup_time"), hour);
-    setTimeAll($("#dropoff_time"));
+    $("#pickup_time option:first").attr('selected','selected');
+    setTimeAll($("#dropoff_time"), hour);
+    $("#dropoff_time option:last").attr('selected','selected');
   }
 
   $("#pickup_time").change(function(){
@@ -714,13 +716,65 @@ $(document).ready(function(){
     }
   });
 
+    $(".cart-plus").click(function()
+    {
+        var v = $(".cart-input").val();
+        v = parseInt(v) + 1;
+        $(".cart-input").val(v);            
+        checkbikesubmitform();
+    });
+
+    $(".cart-hplus").click(function()
+    {
+        var v = $(".cart-helmets").val();
+        v = parseInt(v) + 1;
+        $(".cart-helmets").val(v);
+        console.log("hplus"+$(".cart-helmets").val());
+        checkbikesubmitform();
+    });
+
+    $(".cart-minus").click(function()
+    {
+        var v = $(".cart-input").val();
+        if( v == 0 ){
+            return false;
+        }
+        v = parseInt(v) - 1;
+        $(".cart-input").val(v);
+        checkbikesubmitform();
+    });
+
+    $(".cart-hminus").click(function()
+    {
+        var v = $(".cart-helmets").val();
+        if( v == 0 ){
+            return false;
+        }
+        v = parseInt(v) - 1;
+        $(".cart-helmets").val(v);
+        console.log("hminus"+$(".cart-helmets").val());
+        checkbikesubmitform();
+    });
 
     $(".customize").click(function()
     {
         var bikeId = $(this).attr("data-bikeid");
         var bikeName = $(this).attr("data-bikename");
+        var bike_image = $(this).attr("data-bikeimage");
+        var bike_price = $(this).attr("data-bikeprice");
+        var bike_qty = $("#custom_bike .cart-input").val();
+        var h_qty = $("#custom_bike .cart-helmets").val();
 
-        $("#bike_customize .card-title").html(bikeName);
+        $("#custom_bike input[name='bike_type_id']").val(bikeId);
+        $("#custom_bike input[name='bike_type_name']").val(bikeName);
+        $("#bike_customize .card-title").html("<img src='"+bike_image+"' style='max-width:80px;display:inline;' class='img-fluid me-2'/>"+bikeName);
+        $("#custom_bike #bike_price").html(bike_price);
+        $("#custom_bike #bike_qty").html(bike_qty);
+        bike_price_subtotal = Math.round(parseInt(bike_qty) * parseInt(bike_price), 2);
+        $("#custom_bike #bike_price_subtotal").html(bike_price_subtotal);
+        $("#custom_bike #helmets_total").html(h_qty * 50);
+        total = bike_price_subtotal + parseInt(h_qty * 50);
+        $("#custom_bike #cart_total").html(total);
 
         $("#bike_customize").modal('show');
 
@@ -741,27 +795,27 @@ $(document).ready(function(){
             // Settime
             
             setTimeAll($("#custom_bike #pickuptime"));
-            $("#custom_bike #pickup_time option:first").attr('selected','selected');
+            $("#custom_bike #pickuptime option:first").attr('selected','selected');
 
 
             setTimeAll($("#custom_bike #dropofftime"));
-            $("#custom_bike #dropoff_time option:last").attr('selected','selected');
+            $("#custom_bike #dropofftime option:last").attr('selected','selected');
         }
         else if( hour <= 7 )
         {
             setTimeAll($("#custom_bike #pickuptime"));
-            $("#custom_bike #pickup_time option:first").attr('selected','selected');
+            $("#custom_bike #pickuptime option:first").attr('selected','selected');
             
             setTimeAll($("#custom_bike #dropofftime"));
-            $("#custom_bike #dropoff_time option:last").attr('selected','selected');
+            $("#custom_bike #dropofftime option:last").attr('selected','selected');
         }
         else
         {
             setTimeSpecial($("#custom_bike #pickuptime"), hour);
-            $("#custom_bike #pickup_time option:first").attr('selected','selected');
+            $("#custom_bike #pickuptime option:first").attr('selected','selected');
 
             setTimeAll($("#custom_bike #dropofftime"));
-            $("#custom_bike #dropoff_time option:last").attr('selected','selected');
+            $("#custom_bike #dropofftime option:last").attr('selected','selected');
         }
 
         $("#custom_bike #pickuptime").change(function(){
@@ -857,6 +911,197 @@ $(document).ready(function(){
             {
                 $("#custom_bike #dropofftime").empty();
                 setTimeSpecial($("#custom_bike #dropofftime"), hour);
+            }
+        });
+    });
+    
+    function checkbikesubmitform()
+    {
+        $("#bike_availability").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Checking..");
+        $("#custom_bike :input").prop("disabled", true);
+        $("#custom_bike button[type='button']").prop("disabled", true);
+        $("#custom_bike button[type='button']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> PLease wait..");
+
+        $("#sumit_row").find(".alert").each(function(){
+          $(this).remove();
+        });
+
+        var formdata = {
+          bikeId:$("#custom_bike input[name='bike_type_id']").val(),
+          bikeName:$("#custom_bike input[name='bike_type_name']").val(),
+          bikeqty:$("#custom_bike .cart-input").val(),
+          pickup_date:$("#custom_bike input[name='pickupdate']").val(),
+          pickup_time:$("#custom_bike #pickuptime").val(),
+          dropoff_date:$("#custom_bike input[name='dropoffdate']").val(),
+          dropoff_time:$("#custom_bike #dropofftime").val(),
+        };
+
+        console.log($("#custom_bike input[name='pickupdate']").val()+" "+$("#custom_bike #pickuptime").val());
+        const currentDate = new Date();
+        // The date you want to check
+        const inputDate = new Date($("#custom_bike input[name='pickupdate']").val()+" "+$("#custom_bike #pickuptime").val()); 
+        console.log(inputDate);
+        console.log(currentDate);
+        const inputDate1 = new Date($("#custom_bike input[name='dropoffdate']").val()+" "+$("#custom_bike #dropofftime").val()); 
+        if (inputDate < currentDate) 
+        {
+            $("#sumit_row").append("<div class='alert alert-danger mt-1 mb-0'>Pickup date is in the past.</div>");
+            $("#custom_bike :input").prop("disabled", false);
+            $("#custom_bike button[type='button']").prop("disabled", false);
+            $("#custom_bike button[type='button']").html("Book Now");
+            $("#bike_availability").html("Bike Availability : ");
+            return false;
+        }
+        if (inputDate1 < currentDate) 
+        {
+            $("#sumit_row").append("<div class='alert alert-danger mt-1 mb-0'>Dropoff date is in the past.</div>");
+            $("#custom_bike :input").prop("disabled", false);
+            $("#custom_bike button[type='button']").prop("disabled", false);
+            $("#custom_bike button[type='button']").html("Book Now");
+            $("#bike_availability").html("Bike Availability : ");
+            return false;
+        } 
+
+        var url = $("#custom_bike").attr('action');
+        url = url.replace("instant", "bike_availability");
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            data: formdata, // Serialize form data
+            success: function (response) {
+                console.log(response);
+                if( response.error == 1 )
+                {
+                  // error occured
+                  $("#custom_bike :input").prop("disabled", false);
+                  $("#custom_bike button[type='button']").prop("disabled", false);
+                  $("#custom_bike button[type='button']").html("Book Now");
+
+                  $("#sumit_row").append("<div class='alert alert-danger mt-1 mb-0'>"+response.error_message+"</div>");
+                  $("#bike_availability").html("Availability : <i class='fa text-danger fa-cross'></i>");
+                }
+                else
+                {
+                    if( formdata.bikeqty > response.data.bike_availability )
+                    {
+                        $("#custom_bike .cart-input").val(response.data.bike_availability);    
+                    }
+                    var bike_price = response.data.rent_price;
+                    var bike_qty = $("#custom_bike .cart-input").val();
+                    var h_qty = $("#custom_bike .cart-helmets").val();
+
+                    $("#custom_bike #bike_price").html(bike_price);
+                    $("#custom_bike #bike_qty").html(bike_qty);
+                    bike_price_subtotal = Math.round(parseInt(bike_qty) * parseInt(bike_price), 2);
+                    $("#custom_bike #bike_price_subtotal").html(bike_price_subtotal);
+                    $("#custom_bike #helmets_total").html(h_qty * 50);
+                    total = bike_price_subtotal + parseInt(h_qty * 50);
+                    $("#custom_bike #cart_total").html(total);
+
+                    $("#bike_availability").html("Availability : <i class='fa fa-check'></i>");
+                    $("#custom_bike :input").prop("disabled", false);
+                    $("#custom_bike button[type='button']").html("Book Now");                                   
+                }
+            },
+            error: function (data) {
+                $("#sumit_row").append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                // error occured
+                $("#custom_bike :input").prop("disabled", false);
+                $("#custom_bike button[type='button']").prop("disabled", false);
+                $("#custom_bike button[type='button']").html("Book Now");
+                $("#bike_availability").html("Availability : ");
+            }
+        });
+    }
+
+    $(".custom_bike_submit").click(function(){
+
+        $("#bike_availability").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Checking..");
+        $("#custom_bike :input").prop("disabled", true);
+        $("#custom_bike button[type='button']").prop("disabled", true);
+        $("#custom_bike button[type='button']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> PLease wait..");
+
+        $("#sumit_row").find(".alert").each(function(){
+          $(this).remove();
+        });
+
+        var formdata = {
+          bikeId:$("#custom_bike input[name='bike_type_id']").val(),
+          bikeName:$("#custom_bike input[name='bike_type_name']").val(),
+          bikeqty:$("#custom_bike .cart-input").val(),
+          pickup_date:$("#custom_bike input[name='pickupdate']").val(),
+          pickup_time:$("#custom_bike #pickuptime").val(),
+          dropoff_date:$("#custom_bike input[name='dropoffdate']").val(),
+          dropoff_time:$("#custom_bike #dropofftime").val(),
+        };
+
+        console.log($("#custom_bike input[name='pickupdate']").val()+" "+$("#custom_bike #pickuptime").val());
+        const currentDate = new Date();
+        // The date you want to check
+        const inputDate = new Date($("#custom_bike input[name='pickupdate']").val()+" "+$("#custom_bike #pickuptime").val()); 
+        console.log(inputDate);
+        console.log(currentDate);
+        const inputDate1 = new Date($("#custom_bike input[name='dropoffdate']").val()+" "+$("#custom_bike #dropofftime").val()); 
+        if (inputDate < currentDate) 
+        {
+            $("#sumit_row").append("<div class='alert alert-danger mt-1 mb-0'>Pickup date is in the past.</div>");
+            $("#custom_bike :input").prop("disabled", false);
+            $("#custom_bike button[type='button']").prop("disabled", false);
+            $("#custom_bike button[type='button']").html("Book Now");
+            $("#bike_availability").html("Bike Availability : ");
+            return false;
+        }
+        if (inputDate1 < currentDate) 
+        {
+            $("#sumit_row").append("<div class='alert alert-danger mt-1 mb-0'>Dropoff date is in the past.</div>");
+            $("#custom_bike :input").prop("disabled", false);
+            $("#custom_bike button[type='button']").prop("disabled", false);
+            $("#custom_bike button[type='button']").html("Book Now");
+            $("#bike_availability").html("Bike Availability : ");
+            return false;
+        } 
+
+        var url = $("#custom_bike").attr('action');
+        url = url.replace("instant", "bike_availability");
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            data: formdata, // Serialize form data
+            success: function (response) {
+                console.log(response);
+                if( response.error == 1 )
+                {
+                  // error occured
+                  $("#custom_bike :input").prop("disabled", false);
+                  $("#custom_bike button[type='button']").prop("disabled", false);
+                  $("#custom_bike button[type='button']").html("Book Now");
+
+                  $("#sumit_row").append("<div class='alert alert-danger mt-1 mb-0'>"+response.error_message+"</div>");
+                  $("#bike_availability").html("Availability : <i class='fa text-danger fa-cross'></i>");
+                }
+                else
+                {
+                    if( formdata.bikeqty > response.data.bike_availability )
+                    {
+                        $("#custom_bike .cart-input").val(response.data.bike_availability);    
+                    }
+                    $("#custom_bike :input").prop("disabled", false);
+                    $("#bike_availability").html("Availability : <i class='fa fa-check'></i>");
+                    $("#custom_bike button[type='button']").html("Success");
+                    $("#custom_bike").submit();                                        
+                }
+            },
+            error: function (data) {
+                $("#sumit_row").append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                // error occured
+                $("#custom_bike :input").prop("disabled", false);
+                $("#custom_bike button[type='button']").prop("disabled", false);
+                $("#custom_bike button[type='button']").html("Book Now");
+                $("#bike_availability").html("Availability : ");
             }
         });
 

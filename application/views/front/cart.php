@@ -17,7 +17,8 @@
 <!--shopping cart-->
 <section class="shopping-cart ptb-60">
     <div class="container">
-        <?php if( !isset($cart) || count($cart['cart_bikes']) == 0 ){?>
+        <?php
+         if( !isset($cart) || ( isset($cart) && count($cart) == 0 )  || ( isset($cart['cart_bikes']) && count($cart['cart_bikes']) == 0 ) ){?>
         <div class="row">
             <h4 class="h4 text-danger">Your Cart is empty. <a class="btn btn-primary" href="<?=base_url('Bookaride')?>">Book a Ride</a></h4>
         </div>    
@@ -30,7 +31,7 @@
                     $gst = 0;
                     $total = 0;
                     ?>
-                    <div class="table-content table-responsive table-bordered bg-white rounded">
+                    <div class="table-content table-responsive table-bordered bg-white rounded mb-4">
                         <table class="table cartbikes">
                             <tr class="bg-eq-primary">
                                 <th>Fleet</th>
@@ -68,12 +69,12 @@
                                         } 
                                     }
 
-                                    $total += $rent_price;
+                                    $total += round($rent_price * $bike['quantity'], 2);
                                 ?>
                                 <tr class="bike-row" data-id="<?=$bike['bike_type_id']?>">
                                     <td>
                                         <span class="d-block mb-2 fw-bold fa-md w-100 text-center"><?=$bike['bike_type_name']?></span>
-                                        <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid">
+                                        <img style="max-width:200px;" src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid">
                                     </td>
                                     <td>
                                         <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
@@ -82,21 +83,21 @@
                                         <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
                                         <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['dropoff_time']?></b></span>
                                     </td>
-                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="rent_price d-inline-block p-1"><?=$rent_price?></span> / <span class="d-inline-block p-1"><?=$duration?></span></td>
+                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="rent_price d-inline-block p-1"><?=$rent_price?></span>/<span class="d-inline-block p-1"><?=$duration?></span></td>
                                     <td>
                                         <?php if( $bike['bikes_available'] > 1 ){?>
                                         <div class="cart-count d-inline-flex align-items-center">
                                             <button class="cart-minus bg-transparent"><i class="fa-solid fa-minus"></i></button>
-                                            <input type="text" data-bike="<?=$bike['bike_type_id']?>" data-available="<?=$bike['bikes_available']?>" class="cart-input" value="<?=$bike['quantity']?>">
+                                            <input type="text" data-bike="<?=$bike['bike_type_id']?>" data-available="<?=$bike['bikes_available']?>" id="cart-input" class="cart-input" value="<?=$bike['quantity']?>">
                                             <button class="cart-plus bg-transparent"><i class="fa-solid fa-plus"></i></button>
                                         </div>
                                         <?php } else { ?>
                                         <div class="cart-count d-inline-flex align-items-center">
-                                            <input type="text" disabled class="cart-input" value="<?=$bike['quantity']?>">
+                                            <input type="text" disabled class="cart-input" id="cart-input" value="<?=$bike['quantity']?>">
                                         </div>
                                         <?php } ?>
                                     </td>
-                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=$rent_price?></span></td>
+                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=round($rent_price * $bike['quantity'], 2)?></span></td>
                                     <td><button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" class="cart-delete bg-transparent"><i class="fa-solid fa-trash"></i></button></td>
                                 </tr>
                                 <?php } 
@@ -113,15 +114,58 @@
                             <input type="hidden" name="period_hours" value="<?=$cart['period_hours']?>">
                             <input type="hidden" name="public_holiday" value="<?=$cart['public_holiday']?>">
                             <input type="hidden" name="weekend" value="<?=$cart['weekend']?>">
+                            <input type="hidden" name="coupon_code" value="<?=isset($cart['coupon_code'])?$cart['coupon_code']:""?>">
+                            <input type="hidden" name="helmets_qty" value="<?=isset($cart['helmets_qty'])?$cart['helmets_qty']:"0"?>">
                             <a id="checkout" style="display: none;float: right;" class="btn btn-sm btn-primary" href="javascript:void(0)">Book Now</a>
                         </form>
                     </div>
+                    <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-2 pt-2 pt-lg-0 mt-lg-0">
+                        <div class="helmet-option">
+                            <label><input type="checkbox" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"]!="")?"checked":""?> >Add Helmet</label>
+                        </div>
+                    </div>
+                    <div style="<?=($cart["helmets_qty"]!="")?"":"display:none;"?>" class="helmet_content table-content table-responsive table-bordered bg-white rounded mb-4">
+                        <table class="table cartbikes">
+                            <tr class="bg-eq-primary">
+                                <th>Helmet</th>
+                                <th>Period</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Subtotal</th>
+                            </tr>
+                            <tr class="helmet-row">
+                                <td>
+                                    <img style="max-width:100px;" src="<?=base_url()?>assets/img/icons/helmet_black.svg" alt="Helmet" class="d-block mx-auto img-fluid">
+                                </td>
+                                <td>
+                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
+                                    <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['pickup_time']?></b></span>
+                                    <span style="width:30px;display:block;margin:10px;margin-left:35px;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
+                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
+                                    <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['dropoff_time']?></b></span>
+                                </td>
+                                <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="helemt_rent_price d-inline-block p-1">50</span>/<span class="d-inline-block p-1">day</span></td>
+                                <td>
+                                    <div style="max-width: 150px;" class="cart-count bg-white d-flex justify-content-center">
+                                        <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0"><i class="fa-solid fa-minus"></i></span>
+                                        <input type="text" name="helmets_qty" class="w-50 cart-helmets text-center border text-black rounded-0" value="<?=isset($cart["helmets_qty"])?$cart["helmets_qty"]:0?>">
+                                        <span class="btn btn-sm cart-hplus bg-primary text-white rounded-0"><i class="fa-solid fa-plus"></i></span>
+                                    </div>
+                                </td>
+                                <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"]* 50:0?></span></td>
+                            </tr>
+                        </table>
+                        <?php if( isset($cart['helmets_qty']) && $cart['helmets_qty'] != 0 && $cart['helmets_qty'] != "" )
+                        {
+                            $total += intval($cart['helmets_qty']) * 50;
+                        }
+                        ?>
+                    </div>
                     <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-4 pt-4 pt-lg-0 mt-lg-0">
-                        <form class="d-flex align-items-center flex-wrap">
-                            <input type="text" placeholder="Coupon code">
+                        <form method="POST" action="<?=base_url('Cart')?>" class="d-flex align-items-center flex-wrap">
+                            <input type="text" name="coupon_code" placeholder="Coupon code" required maxlength="20">
                             <button type="submit" class="btn btn-secondary btn-md">Apply Now</button>
                         </form>
-                        <!-- <button type="button" class="btn btn-primary btn-md mt-3 mt-md-0">Update cart</button> -->
                     </div>
                 </div>
             </div>
@@ -158,7 +202,7 @@
                                 <div class="radio w-100">
                                     <label class="fa-md"><input type="radio" name="paymentOption" value="PAY_PARTIAL" onclick="__setPayment('PAY_PARTIAL');">  Pay cash on pickup (<span style="padding-left:3px;font-size:12px;">50% to be paid online</span>)</label>
                                 </div>
-                                 <?php if( !isset($user) || !isset($user['Authorization']) || ( isset($user['Authorization']) && $user['Authorization'] == false) ) { ?>
+                                <?php if( !isset($user) || !isset($user['Authorization']) || ( isset($user['Authorization']) && $user['Authorization'] == false) ) { ?>
                                     <a href="javascript:void(0)" class="btn btn-primary d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#at_product_view">Login/Sign Up</a>
                                 <?php } else { ?>  
                                 <button type="submit" class="btn btn-primary btn-md d-block mt-4">Proceed to Checkout</a>
@@ -177,14 +221,27 @@
 
 $(document).ready(function(){
 
+    $(".helmet-option label").on("click", function () {
+        if ($(this).children("input").is(":checked")) {
+          $("#cartform input[name='helmets_qty']").val(1);
+          $(".helmet_content").slideDown();
+        } else {
+          $("#cartform input[name='helmets_qty']").val(0);
+          $(".helmet_content").slideUp();
+        }
+      }); //elAboutBox
+
     $(".cart-plus").click(function()
     {
-        var v = $(".cart-input").val();
-        var available = $(".cart-input").attr('data-available');
-        var bike_id = $(".cart-input").attr('data-bike');
+        var v = $(this).siblings(".cart-input").val();
+        var v = parseInt(v);
+        var available = parseInt($(this).siblings(".cart-input").attr('data-available'));
+        var bike_id = $(this).siblings(".cart-input").attr('data-bike');
         var temp = localStorage.getItem("bike_ids");
         var bike_ids = JSON.parse(temp);
-        if( available > v ) 
+        console.log("v="+v);
+        console.log(available);
+        if( v < available ) 
         {
             v = parseInt(v) + 1;
             $(".cart-input").val(v);    
@@ -197,6 +254,10 @@ $(document).ready(function(){
                 bike_ids[prop] = p;
             }
             localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
+            var v = $(".cart-helmets").val();
+            $("#cartform input[name='helmets_qty']").val(v);
+            $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
+            $("#cartform").submit();
         }
         else
         {
@@ -211,15 +272,15 @@ $(document).ready(function(){
 
     $(".cart-minus").click(function()
     {
-        var bike_id = $(".cart-input").attr('data-bike');
+        var bike_id = $(this).siblings(".cart-input").attr('data-bike');
         var temp = localStorage.getItem("bike_ids");
         var bike_ids = JSON.parse(temp);
-        var v = $(".cart-input").val();
+        var v = $(this).siblings(".cart-input").val();
         if( v == 0 ){
             return false;
         }
         v = parseInt(v) - 1;
-        $(".cart-input").val(v);
+        $(this).siblings(".cart-input").val(v);
 
         for (var prop in bike_ids) 
         {
@@ -230,6 +291,11 @@ $(document).ready(function(){
             bike_ids[prop] = p;
         }
         localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
+        var v = $(".cart-helmets").val();
+        $("#cartform input[name='helmets_qty']").val(v);
+
+        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
+        $("#cartform").submit();    
 
     });
 
@@ -253,6 +319,46 @@ $(document).ready(function(){
         $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
         $("#cartform").submit();       
 
+    });
+
+    $(".cart-hminus").click(function()
+    {
+        var v = $(".cart-helmets").val();
+        if( v == 0 ){
+            return false;
+        }
+        v = parseInt(v) - 1;
+        $(".cart-helmets").val(v);
+        var helemt_rent_price = $(".helmet_content .helemt_rent_price").html();
+        var helemt_total = $(".helmet_content .subtotal").html();
+        helemt_total = parseInt(helemt_rent_price) * parseInt(v);
+        $(".helmet_content .subtotal").html(helemt_total);
+        $("#cartform input[name='helmets_qty']").val(v);
+
+        var temp = localStorage.getItem("bike_ids");
+        var bike_ids = JSON.parse(temp);
+        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
+            
+        $("#cartform").submit();
+    });
+
+    $(".cart-hplus").click(function()
+    {
+        var v = $(".cart-helmets").val();
+        v = parseInt(v) + 1;
+        $(".cart-helmets").val(v);
+        var helemt_rent_price = $(".helmet_content .helemt_rent_price").html();
+        var helemt_total = $(".helmet_content .subtotal").html();
+        helemt_total = parseInt(helemt_rent_price) * parseInt(v);
+        $(".helmet_content .subtotal").html(helemt_total);
+        $("#cartform input[name='helmets_qty']").val(v);
+
+        var temp = localStorage.getItem("bike_ids");
+        var bike_ids = JSON.parse(temp);
+        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
+
+        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
+        $("#cartform").submit();
     });
 
 });

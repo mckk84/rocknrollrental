@@ -24,11 +24,16 @@ class Cart extends CI_Controller {
 			$data['cart']['period_hours'] = $this->input->post('period_hours');
 			$data['cart']['weekend'] =$this->input->post('weekend');
 			$data['cart']['public_holiday'] = $this->input->post('public_holiday');
+			$data['cart']['helmets_qty'] = $this->input->post('helmets_qty');
+			$data['cart']['coupon_code'] =  $this->input->post('coupon_code');
 		}
 		else
 		{ 
 			$data['cart'] = $this->session->userdata("cart");
-			$bike_ids = json_decode($data['cart']['bike_ids']);
+			if( isset($data['cart']['bike_ids']) && $data['cart']['bike_ids'] != "" )
+			{
+				$bike_ids = json_decode($data['cart']['bike_ids']);
+			}
 		}
 
 		if( isset($bike_ids) && count($bike_ids) > 0 )

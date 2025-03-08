@@ -19,18 +19,18 @@
     <div class="container">
         <div class="row g-4">
             <div class="col-xl-3">
-                <div class="listing-sidebar rounded overflow-hidden bg-white">
+                <div class="listing-sidebar rounded bg-white">
                     <div class="sidebar-widget bl-search-widget">
-                        <div class="widget-top bg-secondary p-4">
+                        <div class="widget-top bg-secondary py-2 px-4">
                             <h4 class="mb-1 text-white">Search</h4>
                             <p class="mb-0 fs-sm text-white">Find your Motorcycle</p>
                         </div>
                         <form method="POST" action="<?=base_url('Bookaride')?>" class="blw-search-form mt-2 p-4">
-                            <div class="blw-search-fields">
+                            <div class="blw-search-fields position-relative">
                                 <div class="row g-2 mb-2">
                                     <h4 class="h5 mb-1 text-black">Pickup</h4>
                                     <div class="col-6 position-relative">
-                                        <input type="text" value="<?=$pickup_date?>" name="pickup_date" id="pickup_date" class="form-control theme-date-input" placeholder="Date">
+                                        <input type="text" value="<?=$pickup_date?>" name="pickup_date" id="pickup_date" class="form-control theme-date-input">
                                     </div>
                                     <div class="col-6 position-relative">
                                         <select id="pickup_time" data-select="<?=$pickup_time?>" name="pickup_time" class="form-select">
@@ -39,8 +39,8 @@
                                 </div>
                                 <div class="row g-2 mb-2">
                                     <h4 class="h5 mb-1 text-black">Dropoff</h4>
-                                    <div class="col-6">
-                                        <input type="text" name="dropoff_date" value="<?=$dropoff_date?>" id="dropoff_date" class="form-control theme-date-input" placeholder="Date">
+                                    <div class="col-6  position-relative">
+                                        <input type="text" name="dropoff_date" value="<?=$dropoff_date?>" id="dropoff_date" class="form-control theme-date-input">
                                     </div>
                                     <div class="col-6">
                                         <select id="dropoff_time" data-select="<?=$dropoff_time?>" name="dropoff_time" class="form-select">
@@ -139,7 +139,7 @@
                                         </ul>
                                         <div class="pricing-bottom d-flex align-items-center justify-content-between mt-4">
                                             <!-- <a href="<?=base_url('Bookaride/view?id='.$bike['bike_type_id'])?>" class="btn outline-btn btn-sm">View Details</a> -->
-                                            <h5 class="mb-0 text-md-primary"><i class="fa fa-indian-rupee-sign me-1"></i> 
+                                            <h5 class="mb-0 text-dark"><i class="fa fa-indian-rupee-sign me-1"></i> 
                                             <?php 
                                             if( $period_days > 0 || $period_hours > 4 ){
                                                 if( $public_holiday == 1 ){
@@ -362,10 +362,22 @@ $(document).ready(function(){
     setTimeAll($("#pickup_time"));
     setTimeAll($("#dropoff_time"));
     var pt = $("#pickup_time").attr('data-select');
-    $("#pickup_time").val(pt);
+    if( pt !== "" ){
+        $("#pickup_time").val(pt);
+    }
+    else
+    {
+        $("#pickup_time option:first").attr('selected','selected');
+    }
     console.log(pt);
     var dt = $("#dropoff_time").attr('data-select');
-    $("#dropoff_time").val(dt);
+    if( dt !== "" ){
+        $("#dropoff_time").val(dt);
+    }
+    else
+    {
+        $("#dropoff_time option:last").attr('selected','selected');
+    }
     console.log(dt);
 
     function dateformatstring(this_date)
@@ -400,6 +412,7 @@ $(document).ready(function(){
     $("#pickup_date").datetimepicker({
         format: 'DD-MM-Y',
         minDate:moment(today_date),
+        defaultDate:moment(today_date),
         icons: {
           time: "fa-solid fa-clock"
         }
@@ -435,6 +448,7 @@ $(document).ready(function(){
   $("#dropoff_date").datetimepicker({
     format: 'DD-MM-Y',
     minDate:moment(today_date),
+    defaultDate:moment(today_date),
     icons: {
       time: "fa-solid fa-clock"
     }
