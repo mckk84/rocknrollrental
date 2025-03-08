@@ -50,7 +50,7 @@ class Payment extends CI_Controller {
 		{
 			$data['cart']['weekend'] = 1;
 		}
-		$res = $this->publicholidays_model->checkRecordExists($data['cart']['pickup_date']);
+		$res = $this->publicholidays_model->checkRecordExists(dateformatdb($data['cart']['pickup_date']));
 		if( $res )
 		{
 			$data['cart']['public_holiday'] = 1;
