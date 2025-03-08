@@ -792,11 +792,12 @@ $(document).ready(function(){
             date.setDate(date.getDate() + 1);
             today_date = getdateformat(date);
             console.log("Nextday="+today_date);
+            $("#pickupdate").val(today_date);
+            $("#dropoffdate").val(today_date);
             // Settime
             
             setTimeAll($("#custom_bike #pickuptime"));
             $("#custom_bike #pickuptime option:first").attr('selected','selected');
-
 
             setTimeAll($("#custom_bike #dropofftime"));
             $("#custom_bike #dropofftime option:last").attr('selected','selected');
