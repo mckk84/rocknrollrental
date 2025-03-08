@@ -36,7 +36,7 @@ class Cart extends CI_Controller {
 			}
 		}
 
-		if( isset($bike_ids) && count($bike_ids) > 0 )
+		if( isset($bike_ids) && is_array($bike_ids) && count($bike_ids) > 0 )
 		{
 			$d1= new DateTime($data['cart']['dropoff_date']." ".$data['cart']['dropoff_time']); // first date
 			$d2= new DateTime($data['cart']['pickup_date']." ".$data['cart']['pickup_time']); // second date
@@ -77,6 +77,10 @@ class Cart extends CI_Controller {
 			    $data['cart']['cart_bikes'][$index] = $bike;
 			}
 			$this->session->set_userdata("cart", $data['cart']);
+		}
+		else
+		{
+			$this->session->set_userdata("cart", array());
 		}
 
         $this->load->view('layout/header', $data);

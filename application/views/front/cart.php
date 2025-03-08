@@ -18,7 +18,7 @@
 <section class="shopping-cart ptb-60">
     <div class="container">
         <?php
-         if( !isset($cart) || ( isset($cart) && count($cart) == 0 )  || ( isset($cart['cart_bikes']) && count($cart['cart_bikes']) == 0 ) ){?>
+         if( !isset($cart) || ( isset($cart) && count($cart) == 0 ) || ( isset($cart['cart_bikes']) && count($cart['cart_bikes']) == 0 ) ){?>
         <div class="row">
             <h4 class="h4 text-danger">Your Cart is empty. <a class="btn btn-primary" href="<?=base_url('Bookaride')?>">Book a Ride</a></h4>
         </div>    
@@ -121,10 +121,10 @@
                     </div>
                     <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-2 pt-2 pt-lg-0 mt-lg-0">
                         <div class="helmet-option">
-                            <label><input type="checkbox" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"]!="")?"checked":""?> >Add Helmet</label>
+                            <label><input type="checkbox" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] != "" && $cart["helmets_qty"] > 0)?"checked":""?> >Add Helmet</label>
                         </div>
                     </div>
-                    <div style="<?=($cart["helmets_qty"]!="")?"":"display:none;"?>" class="helmet_content table-content table-responsive table-bordered bg-white rounded mb-4">
+                    <div style="<?=($cart["helmets_qty"]!="" && $cart["helmets_qty"] > 0)?"":"display:none;"?>" class="helmet_content table-content table-responsive table-bordered bg-white rounded mb-4">
                         <table class="table cartbikes">
                             <tr class="bg-eq-primary">
                                 <th>Helmet</th>
@@ -152,7 +152,7 @@
                                         <span class="btn btn-sm cart-hplus bg-primary text-white rounded-0"><i class="fa-solid fa-plus"></i></span>
                                     </div>
                                 </td>
-                                <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"]* 50:0?></span></td>
+                                <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"] * 50:0?></span></td>
                             </tr>
                         </table>
                         <?php if( isset($cart['helmets_qty']) && $cart['helmets_qty'] != 0 && $cart['helmets_qty'] != "" )
@@ -306,8 +306,11 @@ $(document).ready(function(){
         var bike_ids = JSON.parse(temp);
 
         var bikeId = $(this).attr("bike-id");
-        $(".cartbikes").find('[data-id="'+bikeId+'"]').remove()
-        bikesincart = parseInt(bikesincart) - 1;
+        $(".cartbikes").find('[data-id="'+bikeId+'"]').remove();
+        if( bikesincart > 0)
+        {
+            bikesincart = parseInt(bikesincart) - 1;
+        }
         bike_ids = bike_ids.filter(item => item.bike_id !== bikeId);
         
         console.log(bikesincart);
@@ -316,9 +319,16 @@ $(document).ready(function(){
         localStorage.setItem("bikesincart", bikesincart);
         localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
 
+        var v = $(".cart-helmets").val();
+        if( bikesincart < 1 ){
+            $("#cartform input[name='helmets_qty']").val(0);
+        }
+        else
+        {
+            $("#cartform input[name='helmets_qty']").val(v);
+        }
         $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
         $("#cartform").submit();       
-
     });
 
     $(".cart-hminus").click(function()
