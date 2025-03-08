@@ -914,6 +914,8 @@ $(document).ready(function(){
                 setTimeSpecial($("#custom_bike #dropofftime"), hour);
             }
         });
+
+        checkbikesubmitform();
     });
     
     function checkbikesubmitform()
