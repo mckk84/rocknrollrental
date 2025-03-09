@@ -45,7 +45,7 @@
                           <div class="col-md-3">
                               <label class="text-dark mb-1">Time</label>
                               <select id="pickup_time" name="pickup_time" class="form-select">
-                                <option value="07:30 AM">07:30 AM</option>
+                                <option selected value="07:30 AM">07:30 AM</option>
                                 <option value="08:00 AM">08:00 AM</option>
                                 <option value="08:30 AM">08:30 AM</option>
 
@@ -107,7 +107,7 @@
                                 <option value="06:30 PM">06:30 PM</option>
                                 <option value="07:00 PM">07:00 PM</option>
                                 <option value="07:30 PM">07:30 PM</option>
-                                <option value="08:00 PM">08:00 PM</option>
+                                <option selected value="08:00 PM">08:00 PM</option>
                             </select>
                         </div>
                       </div>

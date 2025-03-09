@@ -9,9 +9,13 @@ class Account extends CI_Controller {
 		$data['user'] = $this->session->userdata("Auth");
 		$this->load->model('customers_model');
 		$this->load->model('bookings_model');
+		$this->load->model('biketypes_model');
 
 		$data['record'] = $this->customers_model->getById($data['user']['userId']);
-		$data['rentals'] = $this->bookings_model->getByCustomerId($data['user']['userId']);
+		$data['rentals'] = $this->bookings_model->getByCustomerId($data['user']['userId'], 10);
+
+		$biketypes = $this->biketypes_model->getAll();
+		$data['biketypes'] = result_to_array($biketypes);
 
         $this->load->view('layout/header', $data);
         $this->load->view('front/account', $data);

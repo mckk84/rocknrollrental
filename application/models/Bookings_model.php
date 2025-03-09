@@ -68,10 +68,17 @@ class Bookings_model extends CI_Model
         }
     }
 
-    function getByCustomerId($customer_id)
+    function getByCustomerId($customer_id, $limit = 0)
     {
-        $this->db->select('*');
+        if( $limit != 0 )
+        {
+            $this->db->limit($limit);    
+        }
+        $this->db->group_by('tbl_bookings.id');
+        $this->db->order_by('tbl_bookings.id', 'DESC');
+        $this->db->select('tbl_bookings.*, GROUP_CONCAT(tbl_booking_bikes.type_id) as bikes_types, GROUP_CONCAT(tbl_booking_bikes.quantity) as bikes_qty');
         $this->db->from('tbl_bookings');
+        $this->db->join('tbl_booking_bikes', 'tbl_booking_bikes.booking_id = tbl_bookings.id', 'left');
         $this->db->where('customer_id', $customer_id);
         $query = $this->db->get();
         

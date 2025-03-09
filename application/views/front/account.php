@@ -97,45 +97,57 @@
                                             <div class="row g-4">
                                                 <div class="col-12">
                                                     <?php $subtotal = 0;$gst = 0;$total = 0;?>
-                                                    <div class="table border table-responsive bg-white rounded">
-                                                        <table class="table">
+                                                    <div class="table table-responsive bg-white rounded">
+                                                        <table class="table table-bordered">
                                                             <thead>
                                                                 <tr class="bg-primary">
-                                                                    <th>Booking Id</th>
+                                                                    <th>#</th>
                                                                     <th>Quantity</th>
-                                                                    <th>Period</th>
+                                                                    <th>From</th>
+                                                                    <th>To</th>
                                                                     <th>Total</th>
                                                                     <th>Paid</th>
                                                                     <th>Status</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <?php foreach($rentals as $row) { ?>
+                                                            <?php foreach($rentals as $row) { 
+
+                                                                  $bikes_ordered = "";
+                                                                  $bk = explode(",", $row['bikes_types']);
+                                                                  $bk_qty = explode(",", $row['bikes_qty']);
+                                                                  foreach($bk as $index => $bky)
+                                                                  {
+                                                                    $ob = $biketypes[$bky]." (".$bk_qty[$index].")";
+                                                                    $bikes_ordered = ($bikes_ordered == "") ? $ob : $bikes_ordered."<br/>".$ob ;
+                                                                  }
+                                                            ?>
                                                             <tr>
                                                                 <td>
                                                                     <?=$row['id']?>
                                                                 </td>
                                                                 <td>
-                                                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block">Bikes: <b><?=$row['quantity']?></b></span>
+                                                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><b><?=$bikes_ordered?></b></span>
                                                                     <?php if( $row['helmet_quantity'] != 0) {?>
-                                                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block">Helmets: <b><?=$row['helmet_quantity']?></b></span>
+                                                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block">Helmets:<b><?=$row['helmet_quantity']?></b></span>
                                                                     <?php } ?>
                                                                 </td>
                                                                 <td>
                                                                     <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($row['pickup_date']))." <b>".$row['pickup_time']?></b></span>
-                                                                    <span style="width:30px;display:block;margin:auto;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
+                                                                </td>
+                                                                <td>
                                                                     <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($row['dropoff_date']))." <b>".$row['dropoff_time']?></b></span>
                                                                 </td>
                                                                 <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['total_amount']?></td>
                                                                 <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['booking_amount']?></td>
                                                                 <td>
                                                                     <?php if( $row['status'] == 0 ){ ?>
-                                                                        <span class="text-white p-1 border rounded bg-warning font-sm">Pre Booked</span>
+                                                                        <span class="text-white p-1 px-4 border rounded-5 bg-warning font-sm">Pre Booked</span>
                                                                     <?php } elseif( $row['status'] == 1 ){ ?>
-                                                                        <span class="text-white p-1 border rounded bg-success font-sm">Rented</span>
+                                                                        <span class="text-white p-1 px-4 border rounded-5 bg-success font-sm">Rented</span>
                                                                     <?php }
                                                                     else { ?>
-                                                                        <span class="text-white p-1 border rounded bg-info font-sm">Closed</span>
+                                                                        <span class="text-white p-1 px-4 border rounded-5 bg-info font-sm">Closed</span>
                                                                     <?php } ?>                                                                        
                                                                 </td>
                                                             </tr>

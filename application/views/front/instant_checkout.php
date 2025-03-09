@@ -183,7 +183,7 @@
                         </table>
                         <div class="d-flex flex-column p-4">
                             <?php if( isset($user) && ( isset($user['Authorization']) && $user['Authorization'] == true) ) { ?>
-                            <form class="pay_payment_form" method="POST" action="<?=base_url('Payment')?>">
+                            <form class="pay_instant_form" method="POST" action="<?=base_url('Payment/instant')?>">
                                 <div class="w-100 px-4 py-4">
                                     <label class="fa-md">Delivery Notes:</label>
                                     <textarea rows="2" class="form-control" name="notes" value=""></textarea>
@@ -207,8 +207,9 @@ $(document).ready(function(){
 
     $("#proceed_payment").click(function(){
 
-        var url = $(".pay_payment_form").attr("action");
+        var url = $(".pay_instant_form").attr("action");
         $("#terms_view #payment_form").attr("action", url);
+
         $("#terms_view").modal("show");
 
     });

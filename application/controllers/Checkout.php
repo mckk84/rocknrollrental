@@ -121,10 +121,10 @@ class Checkout extends CI_Controller {
 						break;
 					}					
 				}
-				$this->session->set_userdata("cart", $data['cart']);
+				$this->session->set_userdata("instant_cart", $data['cart']);
 
 				$this->load->view('layout/header', $data);
-    			$this->load->view('front/checkout', $data);
+    			$this->load->view('front/instant_checkout', $data);
     			$this->load->view('layout/footer');
 			}
 			else{
