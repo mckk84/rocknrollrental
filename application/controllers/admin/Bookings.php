@@ -181,6 +181,12 @@ class Bookings extends CI_Controller
         }
     }
 
+    public function save()
+    {
+        print_r($_POST);
+        die();
+    }
+
     public function save_record()
     {
         $response = array("error" => 0, "error_message" => "", "success_message" => "");

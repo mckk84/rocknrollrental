@@ -35,7 +35,7 @@
                 </div>
 
                 <!-- Multi Columns Form -->
-                <form class="booking_form" method="POST" action="<?=base_url('admin/Booings/save_record')?>">
+                <form class="booking_form" method="POST" action="<?=base_url('admin/Bookings/save')?>">
                   <div class="row g-3">
                     <div class="col-md-4">
                       <div class="row mb-2">
@@ -203,7 +203,7 @@
                                       <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="bike_total d-inline-block p-1"></span></th>
                                   </tr>
                                   <tr style="display:none" id="helmets_row">
-                                      <th class="text-start">Helmet <input type="number" name="helmets_qty" style="max-width: 100px;display: inline;margin-left: 25px;" class="cart-helmets form-control" value="1"></th>
+                                      <th class="text-start">Helmet <input type="number" name="helmets_qty" style="max-width: 100px;display: inline;margin-left: 25px;" class="cart-helmets form-control" value="0"></th>
                                       <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="helemt_total d-inline-block p-1">50</span></th>
                                   </tr>
                                   <tr style="display:none" id="earlypickup_row">
