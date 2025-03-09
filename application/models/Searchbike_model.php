@@ -45,7 +45,7 @@ class Searchbike_model extends CI_Model
         }
         $this->db->group_by('tbl_bike_types.id');
         $this->db->order_by('tbl_bikes.cc', 'ASC');
-        $this->db->select('tbl_bikes.image,tbl_bikes.milage,tbl_bikes.power,tbl_bikes.cc, COUNT(tbl_bikes.id) as bikes_available, tbl_bike_types.type as bike_type_name,tbl_bike_types.id as bike_type_id, tbl_prices.*');
+        $this->db->select('tbl_bikes.image,tbl_bikes.model,tbl_bikes.milage,tbl_bikes.power,tbl_bikes.cc, tbl_bikes.vehicle_number,COUNT(tbl_bikes.id) as bikes_available, tbl_bike_types.type as bike_type_name,tbl_bike_types.id as bike_type_id, tbl_prices.*');
         $this->db->from('tbl_bike_types');
         $this->db->join('tbl_bikes', 'tbl_bike_types.id = tbl_bikes.type_id', 'left');
         $this->db->join('tbl_prices', 'tbl_prices.type_id = tbl_bikes.type_id', 'left');

@@ -923,7 +923,7 @@ $(document).ready(function(){
         $("#bike_availability").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Checking..");
         $("#custom_bike :input").prop("disabled", true);
         $("#custom_bike button[type='button']").prop("disabled", true);
-        $("#custom_bike button[type='button']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> PLease wait..");
+        $("#custom_bike button[type='button']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
 
         $("#sumit_row").find(".alert").each(function(){
           $(this).remove();

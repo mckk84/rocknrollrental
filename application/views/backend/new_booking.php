@@ -35,7 +35,7 @@
                 </div>
 
                 <!-- Multi Columns Form -->
-                <form class="row g-3" method="POST" action="<?=base_url('admin/Booings/save_record')?>">
+                <form class="booking_form row g-3" method="POST" action="<?=base_url('admin/Booings/save_record')?>">
                   <div class="col-md-8">
                       <div class="row mb-1">
                           <div class="col-md-3">
@@ -114,21 +114,27 @@
                       <div class="row mb-1">
                           <div class="col-md-3">
                               <label class="text-dark mb-1">Bike</label>
-                              <select id="biketype" name="bie_type_id" class="form-select">
-                                <option selected>-Select-</option>
+                              <select id="biketype" name="bike_type_id" class="form-select">
+                                <option selected value="">-Select-</option>
                                 <?php foreach($biketypes as $index => $row) {?>
                                 <option value="<?=$index?>"><?=$row?></option>
                                 <?php } ?>
                               </select>
                           </div>
-                      </div>
-                      <div class="row">
-                          <div class="col-md-12 text-end">
-                              <button id="search_bike" class="btn btn-primary" type="button">Search Now</button>
+                          <div class="col-md-6">
+                            <button id="search_bike" class="btn btn-primary m-4" type="button">Search</button>
                           </div>
                       </div>
+                      
                       <div class="row">
+                        <div id="bikes_row" class="col-md-12">
+                        </div>
 
+                      </div>
+
+                      <div class="row">
+                        <div id="sumit_row" class="col-md-12">
+                        </div>
                       </div>
                       <div class="text-center">
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -150,11 +156,79 @@
 
   <script type="text/javascript">
 
+    function formatdate(dt)
+    {
+      var d = dt.split("-");
+      return d[2]+"-"+d[1]+"-"+d[0];
+    }
+
+
+    let bike_url = '<?=base_url('bikes/')?>';
+
     $(document).ready(function(){
 
       $("#search_bike").click(function(){
 
-        
+        $(".booking_form #search_bike").prop("disabled", true);
+        $(".booking_form #bikes_row").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Searching..");
+
+        var formdata = {
+          bikeId:$(".booking_form #biketype").val(),
+          pickup_date:$(".booking_form input[name='pickup_date']").val(),
+          pickup_time:$(".booking_form #pickup_time").val(),
+          dropoff_date:$(".booking_form input[name='dropoff_date']").val(),
+          dropoff_time:$(".booking_form #dropoff_time").val(),
+        };
+        $("#sumit_row").find(".alert").each(function(){
+          $(this).remove();
+        });
+        var url = '<?=base_url('admin/Bookings/search')?>';
+        console.log(formdata);
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            data: formdata, // Serialize form data
+            success: function (response) {
+                console.log(response);
+                if( response.error == 1 )
+                {
+                  $(".booking_form #search_bike").prop("disabled", false);
+                  $(".booking_form #search_bike").html("Search");
+                  $("#sumit_row").append("<div class='alert alert-danger mt-1 mb-0'>"+response.error_message+"</div>");
+                  $(".booking_form #bikes_row").html("");
+                  return false;
+                }
+                else
+                {
+                  $(".booking_form #search_bike").prop("disabled", false);
+                  
+                  var html = "<table class='table datatable table-responsive border mb-1'>";
+                  html += "<thead><tr><th class='bg-success text-white'>Available</th><th class='bg-success  text-white'>Period</th><th class='bg-success  text-white'>Duration</th><th class='bg-success  text-white'>Holiday</th><th class='bg-success  text-white'>Public Holiday</th><th class='bg-success  text-white'>Weekend</th><th class='bg-success  text-white'>Rent Price</th></thead>";
+
+                  html += "<tbody><tr><td><span class='d-block p-1 font-bold'>"+response.data.bike_availability+"</span></td><td><span class='d-block p-1 font-bold'>"+formatdate(response.data.pickup_date)+" <b>"+response.data.pickup_time+"</b></span><span class='d-block p-1 font-bold'>"+formatdate(response.data.dropoff_date)+" <b>"+response.data.dropoff_time+"</b></span></td><td><b>"+response.data.period_days+"</b> days,<b>"+response.data.period_hours+"</b> hours </td><td>Holiday</td><td><span class='d-block p-1 font-bold'>"+((response.data.public_holiday)?"Yes":"No")+"</span></td><td><span class='d-block p-1 font-bold'>"+((response.data.weekend)?"Yes":"No")+"</span></td><td><span class='d-block p-1 font-bold'>"+response.data.rent_price+"</span></td></tbody></table>";
+
+                  html += "<table class='table datatable table-responsive border'>";
+                  html += "<thead><tr><th class='bg-warning'>Id</th><th class='bg-warning'>Bike</th><th class='bg-warning'>CC</th><th class='bg-warning'>Model</th><th class='bg-warning'>Vehicle Number</th><th class='bg-warning'>Rent Price</th><th class='bg-warning'>Booking Qty</th><th class='bg-warning'>Action</th></tr></thead>";
+                  html += "<tbody>";
+                  var bikes = response.data.cart_bikes;
+                  for (var i = 0; i < bikes.length; i++) 
+                  {
+                    var row = bikes[i];
+                    html += "<tr><td>"+row.bike_type_id+"</td><td><img style='max-width:100px;float:left;' class='img-fluid' src='"+bike_url+row.image+"'><b>"+row.bike_type_name+"</b></td><td>"+row.cc+"</td><td>"+row.model+"</td><td>"+row.vehicle_number+"</td><td>"+response.data.rent_price+"</td><td><input style='width:100px;' class='form-control' type='number' name='bike_qty' value='1'></td><td><div class='form-check'><input class='form-check-input' type='checkbox' style='height:20px;width:20px;' class='bike_check' value='1'></div></td></tr>";
+                  }
+                  html += "</tbody>";
+                  html += "</table>";
+                  $(".booking_form #bikes_row").html(html);
+
+                }
+            },
+            error: function (data) {
+                $("#sumit_row").append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                $(".booking_form #search_bike").prop("disabled", false);
+                $(".booking_form #search_bike").html("Search");
+            }
+        });
 
       });
 

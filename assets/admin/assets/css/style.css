@@ -1236,7 +1236,7 @@ h6 {
 }
 
 .table tbody td, .table thead th{
-  color: #444 !important;
+  color: #444;
 }
 
 tbody, td, tfoot, th, thead, tr {
@@ -1296,4 +1296,8 @@ select, input{
 
 .form-control, .form-select{
   font-size: 0.85rem !important;
+}
+
+.font-bold{
+  font-weight: bold !important;
 }

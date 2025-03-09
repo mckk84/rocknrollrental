@@ -14,6 +14,8 @@ class Bookings extends CI_Controller
         parent::__construct();
         $this->load->model('bookings_model');
         $this->load->model('biketypes_model');
+        $this->load->model('publicholidays_model');
+        $this->load->model('searchbike_model');
     }
 
     /**
@@ -57,6 +59,98 @@ class Bookings extends CI_Controller
             $this->load->view('layout_admin/header', $data);
             $this->load->view('backend/new_booking', $data);
             $this->load->view('layout_admin/footer');
+        }
+    }
+
+    public function search()
+    {
+        $response = array("error" => 0, "error_message" => "", "success_message" => "");
+        $this->load->library('form_validation'); 
+           
+        $this->form_validation->set_rules('bikeId','Bike Type','trim|required|max_length[128]');
+        $this->form_validation->set_rules('pickup_date','pickup_date','trim|required|max_length[18]');
+        $this->form_validation->set_rules('pickup_time','pickup_time','trim|required|max_length[15]');
+        $this->form_validation->set_rules('dropoff_date','dropoff_date','trim|required|max_length[18]');
+        $this->form_validation->set_rules('dropoff_time','dropoff_time','trim|required|max_length[15]');
+                        
+        if($this->form_validation->run() == FALSE)
+        {
+            $response["error"] = 1;
+            $response["error_message"] = $this->form_validation->error_string();
+            die(json_encode($response));
+        }
+        else
+        {
+            $data['bike_ids'] = $this->security->xss_clean($this->input->post('bikeId'));
+            $data['pickup_date'] = $this->security->xss_clean($this->input->post('pickup_date'));
+            $data['pickup_time'] = $this->security->xss_clean($this->input->post('pickup_time'));
+            $data['dropoff_date'] = $this->security->xss_clean($this->input->post('dropoff_date'));
+            $data['dropoff_time'] = $this->security->xss_clean($this->input->post('dropoff_time'));
+
+            $d1= new DateTime($data['dropoff_date']." ".$data['dropoff_time']); // first date
+            $d2= new DateTime($data['pickup_date']." ".$data['pickup_time']); // second date
+            $interval= $d1->diff($d2); // get difference between two dates
+            $data['period_days'] = $interval->days;
+            $data['period_hours'] = $interval->h; 
+
+            if( $data['period_hours'] <= 0 )
+            {
+                $response = array('error' => 1, 'error_message' => 'Invalid dates');
+                die($response);
+            }
+
+            $data['weekend'] = 0;
+            $data['public_holiday'] = 0;
+            $date=date_create($data['pickup_date']);
+            $day = date_format($date,"D");
+            if( $day == 'Sat' || $day == 'Sun' )
+            {
+                $data['weekend'] = 1;
+            }
+            $res = $this->publicholidays_model->checkRecordExists(dateformatdb($data['pickup_date']));
+            if( $res )
+            {
+                $data['public_holiday'] = 1;
+            }
+
+            $data['bike_availability'] = 0;
+            $data['cart_bikes'] = $this->searchbike_model->getCartBikes($data['bike_ids'], $data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time']);
+
+            foreach($data['cart_bikes'] as $index => $bike)
+            {
+                if($data['bike_ids'] == $bike['bike_type_id'])
+                {
+                    $bike['quantity'] = $bike['bikes_available'];
+                    $data['bike_availability'] = $bike['bikes_available'];
+
+                    $data['rent_price'] = 0;
+                    if( $data['period_days'] > 0 || $data['period_hours'] > 4  ){
+                        $duration = "day";
+                        if( $data['public_holiday'] == 1 ){
+                            $data['rent_price'] = $bike['holiday_day_price'];
+                        }
+                        elseif( $data['weekend'] == 1 ){
+                            $data['rent_price'] = $bike['weekend_day_price'];
+                        } else {
+                            $data['rent_price'] = $bike['week_day_price'];
+                        }
+                    } else {
+                        $duration = "halfday";
+                        if( $data['public_holiday'] == 1 ){
+                            $data['rent_price'] = $bike['holiday_day_half_price'];
+                        } elseif( $data['weekend'] == 1 ){
+                            $data['rent_price'] = $bike['weekend_day_half_price'];
+                        } else {
+                            $data['rent_price'] = $bike['week_day_half_price'];
+                        } 
+                    }
+
+                    break;
+                }                   
+                $data['cart_bikes'][$index] = $bike;
+            }
+            $response = array('error' => 0, 'error_message' => '', 'success_message' => 'success', 'data' => $data);
+            die(json_encode($response));
         }
     }
 
