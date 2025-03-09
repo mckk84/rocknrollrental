@@ -114,14 +114,18 @@ class Bookings extends CI_Controller
             }
 
             $data['bike_availability'] = 0;
-            $data['cart_bikes'] = $this->searchbike_model->getCartBikes($data['bike_ids'], $data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time']);
+            $data['cart_bikes'] = $this->searchbike_model->searchBikes($data['bike_ids'], $data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time']);
+            $bike_ids = explode(",", $data['bike_ids']);
 
             foreach($data['cart_bikes'] as $index => $bike)
             {
-                if($data['bike_ids'] == $bike['bike_type_id'])
+                if( in_array($bike['bike_type_id'], $bike_ids))
                 {
-                    $bike['quantity'] = $bike['bikes_available'];
-                    $data['bike_availability'] = $bike['bikes_available'];
+                    $bike['quantity'] = $bike['available'];
+                    if( $bike['available'] == "1" )
+                    {
+                        $data['bike_availability'] = intval($data['bike_availability']) + 1;
+                    }
 
                     $data['rent_price'] = 0;
                     if( $data['period_days'] > 0 || $data['period_hours'] > 4  ){
@@ -144,8 +148,6 @@ class Bookings extends CI_Controller
                             $data['rent_price'] = $bike['week_day_half_price'];
                         } 
                     }
-
-                    break;
                 }                   
                 $data['cart_bikes'][$index] = $bike;
             }
