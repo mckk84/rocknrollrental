@@ -22,6 +22,10 @@
   <link href="<?=base_url()?>assets/admin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="<?=base_url()?>assets/admin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
   <script src="<?php echo base_url();?>/assets/admin/assets/js/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+
   <!-- Template Main CSS File -->
   <link href="<?=base_url()?>assets/admin/assets/css/style.css" rel="stylesheet">
 </head>

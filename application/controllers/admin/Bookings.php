@@ -14,8 +14,10 @@ class Bookings extends CI_Controller
         parent::__construct();
         $this->load->model('bookings_model');
         $this->load->model('biketypes_model');
+        $this->load->model('holidays_model');
         $this->load->model('publicholidays_model');
         $this->load->model('searchbike_model');
+        $this->load->model('customers_model');
     }
 
     /**
@@ -53,6 +55,7 @@ class Bookings extends CI_Controller
         {
             $data['user'] = $this->session->userdata();
             $data['page_title'] = "New Booking";
+            $data['customers'] = $this->customers_model->getAll();
             $biketypes = $this->biketypes_model->getAll();
             $data['biketypes'] = result_to_array($biketypes);
             
@@ -67,7 +70,7 @@ class Bookings extends CI_Controller
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
         $this->load->library('form_validation'); 
            
-        $this->form_validation->set_rules('bikeId','Bike Type','trim|required|max_length[128]');
+        $this->form_validation->set_rules('bikeId','Bike','trim|required|max_length[128]');
         $this->form_validation->set_rules('pickup_date','pickup_date','trim|required|max_length[18]');
         $this->form_validation->set_rules('pickup_time','pickup_time','trim|required|max_length[15]');
         $this->form_validation->set_rules('dropoff_date','dropoff_date','trim|required|max_length[18]');
@@ -101,6 +104,7 @@ class Bookings extends CI_Controller
 
             $data['weekend'] = 0;
             $data['public_holiday'] = 0;
+            $data['holiday'] = 0;
             $date=date_create($data['pickup_date']);
             $day = date_format($date,"D");
             if( $day == 'Sat' || $day == 'Sun' )
@@ -111,6 +115,12 @@ class Bookings extends CI_Controller
             if( $res )
             {
                 $data['public_holiday'] = 1;
+            }
+
+            $res = $this->holidays_model->checkRecordExists(dateformatdb($data['pickup_date']));
+            if( $res )
+            {
+                $data['holiday'] = 1;
             }
 
             $data['bike_availability'] = 0;
@@ -127,25 +137,25 @@ class Bookings extends CI_Controller
                         $data['bike_availability'] = intval($data['bike_availability']) + 1;
                     }
 
-                    $data['rent_price'] = 0;
+                    $bike['rent_price'] = 0;
                     if( $data['period_days'] > 0 || $data['period_hours'] > 4  ){
                         $duration = "day";
                         if( $data['public_holiday'] == 1 ){
-                            $data['rent_price'] = $bike['holiday_day_price'];
+                            $bike['rent_price'] = $bike['holiday_day_price'];
                         }
                         elseif( $data['weekend'] == 1 ){
-                            $data['rent_price'] = $bike['weekend_day_price'];
+                            $bike['rent_price'] = $bike['weekend_day_price'];
                         } else {
-                            $data['rent_price'] = $bike['week_day_price'];
+                            $bike['rent_price'] = $bike['week_day_price'];
                         }
                     } else {
                         $duration = "halfday";
                         if( $data['public_holiday'] == 1 ){
-                            $data['rent_price'] = $bike['holiday_day_half_price'];
+                            $bike['rent_price'] = $bike['holiday_day_half_price'];
                         } elseif( $data['weekend'] == 1 ){
-                            $data['rent_price'] = $bike['weekend_day_half_price'];
+                            $bike['rent_price'] = $bike['weekend_day_half_price'];
                         } else {
-                            $data['rent_price'] = $bike['week_day_half_price'];
+                            $bike['rent_price'] = $bike['week_day_half_price'];
                         } 
                     }
                 }                   

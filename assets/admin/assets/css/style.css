@@ -1333,3 +1333,7 @@ button#multiSelectDropdown {
     right: 15px;
     top: 15px;
 }
+
+.alert p{
+ margin-bottom: 0;
+}
