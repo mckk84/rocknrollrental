@@ -238,6 +238,7 @@ class Bookings extends CI_Controller
             $data['search_bikes'] = $this->searchbike_model->searchBikes($bike_id_string, $data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time']);
 
             $subtotal = 0;
+            $total = 0;
             $gst = 0;
             $helmets_total = 0;
             $early_pickup = 0;
@@ -252,7 +253,7 @@ class Bookings extends CI_Controller
                 {
                     if($obj->bike_id == $bike['bid'])
                     {
-                        $subtotal += $obj->rent_price;
+                        $total += $obj->rent_price;
                         array_push($data['cart_bikes'], $bike);
                         break;
                     }
@@ -262,7 +263,7 @@ class Bookings extends CI_Controller
             if( isset($data['helmets_qty']) && $data['helmets_qty'] > 0 )
             {
                 $helmets_total = $data['helmets_qty'] * 50;
-                $subtotal += $helmets_total;
+                $total += $helmets_total;
             }
             else
             {
@@ -272,11 +273,10 @@ class Bookings extends CI_Controller
             if( isset($data['early_pickup']) && $data['early_pickup'] > 0 )
             {
                 $early_pickup = 1;
-                $subtotal += 200;
+                $total += 200;
             }
-
-            $subtotal = $subtotal - round($subtotal * 0.05, 2);
-            $gst = round($subtotal * 0.05, 2);
+            
+            $gst = round($total * 0.05, 2);
             $pmode_row = $this->paymentmode_model->getIdByMode($data['paymentOption']);
 
             // INSERT RECORDS
@@ -285,7 +285,7 @@ class Bookings extends CI_Controller
                     "quantity" => $bikes_quantity,
                     "helmet_quantity" => $data['helmets_qty'],
                     "booking_amount" => $data['paid'],
-                    "total_amount" => $subtotal,
+                    "total_amount" => $total,
                     "gst" => $gst,
                     "refund_amount" => $refund_total,
                     "refund_status" => 1,

@@ -36,10 +36,6 @@ class Payment extends CI_Controller {
 		        $bike_id_string .= ($bike_id_string == "") ? $obj->bike_id: ",".$obj->bike_id;
 		    }
 		}
-		else if( $bike_ids != "" )
-		{
-			$bike_id_string = $bike_ids;
-		}
 		else
 		{
 			$this->session->set_userdata("cart", array());
@@ -71,9 +67,19 @@ class Payment extends CI_Controller {
         $total = 0;
         $helmets_total = 0;
         $bikes_quantity = 0;
-		foreach($data['cart']['cart_bikes'] as $bike) 
+        $refund_amount = 1000;
+		foreach($data['cart']['cart_bikes'] as $index => $bike) 
         {
-        	$bikes_quantity++;
+        	foreach($bike_ids as $i => $obj) 
+			{
+				if($obj->bike_id == $bike['type_id'])
+				{
+					$bike['quantity'] = $obj->qty;
+					break;
+				}
+		    }
+			    
+        	$bikes_quantity = $bikes_quantity + $bike['quantity'];
             $rent_price = 0;
             if( $data['cart']['period_days'] > 0  || $data['cart']['period_hours'] > 4 ){
                 if( $data['cart']['public_holiday'] == 1 ){
@@ -93,7 +99,8 @@ class Payment extends CI_Controller {
                     $rent_price = $bike['week_day_half_price'];
                 } 
             }
-            $total += $rent_price;
+            $total += $rent_price * $bike['quantity'];
+            $data['cart']['cart_bikes'][$index] = $bike;
         }
         if( isset($data['cart']['helmets_qty']) && $data['cart']['helmets_qty'] > 0 )
         {
@@ -109,6 +116,7 @@ class Payment extends CI_Controller {
         $subtotal = $total - round($total * 0.05, 2);
         $gst = round($total * 0.05, 2);
         $total_paid = 0;
+        $refund_amount = $refund_amount * $bikes_quantity;
 
         if( $data['cart']['paymentOption'] == "PAY_FULL" )
         {
@@ -128,6 +136,8 @@ class Payment extends CI_Controller {
             	"helmet_quantity" => $data['cart']['helmets_qty'],
             	"booking_amount" => $total_paid,
             	"total_amount" => $total,
+            	"refund_amount" => $refund_amount,
+            	"refund_status" => 0,
             	"gst" => $gst,
             	"payment_mode" => $pmode_row['id'],
             	"status" => 0,
@@ -144,13 +154,16 @@ class Payment extends CI_Controller {
         {
             foreach($data['cart']['cart_bikes'] as $bike) 
             {
-				$bookingbikes_record = array(
-	            	"booking_id" => $booking_id,
-	            	"type_id" => $bike['type_id'],
-	            	"quantity" => 1,
-	            	"created_by" => 0,	
-	            );
-	            $this->bookingbikes_model->addNew($bookingbikes_record);
+            	for ($i=0; $i < $bike['quantity']; $i++) 
+            	{ 
+            		$bookingbikes_record = array(
+		            	"booking_id" => $booking_id,
+		            	"type_id" => $bike['type_id'],
+		            	"quantity" => 1,
+		            	"created_by" => 0,	
+		            );
+		            $this->bookingbikes_model->addNew($bookingbikes_record);
+		        }
 	        }
 
 	        // Add Payment Record
@@ -187,7 +200,7 @@ class Payment extends CI_Controller {
 
 		$data['cart'] = $this->session->userdata("instant_cart");
 		$bike_ids = $data['cart']['bike_ids'];
-
+		$bike_quantity = $data['cart']['cart_bikes'][0]['quantity'];
 		$data['payment_status'] = "Failed";
 
 		$data['cart']['notes'] = "";
@@ -231,10 +244,9 @@ class Payment extends CI_Controller {
         $gst = 0;
         $total = 0;
         $helmets_total = 0;
-        $bikes_quantity = 0;
+        $refund_amount = 1000;
 		foreach($data['cart']['cart_bikes'] as $bike) 
         {
-        	$bikes_quantity++;
             $rent_price = 0;
             if( $data['cart']['period_days'] > 0  || $data['cart']['period_hours'] > 4 ){
                 if( $data['cart']['public_holiday'] == 1 ){
@@ -254,7 +266,7 @@ class Payment extends CI_Controller {
                     $rent_price = $bike['week_day_half_price'];
                 } 
             }
-            $total += $rent_price;
+            $total += $bike_quantity * $rent_price;
         }
         if( isset($data['cart']['helmets_qty']) && $data['cart']['helmets_qty'] > 0 )
         {
@@ -280,15 +292,19 @@ class Payment extends CI_Controller {
         	$total_paid = round($total/2, 2);
         }
 
+        $refund_amount =$refund_amount * $bike_quantity;
+        
         $pmode_row = $this->paymentmode_model->getIdByMode($data['cart']['paymentOption']);
-
+        
         // INSERT RECORDS
         $booking_record = array(
             	"customer_id" => $data['user']['userId'],
-            	"quantity" => $bikes_quantity,
+            	"quantity" => $bike_quantity,
             	"helmet_quantity" => $data['cart']['helmets_qty'],
             	"booking_amount" => $total_paid,
             	"total_amount" => $total,
+            	"refund_amount" => $refund_amount,
+            	"refund_status" => 0,
             	"gst" => $gst,
             	"payment_mode" => $pmode_row['id'],
             	"status" => 0,
@@ -305,13 +321,16 @@ class Payment extends CI_Controller {
         {
             foreach($data['cart']['cart_bikes'] as $bike) 
             {
-				$bookingbikes_record = array(
-	            	"booking_id" => $booking_id,
-	            	"type_id" => $bike['type_id'],
-	            	"quantity" => 1,
-	            	"created_by" => 0,	
-	            );
-	            $this->bookingbikes_model->addNew($bookingbikes_record);
+            	for ($i=0; $i < $bike_quantity; $i++) 
+            	{
+            		$bookingbikes_record = array(
+		            	"booking_id" => $booking_id,
+		            	"type_id" => $bike['type_id'],
+		            	"quantity" => 1,
+		            	"created_by" => 0,	
+		            );
+		            $this->bookingbikes_model->addNew($bookingbikes_record); 
+            	}				
 	        }
 
 	        // Add Payment Record

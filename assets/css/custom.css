@@ -157,9 +157,10 @@ label.text-black.font-md.mb-1 {
     text-align: center;
 }
 
-.rentals table tr th{
-    padding:8px 10px;
-    font-size:14px;
-    font-weight:600;
+.rentals table tr td {
+    padding: 5px 5px;
+    font-size: 14px;
+    font-weight: 400;
     text-align: center;
+    vertical-align: middle;
 }

@@ -212,7 +212,7 @@
                                       <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="earlypickup_charge d-inline-block p-1">200</span></th>
                                   </tr>
                                   <tr>
-                                      <th class="text-start">Suub Total</th>
+                                      <th class="text-start">Sub Total</th>
                                       <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="sub_total d-inline-block p-1"></span></td>
                                   </tr>
                                   <tr>
@@ -352,8 +352,8 @@
 
       total = bikes_total + helmet_total + early_pickup;
 
-      var sub_total = total - Math.round(total * 0.05, 2);
-      var order_gst = Math.round(total * 0.05, 2);
+      var sub_total = total - (total * 0.05).toFixed(2);
+      var order_gst = (total * 0.05).toFixed(2);
       var refund_deposit = 1000 * vehicle_count;
 
       $(".bike_total").html(bikes_total);
@@ -372,7 +372,7 @@
       } 
       else
       {
-        final_amount = Math.round(total/2, 2) + refund_deposit;
+        final_amount = (total/2).toFixed(2) + refund_deposit;
         $("input[name='paid']").val(final_amount);
       }
 

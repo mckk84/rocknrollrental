@@ -1337,3 +1337,8 @@ button#multiSelectDropdown {
 .alert p{
  margin-bottom: 0;
 }
+
+.datatable-table > tbody > tr > td, .datatable-table > tbody > tr > th, .datatable-table > tfoot > tr > td, .datatable-table > tfoot > tr > th, .datatable-table > thead > tr > td, .datatable-table > thead > tr > th {
+    vertical-align: top;
+    padding: 5px;
+}
