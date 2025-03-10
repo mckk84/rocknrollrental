@@ -114,13 +114,25 @@
                                                         <tbody>
                                                         <?php foreach($rentals as $row) { 
 
-                                                              $bikes_ordered = "";
+                                                              $bikes_ordered = array();
+                                                              $bikes_order = "";
                                                               $bk = explode(",", $row['bikes_types']);
                                                               $bk_qty = explode(",", $row['bikes_qty']);
                                                               foreach($bk as $index => $bky)
                                                               {
-                                                                $ob = "<span class='w-100 m-2 p-2 fa-sm fw-bold d-block'>".$biketypes[$bky]." (".$bk_qty[$index].")</span>";
-                                                                $bikes_ordered = ($bikes_ordered == "") ? $ob : $bikes_ordered."".$ob ;
+                                                                if( isset( $bikes_ordered[ $biketypes[$bky] ] ) )
+                                                                {
+                                                                  $bikes_ordered[ $biketypes[$bky] ] = $bikes_ordered[ $biketypes[$bky] ] + $bk_qty[$index];
+                                                                }
+                                                                else
+                                                                {
+                                                                  $bikes_ordered[ $biketypes[$bky] ] = $bk_qty[$index];
+                                                                }
+                                                              }
+
+                                                              foreach($bikes_ordered as $name => $qty)
+                                                              {
+                                                                $bikes_order = ( $bikes_order == "" ) ? "<span class='w-100 m-2 p-2 fa-sm fw-bold d-block'>".$name."(".$qty.")</span>" : "<span class='w-100 m-2 p-2 fa-sm fw-bold d-block'>".$name."(".$qty.")</span>";
                                                               }
                                                         ?>
                                                         <tr>
@@ -128,7 +140,7 @@
                                                                 <?=$row['id']?>
                                                             </td>
                                                             <td>
-                                                                <?=$bikes_ordered?>
+                                                                <?=$bikes_order?>
                                                                 <?php if( $row['helmet_quantity'] != 0) {?>
                                                                 <span class="w-100 m-2 p-2 fa-sm fw-bold d-block">Helmets: <?=$row['helmet_quantity']?></span>
                                                                 <?php } ?>
