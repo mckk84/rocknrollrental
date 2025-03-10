@@ -35,7 +35,7 @@
                 </div>
 
                 <!-- Multi Columns Form -->
-                <form class="booking_form" method="POST" action="<?=base_url('admin/Bookings/save')?>">
+                <form id="mybooking_form" class="booking_form" method="POST" action="<?=base_url('admin/Bookings/save')?>">
                   <div class="row g-3">
                     <div class="col-md-4">
                       <div class="row mb-2">
@@ -151,6 +151,7 @@
                             </div>
                             <div class="col-md-6">
                               <select id="customer_id" name="customer_id" class="form-select">
+                                  <option value="">-Select-</option>
                                   <?php foreach($customers as $index => $row){?>
                                     <option value="<?=$row['id']?>"><?=$row['name']?>(<?=$row['phone']?>)</option>
                                   <?php } ?>
@@ -163,7 +164,6 @@
                             </div>
                             <div class="col-md-6">
                                 <input type="checkbox" name="helmets" style="display:inline;width: 20px;height: 20px;vertical-align: bottom;" value="1">
-                                <input type="hidden" name="helmets_qty" value="0"> 
                             </div>
                           </div>  
                           <div class="row mb-2">
@@ -172,7 +172,6 @@
                             </div>
                             <div class="col-md-6">
                                 <input type="checkbox" name="early_pickup" style="display:inline;width: 20px;height: 20px;vertical-align: bottom;" value="1">
-                                <input type="hidden" name="early_pickup" value="0"> 
                             </div>
                           </div>                       
                         </div>
@@ -193,13 +192,15 @@
                         </div>
                       </div>
                       <div class="row">
+                          <input type="hidden" name="vehicle_count" value="0">
+                          <input type="hidden" name="vehicle_numbers" value="">
                           <div class="col-md-12 table-responisve">
                               <table class="table">
                                   <tr>
-                                      <th class="text-start bg-warning" colspan="2">Cart Total</th>
+                                      <th class="text-start bg-warning" colspan="2">Order Summary</th>
                                   </tr>
                                   <tr>
-                                      <th class="text-start">Bike Total</th>
+                                      <th class="text-start">Bike Rental</th>
                                       <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="bike_total d-inline-block p-1"></span></th>
                                   </tr>
                                   <tr style="display:none" id="helmets_row">
@@ -209,6 +210,10 @@
                                   <tr style="display:none" id="earlypickup_row">
                                       <th class="text-start">Early Pickup</th>
                                       <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="earlypickup_charge d-inline-block p-1">200</span></th>
+                                  </tr>
+                                  <tr>
+                                      <th class="text-start">Suub Total</th>
+                                      <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="sub_total d-inline-block p-1"></span></td>
                                   </tr>
                                   <tr>
                                       <th class="text-start">GST</th>
@@ -248,12 +253,31 @@
                     </div>
                   </div>
                   <div class="row g-3">
-                    <div class="col-md-4" >
-                      <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="col-md-2 mb-2">
+                      <label class="d-block text-dark mt-3">Pickup Status</label>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                      <select name="pickup_status" class="form-select">
+                        <option>-Select-</option>
+                        <option value="0">Pre Book</option>
+                        <option value="1">Rented</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row g-3">
+                    <div class="col-md-2 mb-2">
+                      <label class="d-block text-dark mt-3">Order Notes</label>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                      <textarea name="notes" rows="2" class="form-control"></textarea>
+                    </div>
+                  </div>
+                  <div id="save_row" class="row g-3">
+                    <div class="col-md-4 text-end" >
+                      <button type="button" id="new_booking_save" class="btn btn-primary">Submit</button>
                     </div>
                   </div>
                 </form><!-- End Multi Columns Form -->
-
                 
               </div>
             </div>
@@ -298,23 +322,42 @@
     function updateCart()
     { 
       var total = 0;
+      var bikes_total = 0;
       if( vehicle_count == 0 )
       {
-        total = 0;
+        bikes_total = 0;
       }
       else
       {
-        total = 0;
+        bikes_total = 0;
         var bikes = JSON.parse(vehicle_numbers);
-        total = bikes.reduce(function (result, item) {
+        bikes_total = bikes.reduce(function (result, item) {
           return result + item.rent_price;
         }, 0);
       }
 
-      var bikes_total = total - Math.round(total * 0.05, 2);
-      var order_gst = Math.round(bikes_total * 0.05, 2);
+      var helmet_qty = 0;
+      var helmet_total = 0;
+      var early_pickup = 0;
+
+      if( $("input[name='helmets']").is(":checked") )
+      {
+        var helmet_qty = $("input[name='helmets_qty']").val();
+        helmet_total = helmet_qty * 50; 
+      }
+      if( $("input[name='early_pickup']").is(":checked") )
+      {
+        early_pickup = 200; 
+      }
+
+      total = bikes_total + helmet_total + early_pickup;
+
+      var sub_total = total - Math.round(total * 0.05, 2);
+      var order_gst = Math.round(total * 0.05, 2);
       var refund_deposit = 1000 * vehicle_count;
+
       $(".bike_total").html(bikes_total);
+      $(".sub_total").html(sub_total);
       $(".refund_deposit").html(refund_deposit);
       $(".order_gst").html(order_gst);
       $(".total").html(total);
@@ -329,13 +372,21 @@
       } 
       else
       {
-        $("input[name='paid']").val(Math.round(final_amount/2, 2));
+        final_amount = Math.round(total/2, 2) + refund_deposit;
+        $("input[name='paid']").val(final_amount);
       }
+
+      $("input[name='vehicle_count']").val(vehicle_count);
+      $("input[name='vehicle_numbers']").val(JSON.stringify(vehicle_numbers));
 
     }
 
     $(document).ready(function()
     {
+
+      $("input[name='vehicle_count']").val(vehicle_count);
+      $("input[name='vehicle_numbers']").val(JSON.stringify(vehicle_numbers));
+
       var checkboxes = document.querySelectorAll("input[type=checkbox][class='dropdown_check']");
       let bike_ids = [];
       let bike_names = [];
@@ -358,6 +409,14 @@
 
       $("#customer_id").select2();
 
+      $("#customer_id").change(function(){
+
+        if( $(this).val() == "" ){
+          $("#select2-customer_id-container").html("-Select-");
+        }
+
+      });
+
       $("input[name='helmets']").change(function(){
         if ($(this).is(":checked")) {
           $("#helmets_row input[name='helmets_qty']").val(1);
@@ -366,6 +425,7 @@
           $("#helmets_row input[name='helmets_qty']").val(0);
           $("#helmets_row").slideUp();
         }
+        updateCart();
       });
 
       $("input[name='early_pickup']").change(function(){
@@ -376,6 +436,21 @@
           $("#earlypickup_row .earlypickup_charge").html("");
           $("#earlypickup_row").slideUp();
         }
+        updateCart();
+      });
+
+      $("input[name='helmets_qty']").change(function(){
+
+        var val = $(this).val();
+        if( val < 0 )
+        {
+          $(this).val(0);
+        }
+        else
+        {
+          updateCart();
+        }
+
       });
 
       $("#search_bike").click(function(){
@@ -383,6 +458,10 @@
         vehicle_count = 0;
         vehicle_numbers = [];
         updateCart();
+
+        $("#customer_id").val("");
+        $("#select2-customer_id-container").html("-Select-");
+
         $(".booking_form #search_bike").prop("disabled", true);
         $(".booking_form #bikes_row").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Searching..");
         $(".booking_form #search_bikes_row").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Searching..");
@@ -443,6 +522,58 @@
                 $("#sumit_row").append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
                 $(".booking_form #search_bike").prop("disabled", false);
                 $(".booking_form #search_bike").html("Search");
+            }
+        });
+
+      });
+
+      // Ajax to save orderdata
+      $("#new_booking_save").click(function(){
+
+        updateCart();
+        
+        $("#new_booking_save").prop("disabled", true);
+        $("#new_booking_save").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Saving..");
+        
+        var form = document.getElementById('mybooking_form');
+        var formdata = new FormData(form);
+
+        $("#save_row").find(".alert").each(function(){
+          $(this).remove();
+        });
+        var url = $("#mybooking_form").attr('action');
+        console.log(formdata);
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            data: formdata, // Serialize form data
+            success: function (response) 
+            {
+                console.log(response);
+                if( response.error )
+                {
+                  $("#save_row").append("<div class='alert alert-danger mt-1 mb-0'>"+response.error_message+"</div>");
+                  $("#new_booking_save").prop("disabled", false);
+                  $("#new_booking_save").html("Submit");
+                }
+                else
+                {
+                  $("#save_row").append("<div class='alert alert-success mt-1 mb-0'>"+response.success_message+". Booking Id:<b>"+response.booking_id+"</b></div>");
+                  //$("#new_booking_save").prop("disabled", false);
+                  $("#new_booking_save").html("Success. Redirecting");
+                  
+                  setTimeout(function(){
+                    window.location.href = '<?=base_url('admin/Bookings')?>';
+                  }, 2000);
+                }
+            },
+            error: function (data) {
+                $("#save_row").append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                $("#new_booking_save").prop("disabled", false);
+                $("#new_booking_save").html("Submit");
             }
         });
 

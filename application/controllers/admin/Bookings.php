@@ -14,6 +14,9 @@ class Bookings extends CI_Controller
         parent::__construct();
         $this->load->model('bookings_model');
         $this->load->model('biketypes_model');
+        $this->load->model('bookingbikes_model');
+        $this->load->model('bookingpayment_model');
+        $this->load->model('paymentmode_model');
         $this->load->model('holidays_model');
         $this->load->model('publicholidays_model');
         $this->load->model('searchbike_model');
@@ -183,24 +186,19 @@ class Bookings extends CI_Controller
 
     public function save()
     {
-        print_r($_POST);
-        die();
-    }
-
-    public function save_record()
-    {
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
         $this->load->library('form_validation'); 
 
-        $id = $this->security->xss_clean($this->input->post('record_id'));           
-        $this->form_validation->set_rules('name','Name','trim|required|max_length[128]');
-        $this->form_validation->set_rules('email','Email','trim|required|valid_email|max_length[128]');
-        $this->form_validation->set_rules('phone','Phone','trim|required|max_length[10]');
-        
-        if( $id == "" ) {
-            $this->form_validation->set_rules('password','Passwword','trim|required|min_length[6]|max_length[25]');
-        }
-                
+        $this->form_validation->set_rules('pickup_date','Pickup date','trim|required|max_length[128]');
+        $this->form_validation->set_rules('pickup_time','Pickup time','trim|required|max_length[128]');
+
+        $this->form_validation->set_rules('dropoff_date','Dropoff date','trim|required|max_length[128]');
+        $this->form_validation->set_rules('dropoff_time','Dropoff time','trim|required|max_length[128]');
+
+        $this->form_validation->set_rules('biketype','Bike','trim|required|max_length[128]');
+        $this->form_validation->set_rules('customer_id','Customer','trim|required|max_length[128]');
+        $this->form_validation->set_rules('pickup_status','Pickup status','trim|required|max_length[128]');
+
         if($this->form_validation->run() == FALSE)
         {
             $response["error"] = 1;
@@ -210,72 +208,138 @@ class Bookings extends CI_Controller
         else
         {
             $user = $this->session->userdata();
-            $id = $this->security->xss_clean($this->input->post('record_id'));
-            $name = $this->security->xss_clean($this->input->post('name'));
-            $email = $this->security->xss_clean($this->input->post('email'));
-            $phone = $this->security->xss_clean($this->input->post('phone'));
-            $password = $this->security->xss_clean($this->input->post('password'));
-
-            if( $id == "" )
+            $bike_id_string = trim($this->input->post('biketype'));
+            $bike_count = trim($this->input->post('vehicle_count'));
+            $bids = $this->input->post('vehicle_numbers');
+            $bike_ids = json_decode($bids);
+            if( gettype($bike_ids) == "string" )
             {
-                $recordInfo = array(
-                    'name' => $name,
-                    'email' => $email,
-                    'phone' => $phone,
-                    'password' => getHashedPassword($password),
-                    'created_by' => $user['userId']
-                );
+                $bike_ids = json_decode($bike_ids);
+            }
 
-                if( $this->bookings_model->checkPhoneExists($phone) )
+            $data['pickup_date'] = trim($this->input->post('pickup_date'));
+            $data['pickup_time'] = trim($this->input->post('pickup_time'));
+            $data['dropoff_date'] = trim($this->input->post('dropoff_date'));
+            $data['dropoff_time'] = trim($this->input->post('dropoff_time'));
+            $data['helmets_qty'] = trim($this->input->post('helmets_qty'));
+            $data['early_pickup'] = trim($this->input->post('early_pickup'));
+            $data['customer_id'] = trim($this->input->post('customer_id'));
+            $data['paid'] = trim($this->input->post('paid'));
+            $data['paymentOption'] = trim($this->input->post('paymentOption'));
+            $data['notes'] = trim($this->input->post('notes'));
+            $data['pickup_status'] = trim($this->input->post('pickup_status'));
+
+            $d1= new DateTime($data['dropoff_date']." ".$data['dropoff_time']); // first date
+            $d2= new DateTime($data['pickup_date']." ".$data['pickup_time']); // second date
+            $interval= $d1->diff($d2);
+            $data['period_days'] = $interval->days;
+            $data['period_hours'] = $interval->h; 
+        
+            $data['search_bikes'] = $this->searchbike_model->searchBikes($bike_id_string, $data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time']);
+
+            $subtotal = 0;
+            $gst = 0;
+            $helmets_total = 0;
+            $early_pickup = 0;
+            $bikes_quantity = $bike_count;
+            $refund_total = $bike_count * 1000;
+
+            $data['cart_bikes'] = array();
+            foreach($data['search_bikes'] as $bike) 
+            {
+                $rent_price = 0;
+                foreach($bike_ids as $i => $obj) 
                 {
-                    $response["error"] = 1;
-                    $response["error_message"] = "Record already exists.";
-                }
-                else
-                {
-                    $result = $this->bookings_model->addNew($recordInfo);
-                    if($result > 0)
+                    if($obj->bike_id == $bike['bid'])
                     {
-                        $response["error"] = 0;
-                        $response["error_message"] = "";
-                        $response["success_message"] = "Record added successfully";
-                    } 
-                    else 
-                    {
-                        $response["error"] = 1;
-                        $response["error_message"] = "Record add failed.";
+                        $subtotal += $obj->rent_price;
+                        array_push($data['cart_bikes'], $bike);
+                        break;
                     }
-                }    
+                }   
+            }
+
+            if( isset($data['helmets_qty']) && $data['helmets_qty'] > 0 )
+            {
+                $helmets_total = $data['helmets_qty'] * 50;
+                $subtotal += $helmets_total;
             }
             else
             {
-                $recordInfo = array('name' => $name, 'email' => $email,
-                    'phone' => $phone);
+                $data['helmets_qty'] = 0;
+            }
 
-                $result = $this->bookings_model->checkPhoneExists1($name, $id);
-                if( $result )
+            if( isset($data['early_pickup']) && $data['early_pickup'] > 0 )
+            {
+                $early_pickup = 1;
+                $subtotal += 200;
+            }
+
+            $subtotal = $subtotal - round($subtotal * 0.05, 2);
+            $gst = round($subtotal * 0.05, 2);
+            $pmode_row = $this->paymentmode_model->getIdByMode($data['paymentOption']);
+
+            // INSERT RECORDS
+            $booking_record = array(
+                    "customer_id" => $data['customer_id'],
+                    "quantity" => $bikes_quantity,
+                    "helmet_quantity" => $data['helmets_qty'],
+                    "booking_amount" => $data['paid'],
+                    "total_amount" => $subtotal,
+                    "gst" => $gst,
+                    "refund_amount" => $refund_total,
+                    "refund_status" => 1,
+                    "payment_mode" => $pmode_row['id'],
+                    "status" => $data['pickup_status'],
+                    "pickup_date" => dateformatdb($data['pickup_date']),
+                    "pickup_time" => $data['pickup_time'],
+                    "dropoff_date" => dateformatdb($data['dropoff_date']),
+                    "dropoff_time" => $data['dropoff_time'],
+                    "early_pickup" => $data['early_pickup'],
+                    "notes" => $data['notes'],
+                    "created_by" => $user['userId'],  
+                );
+            
+            $booking_id = $this->bookings_model->addNew($booking_record);
+            if( $booking_id != "" )
+            {
+                foreach($data['cart_bikes'] as $bike) 
                 {
-                    $response["error"] = 1;
-                    $response["error_message"] = "Record already exists";
-                    $response["success_message"] = "";
+                    $bookingbikes_record = array(
+                        "booking_id" => $booking_id,
+                        "type_id" => $bike['bike_type_id'],
+                        "bike_id" => $bike['bid'],
+                        "quantity" => 1,
+                        "created_by" => $user['userId'],  
+                    );
+                    $this->bookingbikes_model->addNew($bookingbikes_record);
                 }
-                else
-                {
-                    $result = $this->bookings_model->updateRecord($recordInfo, $id);
-                    if($result > 0)
-                    {
-                        $response["error"] = 0;
-                        $response["error_message"] = "";
-                        $response["success_message"] = "Record updated successfully";
-                    } 
-                    else 
-                    {
-                        $response["error"] = 1;
-                        $response["error_message"] = "Record update failed.";
-                    }
-                }                
-            }            
-            die(json_encode($response));            
+
+                // Add Payment Record
+                $booking_payment = array(
+                    "booking_id" => $booking_id,
+                    "amount" => $data['paid'],
+                    "payment_mode" => $pmode_row['id'],
+                    "created_by" => $user['userId']
+                );
+                $this->bookingpayment_model->addNew($booking_payment);
+
+                $data['payment_status'] = "Success";
+                
+                $response['booking_id'] = $booking_id;            
+                $response["error"] = 0;
+                $response["error_message"] = "";
+                $response["success_message"] = "Record inserted successfully";
+
+                die(json_encode($response));
+            }
+            else
+            {
+                $response["error"] = 1;
+                $response["error_message"] = "Record insert failed.";
+                die(json_encode($response));
+            }
+
         }
     }
 
@@ -299,6 +363,8 @@ class Bookings extends CI_Controller
         }
         else
         {
+            $this->bookingpayment_model->deleteByBookingId($record_id);
+            $this->bookingbikes_model->deleteByBookingId($record_id);
             $this->bookings_model->deleteRecord($record_id);
             $response["error"] = 0;
             $response["error_message"] = "";

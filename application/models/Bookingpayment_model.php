@@ -77,6 +77,18 @@ class Bookingpayment_model extends CI_Model
         return true;
     }
 
+    function deleteByBookingId($booking_id)
+    {
+        $this->db->trans_start();
+        
+        $this->db->where('booking_id', $booking_id);
+        $this->db->delete('tbl_booking_payment');
+        
+        $this->db->trans_complete();
+        
+        return true;
+    }
+
 
 }
 
