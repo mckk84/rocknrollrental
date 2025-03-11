@@ -287,7 +287,7 @@
                                 <input class="m-2 text-center form-control rounded" type="text" id="sixth" maxlength="1" />
                             </div>
                             <div id="otp_div" class="mt-4"> 
-                                <button id="validateBtn" class="btn btn-danger px-4 validate">Validate</button> 
+                                <button id="validateBtn" class="btn btn-warning px-4 validate">Validate</button> 
                                 <span style="display:block;width:50px;font-size:20px;font-weight:bold;border-radius:50%;border:1px solid red;" class="mx-auto my-1 p-2" id="otp_counter"></span>
                             </div>
                         </div>
