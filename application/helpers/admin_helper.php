@@ -2,6 +2,8 @@
 
 function sendOtpWhatsapp($phone, $otp)
 {
+    return sendReturnReminderTodayToCustomer("M Charan Kumar");
+
     $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=login_otp&priority=wa&stype=normal&Params=".$otp;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -14,6 +16,43 @@ function sendOtpWhatsapp($phone, $otp)
     }
     curl_close($ch); // Close the connection
     return true;
+}
+
+// To send whatsapp message to customer on successful booking of vehicle.
+function sendNewOrdertoCustomer($customer_name, $booking_id, $bike, $pickup_date, $dropoff_date, $total_cost, $paid)
+{
+    //rnr_booking
+
+}
+
+// To send message to admin on new order
+function sendNewOrdertoCustomer($customer_name, $booking_id, $pickup_date, $phone)
+{
+    //rnr_booking_alerts
+    
+}
+
+// Send Message to Customer on Return date is today
+function sendReturnReminderTodayToCustomer($customer_name)
+{
+    //return_reminder
+    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=return_reminder&priority=wa&stype=normal&Params=".$customer_name;
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    if(curl_errno($ch)) 
+    {
+        curl_close($ch);
+        return false;
+    }
+    curl_close($ch); // Close the connection
+    return true;
+}
+
+function sendSafetyMessageCustomer($customer_name)
+{
+    //rnr_safetys
 }
 
 function generateOtp() {
