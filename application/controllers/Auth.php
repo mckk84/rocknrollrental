@@ -61,13 +61,24 @@ class Auth extends CI_Controller {
             			// Send whatsapp OTP
 	            		$random6 = generateOtp();
 
-	            		// insert OTP
-	            		$result = $this->customers_model->insertOtp($phone, $random6);
+	            		$api_response = sendOtpWhatsapp($phone, $random6);
 
-	            		$response["error"] = 0;
-	            		$response["error_message"] = "";
-	            		$response["success_message"] = $random6;
-	            		die(json_encode($response));	
+	            		if( $api_response ){
+		            		// insert OTP
+		            		$result = $this->customers_model->insertOtp($phone, $random6);
+
+		            		$response["error"] = 0;
+		            		$response["error_message"] = "";
+		            		$response["success_message"] = $random6;
+		            		die(json_encode($response));	
+	            		}
+	            		else
+	            		{
+	            			$response["error"] = 1;
+		            		$response["error_message"] = "Otp login unavailable. Please use password.";
+		            		$response["success_message"] = "";
+		            		die(json_encode($response));	
+	            		}
             		}            		
             	}
 

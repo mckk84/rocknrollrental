@@ -1,5 +1,21 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
+function sendOtpWhatsapp($phone, $otp)
+{
+    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=login_otp&priority=wa&stype=normal&Params=".$otp;
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    if(curl_errno($ch)) 
+    {
+        curl_close($ch);
+        return false;
+    }
+    curl_close($ch); // Close the connection
+    return true;
+}
+
 function generateOtp() {
     $key = "";
     for ($x = 1; $x <= 6; $x++) {
