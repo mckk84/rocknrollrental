@@ -1,5 +1,12 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
+function generateOtp() {
+    $key = "";
+    for ($x = 1; $x <= 6; $x++) {
+        $key .= random_int(0, 9);
+    }
+    return $key;
+}
 
 function dateformatdb($date)
 {

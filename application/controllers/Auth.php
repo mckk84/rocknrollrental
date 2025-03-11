@@ -10,12 +10,69 @@ class Auth extends CI_Controller {
 		{
             if ($this->input->method(TRUE) == "POST") 
             {
+            	$this->load->model('customers_model');
             	$this->load->library('form_validation');   
 
+            	$opt_login = $this->security->xss_clean($this->input->post('opt_login'));
             	$this->form_validation->set_rules('phone','Phone','trim|required|numeric|max_length[10]');
+
+            	if( $opt_login == 1 )
+            	{
+            		$otp = $this->security->xss_clean($this->input->post('otp'));
+            		$phone = $this->security->xss_clean($this->input->post('phone'));
+            		
+            		if( !$this->customers_model->checkPhoneExists($phone) )
+            		{
+            			$response["error"] = 1;
+	            		$response["error_message"] = "Phone is not registered.";	
+	            		die(json_encode($response));
+            		}
+
+            		if( isset($otp) && !is_null($otp) && $otp != "" )
+            		{
+            			$result = $this->customers_model->loginOtp($phone, $otp);
+		                if (!empty($result))
+		                {
+		                    $response["error"] = 0;
+		                    $response["error_message"] = "";
+		                    $response["success_message"] = "Login successful";
+		                    $sessionArray = array( 'userId'=>$result->id,
+	                                        'name'=>$result->name,
+	                                        'email'=>$result->email,
+	                                        'phone'=>$result->phone,
+	                                        'Authorization' => true
+	                                );
+
+	                		$this->session->set_userdata("Auth", $sessionArray);
+	                		$response["error"] = 0;
+		            		$response["error_message"] = "";
+		            		$response["success_message"] = "Login successful";
+		            		die(json_encode($response));
+		                } 
+		                else 
+		                {
+		                    $response["error"] = 1;
+		                    $response["error_message"] = "OTP Incorrect";
+		                    die(json_encode($response));
+		                }
+            		}
+            		else
+            		{
+            			// Send whatsapp OTP
+	            		$random6 = generateOtp();
+
+	            		// insert OTP
+	            		$result = $this->customers_model->insertOtp($phone, $random6);
+
+	            		$response["error"] = 0;
+	            		$response["error_message"] = "";
+	            		$response["success_message"] = $random6;
+	            		die(json_encode($response));	
+            		}            		
+            	}
+
             	$this->form_validation->set_rules('password','Password','trim|required|min_length[6]|max_length[20]');
 
-            	$phone = $this->security->xss_clean($this->input->post('phone'));
             	$password = $this->security->xss_clean($this->input->post('password'));
 
             	if($this->form_validation->run() == FALSE)
@@ -24,13 +81,14 @@ class Auth extends CI_Controller {
 		            $response["error_message"] = $this->form_validation->error_string();
 		            die(json_encode($response));
 		        }
+
 		        if(!preg_match('/^(?=.*\d)[0-9A-Za-z_!@#$%]{6,}$/', $password)) 
 		        {
 				    $response["error"] = 1;
 		            $response["error_message"] = "Password contains invalid characters.";
 		            die(json_encode($response));
 				}
-				$this->load->model('customers_model');
+				
 				$recordInfo = array(
 	                'phone' => $phone,
 	                'password' => getHashedPassword($password) );

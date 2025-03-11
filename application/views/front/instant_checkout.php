@@ -191,7 +191,7 @@
                                 <button type="button" id="proceed_payment" class="btn btn-primary btn-md d-block mt-4">Proceed to Pay</a>
                             </form>
                             <?php } else { ?>
-                            <a href="javascript:void(0)" class="btn btn-primary d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#at_product_view">Login/Sign Up</a>
+                            <a href="javascript:void(0)" class="btn btn-primary d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#login_form">Login/Sign Up</a>
                             <?php } ?>
                         </div>
                     </div>

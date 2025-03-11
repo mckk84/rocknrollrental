@@ -133,7 +133,7 @@
                                 
                                 <div class="apt_header_search dropdown ms-4">
                                     <?php if( !isset($user) || !isset($user['Authorization']) || ( isset($user['Authorization']) && $user['Authorization'] == false) ) { ?>
-                                        <a href="javascript:void(0)" class="btn header-white-btn d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#at_product_view">Login/Sign Up</a>       
+                                        <a href="javascript:void(0)" class="btn header-white-btn d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#login_form">Login/Sign Up</a>       
                                     <?php } ?>             
                                 </div>
                                 <button class="ofcanvus-toggle header-toggle-btn ms-4 d-none d-lg-block">

@@ -232,7 +232,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="at_product_view">
+    <div class="modal fade" id="login_form">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content product_modal shadow">
                 <div class="at_product_view">
@@ -251,7 +251,7 @@
                                         <input type="password" autocomplete="off" class="form-control" name="password" placeholder="Password" required>
                                     </div>
                                     <div class="d-flex mb-2 justify-content-between">
-                                        <a href="javascript:void(0)" id="OTP-Login" class="forgot_pass_inside">Login with OTP</a>
+                                        <a href="javascript:void(0)" id="otplogin" class="forgot_pass_inside">Login with OTP</a>
                                         <a href="javascript:void(0)" id="forgot-pass" class="forgot_pass_inside">Forgot password?</a>
                                     </div>
                                     <div class="d-grid">
@@ -261,6 +261,34 @@
                                         <a data-bs-toggle="modal" data-bs-target="#at_signup" href="javascript:void(0)" class="text-decoration-none">Sign up</a>.
                                     </p>
                                 </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="otp_form">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content product_modal shadow">
+                <div class="container height-100 d-flex justify-content-center align-items-center">
+                    <div class="position-relative">
+                        <div class="card p-2 text-center">
+                            <h6>Please enter the one time password <br> to verify your account</h6>
+                            <div> <span>A code has been sent to</span> <small id="maskedNumber"></small> </div>
+                            <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+                                <input class="m-2 text-center form-control rounded" type="text" id="first" maxlength="1" />
+                                <input class="m-2 text-center form-control rounded" type="text" id="second" maxlength="1" />
+                                <input class="m-2 text-center form-control rounded" type="text" id="third" maxlength="1" />
+                                <input class="m-2 text-center form-control rounded" type="text" id="fourth" maxlength="1" />
+                                <input class="m-2 text-center form-control rounded" type="text" id="fifth" maxlength="1" />
+                                <input class="m-2 text-center form-control rounded" type="text" id="sixth" maxlength="1" />
+                            </div>
+                            <div id="otp_div" class="mt-4"> 
+                                <button id="validateBtn" class="btn btn-danger px-4 validate">Validate</button> 
+                                <span style="display:block;width:50px;font-size:20px;font-weight:bold;border-radius:50%;border:1px solid red;" class="mx-auto my-1 p-2" id="otp_counter"></span>
                             </div>
                         </div>
                     </div>

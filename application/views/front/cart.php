@@ -203,7 +203,7 @@
                                     <label class="fa-md"><input type="radio" name="paymentOption" value="PAY_PARTIAL" onclick="__setPayment('PAY_PARTIAL');">  Pay cash on pickup (<span style="padding-left:3px;font-size:12px;">50% to be paid online</span>)</label>
                                 </div>
                                 <?php if( !isset($user) || !isset($user['Authorization']) || ( isset($user['Authorization']) && $user['Authorization'] == false) ) { ?>
-                                    <a href="javascript:void(0)" class="btn btn-primary d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#at_product_view">Login/Sign Up</a>
+                                    <a href="javascript:void(0)" class="btn btn-primary d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#login_form">Login/Sign Up</a>
                                 <?php } else { ?>  
                                 <button type="submit" class="btn btn-primary btn-md d-block mt-4">Proceed to Checkout</a>
                                 <?php } ?>

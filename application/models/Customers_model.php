@@ -59,6 +59,22 @@ class Customers_model extends CI_Model
         }
     }
 
+    function loginOtp($phone, $otp)
+    {
+        $this->db->select('id, name, email, phone, password');
+        $this->db->from('tbl_customers');
+        $this->db->where('phone', $phone);
+        $this->db->where('otp', $otp);
+        $query = $this->db->get();
+        $user = $query->row();
+        
+        if(!empty($user)){
+            return $user;
+        } else {
+            return array();
+        }
+    }
+
     /**
      * This function used to check email exists or not
      * @param {string} $email : This is users email id
@@ -94,6 +110,22 @@ class Customers_model extends CI_Model
         } else {
             return false;
         }
+    }
+
+    public function insertOtp($phone, $otp)
+    {
+        $info = array(
+                'otp' => $otp
+            );
+
+        $this->db->trans_start();
+        
+        $this->db->where('phone', $phone);
+        $this->db->update('tbl_customers', $info);
+        
+        $this->db->trans_complete();
+        
+        return true;
     }
 
     /**
