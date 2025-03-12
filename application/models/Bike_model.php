@@ -40,6 +40,22 @@ class Bike_model extends CI_Model
         }
     }
 
+    function getImageForType($type_id)
+    {
+        $this->db->limit(1);
+        $this->db->select('tbl_bikes.image');
+        $this->db->from('tbl_bikes');
+        $this->db->where('tbl_bikes.type_id', $type_id);
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0)
+        {
+            return $query->row_array();
+        } else {
+            return array();
+        }
+    }
+
     /**
      * This function used to check email exists or not
      * @param {string} $email : This is users email id

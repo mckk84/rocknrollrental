@@ -4,14 +4,16 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item"><a href="<?=base_url('admin/Booings#')?>">Booings</a></li>
+          <li class="breadcrumb-item"><a href="<?=base_url('admin/Bookings#')?>">Bookings</a></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
       <div class="row">
-
+        <?php 
+        $timings = array("07:30 AM","08:00 AM","08:30 AM","09:00 AM","09:30 AM","10:00 AM","10:30 AM","11:00 AM","11:30 AM","12:00 AM","12:30 AM","01:00 PM","01:30 PM","02:00 AM","02:30 PM","03:00 PM","04:00 PM","04:30 PM","05:00 PM","05:30 PM","06:00 PM","06:30 PM","07:00 PM","07:30 PM","08:00 PM");
+        ?>
         <div class="col-lg-12">
 
             <div class="card">
@@ -46,33 +48,9 @@
                         <div class="col-md-6">
                               <label class="text-dark mb-1">Time</label>
                               <select id="pickup_time" name="pickup_time" class="form-select">
-                                <option selected value="07:30 AM">07:30 AM</option>
-                                <option value="08:00 AM">08:00 AM</option>
-                                <option value="08:30 AM">08:30 AM</option>
-
-                                <option value="09:00 AM">09:00 AM</option>
-                                <option value="09:30 AM">09:30 AM</option>
-                                <option value="10:00 AM">10:00 AM</option>
-                                <option value="10:30 AM">10:30 AM</option>
-                                <option value="11:00 AM">11:00 AM</option>
-                                <option value="11:30 AM">11:30 AM</option>
-                                
-                                <option value="12:00 AM">12:00 PM</option>
-                                <option value="12:30 AM">12:30 PM</option>
-                                <option value="01:00 PM">01:00 PM</option>
-                                <option value="01:30 PM">01:30 PM</option>
-                                <option value="02:00 AM">02:00 PM</option>
-                                <option value="02:30 PM">02:30 PM</option>
-                                <option value="03:00 PM">03:00 PM</option>
-                                <option value="04:00 PM">04:00 PM</option>
-                                <option value="04:30 PM">04:30 PM</option>
-                                <option value="05:00 PM">05:00 PM</option>
-                                <option value="05:30 PM">05:30 PM</option>
-                                <option value="06:00 PM">06:00 PM</option>
-                                <option value="06:30 PM">06:30 PM</option>
-                                <option value="07:00 PM">07:00 PM</option>
-                                <option value="07:30 PM">07:30 PM</option>
-                                <option value="08:00 PM">08:00 PM</option>
+                                <?php for ($i=0; $i < count($timings); $i++){?> 
+                                  <option <?=($i==0)?"selected":""?> value="<?=$timings[$i]?>"><?=$timings[$i]?></option>  
+                                <?php } ?>
                               </select>
                         </div>
                       </div>
@@ -84,33 +62,9 @@
                         <div class="col-md-6">
                             <label class="text-dark mb-1">Time</label>
                             <select id="dropoff_time" name="dropoff_time" class="form-select">
-                              <option value="07:30 AM">07:30 AM</option>
-                                <option value="08:00 AM">08:00 AM</option>
-                                <option value="08:30 AM">08:30 AM</option>
-
-                                <option value="09:00 AM">09:00 AM</option>
-                                <option value="09:30 AM">09:30 AM</option>
-                                <option value="10:00 AM">10:00 AM</option>
-                                <option value="10:30 AM">10:30 AM</option>
-                                <option value="11:00 AM">11:00 AM</option>
-                                <option value="11:30 AM">11:30 AM</option>
-                                
-                                <option value="12:00 AM">12:00 PM</option>
-                                <option value="12:30 AM">12:30 PM</option>
-                                <option value="01:00 PM">01:00 PM</option>
-                                <option value="01:30 PM">01:30 PM</option>
-                                <option value="02:00 AM">02:00 PM</option>
-                                <option value="02:30 PM">02:30 PM</option>
-                                <option value="03:00 PM">03:00 PM</option>
-                                <option value="04:00 PM">04:00 PM</option>
-                                <option value="04:30 PM">04:30 PM</option>
-                                <option value="05:00 PM">05:00 PM</option>
-                                <option value="05:30 PM">05:30 PM</option>
-                                <option value="06:00 PM">06:00 PM</option>
-                                <option value="06:30 PM">06:30 PM</option>
-                                <option value="07:00 PM">07:00 PM</option>
-                                <option value="07:30 PM">07:30 PM</option>
-                                <option selected value="08:00 PM">08:00 PM</option>
+                              <?php for ($i=0; $i < count($timings); $i++){?> 
+                                  <option <?=($i == (count($timings) - 1) )?"selected":""?> value="<?=$timings[$i]?>"><?=$timings[$i]?></option>  
+                                <?php } ?>
                             </select>
                         </div>
                       </div>
@@ -205,7 +159,7 @@
                                   </tr>
                                   <tr style="display:none" id="helmets_row">
                                       <th class="text-start">Helmet <input type="number" name="helmets_qty" style="max-width: 100px;display: inline;margin-left: 25px;" class="cart-helmets form-control" value="0"></th>
-                                      <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="helemt_total d-inline-block p-1">50</span></th>
+                                      <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="helmet_total d-inline-block p-1">50</span></th>
                                   </tr>
                                   <tr style="display:none" id="earlypickup_row">
                                       <th class="text-start">Early Pickup</th>
@@ -266,10 +220,10 @@
                   </div>
                   <div class="row g-3">
                     <div class="col-md-2 mb-2">
-                      <label class="d-block text-dark mt-3">Order Notes</label>
+                      <label class="d-block text-dark mt-3">Delivery Notes</label>
                     </div>
                     <div class="col-md-6 mb-2">
-                      <textarea name="notes" rows="2" class="form-control"></textarea>
+                      <textarea name="delivery_notes" rows="2" class="form-control"></textarea>
                     </div>
                   </div>
                   <div id="save_row" class="row g-3">
@@ -357,6 +311,7 @@
       var refund_deposit = 1000 * vehicle_count;
 
       $(".bike_total").html(bikes_total);
+      $(".helmet_total").html(helmet_total);
       $(".sub_total").html(sub_total);
       $(".refund_deposit").html(refund_deposit);
       $(".order_gst").html(order_gst);

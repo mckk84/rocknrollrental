@@ -249,6 +249,7 @@ h6 {
 
 .card-body {
   padding: 0 20px 20px 20px;
+  overflow: auto;
 }
 
 .card-img-overlay {
@@ -263,9 +264,9 @@ h6 {
 }
 
 /* Close Button */
-.btn-close {
+/*.btn-close {
   background-size: 25%;
-}
+}*/
 
 .btn-close:focus {
   outline: 0;
@@ -1235,8 +1236,10 @@ h6 {
   color: #3674B5;
 }
 
-.table tbody td, .table thead th{
-  color: #444;
+.table td, .table th{
+  color: #000;
+  padding: 6px;
+  vertical-align: middle;
 }
 
 tbody, td, tfoot, th, thead, tr {
@@ -1284,13 +1287,18 @@ select, input{
   float: left !important;
 }
 
+.modal-title{
+  font-size: larger;
+  font-weight: 600;
+}
+
 .modal-dialog {
-    margin: 8% 35%;
+    margin: 7% auto;
     min-width: 560px;
 }
 
 .modal-dialog.modal-xl {
-    margin: 8% 35%;
+    margin: 7% auto;
     min-width: 700px;
 }
 
@@ -1341,4 +1349,19 @@ button#multiSelectDropdown {
 .datatable-table > tbody > tr > td, .datatable-table > tbody > tr > th, .datatable-table > tfoot > tr > td, .datatable-table > tfoot > tr > th, .datatable-table > thead > tr > td, .datatable-table > thead > tr > th {
     vertical-align: top;
     padding: 5px;
+}
+
+.badge {
+    text-transform: uppercase;
+    padding: 3px 5px !important;
+    font-size: 10px;
+    vertical-align: middle;
+}
+
+.bg-warning{
+  background-color: rgb(255,211,81) !important;
+}
+
+.modal-content{
+  background-color: #f6f6f6 !important;
 }

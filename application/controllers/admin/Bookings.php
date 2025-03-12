@@ -12,6 +12,7 @@ class Bookings extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('bike_model');
         $this->load->model('bookings_model');
         $this->load->model('biketypes_model');
         $this->load->model('bookingbikes_model');
@@ -66,6 +67,123 @@ class Bookings extends CI_Controller
             $this->load->view('backend/new_booking', $data);
             $this->load->view('layout_admin/footer');
         }
+    }
+
+    public function getRecord()
+    {
+        $response = array("error" => 0, "error_message" => "", "success_message" => "");
+        $booking_id = (isset($_GET['id']) && $_GET['id'] != "") ? intval($_GET['id']) : 0;
+        if( $booking_id == 0 )
+        {
+            $response['error'] = 1;
+            $response['error_message'] = "Record not found";
+            die(json_encode($response));
+        } 
+
+        $biketypes = $this->biketypes_model->getAll();
+        $data['biketypes'] = result_to_array($biketypes);
+        $data['order'] = $this->bookings_model->getById($booking_id);
+        $data['order_bike_types'] = $this->bookingbikes_model->getByBookingId($booking_id);
+        $data['order_payment'] = $this->bookingpayment_model->getByBookingId($booking_id);
+        $data['customer'] = $this->customers_model->getById($data['order']['customer_id']);
+
+        $bike_type_ids = "";
+        $bike_type_names = "";
+        $bike_type_array = [];
+        $bike_type_qty = [];
+        foreach($data['order_bike_types'] as $i => $row)
+        {
+          if( !in_array($row['type_id'], $bike_type_array) )
+          {
+            array_push($bike_type_array, $row['type_id']); 
+            $bike_type_names .= ( $bike_type_names == "" ) ? $row['type'] : ",".$row['type'];
+            $bike_type_qty[ $row['type'] ] = 1;
+          }
+          else
+          {
+            $bike_type_qty[ $row['type'] ] = $bike_type_qty[ $row['type'] ] + 1;
+          }
+        }
+        $bike_type_ids = implode(",", $bike_type_array);
+        $ordered_bike_qty = "";
+        foreach($bike_type_qty as $btype => $bq)
+        {
+           $ordered_bike_qty .= "<span class='w-100 text-danger font-bold d-block'>".$btype." ( ".$bq." Nos. )</span>";
+        }
+
+        $data['available_bikes'] = $this->searchbike_model->searchBikes($bike_type_ids, $data['order']['pickup_date'], $data['order']['pickup_time'], $data['order']['dropoff_date'], $data['order']['dropoff_time']);
+
+        $d1= new DateTime($data['order']['dropoff_date']." ".$data['order']['dropoff_time']); // first date
+        $d2= new DateTime($data['order']['pickup_date']." ".$data['order']['pickup_time']); // second date
+        $interval= $d1->diff($d2); // get difference between two dates
+        $data['period_days'] = $interval->days;
+        $data['period_hours'] = $interval->h; 
+
+        $data['weekend'] = 0;
+        $data['public_holiday'] = 0;
+        $data['holiday'] = 0;
+        $date=date_create($data['order']['pickup_date']);
+        $day = date_format($date,"D");
+        if( $day == 'Sat' || $day == 'Sun' )
+        {
+            $data['weekend'] = 1;
+        }
+        $res = $this->publicholidays_model->checkRecordExists(dateformatdb($data['order']['pickup_date']));
+        if( $res )
+        {
+            $data['public_holiday'] = 1;
+        }
+
+        $res = $this->holidays_model->checkRecordExists(dateformatdb($data['order']['pickup_date']));
+        if( $res )
+        {
+            $data['holiday'] = 1;
+        }
+
+        foreach($data['available_bikes'] as $index => $bike)
+        {
+            if( in_array($bike['bike_type_id'], $bike_type_array))
+            {
+                $bike['rent_price'] = 0;
+                $bike['bike_image'] = "";
+                $bike_row = $this->bike_model->getImageForType($bike['bike_type_id']);
+                if( count($bike_row) > 0 )
+                {
+                    $bike['bike_image'] = $bike_row['image'];
+                }
+
+                if( $data['period_days'] > 0 || $data['period_hours'] > 4  ){
+                    $duration = "day";
+                    if( $data['public_holiday'] == 1 ){
+                        $bike['rent_price'] = $bike['holiday_day_price'];
+                    }
+                    elseif( $data['weekend'] == 1 ){
+                        $bike['rent_price'] = $bike['weekend_day_price'];
+                    } else {
+                        $bike['rent_price'] = $bike['week_day_price'];
+                    }
+                } else {
+                    $duration = "halfday";
+                    if( $data['public_holiday'] == 1 ){
+                        $bike['rent_price'] = $bike['holiday_day_half_price'];
+                    } elseif( $data['weekend'] == 1 ){
+                        $bike['rent_price'] = $bike['weekend_day_half_price'];
+                    } else {
+                        $bike['rent_price'] = $bike['week_day_half_price'];
+                    } 
+                }
+            }                   
+            $data['available_bikes'][$index] = $bike;
+        }
+
+        
+        $data['ordered_bikes'] = $ordered_bike_qty;
+        $data['bike_url'] = base_url('bikes/');
+
+        $response['error'] = 0;
+        $response['success_message'] = "Record found";
+        $response['data'] = $data;
+        die(json_encode($response));
     }
 
     public function search()
@@ -169,21 +287,6 @@ class Bookings extends CI_Controller
         }
     }
 
-    public function getRecord()
-    {
-        $id = isset($_GET['id']) ? $_GET['id'] : 0;
-
-        if( $id )
-        {
-            $record = $this->bookings_model->getById($id);
-            die(json_encode($record));
-        }
-        else
-        {
-            die("{'error':1,'error_message':'Invalid Request'}");
-        }
-    }
-
     public function save()
     {
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
@@ -226,7 +329,7 @@ class Bookings extends CI_Controller
             $data['customer_id'] = trim($this->input->post('customer_id'));
             $data['paid'] = trim($this->input->post('paid'));
             $data['paymentOption'] = trim($this->input->post('paymentOption'));
-            $data['notes'] = trim($this->input->post('notes'));
+            $data['delivery_notes'] = trim($this->input->post('delivery_notes'));
             $data['pickup_status'] = trim($this->input->post('pickup_status'));
 
             $d1= new DateTime($data['dropoff_date']." ".$data['dropoff_time']); // first date
@@ -296,7 +399,7 @@ class Bookings extends CI_Controller
                     "dropoff_date" => dateformatdb($data['dropoff_date']),
                     "dropoff_time" => $data['dropoff_time'],
                     "early_pickup" => $data['early_pickup'],
-                    "notes" => $data['notes'],
+                    "delivery_notes" => $data['delivery_notes'],
                     "created_by" => $user['userId'],  
                 );
             
@@ -340,6 +443,94 @@ class Bookings extends CI_Controller
                 die(json_encode($response));
             }
 
+        }
+    }
+
+    public function update()
+    {
+        $response = array("error" => 0, "error_message" => "", "success_message" => "");
+        $this->load->library('form_validation'); 
+
+        print_r($_POST);
+        die();
+
+        $this->form_validation->set_rules('booking_id','Booking Id','trim|required|max_length[128]');
+        $this->form_validation->set_rules('pickup_status','Pickup status','trim|required|max_length[128]');
+        $this->form_validation->set_rules('refund_status','Refund status','trim|required|max_length[128]');
+
+        if($this->form_validation->run() == FALSE)
+        {
+            $response["error"] = 1;
+            $response["error_message"] = $this->form_validation->error_string();
+            die(json_encode($response));
+        }
+        else
+        {
+            // check booking id
+            $data['booking_id'] = trim($this->input->post('booking_id'));
+            $data['order'] = $this->bookings_model->getById($data['booking_id']);
+            if( count($data['order']) == 0 )
+            {
+                $response["error"] = 1;
+                $response["error_message"] = "Booking Id ".$data['booking_id']." not found.";
+                die(json_encode($response));
+            }
+
+            $bikes_quantity = $data['order']['quantity'];
+
+            $user = $this->session->userdata();
+            $data['delivery_notes'] = trim($this->input->post('delivery_notes'));
+            $data['pickup_status'] = trim($this->input->post('pickup_status'));
+            $data['refund_status'] = trim($this->input->post('refund_status'));
+            $bike_count = trim($this->input->post('vehicle_count'));
+            $bids = $this->input->post('vehicle_numbers');
+
+            if( $bikes_quantity != $bike_count )
+            {
+                $response["error"] = 1;
+                $response["error_message"] = "Bikes quantity not matching.";
+                die(json_encode($response));
+            }
+            
+            $bike_ids = json_decode($bids);
+            if( gettype($bike_ids) == "string" )
+            {
+                $bike_ids = json_decode($bike_ids);
+            }
+
+            foreach($bike_ids as $i => $obj) 
+            {
+                $bike_row = $this->bike_model->getById($obj->bike_id);
+                $obj->type_id = $bike_row['type_id'];
+                $bike_ids[$i] = $obj;
+            }
+
+            $booking_record = array(
+                    "refund_status" => $data['refund_status'],
+                    "status" => $data['pickup_status'],
+                    "delivery_notes" => $data['delivery_notes'],  
+                );
+            
+            $this->bookings_model->updateRecord($booking_record, $data['booking_id']);
+            
+            foreach($bike_ids as $i => $obj) 
+            {
+                $booking_bikes = $this->bookingbikes_model->getByTypeId($data['booking_id'], $obj->type_id);
+                foreach($booking_bikes as $row)
+                {
+                    if( $row['bike_id'] == 0 )
+                    {
+                        $this->bookingbikes_model->updateRecord(array("bike_id" => $obj->bike_id), $row['id']);
+                    }
+                }
+                
+            }   
+            
+            $response["error"] = 0;
+            $response["error_message"] = "";
+            $response["success_message"] = "Record updated successfully";
+
+            die(json_encode($response));
         }
     }
 

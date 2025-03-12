@@ -60,7 +60,6 @@
                   <tbody>
                     <?php foreach($records as $index => $row) {
 
-                      $helmet_total = 0;
                       $early_pickup = $row['early_pickup'];
                       $bikes_ordered = "";
                       $bk = explode(",", $row['bikes_types']);
@@ -104,7 +103,7 @@
                       <td><?=$row['total_amount']?></td>
                       <td><?=$row['refund_amount']?></td>
                       <td><?=$row['booking_amount']?></td>
-                      <td><?=$row['total_amount'] + $row['refund_amount'] - $row['booking_amount']?></td>
+                      <td><?=$row['total_amount'] - $row['booking_amount']?></td>
                       <td><?=$row['paymentmode']?></td>
                       <td><?php if( $row['status'] == 0) { ?>
                         <span class="badge bg-warning">Pre Booked</span>
@@ -136,35 +135,33 @@
 
   </main><!-- End #main -->
 
-  <div class="modal fade" id="add-customer" tabindex="-1" data-bs-backdrop="false">
-    <div class="modal-dialog">
+  <div class="modal fade" id="edit-booking" tabindex="-1" data-bs-backdrop="false">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <form id="addcustomer" action="<?=base_url('admin/Customers/save_record')?>" method="POST">
-            <input type="hidden" name="record_id" value="">
+        <form id="updatebooking" class="booking_form" action="<?=base_url('admin/Bookings/update')?>" method="POST">
+            <input type="hidden" name="booking_id" value="">
             <div class="modal-header">
-              <h5 class="modal-title">Add Customer</h5>
+              <span class="modal-title h5">Booking Order</span>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="col-md-6">
-                  <label for="validationDefault01" class="form-label">Name</label>
-                  <input type="text" autocomplete="off" class="form-control" name="name" id="validationDefault01" value="" required>
-                </div>
-                <div class="col-md-6">
-                  <label for="validationDefault02" class="form-label">Email</label>
-                  <input type="text" autocomplete="off" class="form-control" name="email" id="validationDefault02" value="" required>
-                </div>
-                <div class="col-md-6">
-                  <label for="validationDefault03" class="form-label">Phone</label>
-                  <input type="tel" maxlength="10" autocomplete="off" class="form-control" name="phone" id="validationDefault03" value="" required>
-                </div>
-                <div class="col-md-6">
-                  <label for="validationDefault04" class="form-label">Password</label>
-                  <input type="password" autocomplete="off" class="form-control" name="password" id="validationDefault04" value="" required>
+                <div class="row g-1">
+                  <div id="order_details" class="col-md-12 mb-1 px-2">
+
+                  </div>
+                  <div id="order_details1" class="col-md-12 mb-1 px-2">
+
+                  </div>
+                  <div id="bike_select" class="col-md-12 px-2">
+                    
+                  </div>
+                  <div id="order_summary" class="col-md-12 px-2">
+                    
+                  </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" id="submitcustomer" type="button">Submit</button>
+                <button class="btn btn-primary" id="submitbooking" type="button">Submit</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </form>

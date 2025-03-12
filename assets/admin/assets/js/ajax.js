@@ -2,8 +2,14 @@
 
 $(document).ready(function(){
 
+    function formatdate(dt)
+    {
+      var d = dt.split("-");
+      return d[2]+"-"+d[1]+"-"+d[0];
+    }
+    
     // changepassword
-  $(".update-password").click(function(e) {
+    $(".update-password").click(function(e) {
 
         $("#update-password :input").prop("disabled", true);
         $("#update-password button[type='button']").prop("disabled", true);
@@ -81,6 +87,220 @@ $(document).ready(function(){
     $("#add_user").click(function(){
         $("#add-user").modal('show');
         $("#add-user").find("input[type=text], select").val("");
+    });
+
+    //edit order
+    $(".edit-booking-record").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let id = $(this).attr('record-data');
+        let url = window.location.href+"/getRecord?id="+id;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) 
+            {
+                var response = JSON.parse(data);
+                $('#edit-booking').modal('show');    
+
+                var order = response.data.order;
+                var customer = response.data.customer;
+                var biketypes = response.data.biketypes;
+                var available_bikes = response.data.available_bikes;
+                var order_bike_types = response.data.order_bike_types;
+                var order_payment = response.data.order_payment;
+
+                var html = "<table class='table datatable table-responsive border rounded mb-1'>";
+                html += "<thead><th class='bg-warning'>Pickup Date</th><th class='bg-warning'>Pickup Time</th><th class='bg-warning'>Dropoff Date</th><th class='bg-warning'>Dropoff Time</th></tr></thead>";
+                html += "<tbody><tr><td>"+formatdate(order.pickup_date)+"</td>";
+                html += "<td>"+order.pickup_time+"</td>";
+                html += "<td>"+formatdate(order.dropoff_date)+"</td>";
+                html += "<td>"+order.dropoff_time+"</td></tr>";
+
+                html += "<tr><td>Duration: "+response.data.period_days+" days, <b>"+response.data.period_hours+"</b> hours</td><td>Weekend: "+((response.data.weekend)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td>";
+                html += "<td>Public Holiday: "+((response.data.public_holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td>";
+                html += "</tr></tbody></table>";
+
+                $(".booking_form #order_details").html(html);
+
+                var html = "<table class='table datatable table-responsive border rounded mb-1'>";
+                html += "<tbody><th style='width:20%' class='bg-warning'>Customer</th><td colspan='2'>"+response.data.customer.name+" ("+response.data.customer.phone+")</td></tr>";
+                html += "<tr><th style='width:20%' class='bg-warning'>Bikes Ordered</th><td>"+response.data.ordered_bikes+"</td><td>Helmets: "+response.data.order.helmet_quantity+"</td></tr>";
+
+                html += "<tr>";
+                if( response.data.order.notes != "" )
+                {
+                    html += "<td>Notes: <b>"+response.data.order.notes+"</b></td>";
+                }
+                if( response.data.order.early_pickup != 0 )
+                {
+                    html += "<td>Early Pickup: <b>"+((response.data.order.early_pickup)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</b></td>";
+                }
+                html += "</tr></tbody></table>";
+
+                $(".booking_form #order_details1").html(html);
+
+                html = "<table class='table datatable table-responsive rounded border text-center'>";
+                html += "<thead><tr><th class='bg-warning text-center'>#</th><th class='bg-warning'>Bike Type</th><th class='bg-warning'>Image</th>";
+                html += "<th class='bg-warning'>Assign Vehicle</th><th class='bg-warning'>Rent Price</th></tr></thead>";
+                html += "<tbody>";
+                var bikes = response.data.order_bike_types;
+                for (var i = 0; i < bikes.length; i++) 
+                {
+                  var row = bikes[i];
+                  var available_bikes = response.data.available_bikes;
+                  var ab_html = "";
+                  for (var j = 0; j < available_bikes.length; j++) 
+                  {
+                    var ab = available_bikes[j];
+                    if( ab.type_id == row.type_id )
+                    {
+                        row.rent_price = ab.rent_price;
+                        row.bike_image = ab.image;
+                        ab_html += "<option "+((row.bike_id==ab.bid)?'selected':'')+" data-obt='"+row.id+"' value='"+ab.bid+"'>"+ab.vehicle_number+"</option>";
+                    }
+                  }
+
+                  html += "<tr><td>#"+i+"</td><td><span style='vertical-align:middle;'>"+row.type+"</span></td>";
+                  html += "<td><img style='width:50px;margin:auto;display:block;' class='img-fluid' src='"+response.data.bike_url+row.bike_image+"'/></td>";
+                  html += "<td><select class='form-select'><option value=''>-Select-</option>"+ab_html+"</select></td><td>"+row.rent_price+"</td></tr>";
+                }
+                html += "</tbody>";
+                html += "</table>";
+                $(".booking_form #bike_select").html(html);
+
+                var pending = 0;
+                var helmet_total = 0;
+                var early_pickup = 0;
+                var bike_total = response.data.order.total_amount;
+                if( response.data.order.helmet_quantity > 0 )
+                {
+                    helmet_total = response.data.order.helmet_quantity * 50;
+                }
+
+                if( response.data.order.early_pickup > 0 )
+                {
+                    early_pickup = 200;
+                }
+
+                bike_total = response.data.order.total_amount - helmet_total - early_pickup;
+
+                html = "<div style='width:46%;float:left;' class='table-responisve'>";
+                html += "<table class='table'>";
+                html += "<tr><th class='text-start bg-warning' colspan='2'>Order Updaes</th></tr>";
+                html += "<tr><th class='text-start'>Refund Status</th><th class='text-end'>";
+                html += "<select name='refund_status' class='form-select'>";
+                html += "<option>-Select-</option>";
+                html += "<option "+((response.data.order.refund_status==0)?'selected':'')+" value='0'>Pending</option>";
+                html += "<option "+((response.data.order.refund_status==1)?'selected':'')+" value='1'>Paid</option>";
+                html += "<option "+((response.data.order.refund_status==2)?'selected':'')+" value='2'>Returned</option>";
+                html += "</select></th>";
+                html += "</tr>";
+
+                html += "<tr><th class='text-start'>Pickup Status</th><th class='text-end'>";
+                html += "<select name='pickup_status' class='form-select'>";
+                html += "<option>-Select-</option>";
+                html += "<option "+((response.data.order.status==0)?'selected':'')+" value='0'>Pre Book</option>";
+                html += "<option "+((response.data.order.status==1)?'selected':'')+" value='1'>Rented</option>";
+                html += "<option "+((response.data.order.status==2)?'selected':'')+" value='2'>Closed</option>";
+                html += "</select>";
+                html += "</th>";
+                html += "</tr>";
+
+                html += "<tr><th class='text-start'>Payment</th><th class='text-end'>";
+                html += "<input name='new_payment' class='form-control' maxlength='6' type='number'>";
+                html += "</th>";
+                html += "</tr>";
+
+                html += "</table></div>";
+
+                html += "<div style='float:right;' class='w-50 table-responisve'>";
+                html += "<table class='table'>";
+                html += "<tr><th class='text-start bg-warning' colspan='3'>Order Summary</th></tr>";
+                html += "<tr><th class='text-start'>Bike Rental</th><th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='d-inline-block text-info p-1'>"+bike_total+"</span></th>";
+                html += "</tr>";
+
+                if( response.data.order.helmet_quantity > 0 ){
+
+                    html += "<tr>";
+                    html += "<th class='text-start'>Helmet <th><th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='text-info d-inline-block p-1'>"+helmet_total+"</span></th>";
+                    html += "</tr>";
+                }
+
+                if( response.data.order.early_pickup > 0 )
+                {
+                    html += "<tr>";
+                    html += "<th class='text-start'>Early Pickup</th>";
+                    html += "<th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='text-info d-inline-block p-1'>200</span></th></tr>";
+                }
+
+                html += "<tr><th class='text-start'>Sub Total</th>";
+                html += "<td class='fw-bold text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='text-info d-inline-block p-1'>"+(response.data.order.total_amount - response.data.order.gst)+"</span></td></tr>";
+                html += "<tr><th class='text-start'>GST</th>";
+                html += "<th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='text-info d-inline-block p-1'>"+response.data.order.gst+"</span></th></tr>";
+                html += "<tr><th class='text-start'>Total</th>";
+                html += "<td class='fw-bold text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='order_total text-info d-inline-block p-1'>"+response.data.order.total_amount+"</span></td>";
+                html += "</tr>";
+                html += "<tr><th class='text-start'>Refundable Deposit</th>";
+                html += "<td class='fw-bold text-end'><i class='fa fa-indian-rupee-sign me-1'></i> <span class='text-info d-inline-block p-1'>"+response.data.order.refund_amount+"</span></td>";
+                html += "</tr>";
+                html += "<tr><th class='text-start text-danger'>Paid</th>";
+                html += "<td class='fw-bold text-danger text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='paid_amount text-info d-inline-block p-1'>"+response.data.order.booking_amount+"</span></td></tr>";
+                html += "<tr><th class='text-start text-warning'>Pending</th>";
+                html += "<td class='fw-bold text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='pending_amount text-danger d-inline-block p-1'>"+pending+"</span></td></tr>";                
+                html += "</table></div>";
+
+                $(".booking_form #order_summary").html(html);
+                                
+            },
+            error: function (data) {
+                console.log("Error occured");
+            }
+        });
+    });
+
+    // submit booking
+    $("#submitbooking").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        $(this).prop('disabled', true);
+        $(this).html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
+
+        let form = $("#updatebooking");
+        let mbody = $("#updatebooking .modal-body");
+        let url = form.attr('action');
+
+        mbody.find(".alert").each(function(){
+            $(this).remove();
+        });
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(), // Serialize form data
+            success: function (data) {
+                var d = JSON.parse(data);
+                if( d.error == 1 )
+                {
+                    mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
+                    $("#submitbooking").prop('disabled', false);
+                    $("#submitbooking").html("Submit");
+                }
+                else
+                {
+                    mbody.append("<div class='alert alert-success mt-1 mb-0'>"+d.success_message+"</div>");
+                    $("#submitbooking").html("Success");
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 2000);
+                }
+            },
+            error: function (data) {
+                mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                $("#submitbooking").prop('disabled', false);
+                $("#submitbooking").html("Submit");
+            }
+        });
     });
 
     // add public holiday

@@ -56,22 +56,38 @@
                   <tbody>
                     <?php foreach($records as $index => $row) {
 
+                      $early_pickup = $row['early_pickup'];
                       $bikes_ordered = "";
                       $bk = explode(",", $row['bikes_types']);
                       $bk_qty = explode(",", $row['bikes_qty']);
+                      $bikes_ordered = array();
+                      $bikes_order = "";
+
                       foreach($bk as $index => $bky)
                       {
-                        $ob = $biketypes[$bky]." (".$bk_qty[$index].")";
-                        $bikes_ordered = ($bikes_ordered == "") ? $ob : $bikes_ordered."<br/>".$ob ;
+                        if( isset( $bikes_ordered[ $biketypes[$bky] ] ) )
+                        {
+                          $bikes_ordered[ $biketypes[$bky] ] = $bikes_ordered[ $biketypes[$bky] ] + $bk_qty[$index];
+                        }
+                        else
+                        {
+                          $bikes_ordered[ $biketypes[$bky] ] = $bk_qty[$index];
+                        }
                       }
+
+                      foreach($bikes_ordered as $name => $qty)
+                      {
+                        $bikes_order = ( $bikes_order == "" ) ? $name."(".$qty.")" : "<br/>".$name."(".$qty.")";
+                      }
+
                       if( isset($row['helmet_quantity']) && $row['helmet_quantity'] > 0 )
                       {
-                        $bikes_ordered .= "<br/>Helmet(".$row['helmet_quantity'].")";
+                        $bikes_order .= "<br/>Helmet(".$row['helmet_quantity'].")";
                       }
                       ?>
                     <tr>
                       <td scope="row"><?=$row['id']?></td>
-                      <td><?=$bikes_ordered?></td>
+                      <td><?=$bikes_order?></td>
                       <td><?=$row['name']?><br/><?=$row['email']?><br/><?=$row['phone']?></td>
                       <td><?=date("d-m-Y", strtotime($row['pickup_date']))?><br/><?=$row['pickup_time']?></td>
                       <td><?=date("d-m-Y", strtotime($row['dropoff_date']))?><br/><?=$row['dropoff_time']?></td>

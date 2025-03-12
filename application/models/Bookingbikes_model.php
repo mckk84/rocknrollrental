@@ -34,7 +34,44 @@ class Bookingbikes_model extends CI_Model
         } else {
             return array();
         }
-    }    
+    }
+
+    function getByBookingId($booking_id)
+    {
+        $this->db->select('tbl_booking_bikes.*, tbl_bike_types.type, tbl_bikes.vehicle_number');
+        $this->db->from('tbl_booking_bikes');
+        $this->db->join('tbl_bike_types', 'tbl_booking_bikes.type_id = tbl_bike_types.id', 'left');
+        $this->db->join('tbl_bikes', 'tbl_booking_bikes.bike_id = tbl_bikes.id', 'left');
+        $this->db->where('booking_id', $booking_id);
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0)
+        {
+            return $query->result_array();
+        } else {
+            return array();
+        }
+    }  
+
+    
+    function getByTypeId($booking_id, $type_id)
+    {
+        $this->db->limit(1);
+        $this->db->select('tbl_booking_bikes.*, tbl_bike_types.type');
+        $this->db->from('tbl_booking_bikes');
+        $this->db->join('tbl_bike_types', 'tbl_booking_bikes.type_id = tbl_bike_types.id', 'left');
+        $this->db->where('booking_id', $booking_id);
+        $this->db->where('type_id', $type_id);
+        $this->db->where('bike_id =', 0);
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0)
+        {
+            return $query->result_array();
+        } else {
+            return array();
+        }
+    } 
     
     /**
      * This function is used to add new user to system
@@ -64,7 +101,7 @@ class Bookingbikes_model extends CI_Model
         
         return true;
     }
-    
+
     function deleteRecord($id)
     {
         $this->db->trans_start();

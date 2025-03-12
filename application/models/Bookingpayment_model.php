@@ -34,7 +34,22 @@ class Bookingpayment_model extends CI_Model
         } else {
             return array();
         }
-    }    
+    }
+
+    function getByBookingId($booking_id)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_booking_payment');
+        $this->db->where('booking_id', $booking_id);
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0)
+        {
+            return $query->result_array();
+        } else {
+            return array();
+        }
+    }     
     
     /**
      * This function is used to add new user to system
