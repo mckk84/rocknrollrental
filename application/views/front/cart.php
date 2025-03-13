@@ -36,7 +36,7 @@
                             <tr class="bg-eq-primary">
                                 <th>Fleet</th>
                                 <th>Period</th>
-                                <th>Price</th>
+                                <th>Rent</th>
                                 <th>Quantity</th>
                                 <th>Subtotal</th>
                                 <th>Action</th>
@@ -44,31 +44,9 @@
                             <?php 
                             if( isset($cart) && isset($cart['cart_bikes']) )
                             { 
-                                $duration = "";
                                 foreach($cart['cart_bikes'] as $bike) 
                                 {
-                                    $rent_price = 0;
-                                    if( $cart['period_days'] > 0 || $cart['period_hours'] > 4  ){
-                                        $duration = "day";
-                                        if( $cart['public_holiday'] == 1 ){
-                                            $rent_price = $bike['holiday_day_price'];
-                                        }
-                                        elseif( $cart['weekend'] == 1 ){
-                                            $rent_price = $bike['weekend_day_price'];
-                                        } else {
-                                            $rent_price = $bike['week_day_price'];
-                                        }
-                                    } else {
-                                        $duration = "halfday";
-                                        if( $cart['public_holiday'] == 1 ){
-                                            $rent_price = $bike['holiday_day_half_price'];
-                                        } elseif( $cart['weekend'] == 1 ){
-                                            $rent_price = $bike['weekend_day_half_price'];
-                                        } else {
-                                            $rent_price = $bike['week_day_half_price'];
-                                        } 
-                                    }
-
+                                    $rent_price = $bike['rent_price'];
                                     $total += round($rent_price * $bike['quantity'], 2);
                                 ?>
                                 <tr class="bike-row" data-id="<?=$bike['bike_type_id']?>">
@@ -83,7 +61,7 @@
                                         <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
                                         <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['dropoff_time']?></b></span>
                                     </td>
-                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="rent_price d-inline-block p-1"><?=$rent_price?></span>/<span class="d-inline-block p-1"><?=$duration?></span></td>
+                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?></td>
                                     <td>
                                         <?php if( $bike['bikes_available'] > 1 ){?>
                                         <div class="cart-count d-inline-flex align-items-center">

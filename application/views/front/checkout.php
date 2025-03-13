@@ -73,26 +73,7 @@
                             { 
                                 foreach($cart['cart_bikes'] as $bike) 
                                 {
-                                    $rent_price = 0;
-                                    if( $cart['period_days'] > 0 || $cart['period_hours'] > 4  ){
-                                        if( $cart['public_holiday'] == 1 ){
-                                            $rent_price = $bike['holiday_day_price'];
-                                        }
-                                        elseif( $cart['weekend'] == 1 ){
-                                            $rent_price = $bike['weekend_day_price'];
-                                        } else {
-                                            $rent_price = $bike['week_day_price'];
-                                        }
-                                    } else {
-                                        if( $cart['public_holiday'] == 1 ){
-                                            $rent_price = $bike['holiday_day_half_price'];
-                                        } elseif( $cart['weekend'] == 1 ){
-                                            $rent_price = $bike['weekend_day_half_price'];
-                                        } else {
-                                            $rent_price = $bike['week_day_half_price'];
-                                        } 
-                                    }
-
+                                    $rent_price = $bike['rent_price'];
                                     $rent_total = round($bike['quantity'] * $rent_price, 2);
 
                                     $total += $rent_total;

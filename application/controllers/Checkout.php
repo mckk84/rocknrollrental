@@ -30,7 +30,7 @@ class Checkout extends CI_Controller {
 
 			$date=date_create($data['cart']['pickup_date']);
 			$day = date_format($date,"D");
-			if( $day == 'Sat' || $day == 'Sun' )
+			if( $day == 'Fri' || $day == 'Sat' || $day == 'Sun' )
 			{
 				$data['cart']['weekend'] = 1;
 			}

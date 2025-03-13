@@ -142,7 +142,7 @@
                                         </ul>
                                         <div class="pricing-bottom d-flex align-items-center justify-content-between mt-4">
                                             <!-- <a href="<?=base_url('Bookaride/view?id='.$bike['bike_type_id'])?>" class="btn outline-btn btn-sm">View Details</a> -->
-                                            <h5 class="mb-0 text-dark"><i class="fa fa-indian-rupee-sign me-1"></i><?=$bike['rent_price']?></h5>
+                                            <h5 class="mb-0"><i class="fa fa-indian-rupee-sign me-1"></i><?=$bike['rent_price']?></h5>
                                         </div>
                                     </div>
                                 </div>

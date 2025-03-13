@@ -42,10 +42,10 @@ class Searchbike_model extends CI_Model
         return array($weekday, $weekend, $public_holiday);
     }
 
-    public function getDayPrice($_date, $h)
+    public function getDayPrice($_date, $h, $price)
     {
         $rent_price = 0;
-        $day_type = $this->checkDay($pickup_date);
+        $day_type = $this->checkDay($_date);
         if( $h == 'half' ) {
             if( $day_type[2] ) {
                 $rent_price = $price['holiday_day_half_price'];    
@@ -103,18 +103,17 @@ class Searchbike_model extends CI_Model
             }
             else
             {
-                $rent_price = $this->getDayPrice($pickup_date, 'half');
+                $rent_price = $this->getDayPrice($pickup_date, 'half', $price);
                 $date2 = date_create($dropoff_date." 00:00:01");
                 $date1 = date_create($pickup_date." 23:59:59");
                 date_add($date1, date_interval_create_from_date_string("1 day"));
-                $nxt_date = date_format($date1,"Y-m-d h:i:s");
+                $nxt_date = date_format($date1, "Y-m-d h:i:s");
 
-                while ( $nxt_date < $date2 ) {
+                while ( $date1 < $date2 ) {
 
-                    $rent_price += $this->getDayPrice($nxt_date, 'full');
-                    date_add($nxt_date, date_interval_create_from_date_string("1 day"));
-                    $new_date = date_format($nxt_date, "Y-m-d h:i:s");                
-                    $nxt_date = $new_date;
+                    $rent_price += $this->getDayPrice($nxt_date, 'full', $price);
+                    $date1 = date_create($nxt_date);
+                    date_add($date1, date_interval_create_from_date_string("1 day"));
                 }
                 $date1 = date_create($dropoff_date." 00:00:01");
                 $date2 = date_create($dropoff_date." ".$dropoff_time);
@@ -122,11 +121,11 @@ class Searchbike_model extends CI_Model
                 $hdiff = $diff->format("%h");
                 if( $hdiff > 12 )
                 {
-                    $rent_price += $this->getDayPrice($pickup_date, 'full');
+                    $rent_price += $this->getDayPrice($pickup_date, 'full', $price);
                 }
                 else
                 {
-                    $rent_price += $this->getDayPrice($pickup_date, 'half');
+                    $rent_price += $this->getDayPrice($pickup_date, 'half', $price);
                 }
             }            
         }
@@ -152,7 +151,6 @@ class Searchbike_model extends CI_Model
         if( $sub_query1->num_rows() > 0 )
         {
             $result1 = $sub_query1->result_array();
-            //print_r($result1);
         }
 
         if ($query->num_rows() > 0)
@@ -161,6 +159,7 @@ class Searchbike_model extends CI_Model
             foreach($result as $index => $row)
             {
                 $row['rent_price'] = $this->getRentPrice($row['bike_type_id'], $pickup_date, $pickup_time, $dropoff_date, $dropoff_time);
+                $result[$index] = $row;
                 foreach($result1 as $row1)
                 {
                     if( $row['bike_type_id'] == $row1['bike_type_id'] )
@@ -208,6 +207,8 @@ class Searchbike_model extends CI_Model
             $result = $query->result_array();
             foreach($result as $index => $row)
             {
+                $row['rent_price'] = $this->getRentPrice($row['bike_type_id'], $pickup_date, $pickup_time, $dropoff_date, $dropoff_time);
+                $result[$index] = $row;
                 foreach($result1 as $row1)
                 {
                     if( $row['bike_type_id'] == $row1['bike_type_id'] )
@@ -255,6 +256,8 @@ class Searchbike_model extends CI_Model
             $result = $query->result_array();
             foreach($result as $index => $row)
             {
+                $row['rent_price'] = $this->getRentPrice($row['bike_type_id'], $pickup_date, $pickup_time, $dropoff_date, $dropoff_time);
+                $result[$index] = $row;
                 foreach($result1 as $row1)
                 {
                     if( $row['bike_type_id'] == $row1['bike_type_id'] )
