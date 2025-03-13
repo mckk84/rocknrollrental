@@ -104,7 +104,7 @@ class Bookings extends CI_Controller
           {
             $bike_type_qty[ $row['type'] ] = $bike_type_qty[ $row['type'] ] + 1;
           }
-          if( !in_array($row['bike_id'], $bike_assigned_ids) )
+          if( $row['bike_id'] != 0 && !in_array($row['bike_id'], $bike_assigned_ids) )
           {
             array_push($bike_assigned_ids, $row['bike_id']);
           }
@@ -123,7 +123,13 @@ class Bookings extends CI_Controller
         else
         {
             $data['available_bikes'] = $this->bike_model->getBikes($bike_assigned_ids);
+            foreach($data['available_bikes'] as $index => $row)
+            {
+                $row['rent_price'] = $this->searchbike_model->getRentPrice($row['bike_type_id'], $data['order']['pickup_date'], $data['order']['pickup_time'], $data['order']['dropoff_date'], $data['order']['dropoff_time']);
+                $data['available_bikes'][$index] = $row;
+            }
         }
+
 
         $d1= new DateTime($data['order']['dropoff_date']." ".$data['order']['dropoff_time']); // first date
         $d2= new DateTime($data['order']['pickup_date']." ".$data['order']['pickup_time']); // second date

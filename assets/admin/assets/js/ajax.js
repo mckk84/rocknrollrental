@@ -237,7 +237,7 @@ $(document).ready(function(){
                 if( response.data.order.helmet_quantity > 0 ){
 
                     html += "<tr>";
-                    html += "<th class='text-start'>Helmet <th><th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='text-info d-inline-block p-1'>"+helmet_total+"</span></th>";
+                    html += "<th class='text-start'>Helmet </th><th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='text-info d-inline-block p-1'>"+helmet_total+"</span></th>";
                     html += "</tr>";
                 }
 

@@ -209,14 +209,6 @@ class Searchbike_model extends CI_Model
             {
                 $row['rent_price'] = $this->getRentPrice($row['bike_type_id'], $pickup_date, $pickup_time, $dropoff_date, $dropoff_time);
                 $result[$index] = $row;
-                foreach($result1 as $row1)
-                {
-                    if( $row['bike_type_id'] == $row1['bike_type_id'] )
-                    {
-                        $row['bikes_available'] = $row['bikes_available'] - $row1['not_available'];
-                    }
-                    $result[$index] = $row;
-                }
             }
             return $result;
         } 
