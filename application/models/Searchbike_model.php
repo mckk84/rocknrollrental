@@ -285,7 +285,6 @@ class Searchbike_model extends CI_Model
         $this->db->join('tbl_prices', 'tbl_bike_types.id = tbl_prices.type_id', 'left');
         $query = $this->db->get();
 
-        //echo "<pre>".$this->db->last_query();
         if ($query->num_rows() > 0){
             return $query->result_array();
         } else {

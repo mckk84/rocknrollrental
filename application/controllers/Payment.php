@@ -258,25 +258,7 @@ class Payment extends CI_Controller {
         $order_bikes = "";
 		foreach($data['cart']['cart_bikes'] as $bike) 
         {
-            $rent_price = 0;
-            if( $data['cart']['period_days'] > 0  || $data['cart']['period_hours'] > 4 ){
-                if( $data['cart']['public_holiday'] == 1 ){
-                    $rent_price = $bike['holiday_day_price'];
-                }
-                elseif( $data['cart']['weekend'] == 1 ){
-                    $rent_price = $bike['weekend_day_price'];
-                } else {
-                    $rent_price = $bike['week_day_price'];
-                }
-            } else {
-                if( $data['cart']['public_holiday'] == 1 ){
-                    $rent_price = $bike['holiday_day_half_price'];
-                } elseif( $data['cart']['weekend'] == 1 ){
-                    $rent_price = $bike['weekend_day_half_price'];
-                } else {
-                    $rent_price = $bike['week_day_half_price'];
-                } 
-            }
+            $rent_price = $bike['rent_price'];
             $order_bikes = ($order_bikes == "") ? $bike['bike_type_name']."(".$bike_quantity.")" : ",".$bike['bike_type_name']."(".$bike_quantity.")";
             $total += $bike_quantity * $rent_price;
         }

@@ -162,7 +162,7 @@
                                     </div>
                                     <div class="col-xl-12 border-bottom-primary">
                                         <div class="row">
-                                            <div class="col-xl-12 col-sm-12">
+                                            <div class="col-xl-12 col-sm-12 py-2">
                                                 <p class="font-md mb-1"><span class="text-dark">LOCATION :</span>&nbsp;Chokanna Street, near Mayura Hotel Opp: Sai Angels School, Chikkamagaluru, Karnataka 577101 <a href="https://maps.app.goo.gl/XkDwJyZ2tcNp9YUy6" class="text-success d-inline-block" title="View on Map"><img style="width:25px;" src="<?=base_url('assets/img/icons/map-pin.svg')?>" class="img-fluid"/></a></p>
                                             </div>
                                         </div>
@@ -170,7 +170,7 @@
                                     <div class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
                                             <div class="col-xl-8 py-2">
-                                                <div class="w-25 pt-1 text-dark float-left fw-bold">Qty</div>
+                                                <div class="w-25 pt-1 text-dark float-left">Qty</div>
                                                 <div class="w-75 cart-count d-flex justify-content-center">
                                                     <span class="btn btn-sm cart-minus bg-primary text-white rounded-0"><i class="fa-solid fa-minus"></i></span>
                                                     <input type="text" name="bikeqty" class="w-50 cart-input text-center border text-black rounded-0" value="1">
@@ -178,24 +178,24 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-4">
-                                                <span id="bike_availability" class="text-success fw-bold m-1">Availability : <i class="fa fa-check"></i></span>
+                                                <span id="bike_availability" class="text-success m-1">Availability : <i class="fa fa-check"></i></span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
                                             <div class="col-xl-8 py-2">
-                                                <div class="text-dark fw-bold m-1">Rental Price : (<i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="bike_price"></span>x<span class="d-inline" id="bike_qty"></span>)</div>
+                                                <div class="text-dark m-1">Rental Price : (<i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="bike_price"></span>x<span class="d-inline" id="bike_qty"></span>)</div>
                                             </div>
                                             <div class="col-xl-4">
-                                                <div class="text-dark fw-bold m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="bike_price_subtotal"></span></div>
+                                                <div class="text-dark m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="bike_price_subtotal"></span></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
                                             <div class="col-xl-8 py-2">
-                                                <div class="w-25 pt-1 text-dark fw-bold float-left">Helmets</div>
+                                                <div class="w-25 pt-1 text-dark float-left">Helmets</div>
                                                 <div class="cart-count w-75 d-flex justify-content-center">
                                                     <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0"><i class="fa-solid fa-minus"></i></span>
                                                     <input type="text" name="helmets_qty" class="w-50 cart-helmets text-center border text-black rounded-0" value="0">
@@ -203,17 +203,17 @@
                                                 </div>
                                             </div>
                                             <div class="col-xl-4">
-                                                <div class="text-dark fw-bold m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="helmets_total"></span></div>
+                                                <div class="text-dark m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="helmets_total"></span></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-12">
                                         <div class="row px-2">
                                             <div class="col-xl-8 py-2">
-                                                <div class="w-25 pt-1 text-dark fw-bold float-left">Total</div>
+                                                <div class="w-25 pt-1 text-dark float-left">Total</div>
                                             </div>
                                             <div class="col-xl-4">
-                                                <div class="text-dark fw-bold m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="cart_total"></span></div>
+                                                <div class="text-dark m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="cart_total"></span></div>
                                             </div>
                                         </div>
                                     </div>

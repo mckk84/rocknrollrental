@@ -901,9 +901,9 @@ $(document).ready(function(){
 
             var pd = $("#custom_bike #pickupdate").val();
             var dp = $(this).val();
-
-            const date1 = moment(dateformatstring(pd));
-            const date2 = moment(dateformatstring(dp));
+            console.log(pd+":"+dp);
+            const date1 = moment(pd);
+            const date2 = moment(dp);
 
             const duration = moment.duration(date2 - date1);
             const res = duration.as('hours');
@@ -918,6 +918,12 @@ $(document).ready(function(){
                 $("#custom_bike #dropofftime").empty();
                 setTimeSpecial($("#custom_bike #dropofftime"), hour);
             }
+            checkbikesubmitform();
+        });
+
+        $("#custom_bike #dropofftime").change(function(e) {
+            console.log('Dropoff time:changed');
+            checkbikesubmitform();
         });
 
         checkbikesubmitform();

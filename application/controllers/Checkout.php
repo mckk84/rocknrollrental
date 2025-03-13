@@ -161,10 +161,10 @@ class Checkout extends CI_Controller {
 					$data['period_days'] = $interval->days;
 					$data['period_hours'] = $interval->h; 
 
-					if( $data['period_hours'] <= 0 )
+					if( $interval->days == 0 && $data['period_hours'] <= 0 )
 					{
 						$response = array('error' => 1, 'error_message' => 'Invalid dates');
-						die($response);
+						die(json_encode($response));
 					}
 
 					$data['weekend'] = 0;
@@ -190,29 +190,7 @@ class Checkout extends CI_Controller {
 						{
 							$bike['quantity'] = $bike['bikes_available'];
 							$data['bike_availability'] = $bike['bikes_available'];
-
-							$data['rent_price'] = 0;
-                            if( $data['period_days'] > 0 || $data['period_hours'] > 4  ){
-                                $duration = "day";
-                                if( $data['public_holiday'] == 1 ){
-                                    $data['rent_price'] = $bike['holiday_day_price'];
-                                }
-                                elseif( $data['weekend'] == 1 ){
-                                    $data['rent_price'] = $bike['weekend_day_price'];
-                                } else {
-                                    $data['rent_price'] = $bike['week_day_price'];
-                                }
-                            } else {
-                                $duration = "halfday";
-                                if( $data['public_holiday'] == 1 ){
-                                    $data['rent_price'] = $bike['holiday_day_half_price'];
-                                } elseif( $data['weekend'] == 1 ){
-                                    $data['rent_price'] = $bike['weekend_day_half_price'];
-                                } else {
-                                    $data['rent_price'] = $bike['week_day_half_price'];
-                                } 
-                            }
-
+							$data['rent_price'] = $bike['rent_price'];
 							break;
 						}					
 					    $data['cart_bikes'][$index] = $bike;
