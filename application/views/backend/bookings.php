@@ -44,7 +44,6 @@
                       <th scope="col">Customer</th>
                       <th scope="col">From</th>
                       <th scope="col">To</th>
-                      <th scope="col">Quantity</th>
                       <th scope="col">Total</th>
                       <th scope="col">Refund</th>   
                       <th scope="col">Paid</th>
@@ -99,11 +98,10 @@
                       </td>
                       <td><span class="w-100 p-1 fa-sm d-block"><?=date("d-m-Y", strtotime($row['dropoff_date']))?></span>
                         <span class="w-100 p-1 fa-sm d-block"><?=$row['dropoff_time']?></span></td>
-                      <td><?=$row['quantity']?></td>
                       <td><?=$row['total_amount']?></td>
                       <td><?=$row['refund_amount']?></td>
                       <td><?=$row['booking_amount']?></td>
-                      <td><?=$row['total_amount'] - $row['booking_amount']?></td>
+                      <td><?=($row['booking_amount'] > $row['total_amount'] ) ? 0: $row['total_amount'] - $row['booking_amount']?></td>
                       <td><?=$row['paymentmode']?></td>
                       <td><?php if( $row['status'] == 0) { ?>
                         <span class="badge bg-warning">Pre Booked</span>

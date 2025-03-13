@@ -208,7 +208,7 @@
                   </div>
                   <div class="row g-3">
                     <div class="col-md-2 mb-2">
-                      <label class="d-block text-dark mt-3">Pickup Status</label>
+                      <label class="d-block text-dark mt-1">Pickup Status</label>
                     </div>
                     <div class="col-md-4 mb-2">
                       <select name="pickup_status" class="form-select">
@@ -465,7 +465,7 @@
                   for (var i = 0; i < bikes.length; i++) 
                   {
                     var row = bikes[i];
-                    html += "<tr><td><div class='form-check'><input class='form-check-input' id='bike_"+row.bid+"' type='checkbox' style='height:20px;width:20px;' onchange='bike_added("+row.bid+", "+row.rent_price+")' class='bike_check' value='1'></div></td><td><span style='vertical-align:middle;'>"+row.bike_type_name+"</span></td><td><img style='max-width:50px;float:left;' class='img-fluid' src='"+bike_url+row.image+"'></td><td>"+row.cc+"</td><td>"+row.model+"</td><td>"+row.vehicle_number+"</td><td>"+row.rent_price+"</td><td>"+((row.available)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr>";
+                    html += "<tr><td><div class='form-check'><input class='form-check-input' id='bike_"+row.bid+"' type='checkbox' style='height:20px;width:20px;' onchange='bike_added("+row.bid+", "+row.rent_price+")' class='bike_check' value='1'></div></td><td><span style='vertical-align:middle;'>"+row.bike_type_name+"</span></td><td><img style='max-width:50px;float:left;' class='img-fluid' src='"+bike_url+row.image+"'></td><td>"+row.cc+"</td><td>"+row.model+"</td><td>"+row.vehicle_number+"</td><td>"+row.rent_price+"</td><td><span class='badge bg-success'>Yes</span></td></tr>";
                   }
                   html += "</tbody>";
                   html += "</table>";

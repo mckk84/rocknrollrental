@@ -110,6 +110,8 @@ $(document).ready(function(){
                 var order_bike_types = response.data.order_bike_types;
                 var order_payment = response.data.order_payment;
 
+                $(".booking_form input[name='booking_id']").val(response.data.order.id);
+
                 var html = "<table class='table datatable table-responsive border rounded mb-1'>";
                 html += "<thead><th class='bg-warning'>Pickup Date</th><th class='bg-warning'>Pickup Time</th><th class='bg-warning'>Dropoff Date</th><th class='bg-warning'>Dropoff Time</th></tr></thead>";
                 html += "<tbody><tr><td>"+formatdate(order.pickup_date)+"</td>";
@@ -145,11 +147,17 @@ $(document).ready(function(){
                 html += "<th class='bg-warning'>Assign Vehicle</th><th class='bg-warning'>Rent Price</th></tr></thead>";
                 html += "<tbody>";
                 var bikes = response.data.order_bike_types;
+                var order_bike_types = new Array();
                 for (var i = 0; i < bikes.length; i++) 
                 {
                   var row = bikes[i];
                   var available_bikes = response.data.available_bikes;
-                  var ab_html = "";
+                  if( order_bike_types.indexOf(row.id) < 0 )
+                  {
+                    order_bike_types.push(row.id);
+                  }
+
+                  var ab_html = "<select name='assign_bike_row_"+row.id+"' class='form-select'><option value=''>-Select-</option>";
                   for (var j = 0; j < available_bikes.length; j++) 
                   {
                     var ab = available_bikes[j];
@@ -160,13 +168,14 @@ $(document).ready(function(){
                         ab_html += "<option "+((row.bike_id==ab.bid)?'selected':'')+" data-obt='"+row.id+"' value='"+ab.bid+"'>"+ab.vehicle_number+"</option>";
                     }
                   }
+                  ab_html += "</select>";
 
                   html += "<tr><td>#"+i+"</td><td><span style='vertical-align:middle;'>"+row.type+"</span></td>";
                   html += "<td><img style='width:50px;margin:auto;display:block;' class='img-fluid' src='"+response.data.bike_url+row.bike_image+"'/></td>";
-                  html += "<td><select class='form-select'><option value=''>-Select-</option>"+ab_html+"</select></td><td>"+row.rent_price+"</td></tr>";
+                  html += "<td>"+ab_html+"</td><td>"+row.rent_price+"</td></tr>";
                 }
                 html += "</tbody>";
-                html += "</table>";
+                html += "</table><input type='hidden' name='order_bike_types' value='"+order_bike_types.join(',')+"'>";
                 $(".booking_form #bike_select").html(html);
 
                 var pending = 0;
@@ -209,6 +218,11 @@ $(document).ready(function(){
 
                 html += "<tr><th class='text-start'>Payment</th><th class='text-end'>";
                 html += "<input name='new_payment' class='form-control' maxlength='6' type='number'>";
+                html += "</th>";
+                html += "</tr>";
+
+                html += "<tr><th class='text-start'>Delivery Notes</th><th class='text-end'>";
+                html += "<textarea name='delivery_notes' class='form-control' rows='3'></textarea>";
                 html += "</th>";
                 html += "</tr>";
 

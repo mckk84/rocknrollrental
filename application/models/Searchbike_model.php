@@ -49,6 +49,12 @@ class Searchbike_model extends CI_Model
         $this->db->join('tbl_bikes', 'tbl_bike_types.id = tbl_bikes.type_id', 'left');
         $this->db->join('tbl_prices', 'tbl_prices.type_id = tbl_bikes.type_id', 'left');
         $this->db->where("tbl_bike_types.id IN (".$bike_type_ids.") ");
+        $this->db->where("tbl_bikes.id NOT IN (SELECT tbl_booking_bikes.bike_id FROM tbl_bookings
+        LEFT JOIN tbl_booking_bikes ON tbl_booking_bikes.booking_id=tbl_bookings.id
+        LEFT JOIN tbl_bikes ON tbl_booking_bikes.bike_id=tbl_bikes.id
+        WHERE pickup_date >= '".$pickup_date."' AND dropoff_date <= '".$dropoff_date."' AND tbl_bikes.available = 0)
+        ");
+
         $query = $this->db->get();
 
         //echo "<pre>".$this->db->last_query();
