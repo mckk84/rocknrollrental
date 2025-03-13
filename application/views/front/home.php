@@ -763,8 +763,13 @@ $(document).ready(function(){
         var bike_image = $(this).attr("data-bikeimage");
         var bike_price = $(this).attr("data-bikeprice");
         var bike_qty = $("#custom_bike .cart-input").val();
+        if( bike_qty == 0 )
+        {
+            bike_qty = 1;
+            $("#custom_bike .cart-input").val(bike_qty);
+        }
         var h_qty = $("#custom_bike .cart-helmets").val();
-
+        
         $("#custom_bike input[name='bike_type_id']").val(bikeId);
         $("#custom_bike input[name='bike_type_name']").val(bikeName);
         $("#bike_customize .card-title").html("<img src='"+bike_image+"' style='max-width:80px;display:inline;' class='img-fluid me-2'/>"+bikeName);
@@ -983,7 +988,7 @@ $(document).ready(function(){
                   $("#custom_bike button[type='button']").html("Book Now");
 
                   $("#sumit_row").append("<div class='alert alert-danger mt-1 mb-0'>"+response.error_message+"</div>");
-                  $("#bike_availability").html("Availability : <i class='fa text-danger fa-cross'></i>");
+                  $("#bike_availability").html("Availability : <i class='fa text-danger fa-close'></i>");
                 }
                 else
                 {
@@ -997,13 +1002,17 @@ $(document).ready(function(){
 
                     $("#custom_bike #bike_price").html(bike_price);
                     $("#custom_bike #bike_qty").html(bike_qty);
-                    bike_price_subtotal = (parseInt(bike_qty) * parseInt(bike_price), 2).toFixed(2);
+                    bike_price_subtotal = (parseInt(bike_qty) * parseInt(bike_price)).toFixed(2);
                     $("#custom_bike #bike_price_subtotal").html(bike_price_subtotal);
                     $("#custom_bike #helmets_total").html(h_qty * 50);
                     total = bike_price_subtotal + parseInt(h_qty * 50);
                     $("#custom_bike #cart_total").html(total);
 
-                    $("#bike_availability").html("Availability : <i class='fa fa-check'></i>");
+                    if( response.data.bike_availability == 0 ){
+                        $("#bike_availability").html("Availability : <i class='fa text-danger fa-close'></i>");
+                    } else {
+                        $("#bike_availability").html("Availability : <i class='fa fa-check'></i>");
+                    }
                     $("#custom_bike :input").prop("disabled", false);
                     $("#custom_bike button[type='button']").html("Book Now");                                   
                 }
@@ -1084,7 +1093,7 @@ $(document).ready(function(){
                   $("#custom_bike button[type='button']").html("Book Now");
 
                   $("#sumit_row").append("<div class='alert alert-danger mt-1 mb-0'>"+response.error_message+"</div>");
-                  $("#bike_availability").html("Availability : <i class='fa text-danger fa-cross'></i>");
+                  $("#bike_availability").html("Availability : <i class='fa text-danger fa-close'></i>");
                 }
                 else
                 {
@@ -1093,6 +1102,7 @@ $(document).ready(function(){
                         $("#custom_bike .cart-input").val(response.data.bike_availability);    
                     }
                     $("#custom_bike :input").prop("disabled", false);
+
                     $("#bike_availability").html("Availability : <i class='fa fa-check'></i>");
                     $("#custom_bike button[type='button']").html("Success");
                     $("#custom_bike").submit();                                        

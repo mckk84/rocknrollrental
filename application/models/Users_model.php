@@ -122,6 +122,21 @@ class Users_model extends CI_Model
         return true;
     }
 
+    function getAdminPhone()
+    {
+        $this->db->limit(1);
+        $this->db->select('phone');
+        $this->db->where('user_type', 'SuperAdmin');
+        $query = $this->db->get('tbl_users');
+
+        if ($query->num_rows() > 0){
+            $row = $query->row_array();
+            return $row['phone'];
+        } else {
+            return false;
+        }
+    }
+
 
 }
 

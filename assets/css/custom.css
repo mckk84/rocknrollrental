@@ -52,6 +52,25 @@
     color: green;
 }
 
+.bikebooked {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 100;
+    float: right;
+    color: #FFF;
+    border-radius: 5px;
+    padding: 2px 5px;
+    text-align: center;
+    font-size: 18px;
+    background-color: red;
+}
+
+.bikebooked:hover{
+    background-color: red;
+    color: #FFDD06;
+}
+
 .cart-sidebar table th, .cart-sidebar table td{
     padding: 12px 20px;
 }
@@ -163,4 +182,9 @@ label.text-black.font-md.mb-1 {
     font-weight: 400;
     text-align: center;
     vertical-align: middle;
+}
+
+span#bike_availability {
+    display: inline-block;
+    margin: 10px 2px;
 }

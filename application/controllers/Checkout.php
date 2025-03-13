@@ -220,7 +220,7 @@ class Checkout extends CI_Controller {
 
 					$response["data"] = $data;
 					$response["error"] = 0;
-					$response["success_message"] = "Availabile";
+					$response["success_message"] = ( $data['bike_availability'] > 0 ) ? "Availabile" : "Not Availabile";
 					die(json_encode($response)); 					
 				}
             }

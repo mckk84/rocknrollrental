@@ -604,7 +604,7 @@ class Bookings extends CI_Controller
         }
         else
         {
-            if( $data['record']['pickup_status'] <= 1 )
+            if( $data['record']['status'] <= 1 )
             {
                 $data['order_bike_types'] = $this->bookingbikes_model->getByBookingId($record_id);
                 foreach($data['order_bike_types'] as $row)

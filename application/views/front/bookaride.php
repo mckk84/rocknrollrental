@@ -80,18 +80,21 @@
                     </div>
                     <div class="row g-2">
                         <?php if( isset($available_bikes) && count($available_bikes) > 0 ){
-                            foreach($available_bikes as $bike){
-                            ?>
+                            foreach($available_bikes as $bike){ ?>
                             <div class="col-xxl-4 col-xl-6 col-lg-4 col-md-6">
                                 <div class="md-listing-single bg-white position-relative">
-                                    <a href="javascript:void(0)" class="addtocart" bike-name="<?=$bike['bike_type_name']?>" bike-id="<?=$bike['bike_type_id']?>" title="Add to Cart"><i class="fa fa-circle-plus"></i></a>
+                                    <?php if(isset($bike['not_available']) && $bike['not_available'] == $bike['bikes_available']) { ?>
+                                    <a href="javascript:void(0)" class="bikebooked" bike-name="<?=$bike['bike_type_name']?>" bike-id="<?=$bike['bike_type_id']?>" title="Booked">Sold Out</a>
+                                    <?php } else { ?>
+                                    <a href="javascript:void(0)" class="addtocart" bike-name="<?=$bike['bike_type_name']?>" bike-id="<?=$bike['bike_type_id']?>" title="Add to Cart"><i class="fa fa-circle-plus"></i></a>    
+                                    <?php } ?>    
                                     <figure style="border-bottom: 1px solid #FFDD06;" class="overflow-hidden rounded-top mb-0">
                                         <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" style="max-width: 315px;height: 186px;" class="img-fluid m-2">
                                     </figure>
                                     <div class="md-listing-single-content">
                                         <a href="<?=base_url('Bookaride/view?id='.$bike['bike_type_id'])?>">
                                             <h6 class="mb-1"><?=$bike['bike_type_name']?></h6>
-                                        </a>
+                                        </a>    
                                         <ul class="meta-list d-flex justify-content-between mt-3 pt-2">
                                             <!-- <li style="min-width: 80px;" class=""><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M16.4548 6.82191C16.4613 6.70367 16.4648 6.58465 16.4648 6.46484C16.4648 2.90012 13.5647 0 10 0C6.43527 0 3.53516 2.90008 3.53516 6.4648C3.53516 6.58465 3.53871 6.70363 3.54516 6.82188C1.44344 7.89031 0 10.0741 0 12.5889C0 16.1536 2.90012 19.0537 6.46484 19.0537C7.76871 19.0537 8.98336 18.6654 10 17.9988C11.0166 18.6654 12.2313 19.0537 13.5352 19.0537C17.0999 19.0537 20 16.1536 20 12.5889C20 10.0741 18.5566 7.89031 16.4548 6.82191ZM10 16.5246C8.94426 15.5753 8.27129 14.2086 8.24344 12.687C8.80219 12.845 9.39137 12.9296 10 12.9296C10.6086 12.9296 11.1978 12.845 11.7566 12.687C11.7287 14.2086 11.0557 15.5753 10 16.5246ZM10 11.7578C9.42625 11.7578 8.87371 11.6657 8.3559 11.496C8.59141 10.3786 9.18035 9.39008 10 8.65312C10.8196 9.39008 11.4086 10.3786 11.6441 11.496C11.1263 11.6657 10.5737 11.7578 10 11.7578ZM7.26879 10.9971C6.03395 10.2502 5.12746 9.01312 4.82074 7.55762C5.33852 7.38801 5.89109 7.29586 6.46484 7.29586C7.3941 7.29586 8.26801 7.53687 9.02785 7.95922C8.18652 8.77855 7.56687 9.82426 7.26879 10.9971ZM10.9721 7.95926C11.732 7.53691 12.6059 7.2959 13.5352 7.2959C14.1089 7.2959 14.6614 7.38801 15.1793 7.55766C14.8725 9.01316 13.966 10.2502 12.7312 10.9971C12.4331 9.82426 11.8135 8.77855 10.9721 7.95926ZM10 1.17184C12.8857 1.17184 15.2391 3.49324 15.2917 6.3666C14.733 6.20867 14.1438 6.12398 13.5352 6.12398C12.2313 6.12398 11.0166 6.51234 10 7.17895C8.98336 6.51234 7.76871 6.12398 6.46484 6.12398C5.85621 6.12398 5.26703 6.20863 4.70828 6.3666C4.76086 3.49324 7.11426 1.17184 10 1.17184ZM6.46484 17.8818C3.54629 17.8818 1.17188 15.5074 1.17188 12.5889C1.17188 10.6689 2.19957 8.98449 3.73363 8.05656C4.19707 9.88008 5.43746 11.3967 7.08031 12.2318C7.07383 12.35 7.07031 12.469 7.07031 12.5888C7.07031 14.4022 7.82113 16.0433 9.02785 17.2184C8.26801 17.6408 7.3941 17.8818 6.46484 17.8818ZM13.5352 17.8818C12.6059 17.8818 11.732 17.6408 10.9721 17.2185C12.1789 16.0434 12.9297 14.4023 12.9297 12.5889C12.9297 12.469 12.9261 12.35 12.9197 12.2318C14.5625 11.3967 15.8029 9.88008 16.2664 8.0566C17.8004 8.98445 18.8281 10.6689 18.8281 12.5889C18.8281 15.5074 16.4537 17.8818 13.5352 17.8818Z" fill="#99CF8F"></path>
@@ -139,28 +142,7 @@
                                         </ul>
                                         <div class="pricing-bottom d-flex align-items-center justify-content-between mt-4">
                                             <!-- <a href="<?=base_url('Bookaride/view?id='.$bike['bike_type_id'])?>" class="btn outline-btn btn-sm">View Details</a> -->
-                                            <h5 class="mb-0 text-dark"><i class="fa fa-indian-rupee-sign me-1"></i> 
-                                            <?php 
-                                            if( $period_days > 0 || $period_hours > 4 ){
-                                                if( $public_holiday == 1 ){
-                                                    echo $bike['holiday_day_price']." /day";
-                                                }
-                                                elseif( $weekend == 1 ){
-                                                    echo $bike['weekend_day_price']." /day";
-                                                } else {
-                                                    echo $bike['week_day_price']." /day";
-                                                }
-                                            } 
-                                            else {
-                                                if( $public_holiday == 1 ){
-                                                    echo $bike['holiday_day_half_price']." /Half day";
-                                                } elseif( $weekend == 1 ){
-                                                    echo $bike['weekend_day_half_price']." /Half day";
-                                                } else {
-                                                    echo $bike['week_day_half_price']." /Half day";
-                                                } 
-                                            }
-                                            ?></h5>
+                                            <h5 class="mb-0 text-dark"><i class="fa fa-indian-rupee-sign me-1"></i><?=$bike['rent_price']?></h5>
                                         </div>
                                     </div>
                                 </div>

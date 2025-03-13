@@ -146,7 +146,7 @@
                                                 </div>
                                             </div>
                                             <span class="todivider d-none d-lg-block">TO</span>
-                                            <div class="col-xl-6  col-sm-12">
+                                            <div class="col-xl-6 col-sm-12">
                                                 <label class="text-black font-md font-bold mb-1">DROPOFF</label>
                                                 <div class="row px-2">
                                                     <div class="col-xl-12 mb-1">
@@ -169,7 +169,7 @@
                                     </div>
                                     <div class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
-                                            <div class="col-xl-8">
+                                            <div class="col-xl-8 py-2">
                                                 <div class="w-25 pt-1 text-dark float-left fw-bold">Qty</div>
                                                 <div class="w-75 cart-count d-flex justify-content-center">
                                                     <span class="btn btn-sm cart-minus bg-primary text-white rounded-0"><i class="fa-solid fa-minus"></i></span>
@@ -184,7 +184,7 @@
                                     </div>
                                     <div class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
-                                            <div class="col-xl-8">
+                                            <div class="col-xl-8 py-2">
                                                 <div class="text-dark fw-bold m-1">Rental Price : (<i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="bike_price"></span>x<span class="d-inline" id="bike_qty"></span>)</div>
                                             </div>
                                             <div class="col-xl-4">
@@ -194,7 +194,7 @@
                                     </div>
                                     <div class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
-                                            <div class="col-xl-8">
+                                            <div class="col-xl-8 py-2">
                                                 <div class="w-25 pt-1 text-dark fw-bold float-left">Helmets</div>
                                                 <div class="cart-count w-75 d-flex justify-content-center">
                                                     <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0"><i class="fa-solid fa-minus"></i></span>
@@ -209,7 +209,7 @@
                                     </div>
                                     <div class="col-xl-12">
                                         <div class="row px-2">
-                                            <div class="col-xl-8">
+                                            <div class="col-xl-8 py-2">
                                                 <div class="w-25 pt-1 text-dark fw-bold float-left">Total</div>
                                             </div>
                                             <div class="col-xl-4">

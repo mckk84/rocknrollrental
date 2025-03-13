@@ -178,15 +178,15 @@
                             </tr>
                             <tr>
                                 <th class="text-start">Subtotal</th>
-                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_subtotal d-inline-block p-1"><?=$total - round($total * 0.05, 2)?></span></th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_subtotal d-inline-block"><?=$total - round($total * 0.05, 2)?></span></th>
                             </tr>
                             <tr>
                                 <th class="text-start">GST</th>
-                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_gst d-inline-block p-1"><?=round($total * 0.05, 2)?></span></th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_gst d-inline-block"><?=round($total * 0.05, 2)?></span></th>
                             </tr>
                             <tr>
                                 <td class="text-start fw-bold">Total</td>
-                                <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block p-1"><?=$total?></span></td>
+                                <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$total?></span></td>
                             </tr>
                             <tr>
                                 <td class="text-start text-warning fw-bold border-0">Refundable Deposit / Vehicle
