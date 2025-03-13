@@ -136,7 +136,7 @@ class Bookings extends CI_Controller
         $data['holiday'] = 0;
         $date=date_create($data['order']['pickup_date']);
         $day = date_format($date,"D");
-        if( $day == 'Sat' || $day == 'Sun' )
+        if( $day == 'Fri' || $day == 'Sat' || $day == 'Sun' )
         {
             $data['weekend'] = 1;
         }
@@ -156,33 +156,11 @@ class Bookings extends CI_Controller
         {
             if( in_array($bike['bike_type_id'], $bike_type_array))
             {
-                $bike['rent_price'] = 0;
                 $bike['bike_image'] = "";
                 $bike_row = $this->bike_model->getImageForType($bike['bike_type_id']);
                 if( count($bike_row) > 0 )
                 {
                     $bike['bike_image'] = $bike_row['image'];
-                }
-
-                if( $data['period_days'] > 0 || $data['period_hours'] > 4  ){
-                    $duration = "day";
-                    if( $data['public_holiday'] == 1 ){
-                        $bike['rent_price'] = $bike['holiday_day_price'];
-                    }
-                    elseif( $data['weekend'] == 1 ){
-                        $bike['rent_price'] = $bike['weekend_day_price'];
-                    } else {
-                        $bike['rent_price'] = $bike['week_day_price'];
-                    }
-                } else {
-                    $duration = "halfday";
-                    if( $data['public_holiday'] == 1 ){
-                        $bike['rent_price'] = $bike['holiday_day_half_price'];
-                    } elseif( $data['weekend'] == 1 ){
-                        $bike['rent_price'] = $bike['weekend_day_half_price'];
-                    } else {
-                        $bike['rent_price'] = $bike['week_day_half_price'];
-                    } 
                 }
             }                   
             $data['available_bikes'][$index] = $bike;
@@ -267,28 +245,6 @@ class Bookings extends CI_Controller
                     if( $bike['available'] == "1" )
                     {
                         $data['bike_availability'] = intval($data['bike_availability']) + 1;
-                    }
-
-                    $bike['rent_price'] = 0;
-                    if( $data['period_days'] > 0 || $data['period_hours'] > 4  ){
-                        $duration = "day";
-                        if( $data['public_holiday'] == 1 ){
-                            $bike['rent_price'] = $bike['holiday_day_price'];
-                        }
-                        elseif( $data['weekend'] == 1 ){
-                            $bike['rent_price'] = $bike['weekend_day_price'];
-                        } else {
-                            $bike['rent_price'] = $bike['week_day_price'];
-                        }
-                    } else {
-                        $duration = "halfday";
-                        if( $data['public_holiday'] == 1 ){
-                            $bike['rent_price'] = $bike['holiday_day_half_price'];
-                        } elseif( $data['weekend'] == 1 ){
-                            $bike['rent_price'] = $bike['weekend_day_half_price'];
-                        } else {
-                            $bike['rent_price'] = $bike['week_day_half_price'];
-                        } 
                     }
                 }                   
                 $data['cart_bikes'][$index] = $bike;
