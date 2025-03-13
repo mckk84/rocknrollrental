@@ -177,7 +177,7 @@
                                                     <span class="btn btn-sm cart-plus bg-primary text-white rounded-0"><i class="fa-solid fa-plus"></i></span>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4">
+                                            <div class="col-xl-4 py-2">
                                                 <span id="bike_availability" class="text-success m-1">Availability : <i class="fa fa-check"></i></span>
                                             </div>
                                         </div>
@@ -202,7 +202,7 @@
                                                     <span class="btn btn-sm cart-hplus bg-primary text-white rounded-0"><i class="fa-solid fa-plus"></i></span>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4">
+                                            <div class="col-xl-4 py-2">
                                                 <div class="text-dark m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="helmets_total"></span></div>
                                             </div>
                                         </div>
@@ -212,7 +212,7 @@
                                             <div class="col-xl-8 py-2">
                                                 <div class="w-25 pt-1 text-dark float-left">Total</div>
                                             </div>
-                                            <div class="col-xl-4">
+                                            <div class="col-xl-4 py-2">
                                                 <div class="text-dark m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="cart_total"></span></div>
                                             </div>
                                         </div>

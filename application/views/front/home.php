@@ -775,7 +775,7 @@ $(document).ready(function(){
         $("#bike_customize .card-title").html("<img src='"+bike_image+"' style='max-width:80px;display:inline;' class='img-fluid me-2'/>"+bikeName);
         $("#custom_bike #bike_price").html(bike_price);
         $("#custom_bike #bike_qty").html(bike_qty);
-        bike_price_subtotal = (parseInt(bike_qty) * parseInt(bike_price), 2).toFixed(2);
+        bike_price_subtotal = parseInt(bike_qty) * parseInt(bike_price);
         $("#custom_bike #bike_price_subtotal").html(bike_price_subtotal);
         $("#custom_bike #helmets_total").html(h_qty * 50);
         total = bike_price_subtotal + parseInt(h_qty * 50);
@@ -1008,7 +1008,7 @@ $(document).ready(function(){
 
                     $("#custom_bike #bike_price").html(bike_price);
                     $("#custom_bike #bike_qty").html(bike_qty);
-                    bike_price_subtotal = (parseInt(bike_qty) * parseInt(bike_price)).toFixed(2);
+                    bike_price_subtotal = parseInt(bike_qty) * parseInt(bike_price);
                     $("#custom_bike #bike_price_subtotal").html(bike_price_subtotal);
                     $("#custom_bike #helmets_total").html(h_qty * 50);
                     total = bike_price_subtotal + parseInt(h_qty * 50);
