@@ -73,29 +73,10 @@
                             { 
                                 foreach($cart['cart_bikes'] as $bike) 
                                 {
-                                    $rent_price = 0;
-                                    if( $cart['period_days'] > 0 || $cart['period_hours'] > 4  ){
-                                        if( $cart['public_holiday'] == 1 ){
-                                            $rent_price = $bike['holiday_day_price'];
-                                        }
-                                        elseif( $cart['weekend'] == 1 ){
-                                            $rent_price = $bike['weekend_day_price'];
-                                        } else {
-                                            $rent_price = $bike['week_day_price'];
-                                        }
-                                    } else {
-                                        if( $cart['public_holiday'] == 1 ){
-                                            $rent_price = $bike['holiday_day_half_price'];
-                                        } elseif( $cart['weekend'] == 1 ){
-                                            $rent_price = $bike['weekend_day_half_price'];
-                                        } else {
-                                            $rent_price = $bike['week_day_half_price'];
-                                        } 
-                                    }
-
+                                    $rent_price = $bike['rent_price'];
                                     $rent_total = round($bike['quantity'] * $rent_price, 2);
 
-                                    $total += $rent_total;
+                                    $subtotal += $rent_total;
                                 ?>
                                 <tr class="bike-row" data-id="<?=$bike['bike_type_id']?>">
                                     <td>
@@ -123,7 +104,7 @@
 
                                 $helmets_price = 50;
                                 $helmets_total = $cart['helmets_qty'] * $helmets_price;
-                                $total += $helmets_total;
+                                $total = $subtotal + $helmets_total;
                             ?>
                                 <tr class="helmets-row">
                                     <td>
@@ -157,16 +138,21 @@
                             </tr>
                             <tr>
                                 <th class="text-start">Subtotal</th>
-                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$total - round($total * 0.05, 2)?></th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$subtotal - round($subtotal * 0.05, 2)?></th>
                             </tr>
                             <tr>
                                 <th class="text-start">GST</th>
-                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=round($total * 0.05, 2)?></th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=round($subtotal * 0.05, 2)?></th>
                             </tr>
                             <tr>
                                 <td class="text-start fw-bold">Total</td>
                                 <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$total;?></td>
                             </tr>
+                            <tr>
+                                <td class="text-start text-warning fw-bold border-0">Refundable Deposit / Vehicle
+                                    <span class="d-block text-gray fw-normal text-sm">To be paid at the time of pickup</span></td>
+                                <td class="fw-bold text-end border-0"><i class="fa fa-indian-rupee-sign me-1"></i> 1000</td>
+                            </tr>  
                             <tr>
                                 <td class="text-start fw-bold">
                                     Paying Now
