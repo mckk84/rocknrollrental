@@ -40,6 +40,24 @@ class Bike_model extends CI_Model
         }
     }
 
+    function getBikes($bike_ids)
+    {
+        $bike_id_string = implode(",", $bike_ids);
+        $this->db->select('tbl_bikes.*,tbl_bikes.id as bid, tbl_bikes.type_id as bike_type_id, tbl_bike_types.type as bike_type, tbl_prices.*');
+        $this->db->from('tbl_bikes');
+        $this->db->join('tbl_prices', 'tbl_prices.type_id = tbl_bikes.type_id', 'left');
+        $this->db->join('tbl_bike_types', 'tbl_bike_types.id = tbl_bikes.type_id', 'left');
+        $this->db->where('tbl_bikes.id IN ('.$bike_id_string.')');
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0)
+        {
+            return $query->result_array();
+        } else {
+            return array();
+        }
+    }
+
     function getImageForType($type_id)
     {
         $this->db->limit(1);

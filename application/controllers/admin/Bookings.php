@@ -87,6 +87,7 @@ class Bookings extends CI_Controller
         $data['order_payment'] = $this->bookingpayment_model->getByBookingId($booking_id);
         $data['customer'] = $this->customers_model->getById($data['order']['customer_id']);
 
+        $bike_assigned_ids = [];
         $bike_type_ids = "";
         $bike_type_names = "";
         $bike_type_array = [];
@@ -103,6 +104,10 @@ class Bookings extends CI_Controller
           {
             $bike_type_qty[ $row['type'] ] = $bike_type_qty[ $row['type'] ] + 1;
           }
+          if( !in_array($row['bike_id'], $bike_assigned_ids) )
+          {
+            array_push($bike_assigned_ids, $row['bike_id']);
+          }
         }
         $bike_type_ids = implode(",", $bike_type_array);
         $ordered_bike_qty = "";
@@ -111,7 +116,14 @@ class Bookings extends CI_Controller
            $ordered_bike_qty .= "<span class='w-100 text-danger font-bold d-block'>".$btype." ( ".$bq." Nos. )</span>";
         }
 
-        $data['available_bikes'] = $this->searchbike_model->searchBikes($bike_type_ids, $data['order']['pickup_date'], $data['order']['pickup_time'], $data['order']['dropoff_date'], $data['order']['dropoff_time']);
+        if( count($bike_assigned_ids) == 0 )
+        {
+            $data['available_bikes'] = $this->searchbike_model->searchBikes($bike_type_ids, $data['order']['pickup_date'], $data['order']['pickup_time'], $data['order']['dropoff_date'], $data['order']['dropoff_time']);
+        }
+        else
+        {
+            $data['available_bikes'] = $this->bike_model->getBikes($bike_assigned_ids);
+        }
 
         $d1= new DateTime($data['order']['dropoff_date']." ".$data['order']['dropoff_time']); // first date
         $d2= new DateTime($data['order']['pickup_date']." ".$data['order']['pickup_time']); // second date

@@ -1,3 +1,36 @@
+<div class="modal fade" id="edit-booking" tabindex="-1" data-bs-backdrop="false">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form id="updatebooking" class="booking_form" action="<?=base_url('admin/Bookings/update')?>" method="POST">
+            <input type="hidden" name="booking_id" value="">
+            <div class="modal-header">
+              <span class="modal-title h5">Booking Order</span>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-1">
+                  <div id="order_details" class="col-md-12 mb-1 px-2">
+
+                  </div>
+                  <div id="order_details1" class="col-md-12 mb-1 px-2">
+
+                  </div>
+                  <div id="bike_select" class="col-md-12 px-2">
+                    
+                  </div>
+                  <div id="order_summary" class="col-md-12 px-2">
+                    
+                  </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="submitbooking" type="button">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div><!-- End Disabled Backdrop Modal-->
 <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">

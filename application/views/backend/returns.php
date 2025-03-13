@@ -43,44 +43,56 @@
                       <th scope="col">Customer</th>
                       <th scope="col">From</th>
                       <th scope="col">To</th>
-                      <th scope="col">Quantity</th>
-                      <th scope="col">GST</th>
                       <th scope="col">Total</th>   
                       <th scope="col">Paid</th>
                       <th scope="col">Pending</th>
-                      <th scope="col">Payment Mode</th>
                       <th scope="col">Status</th>
-                      <th scope="col">Notes</th>
-                      <th scope="col">Added By</th>
-                      <th scope="col">Added On</th>
+                      <th scope="col">Del. Notes</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php foreach($records as $index => $row) {
 
+                      $early_pickup = $row['early_pickup'];
                       $bikes_ordered = "";
                       $bk = explode(",", $row['bikes_types']);
                       $bk_qty = explode(",", $row['bikes_qty']);
+                      $bikes_ordered = array();
+                      $bikes_order = "";
+
                       foreach($bk as $index => $bky)
                       {
-                        $ob = $biketypes[$bky]." (".$bk_qty[$index].")";
-                        $bikes_ordered = ($bikes_ordered == "") ? $ob : $bikes_ordered."<br/>".$ob ;
+                        if( isset( $bikes_ordered[ $biketypes[$bky] ] ) )
+                        {
+                          $bikes_ordered[ $biketypes[$bky] ] = $bikes_ordered[ $biketypes[$bky] ] + $bk_qty[$index];
+                        }
+                        else
+                        {
+                          $bikes_ordered[ $biketypes[$bky] ] = $bk_qty[$index];
+                        }
+                      }
+
+                      foreach($bikes_ordered as $name => $qty)
+                      {
+                        $bikes_order = ( $bikes_order == "" ) ? $name."(".$qty.")" : "<br/>".$name."(".$qty.")";
+                      }
+
+                      if( isset($row['helmet_quantity']) && $row['helmet_quantity'] > 0 )
+                      {
+                        $bikes_order .= "<br/>Helmet(".$row['helmet_quantity'].")";
                       }
                       
                       ?>
                     <tr>
                       <td scope="row"><?=$row['id']?></td>
-                      <td><?=$bikes_ordered?></td>
+                      <td><?=$bikes_order?></td>
                       <td><?=$row['name']?><br/><?=$row['email']?><br/><?=$row['phone']?></td>
                       <td><?=date("d-m-Y", strtotime($row['pickup_date']))?><br/><?=$row['pickup_time']?></td>
                       <td><?=date("d-m-Y", strtotime($row['dropoff_date']))?><br/><?=$row['dropoff_time']?></td>
-                      <td><?=$row['quantity']?></td>
-                      <td><?=$row['gst']?></td>
                       <td><?=$row['total_amount']?></td>
                       <td><?=$row['booking_amount']?></td>
-                      <td><?=$row['total_amount'] - $row['booking_amount']?></td>
-                      <td><?=$row['paymentmode']?></td>
+                      <td><?=($row['booking_amount'] > $row['total_amount'] ) ? 0: $row['total_amount'] - $row['booking_amount']?></td>
                       <td><?php if( $row['status'] == 0) { ?>
                         <span class="badge bg-warning">Pre Booked</span>
                       <?php } else if($row['status'] == 1) { ?>
@@ -89,12 +101,10 @@
                         <span class="badge bg-info">Closed</span>
                       <?php } ?>
                       </td>
-                      <td><?=$row['notes']?></td>
-                      <td><?=($row['created_by'] == "") ? "ONLINE":$row['created_by']?></td>
-                      <td><?=date("d-m-Y", strtotime($row['created_date']))?></td>
-                      <td><div class="d-flex justify-content-start">
-                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-customer-record text-warning float-right mx-2"><i class="bi bi-pencil"></i></a>
-                        <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record text-danger float-right mx-2"><i class="bi bi-trash"></i></a>
+                      <td><?=$row['delivery_notes']?></td>
+                      <td>
+                        <div class="d-flex justify-content-start">
+                          <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record text-warning float-right mx-2"><i class="bi bi-pencil"></i></a>
                       </div></td>
                     </tr>
                      <?php } ?>
