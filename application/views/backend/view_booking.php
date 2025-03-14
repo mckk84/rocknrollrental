@@ -18,7 +18,7 @@
               <div class="card-body w-75">
                 <h5 class="card-title">Booking #<?=$booking_id?></h5>
 
-                <table class="table table-responsive border rounded mb-2">
+                <table style="width:50%;float:left;" class="table table-responsive border rounded mb-2">
                   <tbody>
                     <tr>
                       <th class="bg-warning">Pickup Date</th>
@@ -44,7 +44,7 @@
                         </td>
                       </tr></tbody></table>
 
-                <table class="table table-responsive border rounded mb-2">
+                <table style="width:49%;float:left;margin-left:2px;" class="table table-responsive border rounded mb-2">
                 <tbody>
                 <tr><th class="bg-warning">Customer</th><td><?=$customer['name']?> ( <?=$customer['phone']?>)</td></tr>
                 <tr><th class="bg-warning">Bikes Ordered</th><td><?=$ordered_bikes?></td></tr>
@@ -60,13 +60,14 @@
                 <table class="table table-responsive rounded border text-center mb-2">
                 <thead>
                   <tr><th class="bg-warning text-center">#</th><th class="bg-warning">Bike Type</th><th class="bg-warning">Image</th>
-                <th class="bg-warning">Assign Vehicle</th><th class="bg-warning">Rent Price</th></tr></thead>
+                <th class="bg-warning">Assigned Vehicle</th><th class="bg-warning">Rent Price</th></tr></thead>
                 <tbody>
                   <?php foreach($order_bike_types as $index => $row) { ?>
                     <tr>
                       <td><?=$index?></td>
                       <td><?=$row['type']?></td>
                       <td><img style="width:50px;margin:auto;display:block;" class="img-fluid" src="<?=base_url("bikes/".$row['image'])?>" ></td>
+                      <td><?=$row['vehicle_number']?></td>
                       <td><?=$row['rent_price']?></td>
                     </tr>   
                   <?php } ?>

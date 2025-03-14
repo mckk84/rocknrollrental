@@ -83,7 +83,8 @@ class Searchbike_model extends CI_Model
             if( $pickup_date == $dropoff_date ) 
             {
                 $day_type = $this->checkDay($pickup_date);
-                if( $interval->h < 4 ) {
+                if( $interval->h < 4 ) 
+                {
                     if( $day_type[2] ) {
                         $rent_price = $price['holiday_day_half_price'];    
                     } else if( $day_type[1] ) {
