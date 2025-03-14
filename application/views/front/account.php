@@ -17,7 +17,7 @@
 
         <!--product details tab-section-->
         <section class="product-details-tab-section pb-120 pt-60">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row">
                     <div class="col-xl-3 col-md-4 col-sm-12 mb-2">
                         <div class="product-details-tab-content bg-white border">
