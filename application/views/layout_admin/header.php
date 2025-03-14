@@ -98,12 +98,12 @@
         </a>
       </li>
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="<?=base_url('admin/Availability')?>">
           <i class="bi bi-search"></i>
           <span>Availability</span>
         </a>
-      </li>
+      </li> -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="<?=base_url('admin/Bookings')?>">
