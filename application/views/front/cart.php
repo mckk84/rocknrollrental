@@ -25,8 +25,9 @@
         <?php } else {?> 
         <div class="row">
             <div class="col-xxl-8">
-                <div class="shopping-cart-left">
+                <div class="shopping-cart-left mb-4">
                     <?php 
+                    $bike_quantity = 0;
                     $subtotal = 0;
                     $gst = 0;
                     $total = 0;
@@ -48,6 +49,7 @@
                                 {
                                     $rent_price = $bike['rent_price'];
                                     $subtotal += round($rent_price * $bike['quantity'], 2);
+                                    $bike_quantity += $bike['quantity'];
                                 ?>
                                 <tr class="bike-row" data-id="<?=$bike['bike_type_id']?>">
                                     <td>
@@ -65,9 +67,9 @@
                                     <td>
                                         <?php if( $bike['bikes_available'] > 1 ){?>
                                         <div class="cart-count d-inline-flex align-items-center">
-                                            <button class="cart-minus bg-transparent"><i class="fa-solid fa-minus"></i></button>
+                                            <button class="cart-minus bg-transparent"><i class="fa fa-minus"></i></button>
                                             <input type="text" data-bike="<?=$bike['bike_type_id']?>" data-available="<?=$bike['bikes_available']?>" id="cart-input" class="cart-input" value="<?=$bike['quantity']?>">
-                                            <button class="cart-plus bg-transparent"><i class="fa-solid fa-plus"></i></button>
+                                            <button class="cart-plus bg-transparent"><i class="fa fa-plus"></i></button>
                                         </div>
                                         <?php } else { ?>
                                         <div class="cart-count d-inline-flex align-items-center">
@@ -76,7 +78,7 @@
                                         <?php } ?>
                                     </td>
                                     <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=round($rent_price * $bike['quantity'], 2)?></span></td>
-                                    <td><button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" class="cart-delete bg-transparent"><i class="fa-solid fa-trash"></i></button></td>
+                                    <td><button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" class="cart-delete bg-transparent"><i class="fa fa-trash"></i></button></td>
                                 </tr>
                                 <?php } 
                             }
@@ -92,6 +94,7 @@
                             <input type="hidden" name="period_hours" value="<?=$cart['period_hours']?>">
                             <input type="hidden" name="public_holiday" value="<?=$cart['public_holiday']?>">
                             <input type="hidden" name="weekend" value="<?=$cart['weekend']?>">
+                            <input type="hidden" name="early_pickup" value="<?=$cart['early_pickup']?>">
                             <input type="hidden" name="coupon_code" value="<?=isset($cart['coupon_code'])?$cart['coupon_code']:""?>">
                             <input type="hidden" name="helmets_qty" value="<?=isset($cart['helmets_qty'])?$cart['helmets_qty']:"0"?>">
                             <a id="checkout" style="display: none;float: right;" class="btn btn-sm btn-primary" href="javascript:void(0)">Book Now</a>
@@ -124,10 +127,10 @@
                                 </td>
                                 <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="helemt_rent_price d-inline-block p-1">50</span>/<span class="d-inline-block p-1">day</span></td>
                                 <td>
-                                    <div style="max-width: 150px;" class="cart-count bg-white d-flex justify-content-center">
-                                        <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0"><i class="fa-solid fa-minus"></i></span>
+                                    <div style="min-width: 150px;" class="cart-count bg-white d-flex justify-content-center">
+                                        <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0"><i class="fa fa-minus"></i></span>
                                         <input type="text" name="helmets_qty" class="w-50 cart-helmets text-center border text-black rounded-0" value="<?=isset($cart["helmets_qty"])?$cart["helmets_qty"]:0?>">
-                                        <span class="btn btn-sm cart-hplus bg-primary text-white rounded-0"><i class="fa-solid fa-plus"></i></span>
+                                        <span class="btn btn-sm cart-hplus bg-primary text-white rounded-0"><i class="fa fa-plus"></i></span>
                                     </div>
                                 </td>
                                 <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"] * 50:0?></span></td>
@@ -158,6 +161,13 @@
                                 <th class="text-start">Subtotal</th>
                                 <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_subtotal d-inline-block"><?=$subtotal - round($subtotal * 0.05, 2)?></span></th>
                             </tr>
+                            <?php if($cart['early_pickup'] == 1){
+                                $total = $total + round($bike_quantity * 200, 2);?>
+                            <tr>
+                                <th class="text-start">Early Pickup</th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="early_pickup d-inline-block"><?=round($bike_quantity * 200, 2)?></span></th>
+                            </tr>
+                            <?php } ?>
                             <tr>
                                 <th class="text-start">GST</th>
                                 <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_gst d-inline-block"><?=round($subtotal * 0.05, 2)?></span></th>
@@ -172,8 +182,11 @@
                                 <td class="fw-bold text-end border-0"><i class="fa fa-indian-rupee-sign me-1"></i> 1000</td>
                             </tr>                                                           
                         </table>
-                        <div class="d-flex flex-column p-4">
+                        <div class="d-flex flex-column pb-4 pt-2">
                             <form method="POST" action="<?=base_url('Checkout')?>">
+                                <div class="w-100 mb-4 border rounded bg-light">
+                                    <label class="fa-md text-info py-2 px-2"><input type="checkbox" name="early_pickup_charge" value="1" <?=($cart['early_pickup']==1)?"checked":""?> > Pickup early at 6:00 AM for  200 extra / bike.</label>
+                                </div>                                
                                 <div class="radio w-100 mb-2">
                                     <label class="fa-md"><input type="radio" name="paymentOption" value="PAY_FULL" onclick="__setPayment('PAY_FULL');" checked> Make full payment</label>
                                 </div>
@@ -207,7 +220,22 @@ $(document).ready(function(){
           $("#cartform input[name='helmets_qty']").val(0);
           $(".helmet_content").slideUp();
         }
-      }); //elAboutBox
+    });
+
+    $("input[name='early_pickup_charge']").on("change", function () {
+        var temp = localStorage.getItem("bike_ids");
+        var bike_ids = JSON.parse(temp);
+
+        if ($(this).is(":checked")) {
+          $("#cartform input[name='early_pickup']").val(1);
+        } else {
+          $("#cartform input[name='early_pickup']").val(0);         
+        }
+        var v = $(".cart-helmets").val();
+        $("#cartform input[name='helmets_qty']").val(v);
+        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
+        $("#cartform").submit();
+    });
 
     $(".cart-plus").click(function()
     {

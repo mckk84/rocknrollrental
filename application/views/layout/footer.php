@@ -22,8 +22,8 @@
                                 <div class="sb-form mt-40">
                                     <h5 class="text-white mb-4">Get latest updates & offers</h5>
                                     <form class="footer-sb-form position-relative">
-                                        <input type="email" placeholder="Enter your email..." class="bg-white w-100">
-                                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                                        <input type="email" placeholder="Enter your email..." class="bg-white w-100 py-4">
+                                        <button type="submit" class="btn btn-primary py-4">Subscribe</button>
                                     </form>
                                 </div>
                             </div>
@@ -31,12 +31,12 @@
                         <div class="col-xl-6 col-lg-7">
                             <div class="ms-lg-5 ms-xl-0 mt-5 mt-lg-0">
                                 <div class="row align-items-center">
-                                    <div class="col-9">
+                                    <div class="col-xl-9 col-md-9 col-sm-12">
                                         <div class="row">
-                                            <div class="col-4">
-                                                <a href="index.html" class="footer-logo d-inline-block"><img style="width:150px" src="<?=base_url()?>logo/logo2.png" alt="logo"></a>
+                                            <div class="col-xl-4 col-md-4 col-sm-6">
+                                                <img class="img-fluid" src="<?=base_url()?>logo/logo2.png" alt="logo">
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-xl-6 col-md-8 col-sm-6">
                                                 <div class="d-inline text-start m-1 p-1">
                                                     <span class="h5 text-white w-75 mt-1 d-block">ROCK N ROLL</span>
                                                     <span style="border-top: 2px dashed #fdfd06;" class="h5 text-white pt-1 d-block w-75">RENTALS</span>
@@ -44,14 +44,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-xl-3 col-md-3 col-sm-12">
                                         <div class="text-end">
                                             <div class="footer-social d-inline-block text-start">
                                                 <h6 class="text-white">Follow us on</h6>
                                                 <ul class="footer-social-list">
-                                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                                    <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>                                          
+                                                    <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>                                          
                                                 </ul>
                                             </div>
                                         </div>

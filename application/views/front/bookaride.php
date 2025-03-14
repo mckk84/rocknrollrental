@@ -154,12 +154,12 @@
                     </div>
                     <!-- <div class="template-pagination mt-5 pg-style-2">
                         <ul class="d-flex align-items-center">
-                            <li><a href="#"><i class="fa-solid fa-angles-left"></i></a></li>
+                            <li><a href="#"><i class="fa fa-angles-left"></i></a></li>
                             <li><a href="#">1</a></li>
                             <li><a href="#" class="active">2</a></li>
                             <li><a href="#">3</a></li>
                             <li><a href="#">4</a></li>
-                            <li><a href="#"><i class="fa-solid fa-angles-right"></i></a></li>
+                            <li><a href="#"><i class="fa fa-angles-right"></i></a></li>
                         </ul>
                     </div> -->
                 </div>
@@ -396,7 +396,7 @@ $(document).ready(function(){
         minDate:moment(today_date),
         defaultDate:moment(today_date),
         icons: {
-          time: "fa-solid fa-clock"
+          time: "fa fa-clock"
         }
     }).on('dp.change', function(e) {
         console.log('Pickup date');
@@ -432,7 +432,7 @@ $(document).ready(function(){
     minDate:moment(today_date),
     defaultDate:moment(today_date),
     icons: {
-      time: "fa-solid fa-clock"
+      time: "fa fa-clock"
     }
   }).on('dp.change', function(e) {
     console.log('Dropoff date');
@@ -461,6 +461,12 @@ $(document).ready(function(){
     }
 
   });
+
+  <?php if(!isset($available_bikes)) { ?>
+    localStorage.setItem("bikesincart", bikesincart);
+    localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
+    $(".blw-search-form").submit();
+  <?php } ?>
 
 
 });

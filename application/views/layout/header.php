@@ -41,6 +41,7 @@
     <!--title-->
     <title><?=$page_title?></title>
     <!--build:css-->
+    <link rel="stylesheet" href="<?=base_url()?>/assets/css/font-awesome.min.css" />
     <link rel="stylesheet" href="<?=base_url()?>/assets/css/main.css" />
     <!-- endbuild -->
     <!--custom css-->
@@ -89,9 +90,9 @@
                         <div class="col-xl-3 col-lg-8 col-6">
                             <div class="rent-info-social text-end d-none d-sm-block">
                                 <span class="text-white fw-500">Follow on</span>
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-linkedin"></i></a>
-                                <a href="#"><i class="fab fa-twitter"></i></a>                                
+                                <a href="#"><i class="fa fa-facebook-f"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>                                
                             </div>
                         </div>
                     </div>
@@ -137,7 +138,7 @@
                                     <?php } ?>             
                                 </div>
                                 <button class="ofcanvus-toggle header-toggle-btn ms-4 d-none d-lg-block">
-                                    <i class="fa-solid fa-bars-staggered"></i>
+                                    <i class="fa fa-bars-staggered"></i>
                                 </button>
                                 <button class="mobile-menu-toggle header-toggle-btn ms-4 d-lg-none">
                                     <span></span>
@@ -154,14 +155,23 @@
 
         <!--mobile menu start-->
         <div class="mobile-menu position-fixed bg-white deep-shadow">
-            <button class="close-menu position-absolute"><i class="fa-solid fa-xmark"></i></button>
-            <a href="<?=base_url()?>" class="logo-wrapper bg-secondary d-block mt-4 p-3 rounded-1 text-center"><img src="<?=base_url()?>/assets/img/logo.png" alt="logo" class="img-fluid"></a>
+            <button class="close-menu position-absolute"><i class="fa fa-xmark"></i></button>
+            <a href="<?=base_url()?>" class="logo-wrapper d-block mt-4 p-3 rounded-1 text-center"><img src="<?=base_url()?>logo/logo2.png" alt="logo" class="img-fluid"></a>
             <nav class="mobile-menu-wrapper mt-40">
                 <ul>
                     <li><a href="<?=base_url()?>">Home</a></li>
                     <li><a href="<?=base_url('About')?>">About Us</a></li>
                     <li><a href="<?=base_url('Tariff')?>">Tariff</a></li>  
                     <li><a href="<?=base_url('Contact')?>">Contact Us</a></li>  
+                    <?php if( isset($user) && isset($user['Authorization']) && $user['Authorization'] == true ){?>
+                    <li class="has-submenu"><a href="javascript:void(0)" class="p-2 d-lg-inline-block"><img class="me-2" src="<?=base_url()?>assets/images/motorcyclist.png"><span class="text-dark fw-bold"><?=$user['name']?></span></a>
+                        <ul class="submenu-wrapper">
+                            <li><a href="<?=base_url('Cart')?>"><i class="fa fa-shopping-basket me-2"></i>Cart</a></li>
+                            <li><a href="<?=base_url('Account')?>"><i class="fa fa-gear me-2"></i>Account</a></li>
+                            <li><a href="<?=base_url('/Auth/signoff')?>"><i class="fa fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                    <?php } ?>
                 </ul>
             </nav>
             <div class="contact-info mt-60">
@@ -170,10 +180,10 @@
                 <p>+91-9980318883</p>
                 <p>info@rocknrollrental.com</p>
                 <div class="social-contact">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fa fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                    <a href="#"><i class="fa fa-youtube"></i></a>
                 </div>
             </div>
         </div>
@@ -181,7 +191,7 @@
 
         <!--ofcanvus menu start-->
         <div class="at_offcanvus_menu position-fixed">
-            <button class="at-offcanvus-close"><i class="fa-solid fa-xmark"></i></button>
+            <button class="at-offcanvus-close"><i class="fa fa-xmark"></i></button>
             <a href="#" class="logo-wrapper d-inline-block mb-5"><img style="width:190px;" src="<?=base_url()?>/logo/logo2.png" alt="logo"></a>
             <div class="offcanvus-content">
                 <h4 class="mb-4">About Us</h4>
@@ -198,10 +208,10 @@
                 </ul>
             </div>
             <div class="at_canvus_social mt-4">
-                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-btn"><i class="fa fa-facebook-f"></i></a>
+                <a href="#" class="social-btn"><i class="fa fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fa fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fa fa-youtube"></i></a>
             </div>
         </div>
         <!--ofcanvus menu end-->

@@ -6,11 +6,11 @@
                 <form method="POST" action="<?=base_url('Bookaride')?>" class="row d-flex align-items-center bg-white rounded mx-4 my-4">
                     <div class="col-xl-12 mt-4 px-4 pt-4">
                         <div class="row">
-                            <div class="col-xl-6">
+                            <div class="col-xl-6 col-md-6">
                                 <label class="text-dark mb-2">Pickup date</label>
                                 <input type="text" name="pickup_date" id="pickup_date" class="theme-date-input text-dark border w-100 rounded-2" placeholder="">
                             </div>
-                            <div class="col-xl-6">
+                            <div class="col-xl-6 col-md-6">
                                 <label class="text-dark mb-2">Time</label>
                                 <select id="pickup_time" name="pickup_time" class="form-select">
                                 </select>
@@ -19,11 +19,11 @@
                     </div>
                     <div class="col-xl-12 mt-4 px-4 pt-4">
                         <div class="row">
-                            <div class="col-xl-6">
+                            <div class="col-xl-6 col-md-6">
                                 <label class="text-dark mb-2">Dropping off date</label>
                                 <input type="text" name="dropoff_date" id="dropoff_date" class="theme-date-input text-dark border w-100 rounded-2" placeholder="">
                             </div>
-                            <div class="col-xl-6">
+                            <div class="col-xl-6 col-md-6">
                                 <label class="text-dark mb-2">Time</label>
                                 <select id="dropoff_time" name="dropoff_time" class="form-select">
                                 </select>
@@ -37,8 +37,8 @@
                     </div>
                 </form>
             </div>
-            <div class="d-none d-xl-block col-xl-6">
-                <div class="hero-bike-slider position-relative z-5 swiper">
+            <div class="d-none d-xl-block col-xl-6 overflow-hidden">
+                <div class="w-100 hero-bike-slider position-relative z-5 swiper">
                     <div class="swiper-wrapper">
                         <div class="hero-bike-single position-relative swiper-slide">
                             <img src="bikes/bg/honda_activa_6g.png" alt="bike" class="img-fluid">
@@ -81,61 +81,14 @@
     <div class="at-header-social md-header-social d-none d-md-flex align-items-center position-absolute">
         <span class="title">Follow on</span>
         <ul class="social-list ms-3">
-            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+            <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
         </ul>
     </div>
     <img src="<?=base_url()?>/assets/img/shapes/texture-bg-yellow.jpg" alt="texture yellow" class="position-absolute texture-yellow z-1 d-none d-xl-block">
     <img src="<?=base_url()?>/assets/img/shapes/wave-yellow.png" alt="wave" class="position-absolute wave-shape z-2">
 </section>
-
-<!--search box -->
-<!-- <div class="at-search-box">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="at-search-box-filter bg-white">
-                    <ul class="nav nav-tabs border-0 justify-content-center justify-content-sm-start">
-                        <li><a href="javascript:void(0)" class="text-dark active">Search Your Next Ride</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane fade show active" id="all_status">
-                            <form method="POST" action="<?=base_url('Bookaride')?>" class="at-search-filter d-flex align-items-center">
-                                <div class="input-field">
-                                    <label>Pickup Date</label>
-                                    <div class="form-input">                            
-                                        <input type="text" name="pickup_date" id="pickup_date" class="theme-date-input border w-100 rounded-2" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="input-field">
-                                    <label>Time</label>
-                                    <select id="pickup_time" name="pickup_time" class="form-select">
-                                    </select>
-                                </div>
-                                <div class="input-field">
-                                    <label>Dropping off date</label>
-                                    <div class="form-input">                            
-                                        <input type="text" name="dropoff_date" id="dropoff_date" class="theme-date-input border w-100 rounded-2" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="input-field">
-                                    <label>Time</label>
-                                    <select id="dropoff_time" name="dropoff_time" class="form-select">
-                                    </select>
-                                </div>
-                                <div class="submit-btn align-self-end">
-                                    <button class="btn btn-secondary btn-md" type="submit">Search Now</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-<!--search box end-->
 
 <!--about section start-->
 <section class="h3-about-section ptb-80">
@@ -275,32 +228,32 @@
         </div>
         <div class="staff-list mt-4">
             <div class="ct-row d-flex align-items-center justify-content-center flex-wrap">
-                <div class="col-1 single-icon text-center">
+                <div class="col-xl-1 col-sm-3 col-md-3  single-icon text-center">
                     <img src="assets/img/icons/helmet.svg" alt="staff" class="img-fluid">
                     <span class="mb-1 mt-2">Helmets</span>
                 </div>
             
-                <div class="col-1 single-icon text-center">
+                <div class="col-xl-1 col-sm-3 col-md-3 single-icon text-center">
                     <img src="assets/img/icons/assistance.svg" alt="staff" class="img-fluid">
                     <span class="mb-1 mt-2">Assistance</span>
                 </div>
             
-                <div class="col-1 single-icon text-center">
+                <div class="col-xl-1 col-sm-3 col-md-3 single-icon text-center">
                     <img src="assets/img/icons/insurance.svg" alt="staff" class="img-fluid">
                     <span class="mb-1 mt-2">Insurance</span>
                 </div>
             
-                <div class="col-1 single-icon text-center">
+                <div class="col-xl-1 col-sm-3 col-md-3 single-icon text-center">
                     <img src="assets/img/icons/cancellation.svg" alt="staff" class="img-fluid">
                     <span class="mb-1 mt-2">Cancellation</span>
                 </div>
             
-                <div class="col-1 single-icon text-center">
+                <div class="col-xl-1 col-sm-3 col-md-3 single-icon text-center">
                     <img src="assets/img/icons/discount.svg" alt="staff" class="img-fluid">
                     <span class="mb-1 mt-2">Discounts</span>
                 </div>
             
-                <div class="col-1 single-icon text-center">
+                <div class="col-xl-1 col-sm-3 col-md-3 single-icon text-center">
                     <img src="assets/img/icons/road-permit.svg" alt="staff" class="img-fluid">
                     <span class="mb-1 mt-2">State Permit</span>
                 </div>
@@ -331,21 +284,21 @@
                 <div class="about-right mt-5 mt-lg-0">
                     <div class="about-icon-box bg-white shadow rounded">
                         <div class="ab-icon-box-top d-flex align-items-center mb-3">
-                            <span class="icon-wrapper d-flex align-items-center justify-content-center rounded"><i class="flaticon-shield"></i></span>
+                            <span class="icon-wrapper d-flex align-items-center justify-content-center rounded"><i class="fa fa-shield"></i></span>
                             <h5 class="mb-0 ms-3">24/7 Customer Support</h5>
                         </div>
                         <p class="mb-0">Call us from anywhere anytime</p>
                     </div>
                     <div class="about-icon-box bg-white shadow rounded mt-20 ms-md-5">
                         <div class="ab-icon-box-top d-flex align-items-center mb-3">
-                            <span class="icon-wrapper d-flex align-items-center justify-content-center rounded"><i class="flaticon-shield"></i></span>
+                            <span class="icon-wrapper d-flex align-items-center justify-content-center rounded"><i class="fa fa-shield"></i></span>
                             <h5 class="mb-0 ms-3">Instant Pickup</h5>
                         </div>
                         <p class="mb-0">24/7 Online Reservation</p>
                     </div>
                     <div class="about-icon-box bg-white shadow rounded mt-20">
                         <div class="ab-icon-box-top d-flex align-items-center mb-3">
-                            <span class="icon-wrapper d-flex align-items-center justify-content-center rounded"><i class="flaticon-price-tag"></i></span>
+                            <span class="icon-wrapper d-flex align-items-center justify-content-center rounded"><i class="fa fa-price-tag"></i></span>
                             <h5 class="mb-0 ms-3">Unlimited Kilometers</h5>
                         </div>
                         <p class="mb-0">Terms & Conditions Apply</p>

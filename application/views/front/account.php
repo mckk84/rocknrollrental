@@ -17,9 +17,9 @@
 
         <!--product details tab-section-->
         <section class="product-details-tab-section pb-120 pt-60">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-xl-3">
+                    <div class="col-xl-3 col-md-4 col-sm-12 mb-2">
                         <div class="product-details-tab-content bg-white border">
                             <ul class="account_tabs nav nav-tabs py-3 px-4 border-0 mt-0">
                                 <li class="d-inline-block px-1 m-1"><a href="#basicinfo" id="tab_basicinfo" data-bs-toggle="tab" class="active"><i class="fa fa-user me-2"></i>Basic Info</a></li>
@@ -28,8 +28,8 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-xl-9 border">
-                        <div class="product-details-tab-content">
+                    <div class="col-xl-9 col-md-8 col-sm-12 mb-2 ">
+                        <div class="product-details-tab-content border">
                             <div class="tab-content mt-0">
                                 <div class="tab-pane fade show active" id="basicinfo">
                                     <div class="description-tab-box bg-white pt-20 pb-20 px-4 rounded" id="specification">
@@ -58,9 +58,9 @@
                                     <div class="description-tab-box bg-white pt-20 pb-20 px-4 rounded" id="specification">
                                         <h6 class="py-3 px-4 rounded bg-color">Change Password</h6>
                                         <div class="row">
-                                            <div class="col-8">
+                                            <div class="col-xl-8 col-md-12 col-sm-12">
                                                 <form class="form-control" id="update-password" method="POST" action="<?=base_url('Auth/changepassword')?>">
-                                                    <div class="col-12 col-sm-6">
+                                                    <div class="col-xl-12 col-md-12 col-sm-6">
                                                         <div class="input-field">
                                                             <label for="cp">Current Password</label>
                                                             <input type="password" class="form-control" autocomplete="off" id="cp" name="current_password" value="" required>
@@ -95,9 +95,9 @@
                                         </div>
                                         <?php } else { ?>
                                         <div class="row g-4">
-                                            <div class="col-12">
+                                            <div class="col-12 overflow-auto">
                                                 <?php $subtotal = 0;$gst = 0;$total = 0;?>
-                                                <div class="table table-responsive bg-white rounded">
+                                                <div style="min-width: 800px;" class="table table-responsive bg-white rounded">
                                                     <table class="table table-bordered">
                                                         <thead>
                                                             <tr class="bg-primary">
@@ -132,7 +132,7 @@
 
                                                               foreach($bikes_ordered as $name => $qty)
                                                               {
-                                                                $bikes_order = ( $bikes_order == "" ) ? "<span class='w-100 m-2 p-2 fa-sm fw-bold d-block'>".$name."(".$qty.")</span>" : "<span class='w-100 m-2 p-2 fa-sm fw-bold d-block'>".$name."(".$qty.")</span>";
+                                                                $bikes_order = ( $bikes_order == "" ) ? "<span class='w-100 m-2 p-2 fa-sm fw-bold d-inline'>".$name."(".$qty.")</span>" : "<span class='w-100 m-2 p-2 fa-sm fw-bold d-inline'>".$name."(".$qty.")</span>";
                                                               }
                                                         ?>
                                                         <tr>
@@ -142,23 +142,23 @@
                                                             <td>
                                                                 <?=$bikes_order?>
                                                                 <?php if( $row['helmet_quantity'] != 0) {?>
-                                                                <span class="w-100 m-2 p-2 fa-sm fw-bold d-block">Helmets: <?=$row['helmet_quantity']?></span>
+                                                                <span class="w-100 m-2 p-2 fa-sm fw-bold d-inline">Helmets: <?=$row['helmet_quantity']?></span>
                                                                 <?php } ?>
                                                             </td>
                                                             <td>
-                                                                <span class="w-100 m-2 p-2 fa-sm d-block"><?=date("d M Y", strtotime($row['pickup_date']))?></b></span>
-                                                                <span class="w-100 m-2 p-2 fa-sm d-block"><b><?=$row['pickup_time']?></b></span>
+                                                                <span class="w-100 m-2 p-2 fa-sm d-inline"><?=date("d M Y", strtotime($row['pickup_date']))?></b></span>
+                                                                <span class="w-100 m-2 p-2 fa-sm d-inline"><b><?=$row['pickup_time']?></b></span>
                                                             </td>
                                                             <td>
-                                                                <span class="w-100 m-2 p-2 fa-sm d-block"><?=date("d M Y", strtotime($row['dropoff_date']))?></b></span>
-                                                                <span class="w-100 m-2 p-2 fa-sm d-block"><b><?=$row['dropoff_time']?></b></span>
+                                                                <span class="w-100 m-2 p-2 fa-sm d-inline"><?=date("d M Y", strtotime($row['dropoff_date']))?></b></span>
+                                                                <span class="w-100 m-2 p-2 fa-sm d-inline"><b><?=$row['dropoff_time']?></b></span>
                                                             </td>
-                                                            <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['total_amount']?></td>
-                                                            <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['refund_amount']?></td>
-                                                            <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['booking_amount']?></td>
+                                                            <td class="text-nowrap"><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['total_amount']?></td>
+                                                            <td class="text-nowrap"><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['refund_amount']?></td>
+                                                            <td class="text-nowrap"><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['booking_amount']?></td>
                                                             <td>
                                                                 <?php if( $row['status'] == 0 ){ ?>
-                                                                    <span class="text-white p-1 px-2 border rounded-5 bg-warning font-sm">Pre Booked</span>
+                                                                    <span class="text-white p-1 px-2 border rounded-5 bg-warning font-sm text-nowrap">Pre Booked</span>
                                                                 <?php } elseif( $row['status'] == 1 ){ ?>
                                                                     <span class="text-white p-1 px-2 border rounded-5 bg-success font-sm">Rented</span>
                                                                 <?php }

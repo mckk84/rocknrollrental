@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-5">
+                <div class="mt-5 px-2">
                     <div class="row justify-content-center align-items-center">
                         <table class="table table-hover table-bordered">
                         <tbody><tr>

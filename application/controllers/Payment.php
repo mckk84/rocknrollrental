@@ -82,28 +82,11 @@ class Payment extends CI_Controller {
 		    }
 			    
         	$bikes_quantity = $bikes_quantity + $bike['quantity'];
-            $rent_price = 0;
-            if( $data['cart']['period_days'] > 0  || $data['cart']['period_hours'] > 4 ){
-                if( $data['cart']['public_holiday'] == 1 ){
-                    $rent_price = $bike['holiday_day_price'];
-                }
-                elseif( $data['cart']['weekend'] == 1 ){
-                    $rent_price = $bike['weekend_day_price'];
-                } else {
-                    $rent_price = $bike['week_day_price'];
-                }
-            } else {
-                if( $data['cart']['public_holiday'] == 1 ){
-                    $rent_price = $bike['holiday_day_half_price'];
-                } elseif( $data['cart']['weekend'] == 1 ){
-                    $rent_price = $bike['weekend_day_half_price'];
-                } else {
-                    $rent_price = $bike['week_day_half_price'];
-                } 
-            }
-            $total += $rent_price * $bike['quantity'];
+            $rent_price = $bike['rent_price'];
+            $subtotal += $rent_price * $bike['quantity'];
             $data['cart']['cart_bikes'][$index] = $bike;
         }
+        $total = $subtotal;
         if( isset($data['cart']['helmets_qty']) && $data['cart']['helmets_qty'] > 0 )
         {
             $helmets_price = 50;
@@ -114,9 +97,12 @@ class Payment extends CI_Controller {
         {
         	$data['cart']['helmets_qty'] = 0;
         }
-
-        $subtotal = $total - round($total * 0.05, 2);
-        $gst = round($total * 0.05, 2);
+        if( isset($data['cart']['early_pickup']) && $data['cart']['early_pickup'] > 0 )
+        {
+            $total += $bikes_quantity * 200;
+        }
+      	
+        $gst = round($subtotal * 0.05, 2);
         $total_paid = 0;
         $refund_amount = $refund_amount * $bikes_quantity;
 
@@ -143,6 +129,7 @@ class Payment extends CI_Controller {
             	"gst" => $gst,
             	"payment_mode" => $pmode_row['id'],
             	"status" => 0,
+            	"early_pickup" => $data['cart']['early_pickup'],
             	"pickup_date" => dateformatdb($data['cart']['pickup_date']),
             	"pickup_time" => $data['cart']['pickup_time'],
             	"dropoff_date" => dateformatdb($data['cart']['dropoff_date']),
@@ -256,12 +243,16 @@ class Payment extends CI_Controller {
         $helmets_total = 0;
         $refund_amount = 1000;
         $order_bikes = "";
+        // subtotal will be for only bikes
 		foreach($data['cart']['cart_bikes'] as $bike) 
         {
             $rent_price = $bike['rent_price'];
             $order_bikes = ($order_bikes == "") ? $bike['bike_type_name']."(".$bike_quantity.")" : ",".$bike['bike_type_name']."(".$bike_quantity.")";
-            $total += $bike_quantity * $rent_price;
+            $subtotal += $bike_quantity * $rent_price;
         }
+
+        $total_paid = $subtotal;
+
         if( isset($data['cart']['helmets_qty']) && $data['cart']['helmets_qty'] > 0 )
         {
             $helmets_price = 50;
@@ -273,8 +264,12 @@ class Payment extends CI_Controller {
         	$data['cart']['helmets_qty'] = 0;
         }
 
-        $subtotal = $total - round($total * 0.05, 2);
-        $gst = round($total * 0.05, 2);
+        if( isset($data['cart']['early_pickup']) && $data['cart']['early_pickup'] > 0 )
+        {
+            $total += $bike_quantity * 200;
+        }
+        
+        $gst = round($subtotal * 0.05, 2);
         $total_paid = 0;
 
         if( $data['cart']['paymentOption'] == "PAY_FULL" )
@@ -302,6 +297,7 @@ class Payment extends CI_Controller {
             	"gst" => $gst,
             	"payment_mode" => $pmode_row['id'],
             	"status" => 0,
+            	"early_pickup" => $data['cart']['early_pickup'],
             	"pickup_date" => dateformatdb($data['cart']['pickup_date']),
             	"pickup_time" => $data['cart']['pickup_time'],
             	"dropoff_date" => dateformatdb($data['cart']['dropoff_date']),

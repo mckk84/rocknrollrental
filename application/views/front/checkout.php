@@ -52,8 +52,9 @@
                         Your Order
                     </h4>
                 </div>
-                <div class="shopping-cart-left">
+                <div class="shopping-cart-left mb-4">
                     <?php 
+                    $bike_quantity = 0;
                     $subtotal = 0;
                     $gst = 0;
                     $total = 0;
@@ -75,8 +76,9 @@
                                 {
                                     $rent_price = $bike['rent_price'];
                                     $rent_total = round($bike['quantity'] * $rent_price, 2);
+                                    $bike_quantity += $bike['quantity'];
 
-                                    $total += $rent_total;
+                                    $subtotal += $rent_total;
                                 ?>
                                 <tr class="bike-row" data-id="<?=$bike['bike_type_id']?>">
                                     <td>
@@ -104,7 +106,7 @@
 
                                 $helmets_price = 50;
                                 $helmets_total = $cart['helmets_qty'] * $helmets_price;
-                                $total += $helmets_total;
+                                $total += $subtotal + $helmets_total;
                             ?>
                                 <tr class="helmets-row">
                                     <td>
@@ -138,11 +140,19 @@
                             </tr>
                             <tr>
                                 <th class="text-start">Subtotal</th>
-                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$total - round($total * 0.05, 2)?></th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$subtotal - round($subtotal * 0.05, 2)?></th>
                             </tr>
+                            <?php if($cart['early_pickup'] == 1){
+                                $total = $total + round($bike_quantity * 200, 2);
+                            ?>
+                            <tr>
+                                <th class="text-start">Early Pickup</th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="early_pickup d-inline-block"><?=round($bike_quantity * 200, 2)?></span></th>
+                            </tr>
+                            <?php } ?>
                             <tr>
                                 <th class="text-start">GST</th>
-                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=round($total * 0.05, 2)?></th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=round($subtotal * 0.05, 2)?></th>
                             </tr>
                             <tr>
                                 <td class="text-start fw-bold">Total</td>

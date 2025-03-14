@@ -26,6 +26,7 @@ class Cart extends CI_Controller {
 			$data['cart']['public_holiday'] = $this->input->post('public_holiday');
 			$data['cart']['helmets_qty'] = $this->input->post('helmets_qty');
 			$data['cart']['coupon_code'] =  $this->input->post('coupon_code');
+			$data['cart']['early_pickup'] =  $this->input->post('early_pickup');
 		}
 		else
 		{ 

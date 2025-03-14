@@ -45,7 +45,7 @@ class Checkout extends CI_Controller {
 			{
 		        $bike_id_string .= ($bike_id_string == "") ? $obj->bike_id: ",".$obj->bike_id;
 		    }
-
+		    
 			$data['cart']['cart_bikes'] = $this->searchbike_model->getCartBikes($bike_id_string, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time']);
 
 			foreach($data['cart']['cart_bikes'] as $index => $bike)
