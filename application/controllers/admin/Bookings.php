@@ -69,6 +69,90 @@ class Bookings extends CI_Controller
         }
     }
 
+    public function view()
+    {
+        $booking_id = (isset($_GET['bid']) && $_GET['bid'] != "") ? intval($_GET['bid']) : 0;
+        if( $booking_id == 0 )
+        {
+            redirect('admin/Bookings');
+        } 
+        $data['user'] = $this->session->userdata();
+        $data['page_title'] = "Bookings";
+        $data['booking_id'] = $booking_id;
+        $biketypes = $this->biketypes_model->getAll();
+        $data['biketypes'] = result_to_array($biketypes);
+        $data['order'] = $this->bookings_model->getById($booking_id);
+        $data['order_bike_types'] = $this->bookingbikes_model->getByBookingId($booking_id);
+        $data['order_payment'] = $this->bookingpayment_model->getByBookingId($booking_id);
+        $data['customer'] = $this->customers_model->getById($data['order']['customer_id']);
+
+        $bike_assigned_ids = [];
+        $bike_type_ids = "";
+        $bike_type_names = "";
+        $bike_type_array = [];
+        $bike_type_qty = [];
+        foreach($data['order_bike_types'] as $i => $row)
+        {
+          if( !in_array($row['type_id'], $bike_type_array) )
+          {
+            array_push($bike_type_array, $row['type_id']); 
+            $bike_type_names .= ( $bike_type_names == "" ) ? $row['type'] : ",".$row['type'];
+            $bike_type_qty[ $row['type'] ] = 1;
+          }
+          else
+          {
+            $bike_type_qty[ $row['type'] ] = $bike_type_qty[ $row['type'] ] + 1;
+          }
+          if( $row['bike_id'] != 0 && !in_array($row['bike_id'], $bike_assigned_ids) )
+          {
+            array_push($bike_assigned_ids, $row['bike_id']);
+          }
+
+          $row['rent_price'] = $this->searchbike_model->getRentPrice($row['type_id'], $data['order']['pickup_date'], $data['order']['pickup_time'], $data['order']['dropoff_date'], $data['order']['dropoff_time']);
+          $data['order_bike_types'][$i] = $row;
+        }
+        $bike_type_ids = implode(",", $bike_type_array);
+        $ordered_bike_qty = "";
+        foreach($bike_type_qty as $btype => $bq)
+        {
+           $ordered_bike_qty .= "<span class='w-100 text-danger font-bold d-block'>".$btype." ( ".$bq." Nos. )</span>";
+        }
+
+        $d1= new DateTime($data['order']['dropoff_date']." ".$data['order']['dropoff_time']); // first date
+        $d2= new DateTime($data['order']['pickup_date']." ".$data['order']['pickup_time']); // second date
+        $interval= $d1->diff($d2); // get difference between two dates
+        $data['period_days'] = $interval->days;
+        $data['period_hours'] = $interval->h; 
+
+        $data['weekend'] = 0;
+        $data['public_holiday'] = 0;
+        $data['holiday'] = 0;
+        $date=date_create($data['order']['pickup_date']);
+        $day = date_format($date,"D");
+        if( $day == 'Fri' || $day == 'Sat' || $day == 'Sun' )
+        {
+            $data['weekend'] = 1;
+        }
+        $res = $this->publicholidays_model->checkRecordExists(dateformatdb($data['order']['pickup_date']));
+        if( $res )
+        {
+            $data['public_holiday'] = 1;
+        }
+
+        $res = $this->holidays_model->checkRecordExists(dateformatdb($data['order']['pickup_date']));
+        if( $res )
+        {
+            $data['holiday'] = 1;
+        }
+        
+        $data['ordered_bikes'] = $ordered_bike_qty;
+        $data['bike_url'] = base_url('bikes/');
+
+        $this->load->view('layout_admin/header', $data);
+        $this->load->view('backend/view_booking', $data);
+        $this->load->view('layout_admin/footer');
+    }
+
     public function getRecord()
     {
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
@@ -329,13 +413,13 @@ class Bookings extends CI_Controller
                 {
                     if($obj->bike_id == $bike['bid'])
                     {
-                        $total += $obj->rent_price;
+                        $subtotal += $obj->rent_price;
                         array_push($data['cart_bikes'], $bike);
                         break;
                     }
                 }   
             }
-
+            $total = $subtotal;
             if( isset($data['helmets_qty']) && $data['helmets_qty'] > 0 )
             {
                 $helmets_total = $data['helmets_qty'] * 50;
@@ -349,10 +433,10 @@ class Bookings extends CI_Controller
             if( isset($data['early_pickup']) && $data['early_pickup'] > 0 )
             {
                 $early_pickup = 1;
-                $total += 200;
+                $total += 200 * $bikes_quantity;
             }
             
-            $gst = round($total * 0.05, 2);
+            $gst = round($subtotal * 0.05, 2);
             $pmode_row = $this->paymentmode_model->getIdByMode($data['paymentOption']);
 
             // INSERT RECORDS
@@ -361,7 +445,7 @@ class Bookings extends CI_Controller
                     "quantity" => $bikes_quantity,
                     "helmet_quantity" => $data['helmets_qty'],
                     "booking_amount" => $data['paid'],
-                    "total_amount" => $total,
+                    "total_amount" => $subtotal,
                     "gst" => $gst,
                     "refund_amount" => $refund_total,
                     "refund_status" => 1,

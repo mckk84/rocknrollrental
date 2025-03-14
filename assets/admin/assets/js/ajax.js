@@ -112,37 +112,34 @@ $(document).ready(function(){
 
                 $(".booking_form input[name='booking_id']").val(response.data.order.id);
 
-                var html = "<table class='table datatable table-responsive border rounded mb-1'>";
-                html += "<thead><th class='bg-warning'>Pickup Date</th><th class='bg-warning'>Pickup Time</th><th class='bg-warning'>Dropoff Date</th><th class='bg-warning'>Dropoff Time</th></tr></thead>";
-                html += "<tbody><tr><td>"+formatdate(order.pickup_date)+"</td>";
-                html += "<td>"+order.pickup_time+"</td>";
-                html += "<td>"+formatdate(order.dropoff_date)+"</td>";
-                html += "<td>"+order.dropoff_time+"</td></tr>";
+                var html = "<table class='table datatable table-responsive border rounded mb-0'>";
+                html += "<tbody><tr><th class='bg-warning'>Pickup Date</th><td>"+formatdate(order.pickup_date)+" "+order.pickup_time+"</td></tr>";
+                html += "<tr><th class='bg-warning'>Dropoff Date</th><td>"+formatdate(order.dropoff_date)+" "+order.dropoff_time+"</td></tr>";
 
-                html += "<tr><td>Duration: "+response.data.period_days+" days, <b>"+response.data.period_hours+"</b> hours</td><td>Weekend: "+((response.data.weekend)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td>";
-                html += "<td>Public Holiday: "+((response.data.public_holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td>";
+                html += "<tr><td><b>Duration</b></td><td> "+response.data.period_days+" days, <b>"+response.data.period_hours+"</b> hours</td></tr>";
+                html += "<tr><td><b>Weekend </b></td><td>"+((response.data.weekend)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr>";
+                html += "<tr><td><b>Public Holiday </b></td><td>"+((response.data.public_holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td>";
                 html += "</tr></tbody></table>";
 
                 $(".booking_form #order_details").html(html);
 
-                var html = "<table class='table datatable table-responsive border rounded mb-1'>";
-                html += "<tbody><th style='width:20%' class='bg-warning'>Customer</th><td colspan='2'>"+response.data.customer.name+" ("+response.data.customer.phone+")</td></tr>";
-                html += "<tr><th style='width:20%' class='bg-warning'>Bikes Ordered</th><td>"+response.data.ordered_bikes+"</td><td>Helmets: "+response.data.order.helmet_quantity+"</td></tr>";
-
-                html += "<tr>";
+                var html = "<table class='table datatable table-responsive border rounded mb-0'>";
+                html += "<tbody><th class='bg-warning'>Customer</th><td>"+response.data.customer.name+" ("+response.data.customer.phone+")</td></tr>";
+                html += "<tr><th class='bg-warning'>Bikes Ordered</th><td>"+response.data.ordered_bikes+"</td></tr>";
+                html += "<tr><th class='bg-warning'> Helmets </th><td>"+response.data.order.helmet_quantity+"</td></tr>";
                 if( response.data.order.notes != "" )
                 {
-                    html += "<td>Notes: <b>"+response.data.order.notes+"</b></td>";
+                    html += "<tr><td>Notes:</td><td> <b>"+response.data.order.notes+"</b></td></tr>";
                 }
                 if( response.data.order.early_pickup != 0 )
                 {
-                    html += "<td>Early Pickup: <b>"+((response.data.order.early_pickup)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</b></td>";
+                    html += "<tr><td>Early Pickup: </td><td><b>"+((response.data.order.early_pickup)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</b></td></tr>";
                 }
-                html += "</tr></tbody></table>";
+                html += "</tbody></table>";
 
                 $(".booking_form #order_details1").html(html);
 
-                html = "<table class='table datatable table-responsive rounded border text-center'>";
+                html = "<table class='table datatable table-responsive rounded border text-center mb-0'>";
                 html += "<thead><tr><th class='bg-warning text-center'>#</th><th class='bg-warning'>Bike Type</th><th class='bg-warning'>Image</th>";
                 html += "<th class='bg-warning'>Assign Vehicle</th><th class='bg-warning'>Rent Price</th></tr></thead>";
                 html += "<tbody>";
@@ -178,6 +175,7 @@ $(document).ready(function(){
                 html += "</table><input type='hidden' name='order_bike_types' value='"+order_bike_types.join(',')+"'>";
                 $(".booking_form #bike_select").html(html);
 
+                var total_amount = 0;
                 var pending = 0;
                 var helmet_total = 0;
                 var early_pickup = 0;
@@ -189,12 +187,12 @@ $(document).ready(function(){
 
                 if( response.data.order.early_pickup > 0 )
                 {
-                    early_pickup = 200;
+                    early_pickup = 200 * order.quantity;
                 }
 
-                bike_total = response.data.order.total_amount - helmet_total - early_pickup;
+                total_amount = response.data.order.total_amount - helmet_total - early_pickup;
 
-                html = "<div style='width:46%;float:left;' class='table-responisve'>";
+                html = "<div style='width:49%;float:left;' class='table-responisve'>";
                 html += "<table class='table'>";
                 html += "<tr><th class='text-start bg-warning' colspan='2'>Order Updaes</th></tr>";
                 html += "<tr><th class='text-start'>Refund Status</th><th class='text-end'>";
@@ -227,11 +225,11 @@ $(document).ready(function(){
                 html += "</tr>";
 
                 html += "</table></div>";
-
+                console.log((parseFloat(response.data.order.total_amount) - parseFloat(response.data.order.gst)));
                 html += "<div style='float:right;' class='w-50 table-responisve'>";
                 html += "<table class='table'>";
                 html += "<tr><th class='text-start bg-warning' colspan='3'>Order Summary</th></tr>";
-                html += "<tr><th class='text-start'>Bike Rental</th><th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='d-inline-block text-info p-1'>"+bike_total+"</span></th>";
+                html += "<tr><th class='text-start'>Bike Rental</th><th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='d-inline-block text-info p-1'>"+(parseFloat(response.data.order.total_amount) - parseFloat(response.data.order.gst))+"</span></th>";
                 html += "</tr>";
 
                 if( response.data.order.helmet_quantity > 0 ){
@@ -245,15 +243,13 @@ $(document).ready(function(){
                 {
                     html += "<tr>";
                     html += "<th class='text-start'>Early Pickup</th>";
-                    html += "<th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='text-info d-inline-block p-1'>200</span></th></tr>";
+                    html += "<th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='text-info d-inline-block p-1'>"+early_pickup+"</span></th></tr>";
                 }
 
-                html += "<tr><th class='text-start'>Sub Total</th>";
-                html += "<td class='fw-bold text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='text-info d-inline-block p-1'>"+(response.data.order.total_amount - response.data.order.gst)+"</span></td></tr>";
                 html += "<tr><th class='text-start'>GST</th>";
                 html += "<th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='text-info d-inline-block p-1'>"+response.data.order.gst+"</span></th></tr>";
                 html += "<tr><th class='text-start'>Total</th>";
-                html += "<td class='fw-bold text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='order_total text-info d-inline-block p-1'>"+response.data.order.total_amount+"</span></td>";
+                html += "<td class='fw-bold text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='order_total text-info d-inline-block p-1'>"+total_amount+"</span></td>";
                 html += "</tr>";
                 html += "<tr><th class='text-start'>Refundable Deposit</th>";
                 html += "<td class='fw-bold text-end'><i class='fa fa-indian-rupee-sign me-1'></i> <span class='text-info d-inline-block p-1'>"+response.data.order.refund_amount+"</span></td>";

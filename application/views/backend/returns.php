@@ -104,7 +104,7 @@
                       <td><?=$row['delivery_notes']?></td>
                       <td>
                         <div class="d-flex justify-content-start">
-                          <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record text-warning float-right mx-2"><i class="bi bi-pencil"></i></a>
+                          <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record text-warning float-right mx-2"><i class="bi bi-pencil-fill"></i></a>
                       </div></td>
                     </tr>
                      <?php } ?>

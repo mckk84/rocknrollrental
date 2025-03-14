@@ -9,16 +9,16 @@
             </div>
             <div class="modal-body">
                 <div class="row g-1">
-                  <div id="order_details" class="col-md-12 mb-1 px-2">
+                  <div id="order_details" class="col-md-6 mb-1 px-1">
 
                   </div>
-                  <div id="order_details1" class="col-md-12 mb-1 px-2">
+                  <div id="order_details1" class="col-md-6 mb-1 px-1">
 
                   </div>
-                  <div id="bike_select" class="col-md-12 px-2">
+                  <div id="bike_select" class="col-md-12 px-1">
                     
                   </div>
-                  <div id="order_summary" class="col-md-12 px-2">
+                  <div id="order_summary" class="col-md-12 px-1">
                     
                   </div>
                 </div>

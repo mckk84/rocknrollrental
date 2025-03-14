@@ -38,7 +38,7 @@ class Bookingbikes_model extends CI_Model
 
     function getByBookingId($booking_id)
     {
-        $this->db->select('tbl_booking_bikes.*, tbl_bike_types.type, tbl_bikes.vehicle_number');
+        $this->db->select('tbl_booking_bikes.*, tbl_bike_types.type, tbl_bikes.vehicle_number, tbl_bikes.image');
         $this->db->from('tbl_booking_bikes');
         $this->db->join('tbl_bike_types', 'tbl_booking_bikes.type_id = tbl_bike_types.id', 'left');
         $this->db->join('tbl_bikes', 'tbl_booking_bikes.bike_id = tbl_bikes.id', 'left');

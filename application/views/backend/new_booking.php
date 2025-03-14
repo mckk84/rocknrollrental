@@ -166,10 +166,6 @@
                                       <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="earlypickup_charge d-inline-block p-1">200</span></th>
                                   </tr>
                                   <tr>
-                                      <th class="text-start">Sub Total</th>
-                                      <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="sub_total d-inline-block p-1"></span></td>
-                                  </tr>
-                                  <tr>
                                       <th class="text-start">GST</th>
                                       <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_gst d-inline-block p-1"></span></th>
                                   </tr>
@@ -198,7 +194,7 @@
                                   </tr>
                                   <tr>
                                       <th class="text-start text-warning">Paid</th>
-                                      <td class="fw-bold text-end"><input type="number" name="paid" class="text-end" value="" /></td>
+                                      <td class="fw-bold text-end"><input type="number" class="form-control w-50 float-right" name="paid" class="text-end" value="" /></td>
                                   </tr>                
 
                               </table>
@@ -285,6 +281,7 @@
       {
         bikes_total = 0;
         var bikes = JSON.parse(vehicle_numbers);
+        var bikes_qty = bikes.length;
         bikes_total = bikes.reduce(function (result, item) {
           return result + item.rent_price;
         }, 0);
@@ -301,18 +298,15 @@
       }
       if( $("input[name='early_pickup']").is(":checked") )
       {
-        early_pickup = 200; 
+        early_pickup = 200 * bikes_qty; 
       }
 
       total = bikes_total + helmet_total + early_pickup;
-
-      var sub_total = total - (total * 0.05).toFixed(2);
-      var order_gst = (total * 0.05).toFixed(2);
+      var order_gst = (bikes_total * 0.05).toFixed(2);
       var refund_deposit = 1000 * vehicle_count;
 
-      $(".bike_total").html(bikes_total);
+      $(".bike_total").html(bikes_total - order_gst);
       $(".helmet_total").html(helmet_total);
-      $(".sub_total").html(sub_total);
       $(".refund_deposit").html(refund_deposit);
       $(".order_gst").html(order_gst);
       $(".total").html(total);
@@ -327,7 +321,7 @@
       } 
       else
       {
-        final_amount = (total/2).toFixed(2) + refund_deposit;
+        final_amount = (bikes_total/2).toFixed(2) + helmet_total + early_pickup + refund_deposit;
         $("input[name='paid']").val(final_amount);
       }
 

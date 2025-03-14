@@ -9,9 +9,11 @@ class Bookingpayment_model extends CI_Model
     function getAll()
     {
         $this->db->order_by('tbl_booking_payment.id', 'ASC');
-        $this->db->select('tbl_booking_payment.*, tbl_users.name as created_by');
+        $this->db->select('tbl_booking_payment.*, tbl_customers.name,tbl_customers.email, tbl_customers.phone, tbl_users.name as created_by');
         $this->db->from('tbl_booking_payment');
-        $this->db->join('tbl_users', 'tbl_users.userId = tbl_booking_payment.created_by');
+        $this->db->join('tbl_bookings', 'tbl_booking_payment.booking_id = tbl_bookings.id', 'left');
+        $this->db->join('tbl_customers', 'tbl_bookings.customer_id = tbl_customers.id', 'left');
+        $this->db->join('tbl_users', 'tbl_users.userId = tbl_booking_payment.created_by', 'left');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0){
