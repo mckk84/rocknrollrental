@@ -88,6 +88,7 @@ class Checkout extends CI_Controller {
 
 				$data['cart']['bikeqty'] = $this->input->post('bikeqty');
 				$data['cart']['helmets_qty'] = $this->input->post('helmets_qty');
+				$data['cart']['early_pickup'] = $this->input->post('early_pickup_charge');
 				
 				$d1= new DateTime($data['cart']['dropoff_date']." ".$data['cart']['dropoff_time']); // first date
 				$d2= new DateTime($data['cart']['pickup_date']." ".$data['cart']['pickup_time']); // second date

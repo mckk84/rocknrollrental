@@ -251,7 +251,7 @@ class Payment extends CI_Controller {
             $subtotal += $bike_quantity * $rent_price;
         }
 
-        $total_paid = $subtotal;
+        $total = $subtotal;
 
         if( isset($data['cart']['helmets_qty']) && $data['cart']['helmets_qty'] > 0 )
         {

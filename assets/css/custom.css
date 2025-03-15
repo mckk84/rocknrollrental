@@ -189,3 +189,7 @@ span#bike_availability {
     display: inline-block;
     margin: 10px 2px;
 }
+
+.text-sm{
+    font-size: 12px;
+}

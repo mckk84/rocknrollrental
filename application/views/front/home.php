@@ -722,16 +722,27 @@ $(document).ready(function(){
             $("#custom_bike .cart-input").val(bike_qty);
         }
         var h_qty = $("#custom_bike .cart-helmets").val();
+        var early_pickup_charge = $("#custom_bike input[name='early_pickup_charge']:checked").val();
+        var total = 0;
         
         $("#custom_bike input[name='bike_type_id']").val(bikeId);
         $("#custom_bike input[name='bike_type_name']").val(bikeName);
         $("#bike_customize .card-title").html("<img src='"+bike_image+"' style='max-width:80px;display:inline;' class='img-fluid me-2'/>"+bikeName);
         $("#custom_bike #bike_price").html(bike_price);
         $("#custom_bike #bike_qty").html(bike_qty);
-        bike_price_subtotal = parseInt(bike_qty) * parseInt(bike_price);
+        var bike_price_subtotal = parseInt(bike_qty) * parseInt(bike_price);
+        total += bike_price_subtotal;
         $("#custom_bike #bike_price_subtotal").html(bike_price_subtotal);
+        if( early_pickup_charge ){
+            total += parseInt(bike_qty) * 200;
+            $("#custom_bike #early_pickup").html(parseInt(bike_qty) * 200);
+        }else{
+            $("#custom_bike #early_pickup").html();
+        }
+
         $("#custom_bike #helmets_total").html(h_qty * 50);
-        total = bike_price_subtotal + parseInt(h_qty * 50);
+        total += parseInt(h_qty * 50);
+
         $("#custom_bike #cart_total").html(total);
 
         $("#bike_customize").modal('show');
@@ -882,6 +893,11 @@ $(document).ready(function(){
         checkbikesubmitform();
     });
     
+    $("input[name='early_pickup_charge']").change(function(){
+        checkbikesubmitform();
+    });
+
+    
     function checkbikesubmitform()
     {
         $("#bike_availability").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Checking..");
@@ -955,16 +971,27 @@ $(document).ready(function(){
                     {
                         $("#custom_bike .cart-input").val(response.data.bike_availability);    
                     }
+                    var total = 0;
                     var bike_price = response.data.rent_price;
                     var bike_qty = $("#custom_bike .cart-input").val();
                     var h_qty = $("#custom_bike .cart-helmets").val();
+                    var early_pickup_charge = $("#custom_bike input[name='early_pickup_charge']:checked").val();
 
                     $("#custom_bike #bike_price").html(bike_price);
                     $("#custom_bike #bike_qty").html(bike_qty);
                     bike_price_subtotal = parseInt(bike_qty) * parseInt(bike_price);
+                    total = bike_price_subtotal;
                     $("#custom_bike #bike_price_subtotal").html(bike_price_subtotal);
                     $("#custom_bike #helmets_total").html(h_qty * 50);
-                    total = bike_price_subtotal + parseInt(h_qty * 50);
+
+                    if( early_pickup_charge ){
+                        total += parseInt(bike_qty) * 200;
+                        $("#custom_bike #early_pickup").html(parseInt(bike_qty) * 200);
+                    }else{
+                        $("#custom_bike #early_pickup").html();
+                    }
+
+                    total += parseInt(h_qty * 50);
                     $("#custom_bike #cart_total").html(total);
 
                     if( response.data.bike_availability == 0 ){
