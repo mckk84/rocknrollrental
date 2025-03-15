@@ -61,6 +61,64 @@ $(document).ready(function(){
     return false;
   });
 
+  $("#subscribe").click(function(e){
+
+    e.preventDefault();
+    var form = $("#subscribe-form");
+    var url = $("#subscribe-form").attr('action');
+    $("#subscribe").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> PLease wait..");
+    var formdata = {
+        email:$("#subscribe-form input[name='email']").val()
+      };
+
+      form.find(".alert").each(function(){
+          $(this).remove();
+      });
+
+      $.ajax({
+          type: "POST",
+          url: url,
+          dataType: "json",
+          data: formdata,
+          success: function (data) {
+              console.log(data);
+              if( data.error == 1 )
+              {
+                // error occured
+                $("#subscribe-form :input").prop("disabled", false);
+                $("#subscribe").prop("disabled", false);
+                $("#subscribe").text("Subscribe");
+
+                form.append("<div class='alert alert-danger mt-1 mb-0'>"+data.error_message+"</div>");
+              }
+              else
+              {
+                form.append("<div class='alert alert-success mt-1 mb-0'>"+data.success_message+"</div>");
+                $("#subscribe").text("Success");
+              }
+              setTimeout(function(){
+                form.find(".alert").each(function(){
+                    $(this).remove();
+                });
+              }, 5000);
+          },
+          error: function (data) {
+              form.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+              // error occured
+              $("#subscribe-form :input").prop("disabled", false);
+              $("#subscribe").prop("disabled", false);
+              $("#subscribe").text("Subscribe");
+              setTimeout(function(){
+                form.find(".alert").each(function(){
+                    $(this).remove();
+                });
+              }, 5000);
+          }
+      });
+      return false;
+  });
+
+
   $("#submitContactForm").click(function(e){
 
     e.preventDefault();

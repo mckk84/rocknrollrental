@@ -14,7 +14,47 @@ class Contact extends CI_Controller {
 
     public function subscribe()
     {
-        
+        $response = array("error" => 0, "error_message" => "", "success_message" => "");
+        $this->load->library('form_validation'); 
+        $this->load->model('subscribers_model');
+ 
+        $this->form_validation->set_rules('email','Email','trim|required|valid_email|max_length[128]');
+
+        if($this->form_validation->run() == FALSE)
+        {
+            $response["error"] = 1;
+            $response["error_message"] = $this->form_validation->error_string();
+            die(json_encode($response));
+        }
+        else
+        {
+            $email = $this->security->xss_clean($this->input->post('email'));
+            $recordInfo = array(
+                'email' => $email
+            );
+
+            if( $this->subscribers_model->checkRecordExists($email) )
+            {
+                $response["error"] = 1;
+                $response["error_message"] = "You have already subscribed.";
+            }
+            else
+            {
+                $result = $this->subscribers_model->addNew($recordInfo);
+                if($result > 0)
+                {
+                    $response["error"] = 0;
+                    $response["error_message"] = "";
+                    $response["success_message"] = "You have Subscribed successfully.";
+                } 
+                else 
+                {
+                    $response["error"] = 1;
+                    $response["error_message"] = "Oops!! Error Occured. Please try again later.";
+                }
+            }                
+            die(json_encode($response)); 
+        }
     }
 
 	public function savequery()
