@@ -101,7 +101,7 @@
                                                     <table class="table table-bordered">
                                                         <thead>
                                                             <tr class="bg-primary">
-                                                                <th>#</th>
+                                                                <th style="width:5%;">#</th>
                                                                 <th>Quantity</th>
                                                                 <th>From</th>
                                                                 <th>To</th>
@@ -132,7 +132,7 @@
 
                                                               foreach($bikes_ordered as $name => $qty)
                                                               {
-                                                                $bikes_order = ( $bikes_order == "" ) ? "<span class='w-100 m-2 p-2 fa-sm fw-bold d-inline'>".$name."(".$qty.")</span>" : "<span class='w-100 m-2 p-2 fa-sm fw-bold d-inline'>".$name."(".$qty.")</span>";
+                                                                $bikes_order = ( $bikes_order == "" ) ? "<p class='d-inline-block m-1  fa-sm fw-bold'>".$name."(".$qty.")</p>" : "<p class='d-inline-block m-1 fa-sm fw-bold'>".$name."(".$qty.")</span>";
                                                               }
                                                         ?>
                                                         <tr>
@@ -142,16 +142,14 @@
                                                             <td>
                                                                 <?=$bikes_order?>
                                                                 <?php if( $row['helmet_quantity'] != 0) {?>
-                                                                <span class="w-100 m-2 p-2 fa-sm fw-bold d-inline">Helmets: <?=$row['helmet_quantity']?></span>
+                                                                <p class="d-inline-block m-1 fa-sm fw-bold">Helmets: <?=$row['helmet_quantity']?></p>
                                                                 <?php } ?>
                                                             </td>
                                                             <td>
-                                                                <span class="w-100 m-2 p-2 fa-sm d-inline"><?=date("d M Y", strtotime($row['pickup_date']))?></b></span>
-                                                                <span class="w-100 m-2 p-2 fa-sm d-inline"><b><?=$row['pickup_time']?></b></span>
+                                                                <span class="m-2 p-2 fa-sm d-inline"><b><?=date("d M Y", strtotime($row['pickup_date']))?>&nbsp;<?=$row['pickup_time']?></b></span>
                                                             </td>
                                                             <td>
-                                                                <span class="w-100 m-2 p-2 fa-sm d-inline"><?=date("d M Y", strtotime($row['dropoff_date']))?></b></span>
-                                                                <span class="w-100 m-2 p-2 fa-sm d-inline"><b><?=$row['dropoff_time']?></b></span>
+                                                                <span class=" m-2 p-2 fa-sm d-inline"><b><?=date("d M Y", strtotime($row['dropoff_date']))?>&nbsp;<?=$row['dropoff_time']?></b></span>
                                                             </td>
                                                             <td class="text-nowrap"><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['total_amount']?></td>
                                                             <td class="text-nowrap"><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['refund_amount']?></td>

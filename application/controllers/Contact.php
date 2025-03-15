@@ -12,6 +12,11 @@ class Contact extends CI_Controller {
         $this->load->view('layout/footer');
 	}
 
+    public function subscribe()
+    {
+        
+    }
+
 	public function savequery()
 	{
 		$response = array("error" => 0, "error_message" => "", "success_message" => "");

@@ -21,8 +21,8 @@
                                 </div>
                                 <div class="sb-form mt-40">
                                     <h5 class="text-white mb-4">Get latest updates & offers</h5>
-                                    <form class="footer-sb-form position-relative">
-                                        <input type="email" placeholder="Enter your email..." class="bg-white w-100 py-4">
+                                    <form method="POST" action="<?=base_url('Contact/subscribe')?>" class="footer-sb-form position-relative">
+                                        <input type="email" placeholder="Enter your email..." required maxlength="100" class="bg-white w-100 py-4">
                                         <button type="submit" class="btn btn-primary py-4">Subscribe</button>
                                     </form>
                                 </div>
