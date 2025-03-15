@@ -68,7 +68,6 @@ class Searchbike_model extends CI_Model
 
     public function getRentPrice($bike_type_id, $pickup_date, $pickup_time, $dropoff_date, $dropoff_time)
     {
-        //echo "<pre>".$pickup_date.", ".$pickup_time.", ".$dropoff_date.", ".$dropoff_time."<br/>";
         $rent_price = 0;
         $this->db->select('*');
         $this->db->from('tbl_prices');
@@ -108,7 +107,7 @@ class Searchbike_model extends CI_Model
             }
             else
             {
-                $d1= new DateTime($pickup_date." 23:59:59"); // first date
+                $d1= new DateTime($pickup_date." 08:00:00 PM"); // first date
                 $d2= new DateTime($pickup_date." ".$pickup_time); // second date
                 $interval= $d1->diff($d2); 
                 if( $interval->h > 4 )
@@ -119,21 +118,20 @@ class Searchbike_model extends CI_Model
                 {
                     $rent_price += $this->getDayPrice($pickup_date, 'half', $price);
                 }
-                //echo "pickup_date:rent=".$rent_price."\n";
-
+                
                 $d1 = new DateTime($dropoff_date." 00:00:00"); // first date
-                $d2 = new DateTime($pickup_date." 23:59:59"); // second date
-                $interval= $d1->diff($d2); 
-                //echo "<br/> \n pickup_date end to dropoff_date:i days".$interval->days."\n";
+                $d2 = new DateTime($pickup_date." 07:30:00"); // second date
+                $interval = $d1->diff($d2); 
+
                 if( $interval->days == 0 )
                 {
                     if( $interval->h > 4 )
                     {
-                        $rent_price += $this->getDayPrice($pickup_date, 'full', $price);    
+                        $rent_price += $this->getDayPrice($dropoff_date, 'full', $price);    
                     }
                     else
                     {
-                        $rent_price += $this->getDayPrice($pickup_date, 'half', $price);
+                        $rent_price += $this->getDayPrice($dropoff_date, 'half', $price);
                     }
                 }
                 else if( $interval->days > 0 )
@@ -144,9 +142,9 @@ class Searchbike_model extends CI_Model
                     {
                         $now = new DateTime($nxt_date." 23:59:59");
                         $nxt_date = $now->modify('+1 day')->format('Y-m-d');
+                        $p = $this->getDayPrice($nxt_date, 'full', $price);
                         $rent_price += $this->getDayPrice($nxt_date, 'full', $price);
                         $nxt_date = $now->format("Y-m-d");
-                        //echo "<pre>Interval==".$i."===".$nxt_date."\n";
                     }
 
                     $d1 = new DateTime($dropoff_date." ".$dropoff_time); // second date
@@ -154,13 +152,12 @@ class Searchbike_model extends CI_Model
                     $interval= $d1->diff($d2);
                     if( $interval->h > 12 )
                     {
-                        $rent_price += $this->getDayPrice($pickup_date, 'full', $price);
+                        $rent_price += $this->getDayPrice($dropoff_date, 'full', $price);
                     }
                     else
                     {
-                        $rent_price += $this->getDayPrice($pickup_date, 'half', $price);
+                        $rent_price += $this->getDayPrice($dropoff_date, 'half', $price);
                     }
-                    //echo "Final:\n:".$rent_price;
                 }
                 
             }            
@@ -193,7 +190,9 @@ class Searchbike_model extends CI_Model
             $result = $query->result_array();
             foreach($result as $index => $row)
             {
+                //echo "\n\n".$row['bike_type_id']."===".$row['bike_type_name'];
                 $row['rent_price'] = $this->getRentPrice($row['bike_type_id'], $pickup_date, $pickup_time, $dropoff_date, $dropoff_time);
+                //echo "\n======".$row['rent_price']."";
                 $result[$index] = $row;
                 foreach($result1 as $row1)
                 {

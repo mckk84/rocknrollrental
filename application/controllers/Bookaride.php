@@ -59,7 +59,8 @@ class Bookaride extends CI_Controller {
 	public function search()
 	{
 		$this->load->model('searchbike_model');
-		$data = $this->searchbike_model->getAvailableBikes('2025-03-15', '06:30 PM', '2025-03-20', '06:30 PM');
+		$data = $this->searchbike_model->getAvailableBikes('2025-03-16', '05:00 PM', '2025-03-20', '07:30 AM');
+		echo "<pre>";
 		print_r($data);
 	}
 
