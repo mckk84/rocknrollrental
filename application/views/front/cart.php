@@ -17,12 +17,8 @@
 <!--shopping cart-->
 <section class="shopping-cart ptb-60">
     <div class="container">
-        <?php
-         if( !isset($cart) || ( isset($cart) && count($cart) == 0 ) || ( isset($cart['cart_bikes']) && count($cart['cart_bikes']) == 0 ) ){?>
-        <div class="row">
-            <h4 class="h4 text-danger">Your Cart is empty. <a class="btn btn-primary" href="<?=base_url('Bookaride')?>">Book a Ride</a></h4>
-        </div>    
-        <?php } else {?> 
+            
+        <?php if( isset($cart) && isset($cart['cart_bikes']) ) {?> 
         <div class="row">
             <div class="col-xxl-8">
                 <div class="shopping-cart-left mb-4">
@@ -86,6 +82,7 @@
                         ?>
                         </table>
                         <form id="cartform" method="POST" action="<?=base_url('Cart')?>">
+                            <input type="hidden" name="cartform" value="1">
                             <input type="hidden" name="bike_ids" value="<?=$cart['bike_ids']?>">
                             <input type="hidden" name="pickup_date" value="<?=$cart['pickup_date']?>">
                             <input type="hidden" name="pickup_time" value="<?=$cart['pickup_time']?>">
@@ -103,11 +100,14 @@
                     </div>
                     <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-2 pt-2 pt-lg-0 mt-lg-0">
                         <div class="helmet-option">
-                            <label>One Helemt is free.  <input type="checkbox" style="width:20px;height:20px;margin-left:5px;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] > 0)?"checked":""?> > Add an extra for ₹50/day. </label>
+                            <label>One Helemt is free.  <input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] > 0)?"checked":""?> > Add an extra for ₹50/day. </label>
+                        </div>
+                        <div class="bikes-option">
+                            <a href="<?=base_url('Bookaride')?>" class="btn btn-secondary">Add More Bikes</a>
                         </div>
                     </div>
                     <div style="<?=($cart["helmets_qty"] > 0)?"":"display:none;"?>" class="helmet_content table-content table-responsive table-bordered bg-white rounded mb-4">
-                        <table class="table cartbikes">
+                        <table class="table">
                             <tr class="bg-eq-primary">
                                 <th>Helmet</th>
                                 <th>Period</th>
@@ -207,13 +207,49 @@
                 </div>
             </div>
         </div>
-        <?php }?>
+        <?php } else { ?>
+            <div class="row">
+                <h4 class="h4 text-danger">Your Cart is empty. <a class="btn btn-primary" href="<?=base_url('Bookaride')?>">Book a Ride</a></h4>
+            </div>
+        <?php } ?>
     </div>
 </section>
 <!--shopping cart end-->
 <script type="text/javascript">
 
 $(document).ready(function(){
+
+    var bike_ids = '<?=$cart['bike_ids']?>';
+    localStorage.setItem("bike_ids", bike_ids);
+    var bike_ids = JSON.parse(bike_ids);
+    localStorage.setItem("bikesincart", bike_ids.length);
+
+    function cartdelete(bikeId) 
+    {
+        var bikesincart = localStorage.getItem("bikesincart");
+        var temp = localStorage.getItem("bike_ids");
+        var bike_ids = JSON.parse(temp);
+        $(".cartbikes").find('[data-id="'+bikeId+'"]').remove();
+        if( bikesincart > 0)
+        {
+            bikesincart = parseInt(bikesincart) - 1;
+        }
+        bike_ids = bike_ids.filter(item => item.bike_id !== bikeId);
+
+        localStorage.setItem("bikesincart", bikesincart);
+        localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
+
+        var v = $(".cart-helmets").val();
+        if( bikesincart < 1 ){
+            $("#cartform input[name='helmets_qty']").val(0);
+        }
+        else
+        {
+            $("#cartform input[name='helmets_qty']").val(v);
+        }
+        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
+        $("#cartform").submit();    
+    }
 
     $("input[name='add_helmet']").on("change", function () {
         if ($(this).is(":checked")) {
@@ -254,6 +290,7 @@ $(document).ready(function(){
         var v = parseInt(v);
         var available = parseInt($(this).siblings(".cart-input").attr('data-available'));
         var bike_id = $(this).siblings(".cart-input").attr('data-bike');
+        var bikesincart = localStorage.getItem("bikesincart");
         var temp = localStorage.getItem("bike_ids");
         var bike_ids = JSON.parse(temp);
         console.log("v="+v);
@@ -271,6 +308,8 @@ $(document).ready(function(){
                 bike_ids[prop] = p;
             }
             localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
+            bikesincart = bike_ids.length;
+            localStorage.setItem("bikesincart", bikesincart);
             var v = $(".cart-helmets").val();
             $("#cartform input[name='helmets_qty']").val(v);
             $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
@@ -292,11 +331,16 @@ $(document).ready(function(){
         var bike_id = $(this).siblings(".cart-input").attr('data-bike');
         var temp = localStorage.getItem("bike_ids");
         var bike_ids = JSON.parse(temp);
+        console.log(bike_ids);
         var v = $(this).siblings(".cart-input").val();
-        if( v == 0 ){
+        if( v == 0 )
+        {
             return false;
         }
         v = parseInt(v) - 1;
+        if( v == 0 ){
+            return cartdelete(bike_id);
+        }
         $(this).siblings(".cart-input").val(v);
 
         for (var prop in bike_ids) 
@@ -307,45 +351,18 @@ $(document).ready(function(){
             }
             bike_ids[prop] = p;
         }
+        localStorage.setItem("bikesincart", bike_ids.length);
         localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
         var v = $(".cart-helmets").val();
         $("#cartform input[name='helmets_qty']").val(v);
-
         $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
         $("#cartform").submit();    
 
     });
 
     $(".cart-delete").click(function(){
-
-        var bikesincart = localStorage.getItem("bikesincart");
-        var temp = localStorage.getItem("bike_ids");
-        var bike_ids = JSON.parse(temp);
-
         var bikeId = $(this).attr("bike-id");
-        $(".cartbikes").find('[data-id="'+bikeId+'"]').remove();
-        if( bikesincart > 0)
-        {
-            bikesincart = parseInt(bikesincart) - 1;
-        }
-        bike_ids = bike_ids.filter(item => item.bike_id !== bikeId);
-        
-        console.log(bikesincart);
-        console.log(bike_ids);
-        
-        localStorage.setItem("bikesincart", bikesincart);
-        localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
-
-        var v = $(".cart-helmets").val();
-        if( bikesincart < 1 ){
-            $("#cartform input[name='helmets_qty']").val(0);
-        }
-        else
-        {
-            $("#cartform input[name='helmets_qty']").val(v);
-        }
-        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
-        $("#cartform").submit();       
+        cartdelete(bikeId);   
     });
 
     $(".cart-hminus").click(function()

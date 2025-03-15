@@ -20,6 +20,8 @@ class Bookaride extends CI_Controller {
 		$data['period_hours'] = "";
 		$data['weekend'] = 0;
 		$data['public_holiday'] = 0;
+
+		$data['cart'] = $this->session->userdata("cart");
 		
 		if( isset($_POST) && count($_POST) > 0 )
 		{

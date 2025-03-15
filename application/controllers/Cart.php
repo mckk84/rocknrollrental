@@ -15,7 +15,42 @@ class Cart extends CI_Controller {
 		if( isset($_POST) && count($_POST) > 0 )
 		{
 			$data['cart']['bike_ids'] = $this->input->post('bike_ids');
-			$bike_ids = json_decode($data['cart']['bike_ids']);
+			$bike_ids = json_decode($data['cart']['bike_ids']); 
+			$cartform = $this->input->post('cartform');
+
+			if( !isset($cartform) )
+			{
+				$session_cart = $this->session->userdata("cart");
+				if( isset($session_cart['bike_ids']) && $session_cart['bike_ids'] != "" )
+				{
+					$old_bike_ids = json_decode($session_cart['bike_ids']);
+					$new_bike_ids = array_merge($bike_ids, $old_bike_ids);
+					$bike_ids = array();
+					$unique_ids = array();
+					foreach($new_bike_ids as $i => $obj) 
+					{
+						if( in_array($obj->bike_id, $unique_ids) )
+						{
+							$q = $new_bike_ids[$i];
+							foreach($bike_ids as $j => $jjo)
+							{
+								if( $jjo->bike_id == $q->bike_id )
+								{
+									$q->qty = $q->qty + $bike_ids[$j]->qty;
+									$bike_ids[$j] = $q;
+								}
+							}
+							$unique_ids[] = $q->bike_id;
+						}
+						else
+						{
+							$bike_ids[$i] = $obj;
+							$unique_ids[] = $obj->bike_id;
+						}
+				    }
+				}
+			}
+
 			$data['cart']['pickup_date'] = $this->input->post('pickup_date');
 			$data['cart']['pickup_time'] = $this->input->post('pickup_time');
 			$data['cart']['dropoff_date'] = $this->input->post('dropoff_date');
@@ -27,6 +62,9 @@ class Cart extends CI_Controller {
 			$data['cart']['helmets_qty'] = $this->input->post('helmets_qty');
 			$data['cart']['coupon_code'] =  $this->input->post('coupon_code');
 			$data['cart']['early_pickup'] =  $this->input->post('early_pickup');
+
+			$data['cart']['bike_ids'] = json_encode($bike_ids);
+			$this->session->set_userdata("cart", $data['cart']);
 		}
 		else
 		{ 
