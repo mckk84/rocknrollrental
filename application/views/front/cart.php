@@ -380,7 +380,7 @@ $(document).ready(function(){
             var p = bike_ids[prop];
             bike_qty += parseInt(p.qty);
         }
-        if( v >= bike_qty )
+        if( bike_qty == 1 && v >= bike_qty )
         {
             return false;
         }
