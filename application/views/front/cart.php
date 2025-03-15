@@ -57,10 +57,10 @@
                                         <img style="max-width:200px;" src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid">
                                     </td>
                                     <td>
-                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
+                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><b><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
                                         <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['pickup_time']?></b></span>
                                         <span style="width:30px;display:block;margin:10px;margin-left:35px;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
-                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
+                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><b><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
                                         <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['dropoff_time']?></b></span>
                                     </td>
                                     <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?></td>
@@ -103,7 +103,7 @@
                     </div>
                     <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-2 pt-2 pt-lg-0 mt-lg-0">
                         <div class="helmet-option">
-                            <label><input type="checkbox" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] != "" && $cart["helmets_qty"] > 0)?"checked":""?> >Add Helmet</label>
+                            <label>1 Helemt is free. <input type="checkbox" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] != "" && $cart["helmets_qty"] > 0)?"checked":""?> >Add Helmet</label>
                         </div>
                     </div>
                     <div style="<?=($cart["helmets_qty"]!="" && $cart["helmets_qty"] > 0)?"":"display:none;"?>" class="helmet_content table-content table-responsive table-bordered bg-white rounded mb-4">

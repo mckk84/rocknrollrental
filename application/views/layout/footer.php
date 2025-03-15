@@ -17,7 +17,7 @@
                                 <p class="mb-40"></p>
                                 <div class="phone-box d-flex align-items-center">
                                     <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white"><i class="flaticon-phone-call"></i></span>
-                                    <h4 class="text-white ms-3 mb-0">+91-9980318883</h4>
+                                    <h4 class="text-white ms-3 mb-0">+91 9980318883</h4>
                                 </div>
                                 <div class="sb-form mt-40">
                                     <h5 class="text-white mb-4">Get latest updates & offers</h5>
