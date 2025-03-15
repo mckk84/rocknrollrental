@@ -100,7 +100,7 @@
                     </div>
                     <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-2 pt-2 pt-lg-0 mt-lg-0">
                         <div class="helmet-option">
-                            <label>One Helemt is free.  <input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] > 0)?"checked":""?> > Add an extra for ₹50/day. </label>
+                            <label>One Helmet is free.  <input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] > 0)?"checked":""?> > Add an extra for ₹50/day. </label>
                         </div>
                         <div class="bikes-option">
                             <a href="<?=base_url('Bookaride')?>" class="btn btn-secondary">Add More Bikes</a>
