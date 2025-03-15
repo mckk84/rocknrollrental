@@ -81,6 +81,7 @@
                                     <td><button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" class="cart-delete bg-transparent"><i class="fa fa-trash"></i></button></td>
                                 </tr>
                                 <?php } 
+                                $total = $subtotal;
                             }
                         ?>
                         </table>
@@ -138,7 +139,7 @@
                         </table>
                         <?php if( isset($cart['helmets_qty']) && $cart['helmets_qty'] != 0 && $cart['helmets_qty'] != "" )
                         {
-                            $total = $subtotal + intval($cart['helmets_qty']) * 50;
+                            $total = intval($cart['helmets_qty']) * 50;
                         }
                         ?>
                     </div>

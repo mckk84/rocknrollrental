@@ -101,12 +101,13 @@
                                     <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_total?></td>
                                 </tr>
                                 <?php } 
+                                $total += $subtotal;
                             }
                             if( isset($cart['helmets_qty']) && $cart['helmets_qty'] > 0 ){
 
                                 $helmets_price = 50;
                                 $helmets_total = $cart['helmets_qty'] * $helmets_price;
-                                $total += $subtotal + $helmets_total;
+                                $total += $helmets_total;
                             ?>
                                 <tr class="helmets-row">
                                     <td>
