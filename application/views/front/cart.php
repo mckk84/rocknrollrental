@@ -103,7 +103,7 @@
                     </div>
                     <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-2 pt-2 pt-lg-0 mt-lg-0">
                         <div class="helmet-option">
-                            <label>1 Helemt is free. <input type="checkbox" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] != "" && $cart["helmets_qty"] > 0)?"checked":""?> >Add Helmet</label>
+                            <label>One Helemt is free.  <input type="checkbox" style="width:20px;height:20px;margin-left:5px;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] != "" && $cart["helmets_qty"] > 0)?"checked":""?> > Add an extra for ₹50/day. </label>
                         </div>
                     </div>
                     <div style="<?=($cart["helmets_qty"]!="" && $cart["helmets_qty"] > 0)?"":"display:none;"?>" class="helmet_content table-content table-responsive table-bordered bg-white rounded mb-4">
@@ -194,7 +194,7 @@
                                     <label class="fa-md"><input type="radio" name="paymentOption" value="PAY_FULL" onclick="__setPayment('PAY_FULL');" checked> Make full payment</label>
                                 </div>
                                 <div class="radio w-100">
-                                    <label class="fa-md"><input type="radio" name="paymentOption" value="PAY_PARTIAL" onclick="__setPayment('PAY_PARTIAL');">  Pay cash on pickup (<span style="padding-left:3px;font-size:12px;">50% to be paid online</span>)</label>
+                                    <label class="fa-md"><input type="radio" name="paymentOption" value="PAY_PARTIAL" onclick="__setPayment('PAY_PARTIAL');"> 50% Advance.</label>
                                 </div>
                                 <?php if( !isset($user) || !isset($user['Authorization']) || ( isset($user['Authorization']) && $user['Authorization'] == false) ) { ?>
                                     <a href="javascript:void(0)" class="btn btn-primary d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#login_form">Login/Sign Up</a>
