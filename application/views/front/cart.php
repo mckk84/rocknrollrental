@@ -180,7 +180,9 @@
                             <tr>
                                 <td class="text-start text-warning fw-bold border-0">Refundable Deposit / Vehicle
                                     <span class="d-block text-gray fw-normal text-sm">To be paid at the time of pickup</span></td>
-                                <td class="fw-bold text-end border-0"><i class="fa fa-indian-rupee-sign me-1"></i> 1000</td>
+                                <td class="fw-bold text-end border-0"><i class="fa fa-indian-rupee-sign me-1"></i> 1000
+                                    <span class="d-block text-info fw-normal text-sm">(Not paying now)</span>
+                                </td>
                             </tr>                                                           
                         </table>
                         <div class="d-flex flex-column pb-4 pt-2">

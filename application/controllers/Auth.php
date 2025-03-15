@@ -85,7 +85,7 @@ class Auth extends CI_Controller {
             	$this->form_validation->set_rules('password','Password','trim|required|min_length[6]|max_length[20]');
 
             	$password = $this->security->xss_clean($this->input->post('password'));
-
+            	$phone = $this->security->xss_clean($this->input->post('phone'));
             	if($this->form_validation->run() == FALSE)
 		        {
 		            $response["error"] = 1;
