@@ -139,7 +139,7 @@
                         </table>
                         <?php if( isset($cart['helmets_qty']) && $cart['helmets_qty'] != 0 && $cart['helmets_qty'] != "" )
                         {
-                            $total = intval($cart['helmets_qty']) * 50;
+                            $total += intval($cart['helmets_qty']) * 50;
                         }
                         ?>
                     </div>
