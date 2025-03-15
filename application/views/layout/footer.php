@@ -137,7 +137,7 @@
                                                 <label class="text-black font-md font-bold mb-1">PICKUP</label>
                                                 <div class="row px-2">
                                                     <div class="col-xl-12 mb-1">
-                                                        <input type="date" name="pickupdate" value="<?=date("Y-m-d", time())?>" id="pickupdate" class="w-50 text-dark border-0" placeholder="">
+                                                        <input type="date" name="pickupdate" value="<?=date("Y-m-d", time())?>" id="pickupdate" class="w-60 text-dark border-0" placeholder="">
                                                     </div>
                                                     <div class="col-xl-12">
                                                         <select id="pickuptime" name="pickuptime" class="w-50 form-select border-0">
@@ -150,7 +150,7 @@
                                                 <label class="text-black font-md font-bold mb-1">DROPOFF</label>
                                                 <div class="row px-2">
                                                     <div class="col-xl-12 mb-1">
-                                                        <input type="date" name="dropoffdate" id="dropoffdate" value="<?=date("Y-m-d", time())?>" class="w-50 text-dark border-0" placeholder="">
+                                                        <input type="date" name="dropoffdate" id="dropoffdate" value="<?=date("Y-m-d", time())?>" class="w-60 text-dark border-0" placeholder="">
                                                     </div>
                                                     <div class="col-xl-12">
                                                         <select id="dropofftime" name="dropofftime" class="w-50 form-select border-0">
@@ -209,7 +209,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-12 border-bottom-primary">
+                                    <div id="early_pickup_div" style="display:none;" class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
                                             <div class="col-xl-8 py-2">
                                                     <label class="fa-md text-dark py-2 px-2"><input style="width:20px;height: 20px;vertical-align:middle;" type="checkbox" name="early_pickup_charge" value="1" > Pickup early at 6:00 AM for  200 extra / bike.</label>

@@ -187,14 +187,15 @@
                         </table>
                         <div class="d-flex flex-column pb-4 pt-2">
                             <form method="POST" action="<?=base_url('Checkout')?>">
+                                <?php if( $cart['early_pickup'] == 1 || $cart['pickup_time'] == '07:30 AM' ){?>
                                 <div class="w-100 mb-4 border rounded bg-light">
                                     <label class="fa-md text-info py-2 px-2"><input type="checkbox" name="early_pickup_charge" value="1" <?=($cart['early_pickup']==1)?"checked":""?> > Pickup early at 6:00 AM for  200 extra / bike.</label>
                                 </div>                                
-                                <div class="radio w-100 mb-2">
-                                    <label class="fa-md"><input type="radio" name="paymentOption" value="PAY_FULL" onclick="__setPayment('PAY_FULL');" checked> Make full payment</label>
-                                </div>
-                                <div class="radio w-100">
-                                    <label class="fa-md"><input type="radio" name="paymentOption" value="PAY_PARTIAL" onclick="__setPayment('PAY_PARTIAL');"> 50% Advance.</label>
+                                <?php } ?>
+                                <div class="radio w-100 mb-4">
+                                    <label class="fa-md mb-1"><input type="radio" name="paymentOption" value="PAY_FULL" onclick="__setPayment('PAY_FULL');" checked> Make full payment</label>
+                                    <span class="d-block w-100 text-left fw-bold text-warning">OR</span>
+                                    <label class="fa-md mt-1"><input type="radio" name="paymentOption" value="PAY_PARTIAL" onclick="__setPayment('PAY_PARTIAL');"> 50% Advance.</label>
                                 </div>
                                 <?php if( !isset($user) || !isset($user['Authorization']) || ( isset($user['Authorization']) && $user['Authorization'] == false) ) { ?>
                                     <a href="javascript:void(0)" class="btn btn-primary d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#login_form">Login/Sign Up</a>

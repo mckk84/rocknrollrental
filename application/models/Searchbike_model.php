@@ -68,6 +68,7 @@ class Searchbike_model extends CI_Model
 
     public function getRentPrice($bike_type_id, $pickup_date, $pickup_time, $dropoff_date, $dropoff_time)
     {
+        //echo "<pre>".$pickup_date.", ".$pickup_time.", ".$dropoff_date.", ".$dropoff_time."<br/>";
         $rent_price = 0;
         $this->db->select('*');
         $this->db->from('tbl_prices');
@@ -79,9 +80,12 @@ class Searchbike_model extends CI_Model
             $d1= new DateTime($dropoff_date." ".$dropoff_time); // first date
             $d2= new DateTime($pickup_date." ".$pickup_time); // second date
             $interval= $d1->diff($d2); 
+            $days = $interval->days;
+            
             // Same Day
             if( $pickup_date == $dropoff_date ) 
             {
+                //echo "Same day";
                 $day_type = $this->checkDay($pickup_date);
                 if( $interval->h < 4 ) 
                 {
@@ -104,30 +108,61 @@ class Searchbike_model extends CI_Model
             }
             else
             {
-                $rent_price = $this->getDayPrice($pickup_date, 'half', $price);
-                $date2 = date_create($dropoff_date." 00:00:01");
-                $date1 = date_create($pickup_date." 23:59:59");
-                date_add($date1, date_interval_create_from_date_string("1 day"));
-                $nxt_date = date_format($date1, "Y-m-d h:i:s");
-
-                while ( $date1 < $date2 ) {
-
-                    $rent_price += $this->getDayPrice($nxt_date, 'full', $price);
-                    $date1 = date_create($nxt_date);
-                    date_add($date1, date_interval_create_from_date_string("1 day"));
-                }
-                $date1 = date_create($dropoff_date." 00:00:01");
-                $date2 = date_create($dropoff_date." ".$dropoff_time);
-                $diff = date_diff($date1, $date2);
-                $hdiff = $diff->format("%h");
-                if( $hdiff > 12 )
+                $d1= new DateTime($pickup_date." 23:59:59"); // first date
+                $d2= new DateTime($pickup_date." ".$pickup_time); // second date
+                $interval= $d1->diff($d2); 
+                if( $interval->h > 4 )
                 {
-                    $rent_price += $this->getDayPrice($pickup_date, 'full', $price);
+                    $rent_price += $this->getDayPrice($pickup_date, 'full', $price);    
                 }
                 else
                 {
                     $rent_price += $this->getDayPrice($pickup_date, 'half', $price);
                 }
+                //echo "pickup_date:rent=".$rent_price."\n";
+
+                $d1 = new DateTime($dropoff_date." 00:00:00"); // first date
+                $d2 = new DateTime($pickup_date." 23:59:59"); // second date
+                $interval= $d1->diff($d2); 
+                //echo "<br/> \n pickup_date end to dropoff_date:i days".$interval->days."\n";
+                if( $interval->days == 0 )
+                {
+                    if( $interval->h > 4 )
+                    {
+                        $rent_price += $this->getDayPrice($pickup_date, 'full', $price);    
+                    }
+                    else
+                    {
+                        $rent_price += $this->getDayPrice($pickup_date, 'half', $price);
+                    }
+                }
+                else if( $interval->days > 0 )
+                {
+                    $days = $interval->days;
+                    $nxt_date = $pickup_date;
+                    for($i = 0; $i < $days; $i++)
+                    {
+                        $now = new DateTime($nxt_date." 23:59:59");
+                        $nxt_date = $now->modify('+1 day')->format('Y-m-d');
+                        $rent_price += $this->getDayPrice($nxt_date, 'full', $price);
+                        $nxt_date = $now->format("Y-m-d");
+                        //echo "<pre>Interval==".$i."===".$nxt_date."\n";
+                    }
+
+                    $d1 = new DateTime($dropoff_date." ".$dropoff_time); // second date
+                    $d2 = new DateTime($dropoff_date." 00:00:00"); // first date
+                    $interval= $d1->diff($d2);
+                    if( $interval->h > 12 )
+                    {
+                        $rent_price += $this->getDayPrice($pickup_date, 'full', $price);
+                    }
+                    else
+                    {
+                        $rent_price += $this->getDayPrice($pickup_date, 'half', $price);
+                    }
+                    //echo "Final:\n:".$rent_price;
+                }
+                
             }            
         }
         return $rent_price;
@@ -146,14 +181,13 @@ class Searchbike_model extends CI_Model
         $sub_query = "SELECT tbl_booking_bikes.type_id as bike_type_id, COUNT(tbl_booking_bikes.bike_id) as not_available FROM tbl_bookings LEFT JOIN tbl_booking_bikes ON tbl_booking_bikes.booking_id=tbl_bookings.id 
         LEFT JOIN tbl_bikes ON tbl_booking_bikes.bike_id=tbl_bikes.id 
         WHERE tbl_bookings.pickup_date >= '".dateformatdb($pickup_date)."' AND tbl_bookings.dropoff_date <= '".dateformatdb($dropoff_date)."' GROUP BY tbl_booking_bikes.type_id";
-        //echo $sub_query;
+
         $sub_query1 = $this->db->query($sub_query);
         $result1 = array();
         if( $sub_query1->num_rows() > 0 )
         {
             $result1 = $sub_query1->result_array();
         }
-
         if ($query->num_rows() > 0)
         {
             $result = $query->result_array();

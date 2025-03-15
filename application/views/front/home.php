@@ -539,6 +539,7 @@ $(document).ready(function(){
 
     setTimeAll($("#dropoff_time"));
     $("#dropoff_time option:last").attr('selected','selected');
+    $("#early_pickup_div").show();
   }
   else if( hour <= 7 )
   {
@@ -546,6 +547,7 @@ $(document).ready(function(){
     $("#pickup_time option:first").attr('selected','selected');
     setTimeAll($("#dropoff_time"));
     $("#dropoff_time option:last").attr('selected','selected');
+    $("#early_pickup_div").show();
   }
   else
   {
@@ -588,6 +590,7 @@ $(document).ready(function(){
         $("#dropoff_date").datetimepicker('minDate', moment(pickupdate));
         hour = 7;
       }
+      $("#early_pickup_div").hide();
     }
     else
     {
@@ -626,6 +629,7 @@ $(document).ready(function(){
         $("#dropoff_time").empty();
         setTimeAll($("#dropoff_time"));
         $("#dropoff_time option:last").attr('selected','selected');
+        $("#early_pickup_div").show();
     }
     else
     {
@@ -634,6 +638,7 @@ $(document).ready(function(){
         $("#dropoff_time").empty();
         setTimeSpecial($("#dropoff_time"), hour);
         $("#dropoff_time option:last").attr('selected','selected');
+        $("#early_pickup_div").hide();
     }
   });
 

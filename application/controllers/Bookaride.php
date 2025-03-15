@@ -56,6 +56,13 @@ class Bookaride extends CI_Controller {
         $this->load->view('layout/footer');
 	}
 
+	public function search()
+	{
+		$this->load->model('searchbike_model');
+		$data = $this->searchbike_model->getAvailableBikes('2025-03-15', '06:30 PM', '2025-03-20', '06:30 PM');
+		print_r($data);
+	}
+
 	public function view()
 	{
 		$id = isset($_GET['id']) ? $_GET['id'] : 0;
