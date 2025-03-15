@@ -14,7 +14,7 @@
 }
 
 body {
-  font-family: "Nunito", sans-serif;
+  font-family: "Poppins", sans-serif;
   background: #FFF;
   color: #444444;
   font-size: 0.80rem;
@@ -36,7 +36,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Nunito", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 /*--------------------------------------------------------------
@@ -1361,5 +1361,5 @@ button#multiSelectDropdown {
 }
 
 .modal-content{
-  background-color: #f9f9f9 !important;
+  background-color: #f9fcfd !important;
 }

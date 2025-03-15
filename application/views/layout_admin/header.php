@@ -132,6 +132,11 @@
               <i class="bi bi-people"></i><span>Customers</span>
             </a>
           </li>
+          <li>
+            <a href="<?=base_url('admin/Coupons')?>">
+              <i class="bi bi-people"></i><span>Coupons</span>
+            </a>
+          </li>
         </ul>
       </li><!-- End Components Nav -->
 
@@ -191,6 +196,11 @@
           <li>
             <a href="<?=base_url('admin/Contact')?>">
               <i class="bi bi-person-lines-fill"></i><span>Contact</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?=base_url('admin/Subscribers')?>">
+              <i class="bi bi-person-lines-fill"></i><span>Subscribers</span>
             </a>
           </li>
         </ul>
