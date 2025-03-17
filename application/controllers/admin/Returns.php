@@ -37,7 +37,7 @@ class Returns extends CI_Controller
         else
         {
             $data['user'] = $this->session->userdata();
-            $data['page_title'] = "Returns";
+            $data['page_title'] = "Vehicle Returns";
             $biketypes = $this->biketypes_model->getAll();
             $data['biketypes'] = result_to_array($biketypes);
             $data['records'] = $this->bookings_model->getAllReturnsToday();

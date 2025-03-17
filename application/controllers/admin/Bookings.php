@@ -22,6 +22,7 @@ class Bookings extends CI_Controller
         $this->load->model('publicholidays_model');
         $this->load->model('searchbike_model');
         $this->load->model('customers_model');
+        $this->load->model('users_model');
     }
 
     /**
@@ -115,7 +116,7 @@ class Bookings extends CI_Controller
         $ordered_bike_qty = "";
         foreach($bike_type_qty as $btype => $bq)
         {
-           $ordered_bike_qty .= "<span class='w-100 text-danger font-bold d-block'>".$btype." ( ".$bq." Nos. )</span>";
+           $ordered_bike_qty .= "<span class='w-100 text-dark font-bold d-block'>".$btype." ( ".$bq." Nos. )</span>";
         }
 
         $d1= new DateTime($data['order']['dropoff_date']." ".$data['order']['dropoff_time']); // first date
@@ -273,12 +274,12 @@ class Bookings extends CI_Controller
             redirect('admin/Bookings');
         } 
         $data['user'] = $this->session->userdata();
+        $data['admin_phone'] = $this->users_model->getAdminPhone();
         $data['booking_id'] = $booking_id;
         $biketypes = $this->biketypes_model->getAll();
         $data['biketypes'] = result_to_array($biketypes);
         $data['order'] = $this->bookings_model->getById($booking_id);
         $data['order_bike_types'] = $this->bookingbikes_model->getByBookingId($booking_id);
-        $data['order_payment'] = $this->bookingpayment_model->getByBookingId($booking_id);
         $data['customer'] = $this->customers_model->getById($data['order']['customer_id']);
 
         $bike_type_array = [];
@@ -300,8 +301,25 @@ class Bookings extends CI_Controller
         {
            $ordered_bike_qty .= ($ordered_bike_qty == "") ? $btype."(".$bq.")" : ";".$btype."(".$bq.")";
         }
-        //die();
-        echo sendNewOrdertoCustomer($data['customer']['phone'], $data['customer']['name'], $booking_id, $ordered_bike_qty, dateformatuser($data['order']['pickup_date']), $data['order']['pickup_time'], dateformatuser($data['order']['dropoff_date']), $data['order']['dropoff_time'], $data['order']['total_amount'], $data['order']['booking_amount']);
+        
+        echo sendNewOrdertoCustomer($data['customer']['phone'], $data['customer']['name'], $booking_id, $ordered_bike_qty, dateformatuser($data['order']['pickup_date']), $data['order']['  pickup_time'], dateformatuser($data['order']['dropoff_date']), $data['order']['dropoff_time'], $data['order']['total_amount'], $data['order']['booking_amount']);
+        echo sendNewOrderAlertToAdmin($admin['admin_phone'], $data['customer']['name'], $booking_id, $ordered_bike_qty, dateformatuser($data['order']['pickup_date'])." ".$data['order']['pickup_time'], $data['customer']['phone']);
+    }
+
+    public function whatsapp_reminder()
+    {
+        $booking_id = (isset($_GET['bid']) && $_GET['bid'] != "") ? intval($_GET['bid']) : 0;
+        if( $booking_id == 0 )
+        {
+            redirect('admin/Bookings');
+        } 
+        $data['user'] = $this->session->userdata();
+        $data['admin_phone'] = $this->users_model->getAdminPhone();
+        $data['booking_id'] = $booking_id;
+        $data['order'] = $this->bookings_model->getById($booking_id);
+        $data['customer'] = $this->customers_model->getById($data['order']['customer_id']);
+        
+        echo sendReturnReminderTodayToCustomer($data['customer']['phone'], $data['customer']['name'], dateformatuser($data['order']['dropoff_date']), $data['order']['dropoff_time']);
     }
 
     public function search()

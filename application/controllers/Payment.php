@@ -138,6 +138,7 @@ class Payment extends CI_Controller {
             	"created_by" => 0,	
             );
         $order_bikes = "";
+        $worder_bikes = "";
         $booking_id = $this->bookings_model->addNew($booking_record);
         if( $booking_id != "" )
         {
@@ -153,7 +154,8 @@ class Payment extends CI_Controller {
 		            );
 		            $this->bookingbikes_model->addNew($bookingbikes_record);
 		        }
-		        $order_bikes = ($order_bikes == "") ? $bike['bike_type_name']."(".$bike['quantity'].")" : ",".$bike['bike_type_name']."(".$bike['quantity'].")";
+		        $order_bikes .= ($order_bikes == "") ? $bike['bike_type_name']."(".$bike['quantity'].")" : ",".$bike['bike_type_name']."(".$bike['quantity'].")";
+		        $worder_bikes .= ($order_bikes == "") ? $bike['bike_type_name']."(".$bike['quantity'].")" : ";".$bike['bike_type_name']."(".$bike['quantity'].")";
 	        }
 
 	        // Add Payment Record
@@ -168,9 +170,9 @@ class Payment extends CI_Controller {
 	        $data['booking_id'] = $booking_id;
 
 	        // Send Whatsapp Message
-	        sendNewOrdertoCustomer($data['user']['phone'], $data['user']['name'], $booking_id, $order_bikes, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time'], $total, $total_paid);
+	        sendNewOrdertoCustomer($data['user']['phone'], $data['user']['name'], $booking_id, $worder_bikes, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time'], $total, $total_paid);
 
-	        sendNewOrderAlertToAdmin($data['admin_phone'], $data['user']['name'], $booking_id, date("d-m-Y H:i A"), $data['user']['phone']);
+	        sendNewOrderAlertToAdmin($data['admin_phone'], $data['user']['name'], $booking_id, $worder_bikes, $data['cart']['pickup_date']." ".$data['cart']['pickup_time'],, $data['user']['phone']);
 
 	        $this->session->set_userdata("cart", array());
         }
@@ -243,12 +245,14 @@ class Payment extends CI_Controller {
         $helmets_total = 0;
         $refund_amount = 1000;
         $order_bikes = "";
+        $worder_bikes = "";
         // subtotal will be for only bikes
 		foreach($data['cart']['cart_bikes'] as $bike) 
         {
             $rent_price = $bike['rent_price'];
             $order_bikes .= ($order_bikes == "") ? $bike['bike_type_name']."(".$bike_quantity.")" : ",".$bike['bike_type_name']."(".$bike_quantity.")";
             $subtotal += $bike_quantity * $rent_price;
+            $worder_bikes .= ($order_bikes == "") ? $bike['bike_type_name']."(".$bike_quantity.")" : ";".$bike['bike_type_name']."(".$bike_quantity.")";
         }
 
         $total = $subtotal;
@@ -335,9 +339,9 @@ class Payment extends CI_Controller {
 	        $data['booking_id'] = $booking_id;
 
 	        // Send Whatsapp Message
-	        sendNewOrdertoCustomer($data['user']['phone'], $data['user']['name'], $booking_id, $order_bikes, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time'], $total, $total_paid);
+	        sendNewOrdertoCustomer($data['user']['phone'], $data['user']['name'], $booking_id, $worder_bikes, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time'], $total, $total_paid);
 
-	        sendNewOrderAlertToAdmin($data['admin_phone'], $data['user']['name'], $booking_id, $data['cart']['pickup_date']." ".$data['cart']['pickup_time'], $data['user']['phone']);
+	        sendNewOrderAlertToAdmin($data['admin_phone'], $data['user']['name'], $booking_id, $worder_bikes, $data['cart']['pickup_date']." ".$data['cart']['pickup_time'], $data['user']['phone']);
 
 	        $this->session->set_userdata("instant_cart", array());
         }

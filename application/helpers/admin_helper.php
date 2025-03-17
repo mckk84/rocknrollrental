@@ -33,7 +33,7 @@ function sendNewOrdertoCustomer($phone, $customer_name, $booking_id, $bike, $pic
     $params .= ",".$paid;
     $params .= ",".($total_cost - $paid);
 
-    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=new_booking&priority=wa&stype=normal&Params=".$params;
+    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=rnr_new_booking&priority=wa&stype=normal&Params=".$params;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -49,15 +49,16 @@ function sendNewOrdertoCustomer($phone, $customer_name, $booking_id, $bike, $pic
 }
 
 // To send message to admin on new order
-function sendNewOrderAlertToAdmin($phone, $customer_name, $booking_id, $datetime, $customer_phone)
+function sendNewOrderAlertToAdmin($phone, $customer_name, $booking_id, $bike, $datetime, $customer_phone)
 {
     //rock_booking_alert
     $params = urlencode($customer_name);
     $params .= ",".$booking_id;
+    $params .= ",".urlencode($bike);
     $params .= ",".urlencode($datetime);
     $params .= ",".$customer_phone;
     
-    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=rock_booking_alert&priority=wa&stype=normal&Params=".$params;
+    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=rnr_booking_alert&priority=wa&stype=normal&Params=".$params;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -76,7 +77,7 @@ function sendReturnReminderTodayToCustomer($phone, $customer_name, $return_date,
 {
     //rock_reminder
     $return_datetime = $return_date." ".$return_time;
-    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=rock_reminder&priority=wa&stype=normal&Params=".urlencode($customer_name).",".urlencode($return_datetime);
+    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=rnr_reminder&priority=wa&stype=normal&Params=".urlencode($customer_name).",".urlencode($return_datetime);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
