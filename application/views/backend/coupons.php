@@ -92,7 +92,7 @@
   <div class="modal fade" id="add-coupon" tabindex="-1" data-bs-backdrop="false">
     <div class="modal-dialog">
       <div class="modal-content">
-        <form id="addcoupon" action="<?=base_url('admin/Coupon/save_record')?>" method="POST">
+        <form id="addcoupon" action="<?=base_url('admin/Coupons/save_record')?>" method="POST">
             <input type="hidden" name="record_id" value="">
             <div class="modal-header">
               <h5 class="modal-title">Add Coupon</h5>
@@ -112,11 +112,11 @@
               <div class="row mb-2">
                 <div class="col-md-6">
                   <label class="form-label">Discount Amount</label>
-                  <input type="number" autocomplete="off" class="form-control" name="email" value="" required>
+                  <input type="number" autocomplete="off" class="form-control" name="discount_amount" value="" required>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Quantity</label>
-                  <input type="tel" maxlength="10" autocomplete="off" class="form-control" name="phone" value="" required>
+                  <input type="number" maxlength="10" autocomplete="off" class="form-control" name="quantity" value="" required>
                 </div>
               </div>
               <div class="row mb-2">

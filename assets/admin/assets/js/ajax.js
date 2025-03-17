@@ -132,6 +132,35 @@ $(document).ready(function(){
         });
     });
 
+    //edit holiday
+    $(".edit-coupon-record").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let id = $(this).attr('record-data');
+        let url = window.location.href+"/getRecord?id="+id;
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                var d = JSON.parse(data);
+                $('#add-coupon').modal('show');    
+                $('#add-coupon input[name="record_id"]').val(d.id);
+                $('#add-coupon input[name="title"]').val(d.title);
+                $('#add-coupon input[name="code"]').val(d.code);
+                $('#add-coupon select[name="type"]').val(d.type);
+                $('#add-coupon select[name="status"]').val(d.status);
+                $('#add-coupon input[name="discount_amount"]').val(d.discount_amount);
+                $('#add-coupon input[name="quantity"]').val(d.quantity);   
+                
+                $('#add-coupon input[name="start_date"]').val(d.start_date);   
+                $('#add-coupon input[name="end_date"]').val(d.end_date);   
+            },
+            error: function (data) {
+                console.log("Error occured");
+            }
+        });
+    });
+
     //edit order
     $(".edit-booking-record").click(function (event) {
         event.preventDefault(); // Prevent default form submission

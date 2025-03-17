@@ -37,6 +37,7 @@ function sendNewOrdertoCustomer($phone, $customer_name, $booking_id, $bike, $pic
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    echo $url;
     $response = curl_exec($ch);
     if(curl_errno($ch)) 
     {

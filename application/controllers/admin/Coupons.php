@@ -65,8 +65,8 @@ class Coupons extends CI_Controller
         $this->form_validation->set_rules('quantity','Quantity','trim|required|max_length[6]');
         $this->form_validation->set_rules('type','Type','trim|required|max_length[10]');
         $this->form_validation->set_rules('status','Status','trim|required|max_length[6]');
-        $this->form_validation->set_rules('start_date','Start Date','trim|required|max_length[6]');
-        $this->form_validation->set_rules('end_date','End Date','trim|required|max_length[6]');
+        $this->form_validation->set_rules('start_date','Start Date','trim|required|max_length[12]');
+        $this->form_validation->set_rules('end_date','End Date','trim|required|max_length[12]');
                         
         if($this->form_validation->run() == FALSE)
         {

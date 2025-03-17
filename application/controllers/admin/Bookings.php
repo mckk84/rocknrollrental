@@ -298,7 +298,7 @@ class Bookings extends CI_Controller
         $ordered_bike_qty = "";
         foreach($bike_type_qty as $btype => $bq)
         {
-           $ordered_bike_qty .= ($ordered_bike_qty == "") ? $btype."(".$bq.")" : ",".$btype."(".$bq.")";
+           $ordered_bike_qty .= ($ordered_bike_qty == "") ? $btype."(".$bq.")" : ";".$btype."(".$bq.")";
         }
         //die();
         echo sendNewOrdertoCustomer($data['customer']['phone'], $data['customer']['name'], $booking_id, $ordered_bike_qty, dateformatuser($data['order']['pickup_date']), $data['order']['pickup_time'], dateformatuser($data['order']['dropoff_date']), $data['order']['dropoff_time'], $data['order']['total_amount'], $data['order']['booking_amount']);
