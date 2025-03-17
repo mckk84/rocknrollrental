@@ -129,7 +129,7 @@ class Payment extends CI_Controller {
             	"gst" => $gst,
             	"payment_mode" => $pmode_row['id'],
             	"status" => 0,
-            	"early_pickup" => $data['cart']['early_pickup'],
+            	"early_pickup" => (is_null($data['cart']['early_pickup'])?1:0),
             	"pickup_date" => dateformatdb($data['cart']['pickup_date']),
             	"pickup_time" => $data['cart']['pickup_time'],
             	"dropoff_date" => dateformatdb($data['cart']['dropoff_date']),
@@ -247,7 +247,7 @@ class Payment extends CI_Controller {
 		foreach($data['cart']['cart_bikes'] as $bike) 
         {
             $rent_price = $bike['rent_price'];
-            $order_bikes = ($order_bikes == "") ? $bike['bike_type_name']."(".$bike_quantity.")" : ",".$bike['bike_type_name']."(".$bike_quantity.")";
+            $order_bikes .= ($order_bikes == "") ? $bike['bike_type_name']."(".$bike_quantity.")" : ",".$bike['bike_type_name']."(".$bike_quantity.")";
             $subtotal += $bike_quantity * $rent_price;
         }
 
@@ -297,7 +297,7 @@ class Payment extends CI_Controller {
             	"gst" => $gst,
             	"payment_mode" => $pmode_row['id'],
             	"status" => 0,
-            	"early_pickup" => $data['cart']['early_pickup'],
+            	"early_pickup" => (is_null($data['cart']['early_pickup'])?1:0),
             	"pickup_date" => dateformatdb($data['cart']['pickup_date']),
             	"pickup_time" => $data['cart']['pickup_time'],
             	"dropoff_date" => dateformatdb($data['cart']['dropoff_date']),
@@ -337,7 +337,7 @@ class Payment extends CI_Controller {
 	        // Send Whatsapp Message
 	        sendNewOrdertoCustomer($data['user']['phone'], $data['user']['name'], $booking_id, $order_bikes, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time'], $total, $total_paid);
 
-	        sendNewOrderAlertToAdmin($data['admin_phone'], $data['user']['name'], $booking_id, date("d-m-Y H:i A"), $data['user']['phone']);
+	        sendNewOrderAlertToAdmin($data['admin_phone'], $data['user']['name'], $booking_id, date("d-m-Y h:i A"), $data['user']['phone']);
 
 	        $this->session->set_userdata("instant_cart", array());
         }

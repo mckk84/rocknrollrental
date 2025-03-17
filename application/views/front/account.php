@@ -132,7 +132,7 @@
 
                                                               foreach($bikes_ordered as $name => $qty)
                                                               {
-                                                                $bikes_order = ( $bikes_order == "" ) ? "<p class='d-inline-block m-1  fa-sm fw-bold'>".$name."(".$qty.")</p>" : "<p class='d-inline-block m-1 fa-sm fw-bold'>".$name."(".$qty.")</span>";
+                                                                $bikes_order .= ( $bikes_order == "" ) ? "<p class='d-inline-block m-1  fa-sm fw-bold'>".$name."(".$qty.")</p>" : "<p class='d-inline-block m-1 fa-sm fw-bold'>".$name."(".$qty.")</span>";
                                                               }
                                                         ?>
                                                         <tr>

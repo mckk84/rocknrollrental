@@ -23,15 +23,17 @@ function sendNewOrdertoCustomer($phone, $customer_name, $booking_id, $bike, $pic
     //rock_booking
     $pickup_datetime = $pickup_date." ".$pickup_time;
     $dropoff_datetime = $dropoff_date." ".$dropoff_time;
-    $params = urlencode($customer_name);
-    $params .= ",".$booking_id;
+    //$params = urlencode($customer_name);
+    $params = $booking_id;
     $params .= ",".urlencode($bike);
     $params .= ",".urlencode($pickup_datetime);
     $params .= ",".urlencode($dropoff_datetime);
-    $params .= ",".$total_cost;
+   // $params .= ",".$total_cost;
+    $params .= ",".urlencode('https://maps.app.goo.gl/NADx1UkaGtiDcoDU6?g_st=i');
     $params .= ",".$paid;
+    $params .= ",".($total_cost - $paid);
 
-    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=rock_booking&priority=wa&stype=normal&Params=".$params;
+    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=rnr_book_new&priority=wa&stype=normal&Params=".$params;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

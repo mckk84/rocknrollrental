@@ -80,7 +80,7 @@
 
                       foreach($bikes_ordered as $name => $qty)
                       {
-                        $bikes_order = ( $bikes_order == "" ) ? $name."(".$qty.")" : "<br/>".$name."(".$qty.")";
+                        $bikes_order .= ( $bikes_order == "" ) ? $name."(".$qty.")" : "<br/>".$name."(".$qty.")";
                       }
 
                       if( isset($row['helmet_quantity']) && $row['helmet_quantity'] > 0 )
