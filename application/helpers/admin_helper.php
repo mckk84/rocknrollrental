@@ -33,7 +33,7 @@ function sendNewOrdertoCustomer($phone, $customer_name, $booking_id, $bike, $pic
     $params .= ",".$paid;
     $params .= ",".($total_cost - $paid);
 
-    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=rnr_book_new&priority=wa&stype=normal&Params=".$params;
+    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=new_booking&priority=wa&stype=normal&Params=".$params;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
