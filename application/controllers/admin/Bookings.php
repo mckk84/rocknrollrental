@@ -265,6 +265,45 @@ class Bookings extends CI_Controller
         die(json_encode($response));
     }
 
+    public function whatsapp()
+    {
+        $booking_id = (isset($_GET['bid']) && $_GET['bid'] != "") ? intval($_GET['bid']) : 0;
+        if( $booking_id == 0 )
+        {
+            redirect('admin/Bookings');
+        } 
+        $data['user'] = $this->session->userdata();
+        $data['booking_id'] = $booking_id;
+        $biketypes = $this->biketypes_model->getAll();
+        $data['biketypes'] = result_to_array($biketypes);
+        $data['order'] = $this->bookings_model->getById($booking_id);
+        $data['order_bike_types'] = $this->bookingbikes_model->getByBookingId($booking_id);
+        $data['order_payment'] = $this->bookingpayment_model->getByBookingId($booking_id);
+        $data['customer'] = $this->customers_model->getById($data['order']['customer_id']);
+
+        $bike_type_array = [];
+        $bike_type_qty = [];
+        foreach($data['order_bike_types'] as $i => $row)
+        {
+          if( !in_array($row['type_id'], $bike_type_array) )
+          {
+            array_push($bike_type_array, $row['type_id']); 
+            $bike_type_qty[ $row['type'] ] = 1;
+          }
+          else
+          {
+            $bike_type_qty[ $row['type'] ] = $bike_type_qty[ $row['type'] ] + 1;
+          }
+        }
+        $ordered_bike_qty = "";
+        foreach($bike_type_qty as $btype => $bq)
+        {
+           $ordered_bike_qty .= $btype."(".$bq.")";
+        }
+        die();
+        echo sendNewOrdertoCustomer($data['customer']['phone'], $data['customer']['name'], $booking_id, $ordered_bike_qty, dateformatuser($data['order']['pickup_date']), $data['order']['pickup_time'], dateformatuser($data['order']['dropoff_date']), $data['order']['dropoff_time'], $data['order']['total_amount'], $data['order']['booking_amount']);
+    }
+
     public function search()
     {
         $response = array("error" => 0, "error_message" => "", "success_message" => "");

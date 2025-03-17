@@ -112,6 +112,15 @@ function dateformatdb($date)
     }
 }
 
+function dateformatuser($date)
+{
+    $d = explode("-", $date);
+    if( strlen($d[0]) > 2 ){
+        return $d[2]."-".$d[1]."-".$d[0];
+    }else{
+        return $date;
+    }
+}
 
 function result_to_array($result)
 {

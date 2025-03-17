@@ -115,6 +115,7 @@
                       <td><?=($row['created_by'] == "") ? "ONLINE":$row['created_by']?></td>
                       <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
                       <td><div class="d-flex justify-content-start">
+                        <a title="Send Whatsapp" target="_blank" href="<?=base_url('admin/Bookings/whatsapp?bid='.$row['id'])?>"><i class="bi bi-whatsapp"></i></a>
                         <a title="View Record" href="<?=base_url('admin/Bookings/view?bid='.$row['id'])?>" class="text-info float-right mx-2"><i class="bi bi-eye-fill"></i></a>
                         <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record text-warning float-right mx-2"><i class="bi bi-pencil-fill"></i></a>
                         <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record text-danger float-right mx-2"><i class="bi bi-trash-fill"></i></a>
