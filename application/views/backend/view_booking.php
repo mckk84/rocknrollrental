@@ -64,9 +64,13 @@
                 <tbody>
                   <?php foreach($order_bike_types as $index => $row) { ?>
                     <tr>
-                      <td><?=$index?></td>
+                      <td><?=($index+1)?></td>
                       <td><?=$row['type']?></td>
+                      <?php if(isset($row['image']) && $row['image']== ""){?>
                       <td><img style="width:50px;margin:auto;display:block;" class="img-fluid" src="<?=base_url("bikes/".$row['image'])?>" ></td>
+                      <?php } else { ?>
+                      <td><img style="width:24px;margin:auto;display:block;" class="img-fluid" src="<?=base_url("assets/admin/assets/img/bike.png")?>" ></td>
+                      <?php } ?>  
                       <td><?=$row['vehicle_number']?></td>
                       <td><?=$row['rent_price']?></td>
                     </tr>   

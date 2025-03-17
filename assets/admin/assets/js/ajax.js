@@ -89,6 +89,49 @@ $(document).ready(function(){
         $("#add-user").find("input[type=text], select").val("");
     });
 
+    $("#submitcoupon").click(function(event){
+        event.preventDefault(); // Prevent default form submission
+        
+        $(this).prop('disabled', true);
+        $(this).html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
+
+        let form = $("#addcoupon");
+        let mbody = $("#addcoupon .modal-body");
+        let url = form.attr('action');
+
+        mbody.find(".alert").each(function(){
+            $(this).remove();
+        });
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: form.serialize(), // Serialize form data
+            success: function (data) {
+                var d = JSON.parse(data);
+                if( d.error == 1 )
+                {
+                    mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
+                    $("#submitcoupon").prop('disabled', false);
+                    $("#submitcoupon").html("Submit");
+                }
+                else
+                {
+                    mbody.append("<div class='alert alert-success mt-1 mb-0'>"+d.success_message+"</div>");
+                    $("#submitcoupon").html("Success");
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 2000);
+                }
+            },
+            error: function (data) {
+                mbody.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                $("#submitcoupon").prop('disabled', false);
+                $("#submitcoupon").html("Submit");
+            }
+        });
+    });
+
     //edit order
     $(".edit-booking-record").click(function (event) {
         event.preventDefault(); // Prevent default form submission
@@ -167,7 +210,7 @@ $(document).ready(function(){
                   }
                   ab_html += "</select>";
 
-                  html += "<tr><td>#"+i+"</td><td><span style='vertical-align:middle;'>"+row.type+"</span></td>";
+                  html += "<tr><td>#"+(i+1)+"</td><td><span style='vertical-align:middle;'>"+row.type+"</span></td>";
                   html += "<td><img style='width:50px;margin:auto;display:block;' class='img-fluid' src='"+response.data.bike_url+row.bike_image+"'/></td>";
                   html += "<td>"+ab_html+"</td><td>"+row.rent_price+"</td></tr>";
                 }

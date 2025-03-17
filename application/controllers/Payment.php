@@ -337,7 +337,7 @@ class Payment extends CI_Controller {
 	        // Send Whatsapp Message
 	        sendNewOrdertoCustomer($data['user']['phone'], $data['user']['name'], $booking_id, $order_bikes, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time'], $total, $total_paid);
 
-	        sendNewOrderAlertToAdmin($data['admin_phone'], $data['user']['name'], $booking_id, date("d-m-Y h:i A"), $data['user']['phone']);
+	        sendNewOrderAlertToAdmin($data['admin_phone'], $data['user']['name'], $booking_id, $data['cart']['pickup_date']." ".$data['cart']['pickup_time'], $data['user']['phone']);
 
 	        $this->session->set_userdata("instant_cart", array());
         }

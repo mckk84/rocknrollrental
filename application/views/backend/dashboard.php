@@ -34,7 +34,6 @@
                       <th scope="col">To</th>
                       <th scope="col">Total</th>   
                       <th scope="col">Paid</th>
-                      <th scope="col">Payment Mode</th>
                       <th scope="col">Status</th>
                     </tr>
                   </thead>
@@ -62,24 +61,22 @@
 
                       foreach($bikes_ordered as $name => $qty)
                       {
-                        $bikes_order = ( $bikes_order == "" ) ? $name."(".$qty.")" : "<br/>".$name."(".$qty.")";
+                        $bikes_order .= ( $bikes_order == "" ) ? $name."(<b>".$qty."</b>)" : "<br/>".$name."(<b>".$qty."</b>)";
                       }
 
                       if( isset($row['helmet_quantity']) && $row['helmet_quantity'] > 0 )
                       {
-                        $bikes_order .= "<br/>Helmet(".$row['helmet_quantity'].")";
+                        $bikes_order .= "<br/>Helmet(<b>".$row['helmet_quantity']."</b>)";
                       }
                       ?>
                     <tr>
-                      <td scope="row"><?=$row['id']?></td>
+                      <td scope="row"><a title="View Record" href="<?=base_url('admin/Bookings/view?bid='.$row['id'])?>" class="text-info float-right mx-2"><?=$row['id']?></a></td>
                       <td><?=$bikes_order?></td>
-                      <td><?=$row['name']?><br/><?=$row['email']?><br/><?=$row['phone']?></td>
+                      <td><?=$row['name']?><br/><?=$row['phone']?></td>
                       <td><?=date("d-m-Y", strtotime($row['pickup_date']))?><br/><?=$row['pickup_time']?></td>
                       <td><?=date("d-m-Y", strtotime($row['dropoff_date']))?><br/><?=$row['dropoff_time']?></td>
-                      <td><?=$row['quantity']?></td>
                       <td><?=$row['total_amount']?></td>
                       <td><?=$row['booking_amount']?></td>
-                      <td><?=$row['paymentmode']?></td>
                       <td><?php if( $row['status'] == 0) { ?>
                         <span class="badge bg-warning">Pre Booked</span>
                       <?php } else if($row['status'] == 1) { ?>
