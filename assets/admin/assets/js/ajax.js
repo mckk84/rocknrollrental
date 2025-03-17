@@ -166,7 +166,7 @@ $(document).ready(function(){
         event.preventDefault(); // Prevent default form submission
 
         let id = $(this).attr('record-data');
-        let url = window.location.href+"/getRecord?id="+id;
+        let url = booking_url+"/getRecord?id="+id;
         $.ajax({
             type: "GET",
             url: url,
@@ -185,8 +185,8 @@ $(document).ready(function(){
                 $(".booking_form input[name='booking_id']").val(response.data.order.id);
 
                 var html = "<table class='table datatable table-responsive border rounded mb-0'>";
-                html += "<tbody><tr><th class='bg-warning'>Pickup Date</th><td>"+formatdate(order.pickup_date)+" "+order.pickup_time+"</td></tr>";
-                html += "<tr><th class='bg-warning'>Dropoff Date</th><td>"+formatdate(order.dropoff_date)+" "+order.dropoff_time+"</td></tr>";
+                html += "<tbody><tr><th class='bg-warning-light'>Pickup Date</th><td>"+formatdate(order.pickup_date)+" "+order.pickup_time+"</td></tr>";
+                html += "<tr><th class='bg-warning-light'>Dropoff Date</th><td>"+formatdate(order.dropoff_date)+" "+order.dropoff_time+"</td></tr>";
 
                 html += "<tr><td><b>Duration</b></td><td> "+response.data.period_days+" days, <b>"+response.data.period_hours+"</b> hours</td></tr>";
                 html += "<tr><td><b>Weekend </b></td><td>"+((response.data.weekend)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr>";
@@ -196,9 +196,9 @@ $(document).ready(function(){
                 $(".booking_form #order_details").html(html);
 
                 var html = "<table class='table datatable table-responsive border rounded mb-0'>";
-                html += "<tbody><th class='bg-warning'>Customer</th><td>"+response.data.customer.name+" ("+response.data.customer.phone+")</td></tr>";
-                html += "<tr><th class='bg-warning'>Bikes Ordered</th><td>"+response.data.ordered_bikes+"</td></tr>";
-                html += "<tr><th class='bg-warning'> Helmets </th><td>"+response.data.order.helmet_quantity+"</td></tr>";
+                html += "<tbody><th class='bg-warning-light'>Customer</th><td>"+response.data.customer.name+" ("+response.data.customer.phone+")</td></tr>";
+                html += "<tr><th class='bg-warning-light'>Bikes Ordered</th><td>"+response.data.ordered_bikes+"</td></tr>";
+                html += "<tr><th class='bg-warning-light'> Helmets </th><td>"+response.data.order.helmet_quantity+"</td></tr>";
                 if( response.data.order.notes != "" )
                 {
                     html += "<tr><td>Notes:</td><td> <b>"+response.data.order.notes+"</b></td></tr>";
@@ -212,8 +212,8 @@ $(document).ready(function(){
                 $(".booking_form #order_details1").html(html);
 
                 html = "<table class='table datatable table-responsive rounded border text-center mb-0'>";
-                html += "<thead><tr><th class='bg-warning text-center'>#</th><th class='bg-warning'>Bike Type</th><th class='bg-warning'>Image</th>";
-                html += "<th class='bg-warning'>Assign Vehicle</th><th class='bg-warning'>Rent Price</th></tr></thead>";
+                html += "<thead><tr><th class='bg-warning-light text-center'>#</th><th class='bg-warning-light'>Bike Type</th><th class='bg-warning-light'>Image</th>";
+                html += "<th class='bg-warning-light'>Assign Vehicle</th><th class='bg-warning-light'>Rent Price</th></tr></thead>";
                 html += "<tbody>";
                 var bikes = response.data.order_bike_types;
                 var order_bike_types = new Array();
@@ -266,7 +266,7 @@ $(document).ready(function(){
 
                 html = "<div style='width:49%;float:left;' class='table-responisve'>";
                 html += "<table class='table'>";
-                html += "<tr><th class='text-start bg-warning' colspan='2'>Order Updaes</th></tr>";
+                html += "<tr><th class='text-start bg-warning-light' colspan='2'>Order Updaes</th></tr>";
                 html += "<tr><th class='text-start'>Refund Status</th><th class='text-end'>";
                 html += "<select name='refund_status' class='form-select'>";
                 html += "<option>-Select-</option>";
@@ -300,7 +300,7 @@ $(document).ready(function(){
                 console.log((parseFloat(response.data.order.total_amount) - parseFloat(response.data.order.gst)));
                 html += "<div style='float:right;' class='w-50 table-responisve'>";
                 html += "<table class='table'>";
-                html += "<tr><th class='text-start bg-warning' colspan='3'>Order Summary</th></tr>";
+                html += "<tr><th class='text-start bg-warning-light' colspan='3'>Order Summary</th></tr>";
                 html += "<tr><th class='text-start'>Bike Rental</th><th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='d-inline-block text-info p-1'>"+(parseFloat(response.data.order.total_amount) - parseFloat(response.data.order.gst))+"</span></th>";
                 html += "</tr>";
 

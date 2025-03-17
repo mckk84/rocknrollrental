@@ -16,14 +16,14 @@
 
             <div class="card">
               <div class="card-body w-75">
-                <h5 class="card-title">Booking #<?=$booking_id?></h5>
+                <h5 class="card-title">Booking #<?=$booking_id?><a title="Edit Record" href="javascript:void(0)" record-data="<?=$booking_id?>" class="edit-booking-record float-right btn btn-warning btn-sm mx-2">Edit</a></h5>
 
                 <table style="width:50%;float:left;" class="table table-responsive border rounded mb-2">
                   <tbody>
                     <tr>
-                      <th class="bg-warning">Pickup Date</th>
+                      <th class="bg-success-light">Pickup Date</th>
                       <td><?=$order['pickup_date']." ".$order['pickup_time']?></td></tr>
-                      <tr><th class="bg-warning">Dropoff Date</th><td><?=$order['dropoff_date']." ".$order['dropoff_time']?></td></tr>
+                      <tr><th class="bg-success-light">Dropoff Date</th><td><?=$order['dropoff_date']." ".$order['dropoff_time']?></td></tr>
                       <tr><td><b>Duration</b></td><td> <?=$period_days?> days, <b><?=$period_hours?></b> hours</td></tr>
                       <tr><td><b>Weekend </b></td><td>
                       <?php if($weekend){
@@ -46,9 +46,9 @@
 
                 <table style="width:49%;float:left;margin-left:2px;" class="table table-responsive border rounded mb-2">
                 <tbody>
-                <tr><th class="bg-warning">Customer</th><td><?=$customer['name']?> ( <?=$customer['phone']?>)</td></tr>
-                <tr><th class="bg-warning">Bikes Ordered</th><td><?=$ordered_bikes?></td></tr>
-                <tr><th class="bg-warning"> Helmets </th><td><?=$order['helmet_quantity']?></td></tr>
+                <tr><th class="bg-success-light">Customer</th><td><?=$customer['name']?> ( <?=$customer['phone']?>)</td></tr>
+                <tr><th class="bg-success-light">Bikes Ordered</th><td><?=$ordered_bikes?></td></tr>
+                <tr><th class="bg-success-light"> Helmets </th><td><?=$order['helmet_quantity']?></td></tr>
                 <?php 
                 if( $order['notes'] != "" ) {?>
                     <tr><td>Notes:</td><td> <b><?=$order['notes']?></b></td></tr>
@@ -59,14 +59,14 @@
 
                 <table class="table table-responsive rounded border text-center mb-2">
                 <thead>
-                  <tr><th class="bg-warning text-center">#</th><th class="bg-warning">Bike Type</th><th class="bg-warning">Image</th>
-                <th class="bg-warning">Assigned Vehicle</th><th class="bg-warning">Rent Price</th></tr></thead>
+                  <tr><th class="bg-success-light text-center">#</th><th class="bg-success-light">Bike Type</th><th class="bg-success-light">Image</th>
+                <th class="bg-success-light">Assigned Vehicle</th><th class="bg-success-light">Rent Price</th></tr></thead>
                 <tbody>
                   <?php foreach($order_bike_types as $index => $row) { ?>
                     <tr>
                       <td><?=($index+1)?></td>
                       <td><?=$row['type']?></td>
-                      <?php if(isset($row['image']) && $row['image']== ""){?>
+                      <?php if(isset($row['image']) && $row['image'] !== ""){?>
                       <td><img style="width:50px;margin:auto;display:block;" class="img-fluid" src="<?=base_url("bikes/".$row['image'])?>" ></td>
                       <?php } else { ?>
                       <td><img style="width:24px;margin:auto;display:block;" class="img-fluid" src="<?=base_url("assets/admin/assets/img/bike.png")?>" ></td>
@@ -100,12 +100,12 @@
                 <div style='width:49%;float:left;' class="table-responisve">
                   <table class="table">
                   <tr>
-                    <th class="text-start bg-warning" colspan="2">Order Updaes</th></tr>
+                    <th class="text-start bg-success-light" colspan="2">Order Updaes</th></tr>
                   <tr>
                     <th class="text-start">Refund Status</th>
                     <th class="text-end">
                       <?php if( $order['refund_status'] == 0) { ?>
-                        <span class="badge bg-warning">Pending</span>
+                        <span class="badge bg-success-light">Pending</span>
                       <?php } else if($order['refund_status'] == 1) { ?>
                         <span class="badge bg-success">Paid</span>
                       <?php } else { ?>
@@ -117,7 +117,7 @@
                   <tr>
                     <th class="text-start">Pickup Status</th><th class="text-end">
                     <?php if( $order['status'] == 0) { ?>
-                        <span class="badge bg-warning">Pre Booked</span>
+                        <span class="badge bg-success-light">Pre Booked</span>
                       <?php } else if($order['status'] == 1) { ?>
                         <span class="badge bg-success">Rented</span>
                       <?php } else { ?>
@@ -135,7 +135,7 @@
 
                 <div style='float:right;' class="w-50 table-responisve">
                   <table class="table">
-                    <tr><th class="text-start bg-warning" colspan="3">Order Summary</th></tr>
+                    <tr><th class="text-start bg-success-light" colspan="3">Order Summary</th></tr>
                     <tr><th class="text-start">Bike Rental</th><th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block text-info p-1"><?=$order['total_amount'] - $order['gst']?></span></th>
                     </tr>
 

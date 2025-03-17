@@ -43,6 +43,7 @@
 
   <script type="text/javascript">
     let base_url = '<?=base_url()?>';
+    let booking_url = '<?=base_url('admin/Bookings')?>';
   </script>
   <!-- Vendor JS Files -->
   <script src="<?=base_url()?>assets/admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

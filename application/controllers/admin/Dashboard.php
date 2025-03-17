@@ -33,6 +33,7 @@ class Dashboard extends CI_Controller
             $biketypes = $this->biketypes_model->getAll();
             $data['biketypes'] = result_to_array($biketypes);
             $data['records'] = $this->bookings_model->getAll(5);
+            $data['returns'] = $this->bookings_model->getAllReturnsToday();
             
             $this->load->view('layout_admin/header', $data);
             $this->load->view('backend/dashboard', $data);
