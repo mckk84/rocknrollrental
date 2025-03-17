@@ -132,7 +132,7 @@
 
                                                               foreach($bikes_ordered as $name => $qty)
                                                               {
-                                                                $bikes_order .= ( $bikes_order == "" ) ? "<p class='d-inline-block m-1  fa-sm fw-bold'>".$name."(".$qty.")</p>" : "<p class='d-inline-block m-1 fa-sm fw-bold'>".$name."(".$qty.")</span>";
+                                                                $bikes_order .= ( $bikes_order == "" ) ? "<p class='d-inline-block m-1  fa-sm fw-bold'>".$name."(".$qty.")</p>" : ",<p class='d-inline-block m-1 fa-sm fw-bold'>".$name."(".$qty.")</span>";
                                                               }
                                                         ?>
                                                         <tr>
@@ -142,7 +142,7 @@
                                                             <td>
                                                                 <?=$bikes_order?>
                                                                 <?php if( $row['helmet_quantity'] != 0) {?>
-                                                                <p class="d-inline-block m-1 fa-sm fw-bold">Helmets: <?=$row['helmet_quantity']?></p>
+                                                                <p class="d-block mt-2 fa-sm fw-bold">Helmets(<?=$row['helmet_quantity']?>)</p>
                                                                 <?php } ?>
                                                             </td>
                                                             <td>
