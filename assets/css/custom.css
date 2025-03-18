@@ -210,13 +210,16 @@ span#bike_availability {
 }
 
 .lightbox .offer_code{
-    font-weight: 800;
-    color: greenyellow;
+    font-weight: 600;
     text-align: center;
     width: 250px;
-    font-size: 40px;
+    font-size: 25px;
     margin: auto;
-    text-decoration: underline;
+}
+
+.lightbox .cc_code{
+    color: greenyellow;
+    font-weight: 700;
 }
 
 .lightbox .offer_image, .lightbox .offer_expiry{
@@ -224,7 +227,7 @@ span#bike_availability {
 }
 
 .lightbox .offer_image {
-    width: 30%;
+    width: 250px;
     padding: 0;
     margin: 0;
     height: 100%;
@@ -238,9 +241,9 @@ p.offer_timer {
     margin: auto;
 }
 .lightbox .offer_expiry {
-    width: 70%;
+    width: 340px;
     height: 100%;
-    padding: 5%;
+    padding: 20px 10px;
     margin: 0;
     text-align: center;
 }
@@ -249,24 +252,23 @@ p.offer_timer {
     position: relative;
     padding: 0px;
     top: 20%;
-    left: 25%;
     background-color: #FFF;
-    width: 50%;
+    width: 600px;
+    margin: auto;
     border-radius: 15px;
     overflow: hidden;
-    height: 280px;
+    height: 300px;
     border: 5px solid white;
 }
 
 .lightbox h2 {
-    font-size: 40px;
-    font-family: arial;
+    font-size: 35px;
     color: whitesmoke;
 }
 
 .close {
     position: absolute;
-    left: 95%;
+    left: 94%;
     top: 8px;
     margin: 0px;
     width: 30px;

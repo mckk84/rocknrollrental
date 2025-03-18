@@ -399,12 +399,12 @@
       <div class="box">
         <a href="#" class="close">X</a>
           <div class="offer_image">
-            <img style="height:100%" src="<?=base_url('assets/images/offer.jpeg')?>" class="img-fluid">
+            <img style="height:100%;width: 100%;" src="<?=base_url('assets/images/offer.jpeg')?>" class="img-fluid">
           </div>
           <div class="offer_expiry bg-warning">
             <h2>Before you go!</h2>
             <div class="offer_code">
-                STAY50
+                COUPON: <span class="cc_code">STAY50</span>
             </div>
             <p class="text-white m-2">50% OFF on All Rentals.</p>
             <p class="text-white m-2">Offer Expires in </p>
