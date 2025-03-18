@@ -226,7 +226,7 @@ class Payment extends CI_Controller {
 		$bike_ids = $data['cart']['bike_ids'];
 		$bike_quantity = $data['cart']['cart_bikes'][0]['quantity'];
 		$data['payment_status'] = "Failed";
-
+		$data['cart']['paymentOption'] = "PAY_FULL";
 		$data['cart']['notes'] = "";
 
 		if( isset($_POST) && count($_POST) > 0 )
@@ -242,6 +242,17 @@ class Payment extends CI_Controller {
 		{
 			$this->session->set_userdata("instant_cart", array());
 			redirect();
+		}
+
+		if( $data['cart']['coupon_code'] != "" ) {
+			$coupon = $this->coupons_model->getByCode($data['cart']['coupon_code']);
+			$data['cart']['coupon_code'] = $coupon['code'];
+			$data['cart']['coupon_type'] = $coupon['type'];
+			$data['cart']['coupon_discount'] = $coupon['discount_amount']; 
+		}else{
+			$data['cart']['coupon_code'] = "";
+			$data['cart']['coupon_type'] = "";
+			$data['cart']['coupon_discount'] = 0; 
 		}
 
 		$d1= new DateTime($data['cart']['dropoff_date']." ".$data['cart']['dropoff_time']); // first date
@@ -271,6 +282,7 @@ class Payment extends CI_Controller {
         $refund_amount = 1000;
         $order_bikes = "";
         $worder_bikes = "";
+        $discount = 0;
         // subtotal will be for only bikes
 		foreach($data['cart']['cart_bikes'] as $bike) 
         {
@@ -281,6 +293,15 @@ class Payment extends CI_Controller {
         }
 
         $total = $subtotal;
+        if( $data['cart']['coupon_code'] != "" ) 
+        {
+	        if( $data['cart']['coupon_type'] == 'percent' )
+	        {
+	            $discount = round($subtotal * ($data['cart']['coupon_discount'] / 100));
+	        }else{
+	            $discount = $data['cart']['coupon_discount'];
+	        }
+	    }
 
         if( isset($data['cart']['helmets_qty']) && $data['cart']['helmets_qty'] > 0 )
         {
@@ -297,7 +318,7 @@ class Payment extends CI_Controller {
         {
             $total += $bike_quantity * 200;
         }
-        
+        $total = $total - $discount;
         $gst = round($subtotal * 0.05, 2);
         $total_paid = 0;
 
@@ -332,6 +353,8 @@ class Payment extends CI_Controller {
             	"dropoff_date" => dateformatdb($data['cart']['dropoff_date']),
             	"dropoff_time" => $data['cart']['dropoff_time'],
             	"notes" => $data['cart']['notes'],
+            	"coupon_code" => $data['cart']['coupon_code'],
+            	"discount" => $discount,
             	"created_by" => 0,	
             );
         
@@ -374,5 +397,66 @@ class Payment extends CI_Controller {
         $this->load->view('layout/header', $data);
         $this->load->view('front/payment_success', $data);
         $this->load->view('layout/footer');
+	}
+
+	public function insta_coupon()
+	{
+		if ($this->input->method(TRUE) == "POST") 
+        {
+        	if( isset($_POST) && count($_POST) > 0 )
+			{
+				$this->load->model('coupons_model');
+				$coupon_code = $this->security->xss_clean($this->input->post('coupon_code'));
+				$cancel = $this->security->xss_clean($this->input->post('cancel'));
+				if( isset($cancel) && $cancel == 1 )
+				{
+					$data['page_title'] = 'Rock N Roll Bike Rentals | Checkout';
+					$data['user'] = $this->session->userdata("Auth");
+					$data['cart'] = $this->session->userdata("instant_cart");
+					$data['cart']['paymentOption'] = "PAY_FULL";
+					$data['cart']['coupon_code'] = "";
+					$data['cart']['coupon_type'] = "";
+					$data['cart']['coupon_discount'] = ""; 
+					$this->session->set_userdata("instant_cart", $data['cart']);
+
+					$this->load->view('layout/header', $data);
+	    			$this->load->view('front/instant_checkout', $data);
+	    			$this->load->view('layout/footer'); 
+				}
+				else
+				{
+					if( $coupon_code == "" )
+					{
+						$response["error"] = 1;
+						$response["error_message"] = "Invalid Coupon";
+						$response["success_message"] = "";
+						die(json_encode($response)); 					
+					}
+					$coupon = $this->coupons_model->getByCode($coupon_code);
+					if( count($coupon) == 0 )
+					{
+						$response["error"] = 1;
+						$response["error_message"] = "Invalid Coupon";
+						$response["success_message"] = "";
+						die(json_encode($response)); 					
+					} 
+					else
+					{
+						$data['page_title'] = 'Rock N Roll Bike Rentals | Checkout';
+						$data['user'] = $this->session->userdata("Auth");
+						$data['cart'] = $this->session->userdata("instant_cart");
+						$data['cart']['paymentOption'] = "PAY_FULL";
+						$data['cart']['coupon_code'] = $coupon['code'];
+						$data['cart']['coupon_type'] = $coupon['type'];
+						$data['cart']['coupon_discount'] = $coupon['discount_amount']; 
+						$this->session->set_userdata("instant_cart", $data['cart']);
+
+						$this->load->view('layout/header', $data);
+		    			$this->load->view('front/instant_checkout', $data);
+		    			$this->load->view('layout/footer'); 					
+					}
+				}
+			}
+        }
 	}
 }

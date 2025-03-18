@@ -280,4 +280,5 @@ class Checkout extends CI_Controller {
         }
         die(json_encode($response));
 	}
+
 }

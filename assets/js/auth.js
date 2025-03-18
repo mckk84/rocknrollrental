@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+  var show_coupon = 0;
+
   function addEvent(obj, evt, fn) {
       if (obj.addEventListener) {
           obj.addEventListener(evt, fn, false);
@@ -9,8 +11,12 @@ $(document).ready(function(){
   }
 
   addEvent(document, 'mouseout', function(evt) {
-      if (evt.toElement == null && evt.relatedTarget == null) {
-          $('.lightbox').slideDown();
+      if (evt.toElement == null && evt.relatedTarget == null) 
+      {
+          if( show_coupon == 0 ){
+            $('.lightbox').slideDown();
+            show_coupon = 1;
+          }
       };
   });
 

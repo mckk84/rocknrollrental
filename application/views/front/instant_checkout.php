@@ -60,7 +60,7 @@
                     $total = 0;
                     $helmets_total = 0;
                     ?>
-                    <div class="table-content table-responsive table-bordered bg-white rounded">
+                    <div class="table-content table-responsive table-bordered bg-white rounded mb-2">
                         <table class="table cartbikes">
                             <tr class="bg-eq-primary">
                                 <th>Fleet</th>
@@ -101,11 +101,12 @@
                                 </tr>
                                 <?php } 
                             }
+                            $total = $subtotal;
                             if( isset($cart['helmets_qty']) && $cart['helmets_qty'] > 0 ){
 
                                 $helmets_price = 50;
                                 $helmets_total = $cart['helmets_qty'] * $helmets_price;
-                                $total = $subtotal + $helmets_total;
+                                $total = $helmets_total;
                             ?>
                                 <tr class="helmets-row">
                                     <td>
@@ -128,6 +129,17 @@
                         ?>
                         </table>
                     </div>
+                    <div class="table-bottom mt-2 d-flex flex-wrap align-items-center justify-content-between bg-white mt-4 pt-4 pt-lg-0 mt-lg-0">
+                        <form method="POST" id="coupon_form" action="<?=base_url('Payment/insta_coupon')?>" class="d-flex align-items-center flex-wrap">
+                            <input type="text" class="text-dark" name="coupon_code" placeholder="Coupon code" required value="<?=isset($cart['coupon_code'])?$cart['coupon_code']:""?>" maxlength="20">
+                            <?php if( !isset($cart['coupon_code']) || $cart['coupon_code'] == "" ) {?>
+                            <button type="submit" class="coupon_apply btn btn-secondary btn-md">Apply Now</button>
+                            <?php } else { ?>
+                            <input type="hidden" name="cancel" value="1">    
+                            <button type="submit" title="Cancel Coupon" class="coupon_remove btn btn-warning btn-md">X</button>
+                            <?php } ?>
+                        </form>
+                    </div>
                 </div>
             </div>
             <div class="col-xxl-4 col-lg-6">
@@ -141,7 +153,7 @@
                                 <th class="text-start">Subtotal</th>
                                 <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$subtotal - round($subtotal * 0.05, 2)?></th>
                             </tr>
-                            <?php if($cart['early_pickup'] == 1){
+                            <?php if( isset($cart['early_pickup']) && $cart['early_pickup'] == 1){
                                 $total = $total + round($bike_quantity * 200, 2);
                             ?>
                             <tr>
@@ -153,6 +165,20 @@
                                 <th class="text-start">GST</th>
                                 <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=round($subtotal * 0.05, 2)?></th>
                             </tr>
+                            <?php if( isset($cart['coupon_code']) && $cart['coupon_code'] != ""){
+                                if( $cart['coupon_type'] == 'percent' )
+                                {
+                                    $discount = round($subtotal * ($cart['coupon_discount'] / 100));
+                                }else{
+                                    $discount = $cart['coupon_discount'];
+                                }
+                                $total = $total - $discount;
+                            ?>
+                            <tr>
+                                <th class="text-start text-warning">Coupon(<?=$cart['coupon_code']?>) Discount</th>
+                                <th class="text-end text-warning"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block"><?=$discount?></span></th>
+                            </tr>
+                            <?php } ?>
                             <tr>
                                 <td class="text-start fw-bold">Total</td>
                                 <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$total;?></td>
