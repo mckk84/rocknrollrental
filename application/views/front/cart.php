@@ -27,6 +27,7 @@
                     $subtotal = 0;
                     $gst = 0;
                     $total = 0;
+                    $discount = 0;
                     ?>
                     <div class="table-content table-responsive table-bordered bg-white rounded mb-4">
                         <table class="table cartbikes">
@@ -144,9 +145,13 @@
                         ?>
                     </div>
                     <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-4 pt-4 pt-lg-0 mt-lg-0">
-                        <form method="POST" action="<?=base_url('Cart')?>" class="d-flex align-items-center flex-wrap">
-                            <input type="text" name="coupon_code" placeholder="Coupon code" required maxlength="20">
-                            <button type="submit" class="btn btn-secondary btn-md">Apply Now</button>
+                        <form method="POST" id="coupon_form" action="<?=base_url('Checkout/coupon')?>" class="d-flex align-items-center flex-wrap">
+                            <input type="text" class="text-dark" name="coupon_code" placeholder="Coupon code" required value="<?=isset($cart['coupon_code'])?$cart['coupon_code']:""?>" maxlength="20">
+                            <?php if( !isset($cart['coupon_code']) || $cart['coupon_code'] == "" ) {?>
+                            <button type="button" class="coupon_apply btn btn-secondary btn-md">Apply Now</button>
+                            <?php } else { ?>
+                            <button type="button" title="Cancel Coupon" class="coupon_remove btn btn-warning btn-md">X</button>
+                            <?php } ?>
                         </form>
                     </div>
                 </div>
@@ -173,6 +178,20 @@
                                 <th class="text-start">GST</th>
                                 <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_gst d-inline-block"><?=round($subtotal * 0.05, 2)?></span></th>
                             </tr>
+                            <?php if( isset($cart['coupon_code']) && $cart['coupon_code'] != ""){
+                                if( $cart['coupon_type'] == 'percent' )
+                                {
+                                    $discount = round($subtotal * ($cart['coupon_discount'] / 100));
+                                }else{
+                                    $discount = $cart['coupon_discount'];
+                                }
+                                $total = $total - $discount;
+                            ?>
+                            <tr>
+                                <th class="text-start text-warning">Coupon(<?=$cart['coupon_code']?>) Discount</th>
+                                <th class="text-end text-warning"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block"><?=$discount?></span></th>
+                            </tr>
+                            <?php } ?>
                             <tr>
                                 <td class="text-start fw-bold">Total</td>
                                 <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$total?></span></td>
@@ -185,17 +204,17 @@
                                 </td>
                             </tr>                                                           
                         </table>
-                        <div class="d-flex flex-column pb-4 pt-2">
+                        <div class="d-flex flex-column px-4 pb-4 pt-2">
                             <form method="POST" action="<?=base_url('Checkout')?>">
                                 <?php if( $cart['early_pickup'] == 1 || $cart['pickup_time'] == '07:30 AM' ){?>
                                 <div class="w-100 mb-4 border rounded bg-light">
                                     <label class="fa-md text-info py-2 px-2"><input type="checkbox" name="early_pickup_charge" value="1" <?=($cart['early_pickup']==1)?"checked":""?> > Pickup early at 6:00 AM for  200 extra / bike.</label>
                                 </div>                                
                                 <?php } ?>
-                                <div class="radio w-100 mb-4">
-                                    <label class="fa-md mb-1"><input type="radio" name="paymentOption" value="PAY_FULL" onclick="__setPayment('PAY_FULL');" checked> Make full payment</label>
-                                    <span class="d-block w-100 text-left fw-bold text-warning">OR</span>
-                                    <label class="fa-md mt-1"><input type="radio" name="paymentOption" value="PAY_PARTIAL" onclick="__setPayment('PAY_PARTIAL');"> 50% Advance.</label>
+                                <div class="row px-2 mb-4 justify-content-center">
+                                    <label class="w-30 p-0 fa-md mb-1"><input type="radio" name="paymentOption" value="PAY_FULL" onclick="__setPayment('PAY_FULL');" checked> Full payment</label>
+                                    <span class="w-30 p-0 d-inline-block text-center fw-bold text-warning">OR</span>
+                                    <label class="w-30 p-0 fa-md mt-1"><input type="radio" name="paymentOption" value="PAY_PARTIAL" onclick="__setPayment('PAY_PARTIAL');"> 50% Advance.</label>
                                 </div>
                                 <?php if( !isset($user) || !isset($user['Authorization']) || ( isset($user['Authorization']) && $user['Authorization'] == false) ) { ?>
                                     <a href="javascript:void(0)" class="btn btn-primary d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#login_form">Login/Sign Up</a>
@@ -416,6 +435,125 @@ $(document).ready(function(){
 
         $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
         $("#cartform").submit();
+    });
+
+    $(".coupon_apply").click(function()
+    {
+        $(".coupon_apply").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Checking..");
+        $(".coupon_form :input").prop("disabled", true);
+        $(".coupon_apply").prop("disabled", true);
+        
+        $("#coupon_form").find(".alert").each(function(){
+          $(this).remove();
+        });
+
+        var formdata = {
+          coupon_code:$("#coupon_form input[name='coupon_code']").val()
+        };
+
+        var url = $("#coupon_form").attr('action');
+        
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            data: formdata, // Serialize form data
+            success: function (response) {
+                console.log(response);
+                if( response.error == 1 )
+                {
+                  // error occured
+                  $(".coupon_form :input").prop("disabled", false);
+                  $(".coupon_apply").prop("disabled", false);
+                  $(".coupon_apply").html("Apply Now");
+                  $("#coupon_form").append("<div class='alert alert-danger mt-1 mb-0'>"+response.error_message+"</div>");
+                }
+                else
+                {
+                    var temp = localStorage.getItem("bike_ids");
+                    var bike_ids = JSON.parse(temp);
+                    var coupon_code = $("#coupon_form input[name='coupon_code']").val();
+                    $("coupon_apply :input").prop("disabled", false);
+                    $(".coupon_apply").html("Coupon Applied");
+                    $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
+                    $("#cartform input[name='coupon_code']").val(coupon_code.trim());
+                    $("#cartform").submit();
+                }
+            },
+            error: function (data) 
+            {
+                // error occured
+              $(".coupon_form :input").prop("disabled", false);
+              $(".coupon_apply").prop("disabled", false);
+              $(".coupon_apply").html("Apply Now");
+              $("#coupon_form").append("<div class='alert alert-danger mt-1 mb-0'>Error Occured.</div>");
+            }
+        });
+
+    });
+
+    $(".coupon_remove").click(function()
+    {
+        $(".coupon_apply").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Checking..");
+        $(".coupon_form :input").prop("disabled", true);
+        $(".coupon_apply").prop("disabled", true);
+        
+        $("#coupon_form").find(".alert").each(function(){
+          $(this).remove();
+        });
+        $("#coupon_form input[name='coupon_code']").val("");
+        var formdata = {
+          coupon_code:"",
+          cancel:1
+        };
+
+        var url = $("#coupon_form").attr('action');
+        
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            data: formdata, // Serialize form data
+            success: function (response) {
+                console.log(response);
+                if( response.error == 1 )
+                {
+                  // error occured
+                  $(".coupon_form :input").prop("disabled", false);
+                  $(".coupon_apply").prop("disabled", false);
+                  $(".coupon_apply").html("Apply Now");
+                  $("#coupon_form").append("<div class='alert alert-danger mt-1 mb-0'>"+response.error_message+"</div>");
+                }
+                else
+                {
+                    var temp = localStorage.getItem("bike_ids");
+                    var bike_ids = JSON.parse(temp);
+                    var coupon_code = $("#coupon_form input[name='coupon_code']").val();
+                    $("coupon_apply :input").prop("disabled", false);
+                    if( coupon_code !== "" )
+                    {
+                        $(".coupon_apply").html("Coupon Applied");
+                        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
+                        $("#cartform input[name='coupon_code']").val(coupon_code.trim());
+                        $("#cartform").submit();
+                    } else {
+                        $(".coupon_apply").html("Coupon Removed");
+                        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
+                        $("#cartform input[name='coupon_code']").val(coupon_code.trim());
+                        $("#cartform").submit();
+                    }
+                }
+            },
+            error: function (data) 
+            {
+                // error occured
+              $(".coupon_form :input").prop("disabled", false);
+              $(".coupon_apply").prop("disabled", false);
+              $(".coupon_apply").html("Apply Now");
+              $("#coupon_form").append("<div class='alert alert-danger mt-1 mb-0'>Error Occured.</div>");
+            }
+        });
+
     });
 
 });

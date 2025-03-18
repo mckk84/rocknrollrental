@@ -8,6 +8,7 @@ class Checkout extends CI_Controller {
 		$data['page_title'] = 'Rock N Roll Bike Rentals | Checkout';
 		$data['user'] = $this->session->userdata("Auth");
 		$this->load->model('searchbike_model');
+		$this->load->model('coupons_model');
 		$this->load->model('publicholidays_model');
 		$data['cart_bikes'] = array();
 
@@ -45,6 +46,17 @@ class Checkout extends CI_Controller {
 			{
 		        $bike_id_string .= ($bike_id_string == "") ? $obj->bike_id: ",".$obj->bike_id;
 		    }
+
+		    if( $data['cart']['coupon_code'] != "" ){
+				$coupon = $this->coupons_model->getByCode($data['cart']['coupon_code']);
+				$data['cart']['coupon_code'] = $coupon['code'];
+				$data['cart']['coupon_type'] = $coupon['type'];
+				$data['cart']['coupon_discount'] = $coupon['discount_amount']; 
+			}else{
+				$data['cart']['coupon_code'] = "";
+				$data['cart']['coupon_type'] = "";
+				$data['cart']['coupon_discount'] = 0; 
+			}
 		    
 			$data['cart']['cart_bikes'] = $this->searchbike_model->getCartBikes($bike_id_string, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time']);
 
@@ -201,6 +213,68 @@ class Checkout extends CI_Controller {
 					$response["error"] = 0;
 					$response["success_message"] = ( $data['bike_availability'] > 0 ) ? "Availabile" : "Not Availabile";
 					die(json_encode($response)); 					
+				}
+            }
+        }
+        die(json_encode($response));
+	}
+
+	public function coupon()
+	{
+		$response = array('error' => 0, 'error_message' => 'Invalid Request', 'success_message' => '');
+		if ($this->input->is_ajax_request()) 
+		{
+            if ($this->input->method(TRUE) == "POST") 
+            {
+            	if( isset($_POST) && count($_POST) > 0 )
+				{
+					$this->load->model('coupons_model');
+					$coupon_code = $this->security->xss_clean($this->input->post('coupon_code'));
+					$cancel = $this->security->xss_clean($this->input->post('cancel'));
+					if( isset($cancel) && $cancel == 1 )
+					{
+						$data['cart'] = $this->session->userdata("cart");
+						$data['cart']['coupon_code'] = "";
+						$data['cart']['coupon_type'] = "";
+						$data['cart']['coupon_discount'] = ""; 
+						$this->session->set_userdata("cart", $data['cart']);
+
+						$response["error"] = 0;
+						$response["error_message"] = "";
+						$response["success_message"] = "Coupon Removed";
+						die(json_encode($response)); 
+					}
+					else
+					{
+						if( $coupon_code == "" )
+						{
+							$response["error"] = 1;
+							$response["error_message"] = "Invalid Coupon";
+							$response["success_message"] = "";
+							die(json_encode($response)); 					
+						}
+						$coupon = $this->coupons_model->getByCode($coupon_code);
+						if( count($coupon) == 0 )
+						{
+							$response["error"] = 1;
+							$response["error_message"] = "Invalid Coupon";
+							$response["success_message"] = "";
+							die(json_encode($response)); 					
+						} 
+						else
+						{
+							$data['cart'] = $this->session->userdata("cart");
+							$data['cart']['coupon_code'] = $coupon['code'];
+							$data['cart']['coupon_type'] = $coupon['type'];
+							$data['cart']['coupon_discount'] = $coupon['discount_amount']; 
+							$this->session->set_userdata("cart", $data['cart']);
+
+							$response["error"] = 0;
+							$response["error_message"] = "";
+							$response["success_message"] = "Coupon Applied";
+							die(json_encode($response)); 					
+						}
+					}
 				}
             }
         }

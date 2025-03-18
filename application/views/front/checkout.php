@@ -155,6 +155,20 @@
                                 <th class="text-start">GST</th>
                                 <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=round($subtotal * 0.05, 2)?></th>
                             </tr>
+                            <?php if( isset($cart['coupon_code']) && $cart['coupon_code'] != ""){
+                                if( $cart['coupon_type'] == 'percent' )
+                                {
+                                    $discount = round($subtotal * ($cart['coupon_discount'] / 100));
+                                }else{
+                                    $discount = $cart['coupon_discount'];
+                                }
+                                $total = $total - $discount;
+                            ?>
+                            <tr>
+                                <th class="text-start text-warning">Coupon(<?=$cart['coupon_code']?>) Discount</th>
+                                <th class="text-end text-warning"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block"><?=$discount?></span></th>
+                            </tr>
+                            <?php } ?>
                             <tr>
                                 <td class="text-start fw-bold">Total</td>
                                 <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$total;?></td>

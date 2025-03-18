@@ -15,6 +15,7 @@ class Payment extends CI_Controller {
 		$this->load->model('bookingbikes_model');
 		$this->load->model('bookingpayment_model');
 		$this->load->model('paymentmode_model');
+		$this->load->model('coupons_model');
 
 		$data['cart_bikes'] = array();
 
@@ -44,6 +45,17 @@ class Payment extends CI_Controller {
 			redirect();
 		}
 
+		if( $data['cart']['coupon_code'] != "" ) {
+			$coupon = $this->coupons_model->getByCode($data['cart']['coupon_code']);
+			$data['cart']['coupon_code'] = $coupon['code'];
+			$data['cart']['coupon_type'] = $coupon['type'];
+			$data['cart']['coupon_discount'] = $coupon['discount_amount']; 
+		}else{
+			$data['cart']['coupon_code'] = "";
+			$data['cart']['coupon_type'] = "";
+			$data['cart']['coupon_discount'] = 0; 
+		}
+
 		$d1= new DateTime($data['cart']['dropoff_date']." ".$data['cart']['dropoff_time']); // first date
 		$d2= new DateTime($data['cart']['pickup_date']." ".$data['cart']['pickup_time']); // second date
 		$interval= $d1->diff($d2);
@@ -70,6 +82,7 @@ class Payment extends CI_Controller {
         $helmets_total = 0;
         $bikes_quantity = 0;
         $refund_amount = 1000;
+        $discount = 0;
 		foreach($data['cart']['cart_bikes'] as $index => $bike) 
         {
         	foreach($bike_ids as $i => $obj) 
@@ -87,6 +100,14 @@ class Payment extends CI_Controller {
             $data['cart']['cart_bikes'][$index] = $bike;
         }
         $total = $subtotal;
+        if( $data['cart']['coupon_code'] != "" ) {
+	        if( $data['cart']['coupon_type'] == 'percent' )
+	        {
+	            $discount = round($subtotal * ($data['cart']['coupon_discount'] / 100));
+	        }else{
+	            $discount = $data['cart']['coupon_discount'];
+	        }
+	    }
         if( isset($data['cart']['helmets_qty']) && $data['cart']['helmets_qty'] > 0 )
         {
             $helmets_price = 50;
@@ -102,6 +123,8 @@ class Payment extends CI_Controller {
             $total += $bikes_quantity * 200;
         }
       	
+      	$total = $total - $discount;
+
         $gst = round($subtotal * 0.05, 2);
         $total_paid = 0;
         $refund_amount = $refund_amount * $bikes_quantity;
@@ -135,6 +158,8 @@ class Payment extends CI_Controller {
             	"dropoff_date" => dateformatdb($data['cart']['dropoff_date']),
             	"dropoff_time" => $data['cart']['dropoff_time'],
             	"notes" => $data['cart']['notes'],
+            	"coupon_code" => $data['cart']['coupon_code'],
+            	"discount" => $discount,
             	"created_by" => 0,	
             );
         $order_bikes = "";
@@ -172,7 +197,7 @@ class Payment extends CI_Controller {
 	        // Send Whatsapp Message
 	        sendNewOrdertoCustomer($data['user']['phone'], $data['user']['name'], $booking_id, $worder_bikes, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time'], $total, $total_paid);
 
-	        sendNewOrderAlertToAdmin($data['admin_phone'], $data['user']['name'], $booking_id, $worder_bikes, $data['cart']['pickup_date']." ".$data['cart']['pickup_time'],, $data['user']['phone']);
+	        sendNewOrderAlertToAdmin($data['admin_phone'], $data['user']['name'], $booking_id, $worder_bikes, $data['cart']['pickup_date']." ".$data['cart']['pickup_time'], $data['user']['phone']);
 
 	        $this->session->set_userdata("cart", array());
         }

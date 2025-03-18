@@ -187,7 +187,7 @@
                                             <div class="col-xl-8 py-2">
                                                 <div class="text-dark m-1">Rental Price : (<i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="bike_price"></span>x<span class="d-inline" id="bike_qty"></span>)</div>
                                             </div>
-                                            <div class="col-xl-4">
+                                            <div class="col-xl-4 py-2">
                                                 <div class="text-dark m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="bike_price_subtotal"></span></div>
                                             </div>
                                         </div>

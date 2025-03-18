@@ -34,6 +34,23 @@ class Coupons_model extends CI_Model
         }
     }
 
+    function getByCode($code)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_coupons');
+        $this->db->where('code', $code);
+        $this->db->where('status', 1);
+        $this->db->where('start_date <=', date('Y-m-d'));
+        $this->db->where('end_date >=', date('Y-m-d'));
+        $query = $this->db->get();
+        if ($query->num_rows() > 0)
+        {
+            return $query->row_array();
+        } else {
+            return array();
+        }
+    }
+
     /**
      * This function used to check email exists or not
      * @param {string} $email : This is users email id

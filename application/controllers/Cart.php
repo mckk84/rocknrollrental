@@ -9,6 +9,7 @@ class Cart extends CI_Controller {
 		$data['user'] = $this->session->userdata("Auth");
 		$this->load->model('searchbike_model');
 		$this->load->model('publicholidays_model');
+		$this->load->model('coupons_model');
 		$data['cart_bikes'] = array();
 		$data['cart'] = array();
 
@@ -62,6 +63,17 @@ class Cart extends CI_Controller {
 			$data['cart']['helmets_qty'] = $this->input->post('helmets_qty');
 			$data['cart']['coupon_code'] =  $this->input->post('coupon_code');
 			$data['cart']['early_pickup'] =  $this->input->post('early_pickup');
+
+			if( $data['cart']['coupon_code'] != "" ){
+				$coupon = $this->coupons_model->getByCode($data['cart']['coupon_code']);
+				$data['cart']['coupon_code'] = $coupon['code'];
+				$data['cart']['coupon_type'] = $coupon['type'];
+				$data['cart']['coupon_discount'] = $coupon['discount_amount']; 
+			}else{
+				$data['cart']['coupon_code'] = "";
+				$data['cart']['coupon_type'] = "";
+				$data['cart']['coupon_discount'] = 0; 
+			}
 
 			$data['cart']['bike_ids'] = json_encode($bike_ids);
 			$this->session->set_userdata("cart", $data['cart']);
@@ -126,4 +138,5 @@ class Cart extends CI_Controller {
         $this->load->view('front/cart', $data);
         $this->load->view('layout/footer');
 	}
+
 }
