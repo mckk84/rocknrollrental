@@ -1,5 +1,23 @@
 $(document).ready(function(){
 
+  function addEvent(obj, evt, fn) {
+      if (obj.addEventListener) {
+          obj.addEventListener(evt, fn, false);
+      } else if (obj.attachEvent) {
+          obj.attachEvent("on" + evt, fn);
+      }
+  }
+
+  addEvent(document, 'mouseout', function(evt) {
+      if (evt.toElement == null && evt.relatedTarget == null) {
+          $('.lightbox').slideDown();
+      };
+  });
+
+  $('a.close').click(function() {
+      $('.lightbox').slideUp();
+  });
+
   function OTPInput() {
     const inputs = document.querySelectorAll('#otp > *[id]');
     for (let i = 0; i < inputs.length; i++) 

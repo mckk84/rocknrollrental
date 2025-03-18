@@ -394,6 +394,25 @@
         </div>
     </div>
 
+    <div class="lightbox">
+        
+      <div class="box">
+        <a href="#" class="close">X</a>
+          <div class="offer_image">
+            <img src="<?=base_url('assets/images/offer.jpeg')?>" class="img-fluid">
+          </div>
+          <div class="offer_expiry bg-warning">
+            <h2>Before you go!</h2>
+            <div class="offer_code">
+                STAY50
+            </div>
+            <p class="text-white m-2">50% OFF on All Rentals.</p>
+            <p class="text-white m-2">Offer Expires in </p>
+            <p class="offer_timer">10:00 MINUTES</p>
+          </div>
+      </div>
+    </div>
+
     <!--scrolltop button-->
     <button class="theme-scrolltop-btn"><i class="fa-regular fa-hand-pointer"></i></button>
     <!--scrolltop button end-->
