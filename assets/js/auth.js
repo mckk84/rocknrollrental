@@ -60,7 +60,7 @@ $(document).ready(function(){
 
   function startTimer()
   {
-    let counter = 30;
+    let counter = 60;
     let myVar = setInterval(myTimer ,1000);
     function myTimer() {
       document.getElementById("otp_counter").innerHTML = counter;
