@@ -1,6 +1,11 @@
 $(document).ready(function(){
 
-  var show_coupon = 0;
+  var show_coupon = localStorage.getItem("show_coupon");
+  if( show_coupon == null )
+  {
+    show_coupon = 0;
+    localStorage.setItem("show_coupon", 0);
+  }
 
   function addEvent(obj, evt, fn) {
       if (obj.addEventListener) {
@@ -13,9 +18,11 @@ $(document).ready(function(){
   addEvent(document, 'mouseout', function(evt) {
       if (evt.toElement == null && evt.relatedTarget == null) 
       {
+          var show_coupon = localStorage.getItem("show_coupon");
           if( show_coupon == 0 ){
             $('.lightbox').slideDown();
             show_coupon = 1;
+            localStorage.setItem("show_coupon", show_coupon);
           }
       };
   });
