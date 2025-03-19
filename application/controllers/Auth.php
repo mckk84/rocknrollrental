@@ -69,7 +69,7 @@ class Auth extends CI_Controller {
 
 		            		$response["error"] = 0;
 		            		$response["error_message"] = "";
-		            		$response["success_message"] = $random6;
+		            		$response["success_message"] = "Otp sent to your phone number.";
 		            		die(json_encode($response));	
 	            		}
 	            		else

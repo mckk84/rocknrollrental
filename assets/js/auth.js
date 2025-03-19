@@ -68,6 +68,7 @@ $(document).ready(function(){
       if( counter < 0 )
       {
         clearInterval(myVar);
+        $("#resendOtp").show();
       }
     }
   }
@@ -427,11 +428,12 @@ $(document).ready(function(){
               }
               else
               {
+                form.append("<div class='alert alert-success mt-1 mb-0'>"+data.success_message+"</div>");
                 $("#login_form").modal('hide');
                 $("#otp_form").modal('show');
                 var last_digits = phone.substring(6 ,10);
                 $("#otp_form #maskedNumber").html("*******"+last_digits);
-                document.getElementById("otp_counter").innerHTML = 30;
+                document.getElementById("otp_counter").innerHTML = 60;
                 startTimer();
               }
           },
@@ -440,6 +442,53 @@ $(document).ready(function(){
               // error occured
               $("#signin :input").prop("disabled", false);
               $("#signin button[type='button']").prop("disabled", false);
+          }
+      });
+    });
+
+  // login
+  $("#resendOtp").click(function () {
+
+      $("#resendOtp").hide();
+      let form = $("#signin");
+      let url = form.attr('action');
+      var otp_div = $("#otp_div");
+      otp_div.find(".alert").each(function(){
+        $(this).remove();
+      });
+      $("#validateBtn").prop("disabled", true);
+      var phone = $("#signin input[name='phone']").val();
+      var formdata = {
+        phone:$("#signin input[name='phone']").val(),
+        opt_login:1,
+      };
+
+      $.ajax({
+          type: "POST",
+          url: url,
+          dataType: "json",
+          data: formdata, // Serialize form data
+          success: function (data) {
+              console.log(data);
+              if( data.error == 1 )
+              {
+                $("#validateBtn").prop("disabled", false);
+                otp_div.append("<div class='alert alert-danger mt-1 mb-0'>"+data.error_message+"</div>");
+              }
+              else
+              {
+                $("#validateBtn").prop("disabled", false);
+                otp_div.append("<div class='alert alert-success mt-1 mb-0'>"+data.success_message+"</div>");
+                document.getElementById("otp_counter").innerHTML = 60;
+                startTimer();
+                otp_div.find(".alert").each(function(){
+                  $(this).remove();
+                });
+              }
+          },
+          error: function (data) {
+              otp_div.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+              $("#validateBtn").prop("disabled", false);
           }
       });
     });

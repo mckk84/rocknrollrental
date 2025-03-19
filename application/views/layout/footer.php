@@ -299,7 +299,10 @@
                             </div>
                             <div id="otp_div" class="mt-4"> 
                                 <button id="validateBtn" class="btn btn-warning px-4 validate">Validate</button> 
-                                <span style="display:block;width:50px;font-size:20px;font-weight:bold;border-radius:50%;border:1px solid red;" class="mx-auto my-1 p-2" id="otp_counter"></span>
+                                <div class="row justify-content-center">
+                                    <span style="display:inline-block;width:50px;font-size:20px;font-weight:bold;border-radius:50%;border:1px solid red;" class="mx-auto my-1 p-2" id="otp_counter"></span>
+                                    <button id="resendOtp" style="display:none;position: absolute;text-decoration: underline;right: 18%;margin-top: 8px;width: 100px;" class="btn btn-sm btn-link text-info p-2 float-right">Resend OTP</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -440,6 +443,6 @@
     <script src="<?=base_url()?>assets/js/vendors/typeit.js"></script>
     <script src="<?=base_url()?>assets/js/app.js"></script>
     <script src="<?=base_url()?>assets/js/auth.js"></script>
-    <!--endbuild-->
+    
 </body>
 </html>
