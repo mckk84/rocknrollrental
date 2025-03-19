@@ -179,6 +179,11 @@
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
+            <a href="<?=base_url('admin/Settings')?>">
+              <i class="bi bi-gear-fill"></i><span>Settings</span>
+            </a>
+          </li>
+          <li>
             <a href="<?=base_url('admin/Users')?>">
               <i class="bi bi-people"></i><span>Users</span>
             </a>
