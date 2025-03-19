@@ -195,14 +195,13 @@
                                     <div class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
                                             <div class="col-xl-8 py-2">
-                                                <div class="w-50 pt-1 text-dark float-left">Helmets
-                                                    <span class="d-block text-info text-sm">(1 Helmet is Free)</span>
-                                                </div>
+                                                <div class="w-50 pt-1 text-dark float-left">Helmets</div>
                                                 <div class="cart-count w-50 d-flex justify-content-center">
                                                     <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0"><i class="fa fa-minus"></i></span>
                                                     <input type="text" name="helmets_qty" class="w-50 cart-helmets text-center border text-black rounded-0" value="0">
                                                     <span class="btn btn-sm cart-hplus bg-primary text-white rounded-0"><i class="fa fa-plus"></i></span>
                                                 </div>
+                                                <span class="d-block text-info text-sm mt-1">(1 Helmet is included for each Bike.)</span>
                                             </div>
                                             <div class="col-xl-4 py-2">
                                                 <div class="text-dark m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="helmets_total"></span></div>

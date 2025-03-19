@@ -137,6 +137,12 @@ $(document).ready(function(){
     let bikesincart = 0;
     let bike_ids = [];
 
+    var today = new Date();
+    var today_date = getdateformat(today);
+    var hour = today.getHours();
+    console.log("today="+today_date);
+    console.log(hour);
+
     function setTimeSpecial(ele, hour)
     {
     let start = hour;
@@ -292,26 +298,7 @@ $(document).ready(function(){
         addtoCart($(this));
     });
 
-    setTimeAll($("#pickup_time"));
-    setTimeAll($("#dropoff_time"));
-    var pt = $("#pickup_time").attr('data-select');
-    if( pt !== "" ){
-        $("#pickup_time").val(pt);
-    }
-    else
-    {
-        $("#pickup_time option:first").attr('selected','selected');
-    }
-    console.log(pt);
-    var dt = $("#dropoff_time").attr('data-select');
-    if( dt !== "" ){
-        $("#dropoff_time").val(dt);
-    }
-    else
-    {
-        $("#dropoff_time option:last").attr('selected','selected');
-    }
-    console.log(dt);
+    
 
     function dateformatstring(this_date)
     {
@@ -335,12 +322,77 @@ $(document).ready(function(){
         return yt+"-"+mt+"-"+dt;
     }
 
+    
+
+  <?php if(!isset($available_bikes)) { ?>
+    localStorage.setItem("bikesincart", bikesincart);
+    localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
+    $(".blw-search-form").submit();
+  <?php } ?>
+
     var today = new Date();
     var today_date = getdateformat(today);
-    var hour = today.getHours();
-    console.log("="+today_date);
-    console.log(hour);
-    hour = hour + 1;
+    var current_hour = today.getHours();
+    console.log("today="+today_date);
+    console.log(current_hour);
+    current_hour = current_hour + 1;
+    var pickupdate = $("#pickup_date").val();
+    console.log("pickupdate="+pickupdate);
+    if( pickupdate == "" )
+    {
+        pickupdate = dateformatstring(today_date);
+        $("#pickup_date").val(pickupdate);
+        $("#dropoff_date").val(pickupdate);
+    }
+
+    pickupdate = dateformatstring(pickupdate);
+    console.log("pickupdate="+pickupdate);
+    
+    var now = moment(today_date); //todays date
+    var end = moment(pickupdate); // another date
+    var duration = moment.duration(now.diff(end));
+    var days = duration.asDays();
+    var hours = duration.asHours();
+    $("#pickup_time").empty();
+    $("#dropoff_time").empty();
+    if( days == 0 )
+    {
+        //cureent days
+        if( current_hour >= 20 )
+        {
+            var date = new Date();
+            date.setDate(date.getDate() + 1);
+            today_date = getdateformat(date);
+            console.log("Nextday="+today_date);
+            // Settime
+            setTimeAll($("#pickup_time"));
+            $("#pickup_time option:first").attr('selected','selected');
+
+            setTimeAll($("#dropoff_time"));
+            $("#dropoff_time option:last").attr('selected','selected');
+        }
+        else if( current_hour <= 7 )
+        {
+            setTimeAll($("#pickup_time"));
+            $("#pickup_time option:first").attr('selected','selected');
+            setTimeAll($("#dropoff_time"));
+            $("#dropoff_time option:last").attr('selected','selected');
+        }
+        else
+        {
+            setTimeSpecial($("#pickup_time"), current_hour);
+            $("#pickup_time option:first").attr('selected','selected');
+            setTimeAll($("#dropoff_time"), current_hour);
+            $("#dropoff_time option:last").attr('selected','selected');
+        }
+    }
+    else
+    {
+        setTimeAll($("#pickup_time"));
+        $("#pickup_time option:first").attr('selected','selected');
+        setTimeAll($("#dropoff_time"));
+        $("#dropoff_time option:last").attr('selected','selected');
+    }
 
     $("#pickup_date").datetimepicker({
         format: 'DD-MM-Y',
@@ -378,46 +430,41 @@ $(document).ready(function(){
         }
     });
 
-  $("#dropoff_date").datetimepicker({
-    format: 'DD-MM-Y',
-    minDate:moment(today_date),
-    defaultDate:moment(today_date),
-    icons: {
-      time: "fa fa-clock"
-    }
-  }).on('dp.change', function(e) {
-    console.log('Dropoff date');
-    console.log();
+    $("#dropoff_date").datetimepicker({
+        format: 'DD-MM-Y',
+        minDate:moment(today_date),
+        defaultDate:moment(today_date),
+        icons: {
+          time: "fa fa-clock"
+        }
+    }).on('dp.change', function(e) {
+        console.log('Dropoff date');
+        console.log();
 
-    var pd = $("#pickup_date").val();
-    var dp = $(this).val();
+        var pd = $("#pickup_date").val();
+        var dp = $(this).val();
 
-    const date1 = moment(dateformatstring(pd));
-    const date2 = moment(dateformatstring(dp));
+        const date1 = moment(dateformatstring(pd));
+        const date2 = moment(dateformatstring(dp));
 
-    const duration = moment.duration(date2 - date1);
-    const res = duration.as('hours');
-    console.log('pickupdate-drop='+res+"hours");
-    if( res >= 24 )
-    {
-        $("#dropoff_time").empty();
-        setTimeAll($("#dropoff_time"));
-        $("#dropoff_time option:last").attr('selected', 'selected');
-    }
-    else
-    {
-        $("#dropoff_time").empty();
-        setTimeSpecial($("#dropoff_time"), hour);
-        $("#dropoff_time option:last").attr('selected', 'selected');
-    }
+        const duration = moment.duration(date2 - date1);
+        const res = duration.as('hours');
+        console.log('pickupdate-drop='+res+"hours");
+        if( res >= 24 )
+        {
+            $("#dropoff_time").empty();
+            setTimeAll($("#dropoff_time"));
+            $("#dropoff_time option:last").attr('selected', 'selected');
+        }
+        else
+        {
+            $("#dropoff_time").empty();
+            setTimeSpecial($("#dropoff_time"), hour);
+            $("#dropoff_time option:last").attr('selected', 'selected');
+        }
 
-  });
+    });
 
-  <?php if(!isset($available_bikes)) { ?>
-    localStorage.setItem("bikesincart", bikesincart);
-    localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
-    $(".blw-search-form").submit();
-  <?php } ?>
 
 
 });

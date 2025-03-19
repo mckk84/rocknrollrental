@@ -105,6 +105,10 @@ function generateOtp() {
 
 function dateformatdb($date)
 {
+    if( $date == "" )
+    {
+        return "";
+    }
     $d = explode("-", $date);
     if( strlen($d[2]) > 2 ){
         return $d[2]."-".$d[1]."-".$d[0];
