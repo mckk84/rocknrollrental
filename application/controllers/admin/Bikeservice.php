@@ -228,6 +228,13 @@ class Bikeservice extends CI_Controller
         $data['record'] = $this->bikeservice_model->getById($record_id);
         if( count($data['record']) == 0 )
         {   
+            $response["error"] = 1;
+            $response["error_message"] = "Record not found";
+        }
+        else
+        {
+            $this->bikeservice_model->deleteRecord($record_id);
+
             $result = $this->servicebikes_model->getByServiceId($record_id);
             foreach($result as $row)
             {
@@ -240,12 +247,6 @@ class Bikeservice extends CI_Controller
 
             $this->servicebikes_model->deleteByServiceId($record_id);
 
-            $response["error"] = 1;
-            $response["error_message"] = "Record not found";
-        }
-        else
-        {
-            $this->bikeservice_model->deleteRecord($record_id);
             $response["error"] = 0;
             $response["error_message"] = "";
             $response["success_message"] = "Record deleted successfully";
