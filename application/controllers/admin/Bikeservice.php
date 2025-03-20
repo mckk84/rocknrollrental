@@ -31,7 +31,7 @@ class Bikeservice extends CI_Controller
         else
         {
             $data['user'] = $this->session->userdata();
-            $data['page_title'] = "Bikeservice";
+            $data['page_title'] = "Bike Services";
             $data['records'] = $this->bikeservice_model->getAll();
 
             $data['manufacturers'] = $this->manufacturer_model->getAll();

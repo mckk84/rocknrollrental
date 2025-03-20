@@ -4,7 +4,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Bikes</li>
+          <li class="breadcrumb-item active">Bike Services</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
