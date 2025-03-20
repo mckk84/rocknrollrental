@@ -959,7 +959,7 @@ $(document).ready(function(){
                 $('#add-bike input[name="weight"]').val(d.weight);   
                 $('#add-bike input[name="power"]').val(d.power);   
 
-                $('#add-bike #preview_image').attr('src', '/bikes/'+d.image);  
+                $('#add-bike #preview_image').attr('src', base_url+'/bikes/'+d.image);  
             },
             error: function (data) {
                 console.log("Error occured");

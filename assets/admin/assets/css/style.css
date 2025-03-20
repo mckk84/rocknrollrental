@@ -203,8 +203,8 @@ h6 {
 }
 
 .bg-warning-light {
-  background-color: #fff3cd;
-  border-color: #fff;
+  background-color: #fff3cd !important;
+  border-color: rgba(0, 0, 0, 0.175);
 }
 
 .bg-info-light {
@@ -234,7 +234,7 @@ h6 {
 }
 
 .card-title {
-  padding: 20px 0 15px 0;
+  padding: 15px 10px 10px 10px;
   font-size: 18px;
   font-weight: 500;
   color: #3674B5;
@@ -250,6 +250,7 @@ h6 {
 .card-body {
   padding: 0 20px 20px 20px;
   overflow: auto;
+  max-height: 70%;
 }
 
 .card-img-overlay {
@@ -1214,10 +1215,10 @@ h6 {
 # Footer
 --------------------------------------------------------------*/
 .footer {
-  padding: 20px 0;
-  font-size: 14px;
-  transition: all 0.3s;
-  border-top: 1px solid #cddfff;
+    padding: 20px 0;
+    font-size: 14px;
+    transition: all 0.3s;
+    border-top: 1px solid #cddfff;
 }
 
 .footer .copyright {
@@ -1364,4 +1365,8 @@ button#multiSelectDropdown {
 
 .text-salmon{
   color: salmon;
+}
+
+.recent-sales {
+  max-height: 98%;
 }

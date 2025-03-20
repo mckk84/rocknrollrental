@@ -151,6 +151,11 @@
             </a>
           </li>
           <li>
+            <a href="<?=base_url('admin/Bikeservice')?>">
+              <i class="bi bi-list"></i><span>Bike Service</span>
+            </a>
+          </li>
+          <li>
             <a href="<?=base_url('admin/Prices')?>">
               <i class="bi bi-list"></i><span>Prices</span>
             </a>

@@ -2,12 +2,6 @@
 
     <div class="pagetitle">
       <h1>Dashboard</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
@@ -67,19 +61,20 @@
                         }
                         ?>
                       <tr>
-                        <td><a title="View Record" href="<?=base_url('admin/Bookings/view?bid='.$row['id'])?>" class="mx-2"><?=$row['id']?></a></td>
+                        <td><a title="View Record" href="<?=base_url('admin/Bookings/view?bid='.$row['id'])?>" ><?=$row['id']?></a></td>
                         <td><?=$bikes_order?></td>
                         <td><?=$row['name']?><br/><?=$row['phone']?></td>
                         <td><?=date("d-m-Y", strtotime($row['pickup_date']))?><br/><?=$row['pickup_time']?></td>
                         <td><?=date("d-m-Y", strtotime($row['dropoff_date']))?><br/><?=$row['dropoff_time']?></td>
                         <td><?=$row['total_amount']?><br/><?=$row['paymentmode']?></td>
                         <td><?php if( $row['status'] == 0) { ?>
-                          <span class="badge bg-warning">Pre Booked</span>
+                          <span class="d-block mx-auto mb-1 py-2 badge bg-warning">Pre Booked</span>
                         <?php } else if($row['status'] == 1) { ?>
-                          <span class="badge bg-success">Rented</span>
+                          <span class="d-block mx-auto mb-1 py-2 badge bg-success">Rented</span>
                         <?php } else { ?>
-                          <span class="badge bg-info">Closed</span>
+                          <span class="d-block mx-auto mb-1 py-2 badge bg-info">Closed</span>
                         <?php } ?>
+                        <a title="Edit" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record btn btn-outline-primary btn-sm small py-1 px-2">EDIT</a>
                         </td>
                       </tr>
                        <?php } ?>
@@ -146,7 +141,10 @@
                         <td><?=date("d-m-Y", strtotime($row['pickup_date']))?><br/><?=$row['pickup_time']?></td>
                         <td><?=date("d-m-Y", strtotime($row['dropoff_date']))?><br/><?=$row['dropoff_time']?></td>
                         <td><?=$row['total_amount']?><br/><?=$row['paymentmode']?></td>
-                        <td><a title="Send Reminder in Whatsapp" class="btn btn-sm text-success" target="_blank" href="<?=base_url('admin/Bookings/whatsapp_reminder?bid='.$row['id'])?>"><i class="bi bi-whatsapp"></i></a></td>
+                        <td>
+                          <a title="Send Reminder in Whatsapp" class="btn btn-sm text-success" target="_blank" href="<?=base_url('admin/Bookings/whatsapp_reminder?bid='.$row['id'])?>"><i class="bi bi-whatsapp"></i></a>
+                          <a title="Edit" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record btn btn-sm text-warning"><i class="bi bi-pencil-fill"></i></a>
+                        </td>
                       </tr>
                        <?php } ?>
                     </tbody>
@@ -164,5 +162,15 @@
     </section>
 
   </main><!-- End #main -->
+  <script type="text/javascript">
+
+    $(document).ready(function(){
+
+
+
+
+    });
+
+  </script>
 
   
