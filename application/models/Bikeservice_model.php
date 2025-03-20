@@ -9,10 +9,12 @@ class Bikeservice_model extends CI_Model
     function getAll()
     {
         $this->db->order_by('tbl_bikeservice.id', 'DESC');
-        $this->db->select('tbl_bikeservice.*, tbl_users.name as created_by,tbl_bikes.id as bike_id');
+        $this->db->group_by('tbl_bikeservice.id', 'DESC');
+        $this->db->select('tbl_bikeservice.*, tbl_users.name as created_by, GROUP_CONCAT(tbl_service_bikes.bike_id) as bike_ids, GROUP_CONCAT(tbl_bikes.name) as names,GROUP_CONCAT(tbl_bikes.vehicle_number) as vehicle_numbers');
         $this->db->from('tbl_bikeservice');
         $this->db->join('tbl_users', 'tbl_users.userId = tbl_bikeservice.created_by');
-        $this->db->join('tbl_bikes', 'tbl_bikes.id = tbl_bikeservice.bike_id');
+        $this->db->join('tbl_service_bikes', 'tbl_service_bikes.service_id = tbl_bikeservice.id');
+        $this->db->join('tbl_bikes', 'tbl_service_bikes.bike_id = tbl_bikes.id');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0){
@@ -27,12 +29,12 @@ class Bikeservice_model extends CI_Model
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkRecordExists($name, $vehicle_number)
+    function checkRecordExists($bike_ids)
     {
-        $this->db->select('name');
-        $this->db->where('name', $name);
-        $this->db->where('vehicle_number', $vehicle_number);
-        $query = $this->db->get('tbl_bikes');
+        $this->db->select('bike_id');
+        $this->db->where('tbl_service_bikes.bike_id IN ('.$bike_ids.')');
+        $this->db->join('tbl_service_bikes', 'tbl_bikeservice.id = tbl_service_bikes.service_id');
+        $query = $this->db->get('tbl_bikeservice');
 
         if ($query->num_rows() > 0){
             return true;
@@ -46,13 +48,13 @@ class Bikeservice_model extends CI_Model
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkRecordExists1($name, $vehicle_number, $record_id)
+    function checkRecordExists1($bike_ids, $record_id)
     {
-        $this->db->select('name');
-        $this->db->where('name', $name);
-        $this->db->where('vehicle_number', $vehicle_number);
-        $this->db->where('id !=', $record_id);
-        $query = $this->db->get('tbl_bikes');
+        $this->db->select('bike_id');
+        $this->db->where('tbl_service_bikes.bike_id IN ('.$bike_ids.')');
+        $this->db->where('tbl_service_bikes.service_id != ', $record_id);
+        $this->db->join('tbl_service_bikes', 'tbl_bikeservice.id = tbl_service_bikes.service_id');
+        $query = $this->db->get('tbl_bikeservice');
 
         if ($query->num_rows() > 0){
             return true;
@@ -68,7 +70,7 @@ class Bikeservice_model extends CI_Model
     function addNew($info)
     {
         $this->db->trans_start();
-        $this->db->insert('tbl_bikes', $info);
+        $this->db->insert('tbl_bikeservice', $info);
         
         $insert_id = $this->db->insert_id();
         
@@ -83,7 +85,7 @@ class Bikeservice_model extends CI_Model
         $this->db->trans_start();
         
         $this->db->where('id', $id);
-        $this->db->update('tbl_bikes', $info);
+        $this->db->update('tbl_bikeservice', $info);
         
         $this->db->trans_complete();
         
@@ -95,7 +97,7 @@ class Bikeservice_model extends CI_Model
         $this->db->trans_start();
         
         $this->db->where('id', $id);
-        $this->db->delete('tbl_bikes');
+        $this->db->delete('tbl_bikeservice');
         
         $this->db->trans_complete();
         

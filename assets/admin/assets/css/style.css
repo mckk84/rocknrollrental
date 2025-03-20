@@ -1370,3 +1370,7 @@ button#multiSelectDropdown {
 .recent-sales {
   max-height: 98%;
 }
+
+.w-45{
+  width: 45% !important;
+}

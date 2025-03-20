@@ -14,6 +14,7 @@ class Bikeservice extends CI_Controller
         parent::__construct();
         $this->load->model('bike_model');
         $this->load->model('bikeservice_model');
+        $this->load->model('servicebikes_model');
         $this->load->model('manufacturer_model');
         $this->load->model('biketypes_model');
     }
@@ -57,21 +58,39 @@ class Bikeservice extends CI_Controller
         }
     }
 
+    public function getBikes()
+    {
+        $response = array('error' => 0, 'error_message' => 'Invalid Request', 'success_message' => '');
+        if ($this->input->is_ajax_request()) 
+        {
+            if ($this->input->method(TRUE) == "POST") 
+            {
+                $type_id = intval($this->input->post('type_id'));
+
+                $result = $this->bike_model->getBikesByType($type_id);
+                $response['error'] = 0;
+                $response['error_message'] = "";
+                $response['success_message'] = "Found";
+                $response['data'] = $result;
+            }
+        }
+        die(json_encode($response));
+    }
+
     public function save_record()
     {
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
-        $this->load->library('form_validation');       
-        $id = $this->security->xss_clean($this->input->post('record_id'));     
-        $this->form_validation->set_rules('name','Name','trim|required|max_length[128]');
-        $this->form_validation->set_rules('number','Number','trim|required|max_length[128]');
-        $this->form_validation->set_rules('manufacturer_id','Manufacturer','trim|required');
-        $this->form_validation->set_rules('type_id','Bike Type','trim|required');
-        $this->form_validation->set_rules('cc','CC','trim|required|max_length[10]');
-        $this->form_validation->set_rules('color','Color','trim|required|max_length[25]');
-        $this->form_validation->set_rules('model','Model','trim|required|max_length[25]');
-        $this->form_validation->set_rules('milage','Milage','trim|required|max_length[50]');
-        $this->form_validation->set_rules('weight','Weight','trim|required|max_length[50]');
-        $this->form_validation->set_rules('power','Power','trim|required|max_length[50]');
+        $this->load->library('form_validation');      
+
+        $id = $this->security->xss_clean($this->input->post('record_id'));   
+
+        $this->form_validation->set_rules('bike_ids','Bikes','trim|required|max_length[128]');
+        $this->form_validation->set_rules('service_type','Service Type','trim|required|max_length[128]');
+        $this->form_validation->set_rules('name','Name','trim|required');
+        $this->form_validation->set_rules('phone','Phone','trim|required|max_length[10]');
+        $this->form_validation->set_rules('address','Address','trim|required|max_length[200]');
+        $this->form_validation->set_rules('start_date','Start Date','trim|required|max_length[25]');
+        $this->form_validation->set_rules('service_cost','Service Cost','trim|required|max_length[25]');
                 
         if($this->form_validation->run() == FALSE)
         {
@@ -79,119 +98,54 @@ class Bikeservice extends CI_Controller
             $response["error_message"] = $this->form_validation->error_string();
             die(json_encode($response));
         }
-
-        $image = "";
-        $image_type = "";
-        $target_folder = $_SERVER['DOCUMENT_ROOT']."/rocknrollrental/bikes/";
-
-        $bike_image = $_FILES['image']; // Get the uploaded file
-        if ( $bike_image && $bike_image['name']) 
-        {
-            $image = trim($bike_image['name']);
-            $imageFileType = strtolower(pathinfo($image,PATHINFO_EXTENSION));
-            
-            $temp_image_name = ucwords(strtolower($this->security->xss_clean(trim($this->input->post('name')))));
-            $temp_image_name = preg_replace('/\s+/', '', $temp_image_name);
-            $temp_image_name = preg_replace('/[^a-z\d ]/i', '', $temp_image_name);
-            $new_image_name = $temp_image_name.".".$imageFileType;
-            $target_file = $target_folder.$new_image_name;
-            
-            // Allow certain file formats
-            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" ) 
-            {
-                $response["error"] = 1;
-                $response["error_message"] = "Image format invalid. Upload jpg/jpeg/png.";
-                die(json_encode($response));
-            }
-            
-            // Check file size
-            if ( $bike_image["size"] > 2000000 || $bike_image["error"] == 1) 
-            {
-                $response["error"] = 1;
-                $response["error_message"] = "Image size too large. Upload size less than 2MB.";
-                die(json_encode($response));
-            }
-            
-            if( file_exists($target_file) )
-            {
-                for($i=0; $i < 25; $i++)
-                {
-                    $concat = ( $i < 10 ) ? "0".$i: $i;
-                    $new_image_name = $temp_image_name."_".$concat.".".$imageFileType;
-                    if( !file_exists($target_folder.$new_image_name) )
-                    {
-                        $target_file = $target_folder.$new_image_name;
-                        break;
-                    }
-                }
-            }
-            
-            // upload file
-            if (move_uploaded_file($bike_image["tmp_name"], $target_file)) 
-            {
-                // upload suuccess 
-                $image = $new_image_name;
-            } else {
-                $response["error"] = 1;
-                $response["error_message"] = "Image upload failed";
-                die(json_encode($response));
-            }
-        } 
-        else 
-        {
-            if( $id == "" )
-            {
-                $response["error"] = 1;
-                $response["error_message"] = "Please upload Image";
-                die(json_encode($response));
-            }
-            else
-            {
-                $bikerecord = $this->bikeservice_model->getById($id);
-                $image = $bikerecord['image'];
-            }
-        }
         
         $user = $this->session->userdata();
         $id = $this->security->xss_clean($this->input->post('record_id'));
+        $bike_ids = $this->security->xss_clean($this->input->post('bike_ids'));
         $name = $this->security->xss_clean($this->input->post('name'));
-        $vehicle_number = $this->security->xss_clean($this->input->post('number'));
-        $manufacturer_id = $this->security->xss_clean($this->input->post('manufacturer_id'));
-        $type_id = $this->security->xss_clean($this->input->post('type_id'));
-        $cc = $this->security->xss_clean($this->input->post('cc'));
-        $color = $this->security->xss_clean($this->input->post('color'));
-        $model = $this->security->xss_clean($this->input->post('model'));
-        $milage = $this->security->xss_clean($this->input->post('milage'));
-        $weight = $this->security->xss_clean($this->input->post('weight'));
-        $power = $this->security->xss_clean($this->input->post('power'));
+        $phone = $this->security->xss_clean($this->input->post('phone'));
+        $address = $this->security->xss_clean($this->input->post('address'));
+        $service_type = $this->security->xss_clean($this->input->post('service_type'));
+        $start_date = $this->security->xss_clean($this->input->post('start_date'));
+        $end_date = $this->security->xss_clean($this->input->post('end_date'));
+        $service_cost = $this->security->xss_clean($this->input->post('service_cost'));
+        $request_note = $this->security->xss_clean($this->input->post('request_note'));
         
         $recordInfo = array(
-                'name' => $name,
-                'vehicle_number' => $vehicle_number, 
-                'manufacturer_id' => $manufacturer_id,
-                'type_id' => $type_id,
-                'cc' => $cc,
-                'color' => $color,
-                'model' => $model,
-                'milage' => $milage,
-                'weight' => $weight,
-                'power' => $power,
-                'image' => $image,
+                'service_type' => $service_type,
+                'service_proivder_name' => $name, 
+                'service_proivder_phone' => $phone,
+                'service_proivder_address' => $address,
+                'service_start_date' => $start_date,
+                'service_date' => $end_date,
+                'request_note' => $request_note,
+                'service_cost' => $service_cost,
                 'created_by' => $user['userId']
             );
 
         if( $id == "" )
         {
-            if( $this->bikeservice_model->checkRecordExists($name, $vehicle_number) )
+            if( $this->bikeservice_model->checkRecordExists($bike_ids) )
             {
                 $response["error"] = 1;
-                $response["error_message"] = "Record already exists.";
+                $response["error_message"] = "1 or more bike already in service.";
             }
             else
             {
-                $result = $this->bikeservice_model->addNew($recordInfo);
-                if($result > 0)
+                $service_id = $this->bikeservice_model->addNew($recordInfo);
+                if( $service_id > 0 )
                 {
+                    $bikes = explode(",", $bike_ids);
+                    for($i=0 ;$i < count($bikes); $i++)
+                    {
+                        $service_bike = array(
+                            'service_id' => $service_id,
+                            'bike_id' => $bikes[$i]
+                        );
+
+                        $this->servicebikes_model->addNew($service_bike);
+                    }                    
+
                     $response["error"] = 0;
                     $response["error_message"] = "";
                     $response["success_message"] = "Record added successfully";
@@ -205,18 +159,32 @@ class Bikeservice extends CI_Controller
         }
         else
         {
-            $result = $this->bikeservice_model->checkRecordExists1($name, $vehicle_number, $id);
+            $result = $this->bikeservice_model->checkRecordExists1($bike_ids, $id);
             if( $result )
             {
                 $response["error"] = 1;
-                $response["error_message"] = "Record already exists";
+                $response["error_message"] = "1 or more bike selected already in service.";
                 $response["success_message"] = "";
             }
             else
             {
                 $result = $this->bikeservice_model->updateRecord($recordInfo, $id);
-                if($result > 0)
+                if( $result )
                 {
+                    $this->servicebikes_model->deleteByServiceId($id);
+
+                    $bikes = explode(",", $bike_ids);
+
+                    for($i=0 ;$i < count($bikes); $i++)
+                    {
+                        $service_bike = array(
+                            'service_id' => $id,
+                            'bike_id' => $bikes[$i]
+                        );
+
+                        $this->servicebikes_model->addNew($service_bike);
+                    } 
+
                     $response["error"] = 0;
                     $response["error_message"] = "";
                     $response["success_message"] = "Record updated successfully";
