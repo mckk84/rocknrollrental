@@ -144,6 +144,14 @@ class Bikeservice extends CI_Controller
                         );
 
                         $this->servicebikes_model->addNew($service_bike);
+
+                        $service_bike = array(
+                            'available' => 0,
+                            'id' => $bikes[$i]
+                        );
+
+                        $this->bike_model->updateRecord($service_bike, $bikes[$i]);
+
                     }                    
 
                     $response["error"] = 0;
@@ -183,6 +191,12 @@ class Bikeservice extends CI_Controller
                         );
 
                         $this->servicebikes_model->addNew($service_bike);
+                        $service_bike = array(
+                            'available' => 0,
+                            'id' => $bikes[$i]
+                        );
+
+                        $this->bike_model->updateRecord($service_bike, $bikes[$i]);
                     } 
 
                     $response["error"] = 0;
@@ -214,6 +228,18 @@ class Bikeservice extends CI_Controller
         $data['record'] = $this->bikeservice_model->getById($record_id);
         if( count($data['record']) == 0 )
         {   
+            $result = $this->servicebikes_model->getByServiceId($record_id);
+            foreach($result as $row)
+            {
+                $service_bike = array(
+                    'available' => 1,
+                    'id' => $row['bike_id']
+                );
+                $this->bike_model->updateRecord($service_bike, $row['bike_id']);
+            }
+
+            $this->servicebikes_model->deleteByServiceId($record_id);
+
             $response["error"] = 1;
             $response["error_message"] = "Record not found";
         }

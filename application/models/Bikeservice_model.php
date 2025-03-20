@@ -24,6 +24,19 @@ class Bikeservice_model extends CI_Model
         }
     }
 
+    function getById($record_id)
+    {
+        $this->db->select('*');
+        $this->db->where('id', $record_id);
+        $query = $this->db->get('tbl_bikeservice');
+
+        if ($query->num_rows() > 0){
+            return $query->row_array();
+        } else {
+            return false;
+        }
+    }
+
     /**
      * This function used to check email exists or not
      * @param {string} $email : This is users email id
