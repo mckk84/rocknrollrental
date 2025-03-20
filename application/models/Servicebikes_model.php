@@ -8,7 +8,7 @@ class Servicebikes_model extends CI_Model
 {
     function getByServiceId($service_id)
     {
-        $this->db->select('tbl_service_bikes.*, tbl_bike_types.type, tbl_bikes.vehicle_number, tbl_bikes.image');
+        $this->db->select('tbl_service_bikes.*,tbl_bikes.vehicle_number, tbl_bikes.image');
         $this->db->from('tbl_service_bikes');
         $this->db->join('tbl_bikes', 'tbl_service_bikes.bike_id = tbl_bikes.id', 'left');
         $this->db->where('service_id', $service_id);

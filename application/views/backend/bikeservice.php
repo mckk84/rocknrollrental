@@ -319,7 +319,7 @@
                 {
                   var obj = d.data[i];
                   html += "<tr><td>"+obj.name+"</td><td>"+obj.vehicle_number+"</td><td>";
-                  html += (obj.available==1)?"<span class='badge bg-success'>Available</span>":"<span class='badge bg-danger'>Rented</span>";
+                  html += (obj.available==1)?"<span class='badge bg-success'>Available</span>":"<span class='badge bg-danger'>No</span>";
                   html += "</td><td><input type='checkbox' id='bike_"+obj.id+"' onchange='selection("+obj.id+",\""+obj.name+"\",\""+obj.vehicle_number+"\")' "+((obj.available==1)?"":"disabled")+" style='width:20px;height:20px;' class='form-check' class='bike_row'></td></tr>";
                 }
                 $(".service_bikes tbody").append(html);

@@ -48,6 +48,7 @@
                       <th scope="col">CC</th>
                       <th scope="col">Model</th>
                       <th scope="col">Color</th>
+                      <th scope="col">Available</th>
                       <th scope="col">Added By</th>
                       <th scope="col">Added On</th>
                       <th scope="col">Action</th>
@@ -65,6 +66,7 @@
                       <td><?=$row['cc']?></td>
                       <td><?=$row['model']?></td>
                       <td><?=$row['color']?></td>
+                      <td><?=($row['available'] == 1 ? "<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>") ?></td>
                       <td><?=$row['created_by']?></td>
                       <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
                       <td><div class="d-flex justify-content-start">
