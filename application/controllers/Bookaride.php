@@ -35,7 +35,7 @@ class Bookaride extends CI_Controller {
 
 			$date=date_create($data['pickup_date']);
 			$day = date_format($date,"D");
-			if( $day == 'Sat' || $day == 'Sun' )
+			if( $day == 'Fri' || $day == 'Sat' || $day == 'Sun' )
 			{
 				$data['weekend'] = 1;
 			}

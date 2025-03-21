@@ -298,8 +298,6 @@ $(document).ready(function(){
         addtoCart($(this));
     });
 
-    
-
     function dateformatstring(this_date)
     {
         var dt = this_date.split('-');
@@ -320,14 +318,11 @@ $(document).ready(function(){
           dt = "0"+dt;
         }
         return yt+"-"+mt+"-"+dt;
-    }
-
-    
+    }    
 
   <?php if(!isset($available_bikes)) { ?>
     localStorage.setItem("bikesincart", bikesincart);
     localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
-    $(".blw-search-form").submit();
   <?php } ?>
 
     var today = new Date();
@@ -393,6 +388,8 @@ $(document).ready(function(){
         setTimeAll($("#dropoff_time"));
         $("#dropoff_time option:last").attr('selected','selected');
     }
+
+    $(".blw-search-form").submit();
 
     $("#pickup_date").datetimepicker({
         format: 'DD-MM-Y',
