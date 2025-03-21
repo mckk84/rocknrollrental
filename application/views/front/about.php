@@ -1,4 +1,8 @@
-<!--breadcrumb section start-->
+
+    <?php
+    $social = getSocial(); 
+    ?>
+    <!--breadcrumb section start-->
         <section class="breadcrumb-section position-relative overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
             <img src="<?=base_url()?>/assets/img/shapes/tire-print-left.png" alt="tire print" class="position-absolute start-0 z-1 tire-print">
             <img src="<?=base_url()?>/assets/img/shapes/tire-print-right.png" alt="tire print" class="position-absolute end-0 z-1 tire-print">
@@ -141,7 +145,7 @@
                                <img src="<?=base_url()?>/assets/images/heart.png">
                           </span>
                             <div class="h3-counter-box-right mt-3 mt-md-0 ms-md-3">
-                                <h3 class="mb-1"><span class="counter">2248</span><span>+</span></h3>
+                                <h3 class="mb-1"><span class="counter"><?=$social['customers']?></span><span>+</span></h3>
                                 <span>Happy Customers</span>
                             </div>
                         </div>
@@ -152,7 +156,7 @@
                               <img src="<?=base_url()?>/assets/images/motorcyclist.png">
                           </span>
                             <div class="h3-counter-box-right mt-3 mt-md-0 ms-md-3">
-                                <h3 class="mb-1"><span class="counter">28</span><span>+</span></h3>
+                                <h3 class="mb-1"><span class="counter"><?=$social['fleets']?></span><span>+</span></h3>
                                 <span>FLEETS TO CHOOSE</span>
                             </div>
                         </div>
@@ -163,7 +167,7 @@
                               <img src="<?=base_url()?>/assets/images/mileage.png">
                           </span>
                             <div class="h3-counter-box-right mt-3 mt-md-0 ms-md-3">
-                                <h3 class="mb-1"><span class="counter">142140</span><span>+</span></h3>
+                                <h3 class="mb-1"><span class="counter"><?=$social['total_kilometers']?></span><span>+</span></h3>
                                 <span>TOTAL KILOMETERS</span>
                             </div>
                         </div>
