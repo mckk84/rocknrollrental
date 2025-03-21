@@ -76,7 +76,7 @@
                                         <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" style="width:100%;height:100%;min-height: 167px;" class="img-fluid m-2">
                                     </figure>
                                     <div class="md-listing-single-content">
-                                        <a href="<?=base_url('Bookaride/view?id='.$bike['bike_type_id'])?>">
+                                        <a href="javascript:void(0)">
                                             <h6 class="mb-1"><?=$bike['bike_type_name']?></h6>
                                         </a>    
                                         <ul class="meta-list d-flex justify-content-between mt-2 pt-2">

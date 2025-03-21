@@ -37,7 +37,7 @@
                                     <div class="col-xl-9 col-md-9 col-sm-12">
                                         <div class="row">
                                             <div class="col-xl-4 col-md-4 col-sm-6">
-                                                <img class="img-fluid" src="<?=base_url()?>logo/logo2.png" alt="logo">
+                                                <img class="footerlogo img-fluid" src="<?=base_url()?>logo/logo2.png" alt="logo">
                                             </div>
                                             <div class="col-xl-6 col-md-8 col-sm-6">
                                                 <div class="d-inline text-start m-1 p-1">
@@ -69,8 +69,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-30">
-                                    <div class="col-sm-4">
+                                <div class="footer-links row mt-30">
+                                    <div class="col-xl-4 col-md-4 col-sm-12">
                                         <div class="footer-widget footer-nav-widget mb-5 mb-sm-0">
                                             <h6 class="widget-title text-white mb-3">About Company</h6>
                                             <ul class="footer-nav">
@@ -79,7 +79,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-xl-4 col-md-4 col-sm-12">
                                         <div class="footer-widget footer-nav-widget mb-5 mb-sm-0">
                                             <h6 class="widget-title text-white mb-3">Book a Ride</h6>
                                             <ul class="footer-nav">
@@ -88,7 +88,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-xl-4 col-md-4 col-sm-12">
                                         <div class="footer-widget footer-nav-widget mb-5 mb-sm-0">
                                             <h6 class="widget-title text-white mb-3">Quick links</h6>
                                             <ul class="footer-nav">

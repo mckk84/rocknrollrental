@@ -286,3 +286,44 @@ p.offer_timer {
     width: 30% !important;
 }
 
+ul.footer-nav {
+    display: block;
+}
+
+@media(max-width: 575.98px){
+    .footer-links{
+        text-align: center !important;
+    }
+    ul.footer-nav{
+        margin-left: 5px !important;
+    }
+    .footer-section .text-end{
+        text-align: left !important;
+    }
+    img.footerlogo {
+        max-width: 85%;
+        margin: auto;
+        display: block;
+    }
+    .logo-wrapper img{
+        margin-top: 10px !important;
+    }
+    #whatsapp-widget{
+        top:70%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .col-sm-4 {
+        width: 33.33333333%;
+    }
+    .col-sm-6 {
+        width: 49.33333333%;
+    }
+}
+
+@media (min-width: 800px){
+    #whatsapp-widget{
+        top:70%;
+    }
+}
