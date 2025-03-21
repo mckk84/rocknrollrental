@@ -1,3 +1,6 @@
+<?php
+    $social = getSocial(); 
+    ?>
 <!--hero section start-->
 <section class="moto-rent-hero position-relative z-1 bg-texture-gradient" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
     <div class="container">
@@ -81,9 +84,18 @@
     <div class="at-header-social md-header-social d-none d-md-flex align-items-center position-absolute">
         <span class="title">Follow on</span>
         <ul class="social-list ms-3">
-            <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
-            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+            <?php if( is_array($social) && $social['facebook'] != "" ){ ?>
+            <li><a href="<?=$social['facebook']?>"><i class="fa fa-facebook-f"></i></a></li>
+            <?php } ?>
+            <?php if( is_array($social) && $social['twitter'] != "" ){ ?>
+            <li><a href="<?=$social['twitter']?>"><i class="fa fa-twitter"></i></a></li>
+            <?php } ?>
+            <?php if( is_array($social) && $social['instagram'] != "" ){ ?>
+            <li><a href="<?=$social['instagram']?>"><i class="fa fa-instagram"></i></a></li>
+            <?php } ?>
+            <?php if( is_array($social) && $social['youtube'] != "" ){ ?>
+            <li><a href="<?=$social['youtube']?>"><i class="fa fa-youtube"></i></a></li>
+            <?php } ?>
         </ul>
     </div>
     <img src="<?=base_url()?>/assets/img/shapes/texture-bg-yellow.jpg" alt="texture yellow" class="position-absolute texture-yellow z-1 d-none d-xl-block">

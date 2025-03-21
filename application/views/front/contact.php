@@ -1,3 +1,6 @@
+<?php
+    $social = getSocial(); 
+    ?>
 <!--breadcrumb section start-->
         <section class="breadcrumb-section position-relative overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
             <img src="<?=base_url()?>/assets/img/shapes/tire-print-left.png" alt="tire print" class="position-absolute start-0 z-1 tire-print">
@@ -84,10 +87,18 @@
                             <hr class="mt-30 mb-40">
                             <h6 class="mb-3">Social Share</h6>
                             <div class="contact-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-behance"></i></a>
-                                <a href="#"><i class="fab fa-dribbble "></i></a>
+                                <?php if( is_array($social) && $social['facebook'] != "" ){ ?>
+                                <a href="<?=$social['facebook']?>"><i class="fa fa-facebook-f"></i></a>
+                                <?php } ?>
+                                <?php if( is_array($social) && $social['twitter'] != "" ){ ?>
+                                <a href="<?=$social['twitter']?>"><i class="fa fa-twitter"></i></a>
+                                <?php } ?>
+                                <?php if( is_array($social) && $social['instagram'] != "" ){ ?>
+                                <a href="<?=$social['instagram']?>"><i class="fa fa-instagram"></i></a>
+                                <?php } ?>
+                                <?php if( is_array($social) && $social['youtube'] != "" ){ ?>
+                                <a href="<?=$social['youtube']?>"><i class="fa fa-youtube"></i></a>
+                                <?php } ?> 
                             </div>
 
                         </div>

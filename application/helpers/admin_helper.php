@@ -1,5 +1,16 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
+if (!function_exists('getSocial'))
+{
+    function getSocial()
+    {
+        $CI =& get_instance();
+        $CI->db->from('tbl_settings');
+        $query = $CI->db->get();
+        return $query->row_array();
+    }
+}
+
 function sendOtpWhatsapp($phone, $otp)
 {
     $param = "otp will be ".$otp;

@@ -1,3 +1,6 @@
+      <?php
+    $social = getSocial(); 
+    ?> 
         <div id="whatsapp-widget">
           <a title="Whatsapp Us" href="https://api.whatsapp.com/send?phone=919980318883&amp;text=Hi!%20Can%20I%20get%20more%20information%20on%20this?" target="_blank">
             <img width="64" height="64" style="border-radius:25px;" src="<?=base_url('assets/images/whatsapp.png')?>" alt="whatsapp--v1">
@@ -49,9 +52,18 @@
                                             <div class="footer-social d-inline-block text-start">
                                                 <h6 class="text-white">Follow us on</h6>
                                                 <ul class="footer-social-list">
-                                                    <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-youtube"></i></a></li>
-                                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>                                          
+                                                    <?php if( is_array($social) && $social['facebook'] != "" ){ ?>
+                                                    <li><a href="<?=$social['facebook']?>"><i class="fa fa-facebook-f"></i></a></li>
+                                                    <?php } ?>
+                                                    <?php if( is_array($social) && $social['twitter'] != "" ){ ?>
+                                                    <li><a href="<?=$social['twitter']?>"><i class="fa fa-twitter"></i></a></li>
+                                                    <?php } ?>
+                                                    <?php if( is_array($social) && $social['instagram'] != "" ){ ?>
+                                                    <li><a href="<?=$social['instagram']?>"><i class="fa fa-instagram"></i></a></li>
+                                                    <?php } ?>
+                                                    <?php if( is_array($social) && $social['youtube'] != "" ){ ?>
+                                                    <li><a href="<?=$social['youtube']?>"><i class="fa fa-youtube"></i></a></li>
+                                                    <?php } ?>                                      
                                                 </ul>
                                             </div>
                                         </div>

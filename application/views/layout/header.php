@@ -50,7 +50,9 @@
     
 </head>
 <body>
-
+    <?php
+    $social = getSocial(); 
+    ?>
     <div class="ring-preloader w-100 h-100 position-fixed start-0 top-0">
         <div class="lds-dual-ring"></div>
     </div>
@@ -90,9 +92,18 @@
                         <div class="col-xl-3 col-lg-8 col-6">
                             <div class="rent-info-social text-end d-none d-sm-block">
                                 <span class="text-white fw-500">Follow on</span>
-                                <a href="#"><i class="fa fa-facebook-f"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>                                
+                                <?php if( is_array($social) && $social['facebook'] != "" ){ ?>
+                                <a href="<?=$social['facebook']?>"><i class="fa fa-facebook-f"></i></a>
+                                <?php } ?>
+                                <?php if( is_array($social) && $social['twitter'] != "" ){ ?>
+                                <a href="<?=$social['twitter']?>"><i class="fa fa-twitter"></i></a>
+                                <?php } ?>
+                                <?php if( is_array($social) && $social['instagram'] != "" ){ ?>
+                                <a href="<?=$social['instagram']?>"><i class="fa fa-instagram"></i></a>
+                                <?php } ?>
+                                <?php if( is_array($social) && $social['youtube'] != "" ){ ?>
+                                <a href="<?=$social['youtube']?>"><i class="fa fa-youtube"></i></a>
+                                <?php } ?>                              
                             </div>
                         </div>
                     </div>
@@ -182,10 +193,18 @@
                 <p>+91-9980318883</p>
                 <p>info@rocknrollrental.com</p>
                 <div class="social-contact">
-                    <a href="#"><i class="fa fa-facebook-f"></i></a>
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                    <a href="#"><i class="fa fa-instagram"></i></a>
-                    <a href="#"><i class="fa fa-youtube"></i></a>
+                    <?php if( is_array($social) && $social['facebook'] != "" ){ ?>
+                    <a href="<?=$social['facebook']?>"><i class="fa fa-facebook-f"></i></a>
+                    <?php } ?>
+                    <?php if( is_array($social) && $social['twitter'] != "" ){ ?>
+                    <a href="<?=$social['twitter']?>"><i class="fa fa-twitter"></i></a>
+                    <?php } ?>
+                    <?php if( is_array($social) && $social['instagram'] != "" ){ ?>
+                    <a href="<?=$social['instagram']?>"><i class="fa fa-instagram"></i></a>
+                    <?php } ?>
+                    <?php if( is_array($social) && $social['youtube'] != "" ){ ?>
+                    <a href="<?=$social['youtube']?>"><i class="fa fa-youtube"></i></a>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -210,10 +229,18 @@
                 </ul>
             </div>
             <div class="at_canvus_social mt-4">
-                <a href="#" class="social-btn"><i class="fa fa-facebook-f"></i></a>
-                <a href="#" class="social-btn"><i class="fa fa-instagram"></i></a>
-                <a href="#" class="social-btn"><i class="fa fa-twitter"></i></a>
-                <a href="#" class="social-btn"><i class="fa fa-youtube"></i></a>
+                <?php if( is_array($social) && $social['facebook'] != "" ){ ?>
+                <a class="social-btn" href="<?=$social['facebook']?>"><i class="fa fa-facebook-f"></i></a>
+                <?php } ?>
+                <?php if( is_array($social) && $social['twitter'] != "" ){ ?>
+                <a class="social-btn" href="<?=$social['twitter']?>"><i class="fa fa-twitter"></i></a>
+                <?php } ?>
+                <?php if( is_array($social) && $social['instagram'] != "" ){ ?>
+                <a class="social-btn" href="<?=$social['instagram']?>"><i class="fa fa-instagram"></i></a>
+                <?php } ?>
+                <?php if( is_array($social) && $social['youtube'] != "" ){ ?>
+                <a class="social-btn" href="<?=$social['youtube']?>"><i class="fa fa-youtube"></i></a>
+                <?php } ?>
             </div>
         </div>
         <!--ofcanvus menu end-->
