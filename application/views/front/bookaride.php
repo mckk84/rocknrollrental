@@ -338,7 +338,7 @@ $(document).ready(function(){
         pickupdate = dateformatstring(today_date);
         $("#pickup_date").val(pickupdate);
         $("#dropoff_date").val(pickupdate);
-        
+
         pickupdate = dateformatstring(pickupdate);
         console.log("pickupdate="+pickupdate);
         
@@ -387,10 +387,7 @@ $(document).ready(function(){
             setTimeAll($("#dropoff_time"));
             $("#dropoff_time option:last").attr('selected','selected');
         }
-
-        $(".blw-search-form").submit();
     }
-
 
     $("#pickup_date").datetimepicker({
         format: 'DD-MM-Y',
