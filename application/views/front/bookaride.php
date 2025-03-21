@@ -338,55 +338,55 @@ $(document).ready(function(){
         pickupdate = dateformatstring(today_date);
         $("#pickup_date").val(pickupdate);
         $("#dropoff_date").val(pickupdate);
+    }
 
-        pickupdate = dateformatstring(pickupdate);
-        console.log("pickupdate="+pickupdate);
-        
-        var now = moment(today_date); //todays date
-        var end = moment(pickupdate); // another date
-        var duration = moment.duration(now.diff(end));
-        var days = duration.asDays();
-        var hours = duration.asHours();
-        $("#pickup_time").empty();
-        $("#dropoff_time").empty();
-        if( days == 0 )
+    pickupdate = dateformatstring(pickupdate);
+    console.log("pickupdate="+pickupdate);
+    
+    var now = moment(today_date); //todays date
+    var end = moment(pickupdate); // another date
+    var duration = moment.duration(now.diff(end));
+    var days = duration.asDays();
+    var hours = duration.asHours();
+    $("#pickup_time").empty();
+    $("#dropoff_time").empty();
+    if( days == 0 )
+    {
+        //cureent days
+        if( current_hour >= 20 )
         {
-            //cureent days
-            if( current_hour >= 20 )
-            {
-                var date = new Date();
-                date.setDate(date.getDate() + 1);
-                today_date = getdateformat(date);
-                console.log("Nextday="+today_date);
-                // Settime
-                setTimeAll($("#pickup_time"));
-                $("#pickup_time option:first").attr('selected','selected');
+            var date = new Date();
+            date.setDate(date.getDate() + 1);
+            today_date = getdateformat(date);
+            console.log("Nextday="+today_date);
+            // Settime
+            setTimeAll($("#pickup_time"));
+            $("#pickup_time option:first").attr('selected','selected');
 
-                setTimeAll($("#dropoff_time"));
-                $("#dropoff_time option:last").attr('selected','selected');
-            }
-            else if( current_hour <= 7 )
-            {
-                setTimeAll($("#pickup_time"));
-                $("#pickup_time option:first").attr('selected','selected');
-                setTimeAll($("#dropoff_time"));
-                $("#dropoff_time option:last").attr('selected','selected');
-            }
-            else
-            {
-                setTimeSpecial($("#pickup_time"), current_hour);
-                $("#pickup_time option:first").attr('selected','selected');
-                setTimeAll($("#dropoff_time"), current_hour);
-                $("#dropoff_time option:last").attr('selected','selected');
-            }
+            setTimeAll($("#dropoff_time"));
+            $("#dropoff_time option:last").attr('selected','selected');
         }
-        else
+        else if( current_hour <= 7 )
         {
             setTimeAll($("#pickup_time"));
             $("#pickup_time option:first").attr('selected','selected');
             setTimeAll($("#dropoff_time"));
             $("#dropoff_time option:last").attr('selected','selected');
         }
+        else
+        {
+            setTimeSpecial($("#pickup_time"), current_hour);
+            $("#pickup_time option:first").attr('selected','selected');
+            setTimeAll($("#dropoff_time"), current_hour);
+            $("#dropoff_time option:last").attr('selected','selected');
+        }
+    }
+    else
+    {
+        setTimeAll($("#pickup_time"));
+        $("#pickup_time option:first").attr('selected','selected');
+        setTimeAll($("#dropoff_time"));
+        $("#dropoff_time option:last").attr('selected','selected');
     }
 
     $("#pickup_date").datetimepicker({

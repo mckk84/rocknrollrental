@@ -28,8 +28,8 @@ class Bookaride extends CI_Controller {
 			$data['dropoff_time'] = $this->input->post('dropoff_time');
 				
 		}else{
-			$data['pickup_date'] = date("Y-m-d");
-			$hour = date("H");
+			$data['pickup_date'] = date("d-m-Y");
+			$hour = date("h");
 			$ampm = date("A");
 			if( $ampm == "AM" )
 			{
@@ -43,21 +43,25 @@ class Bookaride extends CI_Controller {
 			}
 			else
 			{
-				if( $hour > 20 ){
-					$data['pickup_date'] = date("Y-m-d", strtotime("+1 day"));
+				//PM
+				$hour = intval($hour);
+				if( $hour > 8 )
+				{
+					$data['pickup_date'] = date("d-m-Y", strtotime("+1 day"));
 					$data['pickup_time'] = "07:30 AM";	
-				}else{
+				}
+				else
+				{
 					$sh = $hour + 1;
 					$sh = ( $sh < 10 ) ? "0".$sh : $sh;
-					$data['pickup_time'] = $sh.":30 AM";
+					$data['pickup_time'] = $sh.":00 PM";
 				}
 			}
 			
 			$data['dropoff_date'] = $data['pickup_date'];
 			$data['dropoff_time'] = "08:00 PM";
-			
 		}
-		
+
 		$d1= new DateTime($data['dropoff_date']." ".$data['dropoff_time']); // first date
 		$d2= new DateTime($data['pickup_date']." ".$data['pickup_time']); // second date
 		$interval= $d1->diff($d2); // get difference between two dates
