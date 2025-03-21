@@ -66,22 +66,22 @@
                                     <li>
                                         <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="flaticon-credit-card"></i></span>
                                         <div class="sr-ft-list-content text-end bg-white rounded">
-                                            <h6>Most Flexible Payment</h6>
-                                            <p>Uniquely revolutionize manufactured products for interactive customer service. </p>
+                                            <h6>Easy-to-Use Interfaces</h6>
+                                            <p>The experience is intuitive, user-friendly, and easy to navigate.</p>
                                         </div>
                                     </li>
                                     <li>
                                         <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="flaticon-shield"></i></span>
                                         <div class="sr-ft-list-content text-end bg-white rounded">
-                                            <h6>Valuable Insights</h6>
-                                            <p>Uniquely revolutionize manufactured products for interactive customer service. </p>
+                                            <h6>Loyalty Programs</h6>
+                                            <p>Reward returning customers with special offers, discounts, or exclusive access to certain products/services. </p>
                                         </div>
                                     </li>
                                     <li>
                                         <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="flaticon-24-7"></i></span>
                                         <div class="sr-ft-list-content text-end bg-white rounded">
-                                            <h6>Non-Stop Innovation</h6>
-                                            <p>Uniquely revolutionize manufactured products for interactive customer service. </p>
+                                            <h6>Responsive Customer Service</h6>
+                                            <p>We provide fast, efficient, and friendly customer support. Use multiple channels like phone, email, live chat, or social media, and ensure our team is well-trained to handle inquiries and resolve issues quickly.</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -98,22 +98,22 @@
                                     <li>
                                         <span class="icon-wrapper icon-left d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="flaticon-drive"></i></span>
                                         <div class="sr-ft-list-content icon-left bg-white rounded">
-                                            <h6>Online Car Appraisal</h6>
-                                            <p>Uniquely revolutionize manufactured products for interactive customer service. </p>
+                                            <h6>Consistency</h6>
+                                            <p>We ensure that customers have a consistent experience across all touchpoints.</p>
                                         </div>
                                     </li>
                                     <li>
                                         <span class="icon-wrapper icon-left d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="flaticon-search"></i></span>
                                         <div class="sr-ft-list-content icon-left bg-white rounded">
-                                            <h6>Personalized Search</h6>
-                                            <p>Uniquely revolutionize manufactured products for interactive customer service. </p>
+                                            <h6>Personalization</h6>
+                                            <p>We use data and insights to recommend products, services, or solutions based on your preferences and past behaviors. </p>
                                         </div>
                                     </li>
                                     <li>
                                         <span class="icon-wrapper icon-left d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="flaticon-solution"></i></span>
                                         <div class="sr-ft-list-content icon-left bg-white rounded">
                                             <h6>Consumer-First Mentality</h6>
-                                            <p>Uniquely revolutionize manufactured products for interactive customer service. </p>
+                                            <p>We are open and transparent with our customers. Keep them informed about their purchases, order statuses, or any issues that may arise.</p>
                                         </div>
                                     </li>
                                 </ul>
