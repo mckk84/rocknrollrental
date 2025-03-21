@@ -341,7 +341,7 @@
                        <img src="<?=base_url()?>/assets/images/heart.png">
                   </span>
                     <div class="h3-counter-box-right mt-3 mt-md-0 ms-md-3">
-                        <h3 class="mb-1"><span class="counter"><?=$social['customers']?></span><span>+</span></h3>
+                        <h3 class="mb-1"><span class="counter"><?=(isset($social['customers'])?$social['customers']:"2248")?></span><span>+</span></h3>
                         <span>Happy Customers</span>
                     </div>
                 </div>
@@ -352,7 +352,7 @@
                       <img src="<?=base_url()?>/assets/images/motorcyclist.png">
                   </span>
                     <div class="h3-counter-box-right mt-3 mt-md-0 ms-md-3">
-                        <h3 class="mb-1"><span class="counter"><?=$social['fleets']?></span><span>+</span></h3>
+                        <h3 class="mb-1"><span class="counter"><?=(isset($social['fleets'])?$social['fleets']:"28")?></span><span>+</span></h3>
                         <span>FLEETS TO CHOOSE</span>
                     </div>
                 </div>
@@ -363,7 +363,7 @@
                       <img src="<?=base_url()?>/assets/images/mileage.png">
                   </span>
                     <div class="h3-counter-box-right mt-3 mt-md-0 ms-md-3">
-                        <h3 class="mb-1"><span class="counter"><?=$social['total_kilometers']?></span><span>+</span></h3>
+                        <h3 class="mb-1"><span class="counter"><?=(isset($social['total_kilometers'])?$social['total_kilometers']:"142140")?></span><span>+</span></h3>
                         <span>TOTAL KILOMETERS</span>
                     </div>
                 </div>
