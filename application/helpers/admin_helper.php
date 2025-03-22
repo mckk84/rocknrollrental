@@ -11,6 +11,21 @@ if (!function_exists('getSocial'))
     }
 }
 
+function getimagefile($img)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $img);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    if(curl_errno($ch)) 
+    {
+        curl_close($ch);
+        return "";
+    }
+    curl_close($ch); // Close the connection
+    return $response;    
+}
+
 function get_google_reviews()
 {
     $url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJmeGuAdjZujsRPo7TwKigLB4&key=AIzaSyDFBhaeaWjnah9XEjmPx0uKlJ5ZNnPnYSk";
@@ -30,7 +45,10 @@ function get_google_reviews()
     foreach($result->result->reviews as $row)
     {
         $image = $row->profile_photo_url;
-        $imageData = base64_encode(file_get_contents($image));
+
+        $img = getimagefile($image);
+
+        $imageData = base64_encode($img);
         $src = 'data:png;base64,'.$imageData;
         $row->user_image = $src;
         $reviews[] = $row;
