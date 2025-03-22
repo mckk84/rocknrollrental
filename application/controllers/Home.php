@@ -11,6 +11,8 @@ class Home extends CI_Controller {
 
 		$data['bikes'] = $this->searchbike_model->getBikesByType();
 
+		$data['reviews'] = get_google_reviews();
+
         $this->load->view('layout/header', $data);
         $this->load->view('front/home', $data);
         $this->load->view('layout/footer');

@@ -11,6 +11,34 @@ if (!function_exists('getSocial'))
     }
 }
 
+function get_google_reviews()
+{
+    $url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJmeGuAdjZujsRPo7TwKigLB4&key=AIzaSyDFBhaeaWjnah9XEjmPx0uKlJ5ZNnPnYSk";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    if(curl_errno($ch)) 
+    {
+        curl_close($ch);
+        return false;
+    }
+    curl_close($ch); // Close the connection
+
+    $result = json_decode($response);
+    $reviews = [];
+    foreach($result->result->reviews as $row)
+    {
+        $image = $row->profile_photo_url;
+        $imageData = base64_encode(file_get_contents($image));
+        $src = 'data:png;base64,'.$imageData;
+        $row->user_image = $src;
+        $reviews[] = $row;
+    }
+    
+    return $reviews;
+}
+
 function sendOtpWhatsapp($phone, $otp)
 {
     $param = "otp will be ".$otp;

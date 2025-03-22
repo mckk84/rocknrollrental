@@ -286,6 +286,10 @@ p.offer_timer {
     width: 30% !important;
 }
 
+.w-70{
+    width: 70% !important;
+}
+
 ul.footer-nav {
     display: block;
 }

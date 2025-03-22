@@ -136,9 +136,9 @@
     }
   });
   const h2FeedbackSlider = new Swiper(".h2-feedback-slider", {
-    slidesPerView: 2,
+    slidesPerView: 1,
     loop: true,
-    spaceBetween: 24,
+    spaceBetween: 34,
     autoplay: {
       delay: 5000
     },
@@ -153,7 +153,7 @@
         slidesPerView: 1
       },
       992: {
-        slidesPerView: 2
+        slidesPerView: 1
       }
     }
   });

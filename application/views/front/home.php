@@ -386,30 +386,24 @@
         </div>
         <div class="swiper h2-feedback-slider mt-5">
             <div class="swiper-wrapper">
-                <div class="h2-feedback-single swiper-slide">                            
-                    <div class="h2-feedback-content mt-1 bg-white rounded position-relative">
-                        <div class="feedback-top mt-1 d-flex align-items-center justify-content-between">
-                            <img src="<?=base_url()?>/assets/images/user.png" alt="client" class="rounded-circle mt-0 border border-2 border-white">
-                            <span class="star-rating rounded-pill"><span class="me-2"><i class="fa-solid fa-star"></i></span>4.5</span>
-                        </div>
-                        <p class="mt-3 mb-4">Assertive disseminate integrated human capital through dynamic bandwidth. independent partnerships. Energy statically extend B2C potentialities without backend synergy.</p>
-                        <div class="client-info">
-                            <h6 class="mb-0">Adam Smith</h6>                                    
-                        </div>
-                    </div>
-                </div>
-                <div class="h2-feedback-single swiper-slide">
-                    <div class="h2-feedback-content mt-1 bg-white rounded position-relative">
-                        <div class="feedback-top mt-1 d-flex align-items-center justify-content-between">
-                            <img src="<?=base_url()?>/assets/images/user.png" alt="client" class="rounded-circle mt-0 border border-2 border-white">
-                            <span class="star-rating rounded-pill"><span class="me-2"><i class="fa-solid fa-star"></i></span>4.5</span>
-                        </div>
-                        <p class="mt-3 mb-4">Assertive disseminate integrated human capital through dynamic bandwidth. independent partnerships. Energy statically extend B2C potentialities without backend synergy.</p>
-                        <div class="client-info">
-                            <h6 class="mb-0">Adam Smith</h6>                                    
+                <?php if( is_array($reviews) && count($reviews) > 0) {
+                    foreach($reviews as $review) {
+                    ?>
+                    <div class="h2-feedback-single swiper-slide">                            
+                        <div class="h2-feedback-content mt-1 rounded position-relative">
+                            <div class="feedback-top mt-1 d-flex align-items-center justify-content-center">
+                                <img src="<?=$review->user_image?>" alt="client" class="rounded-circle mt-0 border border-2 border-white">
+                            </div>
+                            <p class="w-70 mx-auto text-white mt-3 mb-4"><?=$review->text?></p>
+                            <div class="client-info text-center g-2">
+                                <span class="star-rating rounded-pill"><span class="me-2"><i class="fa-solid fa-star"></i></span><?=$review->rating?></span>
+                                <h6 class="mt-2 mb-1 text-white"><?=$review->author_name?></h6>          
+                                <p class="text-white"><?=$review->relative_time_description?></p>                          
+                            </div>
                         </div>
                     </div>
-                </div>
+                <?php }
+                } ?>
             </div>
             <div class="swiper-pagination"></div>
         </div>
