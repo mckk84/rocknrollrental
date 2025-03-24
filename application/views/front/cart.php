@@ -355,14 +355,7 @@
                                 <td>
                                     <img style="max-width:100px;" src="<?=base_url()?>assets/img/icons/helmet.jpg" alt="Helmet" class="d-block mx-auto img-fluid">
                                 </td>
-                                <td>
-                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
-                                    <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['pickup_time']?></b></span>
-                                    <span style="width:30px;display:block;margin:10px;margin-left:35px;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
-                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
-                                    <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['dropoff_time']?></b></span>
-                                </td>
-                                <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="helemt_rent_price d-inline-block p-1">50</span>/<span class="d-inline-block p-1">day</span></td>
+                                
                                 <td>
                                     <div style="min-width:150px;max-width:200px;" class="cart-count bg-white d-flex justify-content-center">
                                         <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0"><i class="fa fa-minus"></i></span>
