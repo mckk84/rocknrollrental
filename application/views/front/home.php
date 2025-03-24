@@ -380,7 +380,7 @@
             <div class="col-xl-6 col-lg-7">
                 <div class="at-section-title text-center">
                     <span class="subtitle text-primary lead">Customer <mark class="bg-transparent p-0 text-dark">Feedback</mark></span>
-                    <h2 class="h1 mt-3 mb-3">Our Happy Customer Saying</h2>
+                    <h2 class="h1 mt-3 mb-3">Our Happy Customers Saying</h2>
                 </div>
             </div>
         </div>
