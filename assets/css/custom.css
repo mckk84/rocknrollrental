@@ -312,10 +312,30 @@ ul.footer-nav {
     .logo-wrapper img{
         margin-top: 10px !important;
     }
-    #whatsapp-widget{
-        top:70%;
+    .d-sm-none{
+        display: none !important;
+    }
+
+    .d-sm-block{
+        display: flex !important;
+        justify-content: center;
+    }
+
+    #whatsapp-widget-mobile .btn{
+        width: 100%;
+        border-radius: 10px;
+        border: 2px solid #000;
+        text-align: center;
+        margin: auto;
+        padding: 10px;
+        color: #FFF;
+    }
+    #whatsapp-widget-mobile{
+        background-color: #000;
     }
 }
+
+
 
 @media (max-width: 575.98px) {
     .col-sm-4 {
@@ -328,6 +348,6 @@ ul.footer-nav {
 
 @media (min-width: 800px){
     #whatsapp-widget{
-        top:70%;
+        top:75%;
     }
 }
