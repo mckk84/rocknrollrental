@@ -346,8 +346,6 @@
                         <table class="table">
                             <tr class="bg-eq-primary">
                                 <th>Helmet</th>
-                                <th>Period</th>
-                                <th>Price</th>
                                 <th>Quantity</th>
                                 <th>Subtotal</th>
                             </tr>
