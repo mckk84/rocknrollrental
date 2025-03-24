@@ -37,7 +37,7 @@ class Cart extends CI_Controller {
 							{
 								if( $jjo->bike_id == $q->bike_id )
 								{
-									$q->qty = $q->qty + $bike_ids[$j]->qty;
+									$q->qty = 1;
 									$bike_ids[$j] = $q;
 								}
 							}
@@ -121,7 +121,12 @@ class Cart extends CI_Controller {
 				{
 					if($obj->bike_id == $bike['bike_type_id'])
 					{
-						$bike['quantity'] = $obj->qty;
+						if( $bike['bikes_available'] > $obj->qty ){
+
+							$bike['quantity'] = $obj->qty;
+						} else{
+							$bike['quantity'] = $bike['bikes_available'];
+						}
 						break;
 					}
 			    }					
