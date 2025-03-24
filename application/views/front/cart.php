@@ -247,75 +247,67 @@
                     $discount = 0;
                     ?>
                     <div class="table-content table-responsive bg-white rounded mb-4">
-                        <table class="table cartbikes">
                             <?php 
                             if( isset($cart) && isset($cart['cart_bikes']) )
                             { 
-                                foreach($cart['cart_bikes'] as $bike) 
+                                foreach($cart['cart_bikes'] as $index => $bike) 
                                 {
                                     $rent_price = $bike['rent_price'];
                                     $subtotal += round($rent_price * $bike['quantity'], 2);
                                     $bike_quantity += $bike['quantity'];
+                                    $sl = $index + 1;
                                 ?>
+                                <table class="mt-1 table cartbikes">
                                 <tr class="border bike-row" data-id="<?=$bike['bike_type_id']?>">
-                                    <td colspan="2">
-                                        <span class="d-block mb-2 fw-bold fa-md w-100 text-center"><?=$bike['bike_type_name']?></span>
+                                    <td class="position-relative" colspan="2">
+                                        <span style="position: absolute;top: 1px;left: 1px;padding: 5px;border-right: 1px solid rgba(11, 22, 63, 0.07);border-bottom: 1px solid rgba(11, 22, 63, 0.07);z-index: 9;display: block;width: 50px;background-color: rgb(255, 220, 0);" class="fw-bold fa-md text-center"><?=$sl?></span>
+                                        <span class="d-block fw-bold fa-xl w-100 text-center p-3"><?=$bike['bike_type_name']?></span>
                                         <img style="max-width:250px;display: block; margin:auto;" src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid">
-                                        <button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" class="cart-delete text-danger bg-transparent float-right"><i class="fa fa-trash"></i></button>
+                                        <button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" style="right:5px;bottom:5px" class="position-absolute cart-delete text-danger bg-transparent"><i class="fa fa-trash"></i></button>
                                     </td>
                                 </tr>
-                                <tr class="border">
-                                    <td class="text-left border p-1">
-                                        <label style="width: 100%; padding:5px 5px;display: inline-block;" class="fw-semibold">From</label>
-                                    </td>
-                                    <td class="text-center p-1">
-                                        <span style="line-height: 15px;" class="w-100 text-center fa-sm d-block"><b><?=date("d M Y", strtotime($cart['pickup_date']))?>&nbsp;<?=$cart['pickup_time']?></b></span>
-                                    </td>
-                                </tr>
-                                <tr class="border">
-                                    <td class="text-left border p-1">
-                                        <label style="width: 100%; padding:5px 5px;display: inline-block;" class="fw-semibold">To</label>
-                                    </td>
-                                    <td class="text-center p-1">
-                                        <span style="line-height: 15px;" class="w-100 text-center fa-sm font-bold d-block"><b><?=date("d M Y", strtotime($cart['dropoff_date']));?>&nbsp;<?=$cart['dropoff_time']?></b></span>
+                                <tr class="border bg-warning-light">
+                                    <td colspan="2" class="text-center position-relative p-1">
+                                        <span class="d-block w-45 float-left">
+                                            <span class="w-100 m-1 p-1 fa-md d-block"><b><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
+                                            <span class="w-100 m-1 py-1 px-4 fa-md d-block"><b><?=$cart['pickup_time']?></b></span>
+                                        </span>
+                                        <span style="width: 30px;float: left;display: block;text-align: center;color: orange;padding: 5px 10px;font-size:30px;margin-top:10px;">></span>
+                                        <span class="d-block w-45 float-left">
+                                            <span class="w-100 m-1 p-1 fa-md d-block"><b><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
+                                            <span class="w-100 m-1 py-1 px-4 fa-md d-block"><b><?=$cart['dropoff_time']?></b></span>
+                                        </span>
                                     </td>
                                 </tr>
-                                <tr class="border">
-                                    <td class="text-left border p-1">
-                                        <label class="fw-semibold" style="width: 100%; padding:5px 5px;display: inline-block;">Qty</label>
-                                    </td>
-                                    <td class="text-center p-0">
+                                <tr class="border bg-warning-light">
+                                    <td colspan="2" class="border-0 text-center p-1">
+                                        <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">Qty</label>
                                         <?php if( $bike['bikes_available'] > 1 ){?>
                                         <div class="cart-count border p-0 d-inline-flex align-items-center">
-                                            <button class="cart-minus text-dark bg-warning"><i class="fa fa-minus"></i></button>
-                                            <input type="text" data-bike="<?=$bike['bike_type_id']?>" data-available="<?=$bike['bikes_available']?>" class="bg-white cart-input" value="<?=$bike['quantity']?>">
-                                            <button class="cart-plus text-dark bg-warning"><i class="fa fa-plus"></i></button>
+                                            <button class="cart-minus p-2 btn btn-sm bg-secondary text-white rounded-0"><i class="fa fa-minus"></i></button>
+                                            <input type="text" style="padding:8px" data-bike="<?=$bike['bike_type_id']?>" data-available="<?=$bike['bikes_available']?>" class="bg-white cart-input" value="<?=$bike['quantity']?>">
+                                            <button class="cart-plus p-2 btn btn-sm bg-secondary text-white rounded-0"><i class="fa fa-plus"></i></button>
                                         </div>
                                         <?php } else { ?>
                                         <div class="cart-count border d-inline-flex align-items-center">
                                             <input type="text" disabled class="cart-input" value="<?=$bike['quantity']?>">
                                         </div>
                                         <?php } ?>
-                                    </td>
-                                 </tr>
-                                 <tr class="border">
-                                    <td class="text-left border p-1">
-                                        <label class="fw-semibold" style="width: 100%; padding:5px 5px;display: inline-block;">Price</label>
-                                    </td>
-                                    <td class="text-center"><b><?=$bike['quantity']?><b> <b>X<b> <i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?></td>
-                                 </tr>
-                                 <tr class="border">
-                                    <td class="text-left border p-1">
-                                        <label class="fw-semibold" style="width: 100%; padding:5px 5px;display: inline-block;">Sub Total</label>
-                                    </td>   
-                                    <td class="text-center"><i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal fw-semibold d-inline-block p-1"><?=round($rent_price * $bike['quantity'], 2)?></span>
+                                        &nbsp;
+                                        <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">X</label>
+                                        &nbsp;
+                                        <i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?>
+                                        &nbsp;
+                                        <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">=</label>
+                                        &nbsp;
+                                        <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal fw-semibold fa-md d-inline-block p-1"><b><?=round($rent_price * $bike['quantity'], 2)?></b></span>
                                     </td>
                                 </tr>
+                                </table>
                                 <?php } 
                                 $total = $subtotal;
                             }
                         ?>
-                        </table>
                         <form id="cartform" method="POST" action="<?=base_url('Cart/addtoCart')?>">
                             <input type="hidden" name="cartform" value="1">
                             <input type="hidden" name="bike_ids" value="<?=$cart['bike_ids']?>">
@@ -334,34 +326,37 @@
                         </form>
                     </div>
                     <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-2 pt-2 pt-lg-0 mt-lg-0">
-                        <div class="helmet-option mb-2">
-                            <label class="mb-2">1 Helmet is free.  </label>
-                            <label><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] > 0)?"checked":""?> > Add an extra for ₹50/day. </label>
-                        </div>
                         <div class="bikes-option">
                             <a href="<?=base_url('Bookaride')?>" class="btn btn-secondary">Add More Bikes</a>
                         </div>
                     </div>
-                    <div style="<?=($cart["helmets_qty"] > 0)?"":"display:none;"?>" class="helmet_content table-content table-responsive table-bordered bg-white rounded mb-4">
+                    <div class="table-content table-responsive table-bordered bg-white rounded mb-4">
                         <table class="table">
                             <tr class="bg-eq-primary">
-                                <th>Helmet</th>
-                                <th>Quantity</th>
-                                <th>Subtotal</th>
+                                <th colspan="2">Addons</th>
                             </tr>
-                            <tr class="helmet-row">
+                            <tr>
                                 <td>
-                                    <img style="max-width:100px;" src="<?=base_url()?>assets/img/icons/helmet.jpg" alt="Helmet" class="d-block mx-auto img-fluid">
-                                </td>
-                                
-                                <td>
-                                    <div style="min-width:150px;max-width:200px;" class="cart-count bg-white d-flex justify-content-center">
-                                        <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0"><i class="fa fa-minus"></i></span>
-                                        <input type="text" name="helmets_qty" class="w-50 cart-helmets text-center border text-black rounded-0" value="<?=isset($cart["helmets_qty"])?$cart["helmets_qty"]:0?>">
-                                        <span class="btn btn-sm cart-hplus bg-primary text-white rounded-0"><i class="fa fa-plus"></i></span>
+                                    <div class="helmet-option">
+                                        <label class="w-100">1 Helmet is free.  </label>
                                     </div>
                                 </td>
-                                <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"] * 50:0?></span></td>
+                                <td>
+                                    <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1">0</span>
+                                </td>
+                            </tr>
+                            <tr>
+                               <td>
+                                    <label class="w-100"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] > 0)?"checked":""?> > Add an extra for ₹50/day. </label>
+                                    <div style="display: inline-block;float: left;" class="helmet-row cart-count bg-white d-flex justify-content-center">
+                                        <span class="btn btn-sm p-2 cart-hminus bg-primary text-white rounded-0"><i class="fa fa-minus"></i></span>
+                                        <input type="text" name="helmets_qty" class="cart-helmets text-center border text-black rounded-0" value="<?=isset($cart["helmets_qty"])?$cart["helmets_qty"]:0?>">
+                                        <span class="btn btn-sm p-2 cart-hplus bg-primary text-white rounded-0"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"] * 50:0?></span>
+                                </td>
                             </tr>
                         </table>
                         <?php if( isset($cart['helmets_qty']) && $cart['helmets_qty'] != 0 && $cart['helmets_qty'] != "" )
@@ -423,7 +418,7 @@
                                 <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$total?></span></td>
                             </tr>
                             <tr>
-                                <td class="text-start text-warning fw-bold border-0">Refundable Deposit / Vehicle
+                                <td class="w-50 text-start text-warning fw-bold border-0">Refundable Deposit / Vehicle
                                     <span class="d-block text-gray fw-normal text-sm">To be paid at the time of pickup</span></td>
                                 <td class="fw-bold text-end border-0"><i class="fa fa-indian-rupee-sign me-1"></i> 1000
                                     <span class="d-block text-info fw-normal text-sm">(Not paying now)</span>
