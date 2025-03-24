@@ -13,78 +13,12 @@ class Cart extends CI_Controller {
 		$data['cart_bikes'] = array();
 		$data['cart'] = array();
 
-		if( isset($_POST) && count($_POST) > 0 )
+		$session_cart = $this->session->userdata("cart");
+
+		if( isset($session_cart['bike_ids']) && $session_cart['bike_ids'] != "" )
 		{
-			$data['cart']['bike_ids'] = $this->input->post('bike_ids');
-			$bike_ids = json_decode($data['cart']['bike_ids']); 
-			$cartform = $this->input->post('cartform');
-
-			if( !isset($cartform) )
-			{
-				$session_cart = $this->session->userdata("cart");
-				if( isset($session_cart['bike_ids']) && $session_cart['bike_ids'] != "" )
-				{
-					$old_bike_ids = json_decode($session_cart['bike_ids']);
-					$new_bike_ids = array_merge($bike_ids, $old_bike_ids);
-					$bike_ids = array();
-					$unique_ids = array();
-					foreach($new_bike_ids as $i => $obj) 
-					{
-						if( in_array($obj->bike_id, $unique_ids) )
-						{
-							$q = $new_bike_ids[$i];
-							foreach($bike_ids as $j => $jjo)
-							{
-								if( $jjo->bike_id == $q->bike_id )
-								{
-									$q->qty = 1;
-									$bike_ids[$j] = $q;
-								}
-							}
-							$unique_ids[] = $q->bike_id;
-						}
-						else
-						{
-							$bike_ids[$i] = $obj;
-							$unique_ids[] = $obj->bike_id;
-						}
-				    }
-				}
-			}
-
-			$data['cart']['pickup_date'] = $this->input->post('pickup_date');
-			$data['cart']['pickup_time'] = $this->input->post('pickup_time');
-			$data['cart']['dropoff_date'] = $this->input->post('dropoff_date');
-			$data['cart']['dropoff_time'] = $this->input->post('dropoff_time');
-			$data['cart']['period_days'] = $this->input->post('period_days');
-			$data['cart']['period_hours'] = $this->input->post('period_hours');
-			$data['cart']['weekend'] =$this->input->post('weekend');
-			$data['cart']['public_holiday'] = $this->input->post('public_holiday');
-			$data['cart']['helmets_qty'] = $this->input->post('helmets_qty');
-			$data['cart']['coupon_code'] =  $this->input->post('coupon_code');
-			$data['cart']['early_pickup'] =  $this->input->post('early_pickup');
-
-			if( $data['cart']['coupon_code'] != "" ){
-				$coupon = $this->coupons_model->getByCode($data['cart']['coupon_code']);
-				$data['cart']['coupon_code'] = $coupon['code'];
-				$data['cart']['coupon_type'] = $coupon['type'];
-				$data['cart']['coupon_discount'] = $coupon['discount_amount']; 
-			}else{
-				$data['cart']['coupon_code'] = "";
-				$data['cart']['coupon_type'] = "";
-				$data['cart']['coupon_discount'] = 0; 
-			}
-
-			$data['cart']['bike_ids'] = json_encode($bike_ids);
-			$this->session->set_userdata("cart", $data['cart']);
-		}
-		else
-		{ 
-			$data['cart'] = $this->session->userdata("cart");
-			if( isset($data['cart']['bike_ids']) && $data['cart']['bike_ids'] != "" )
-			{
-				$bike_ids = json_decode($data['cart']['bike_ids']);
-			}
+			$bike_ids = json_decode($session_cart['bike_ids']);
+			$data['cart'] = $session_cart;
 		}
 
 		if( isset($bike_ids) && is_array($bike_ids) && count($bike_ids) > 0 )
@@ -142,6 +76,83 @@ class Cart extends CI_Controller {
         $this->load->view('layout/header', $data);
         $this->load->view('front/cart', $data);
         $this->load->view('layout/footer');
+	}
+
+	public function addtoCart()
+	{
+		if( isset($_POST) && count($_POST) > 0 )
+		{
+			$cartform = $this->input->post('cartform');
+			if( isset($cartform) && $cartform == 1 )
+			{
+				// submitted from cart
+				// overrides bike ids
+				$bike_id_post = $this->input->post('bike_ids');
+				$bike_ids = json_decode($bike_id_post); 
+			}
+			else
+			{
+				$bike_id_post = $this->input->post('bike_ids');
+				$bike_ids = json_decode($bike_id_post); 
+				
+				$session_cart = $this->session->userdata("cart");
+				if( isset($session_cart['bike_ids']) && $session_cart['bike_ids'] != "" )
+				{
+					$old_bike_ids = json_decode($session_cart['bike_ids']);
+					$new_bike_ids = array_merge($bike_ids, $old_bike_ids);
+					$bike_ids = array();
+					$unique_ids = array();
+					foreach($new_bike_ids as $i => $obj) 
+					{
+						if( in_array($obj->bike_id, $unique_ids) )
+						{
+							$q = $new_bike_ids[$i];
+							foreach($bike_ids as $j => $jjo)
+							{
+								if( $jjo->bike_id == $q->bike_id )
+								{
+									$q->qty = 1;
+									$bike_ids[$j] = $q;
+								}
+							}
+							$unique_ids[] = $q->bike_id;
+						}
+						else
+						{
+							$bike_ids[$i] = $obj;
+							$unique_ids[] = $obj->bike_id;
+						}
+				    }
+				}
+			}			
+
+			$data['cart']['pickup_date'] = $this->input->post('pickup_date');
+			$data['cart']['pickup_time'] = $this->input->post('pickup_time');
+			$data['cart']['dropoff_date'] = $this->input->post('dropoff_date');
+			$data['cart']['dropoff_time'] = $this->input->post('dropoff_time');
+			$data['cart']['period_days'] = $this->input->post('period_days');
+			$data['cart']['period_hours'] = $this->input->post('period_hours');
+			$data['cart']['weekend'] =$this->input->post('weekend');
+			$data['cart']['public_holiday'] = $this->input->post('public_holiday');
+			$data['cart']['helmets_qty'] = $this->input->post('helmets_qty');
+			$data['cart']['coupon_code'] =  $this->input->post('coupon_code');
+			$data['cart']['early_pickup'] =  $this->input->post('early_pickup');
+
+			if( $data['cart']['coupon_code'] != "" ){
+				$coupon = $this->coupons_model->getByCode($data['cart']['coupon_code']);
+				$data['cart']['coupon_code'] = $coupon['code'];
+				$data['cart']['coupon_type'] = $coupon['type'];
+				$data['cart']['coupon_discount'] = $coupon['discount_amount']; 
+			}else{
+				$data['cart']['coupon_code'] = "";
+				$data['cart']['coupon_type'] = "";
+				$data['cart']['coupon_discount'] = 0; 
+			}
+
+			$data['cart']['bike_ids'] = json_encode($bike_ids);
+			$this->session->set_userdata("cart", $data['cart']);
+		}
+		redirect('/Cart');
 	}
 
 }

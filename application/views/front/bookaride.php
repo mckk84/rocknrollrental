@@ -55,7 +55,7 @@
             </div>
             <div class="col-xl-9">
                 <div class="bike-inventory">
-                    <form id="cartform" method="POST" action="<?=base_url('Cart')?>">
+                    <form id="cartform" method="POST" action="<?=base_url('Cart/addtoCart')?>">
                         <input type="hidden" name="bike_ids" value="">
                         <input type="hidden" name="pickup_date" value="<?=$pickup_date?>">
                         <input type="hidden" name="pickup_time" value="<?=$pickup_time?>">
