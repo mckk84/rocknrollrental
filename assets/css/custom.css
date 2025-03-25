@@ -340,12 +340,13 @@ ul.footer-nav {
 
     #whatsapp-widget-mobile .btn{
         width: 100%;
-        border-radius: 10px;
-        border: 2px solid #000;
+        border-radius: 0;
+        border: 0 solid #000;
         text-align: center;
         margin: auto;
         padding: 10px;
         color: #FFF;
+        border-right: 1px solid #fff;
     }
     #whatsapp-widget-mobile{
         background-color: #FFF;
