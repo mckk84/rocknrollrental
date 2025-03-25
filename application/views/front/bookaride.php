@@ -395,9 +395,9 @@ $(document).ready(function(){
         $("#pickup_time").val(pdefault);
     }
 
-    var default = $("#dropoff_time").attr('data-select');
-    if( default != "" ){
-        $("#dropoff_time").val(default);
+    var ddefault = $("#dropoff_time").attr('data-select');
+    if( ddefault != "" ){
+        $("#dropoff_time").val(ddefault);
     }
 
     $("#pickup_date").datetimepicker({
