@@ -103,43 +103,39 @@
                         </form>
                     </div>
                     <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-2 pt-2 pt-lg-0 mt-lg-0">
-                        <div class="helmet-option mb-2">
-                            <label class="mb-2">1 Helmet is free.  </label>
-                            <label><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] > 0)?"checked":""?> > Add an extra for ₹50/day. </label>
-                        </div>
                         <div class="bikes-option">
                             <a href="<?=base_url('Bookaride')?>" class="btn btn-secondary">Add More Bikes</a>
                         </div>
                     </div>
-                    <div style="<?=($cart["helmets_qty"] > 0)?"":"display:none;"?>" class="helmet_content table-content table-responsive table-bordered bg-white rounded mb-4">
+                    <div class="table-content table-responsive table-bordered bg-white rounded mb-4">
                         <table class="table">
                             <tr class="bg-eq-primary">
-                                <th>Helmet</th>
-                                <th>Period</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Subtotal</th>
+                                <th colspan="2">Addons</th>
                             </tr>
-                            <tr class="helmet-row">
+                            <tr>
                                 <td>
-                                    <img style="max-width:100px;" src="<?=base_url()?>assets/img/icons/helmet.jpg" alt="Helmet" class="d-block mx-auto img-fluid">
-                                </td>
-                                <td>
-                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
-                                    <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['pickup_time']?></b></span>
-                                    <span style="width:30px;display:block;margin:10px;margin-left:35px;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
-                                    <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
-                                    <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['dropoff_time']?></b></span>
-                                </td>
-                                <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="helemt_rent_price d-inline-block p-1">50</span>/<span class="d-inline-block p-1">day</span></td>
-                                <td>
-                                    <div style="min-width:150px;max-width:200px;" class="cart-count bg-white d-flex justify-content-center">
-                                        <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0"><i class="fa fa-minus"></i></span>
-                                        <input type="text" name="helmets_qty" class="w-50 cart-helmets text-center border text-black rounded-0" value="<?=isset($cart["helmets_qty"])?$cart["helmets_qty"]:0?>">
-                                        <span class="btn btn-sm cart-hplus bg-primary text-white rounded-0"><i class="fa fa-plus"></i></span>
+                                    <div class="helmet-option">
+                                        <label class="w-100">1 Helmet is free.  </label>
                                     </div>
                                 </td>
-                                <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"] * 50:0?></span></td>
+                                <td>
+                                    <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1">0</span>
+                                </td>
+                            </tr>
+                            <tr>
+                               <td>
+                                    <label class="w-50">
+                                        <input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] > 0)?"checked":""?> > Add extra for ₹50/day. </label>
+
+                                    <div style="display:<?=($cart["helmets_qty"] > 0)?"inline-flex":"none"?>;" class="helmet-row cart-count bg-white justify-content-center">
+                                        <span class="btn btn-sm p-2 cart-hminus bg-primary text-white rounded-0"><i class="fa fa-minus"></i></span>
+                                        <input type="text" name="helmets_qty" class="cart-helmets text-center border text-black rounded-0" value="<?=isset($cart["helmets_qty"])?$cart["helmets_qty"]:0?>">
+                                        <span class="btn btn-sm p-2 cart-hplus bg-primary text-white rounded-0"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"] * 50:0?></span>
+                                </td>
                             </tr>
                         </table>
                         <?php if( isset($cart['helmets_qty']) && $cart['helmets_qty'] != 0 && $cart['helmets_qty'] != "" )
@@ -347,8 +343,8 @@
                             </tr>
                             <tr>
                                <td>
-                                    <label class="w-100"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] > 0)?"checked":""?> > Add an extra for ₹50/day. </label>
-                                    <div style="display: inline-block;float: left;" class="helmet-row cart-count bg-white d-flex justify-content-center">
+                                    <label class="w-50"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] > 0)?"checked":""?> > Add extra for ₹50/day. </label>
+                                    <div style="display: <?=($cart["helmets_qty"] > 0)?"inline-flex":"none"?>;float: left;" class="helmet-row cart-count bg-white justify-content-center">
                                         <span class="btn btn-sm p-2 cart-hminus bg-primary text-white rounded-0"><i class="fa fa-minus"></i></span>
                                         <input type="text" name="helmets_qty" class="cart-helmets text-center border text-black rounded-0" value="<?=isset($cart["helmets_qty"])?$cart["helmets_qty"]:0?>">
                                         <span class="btn btn-sm p-2 cart-hplus bg-primary text-white rounded-0"><i class="fa fa-plus"></i></span>
@@ -500,11 +496,9 @@ $(document).ready(function(){
         if ($(this).is(":checked")) {
           $(".cart-helmets").val(1);  
           $("#cartform input[name='helmets_qty']").val(1);
-          $(".helmet_content").slideDown();
         } else {
           $(".cart-helmets").val(0);
           $("#cartform input[name='helmets_qty']").val(0);
-          $(".helmet_content").slideUp();
         }
         var temp = localStorage.getItem("bike_ids");
         var bike_ids = JSON.parse(temp);

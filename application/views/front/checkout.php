@@ -77,7 +77,7 @@
                     $helmets_total = 0;
                     ?>
                     <div class="table-content table-responsive table-bordered bg-white rounded">
-                        <table class="table cartbikes">
+                        <table class="table cartbikes mb-2">
                             <tr class="bg-eq-primary">
                                 <th>Fleet</th>
                                 <th>Period</th>
@@ -118,30 +118,40 @@
                                 </tr>
                                 <?php } 
                                 $total += $subtotal;
-                            }
+                            } ?>
+                            </table>
+
+                            <?php 
                             if( isset($cart['helmets_qty']) && $cart['helmets_qty'] > 0 ){
 
                                 $helmets_price = 50;
                                 $helmets_total = $cart['helmets_qty'] * $helmets_price;
                                 $total += $helmets_total;
                             ?>
-                                <tr class="helmets-row">
-                                    <td>
-                                        <img style="max-width:80px;" src="<?=base_url()?>assets/img/icons/helmet.jpg" alt="Helmet" class="d-block mx-auto img-fluid">
-                                    </td>
-                                    <td>
-                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['pickup_date']))." <b>".$cart['pickup_time']?></b></span>
-                                        <span style="width:30px;display:block;margin:10px 20%;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
-                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><?=date("d M Y", strtotime($cart['dropoff_date']))." <b>".$cart['dropoff_time']?></b></span>
-                                    </td>
-                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$helmets_price?></td>
-                                    <td>
-                                        <div class="d-flex text-center">
-                                            <span class="d-block m-auto text-center font-normal"><?=$cart['helmets_qty']?></span>
-                                        </div>
-                                    </td>
-                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$helmets_total?></td>
-                                </tr>
+                                <table class="table">
+                                    <tr class="bg-eq-primary">
+                                        <th colspan="2">Addons</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="helmet-option">
+                                                <label class="w-100">1 Helmet is free.  </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1">0</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                            <label class="w-100">Extra Hemelts (<?=$cart["helmets_qty"]?>)</label>
+                                            
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"] * 50:0?></span>
+                                        </td>
+                                    </tr>
+                                </table>
                                 <?php }
                         ?>
                         </table>
