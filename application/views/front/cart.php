@@ -462,7 +462,7 @@
 
 $(document).ready(function(){
 
-    var bike_ids = '<?=$cart['bike_ids']?>';
+    var bike_ids = '<?=isset($cart['bike_ids'])?$cart['bike_ids']:""?>';
     localStorage.setItem("bike_ids", bike_ids);
     var bike_ids = JSON.parse(bike_ids);
     localStorage.setItem("bikesincart", bike_ids.length);
