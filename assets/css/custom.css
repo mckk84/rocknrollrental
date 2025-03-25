@@ -355,7 +355,7 @@ ul.footer-nav {
     #whatsapp-widget-mobile{
         background-color: #FFF;
         position: fixed;
-        bottom: 0;
+        bottom: -1;
         z-index: 999;
         width: 100%;
     }
