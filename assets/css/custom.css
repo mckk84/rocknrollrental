@@ -3,7 +3,7 @@
     left: 5px;
     top: 80%;
     transform: translateY(-50%);
-    z-index: 1000;
+    z-index: 990;
 }
 
 #whatsapp-widget a{
