@@ -1,141 +1,143 @@
       <?php
     $social = getSocial(); 
     ?> 
-        <div id="whatsapp-widget" class="d-block d-sm-none">
-          <a title="Whatsapp Us" href="https://api.whatsapp.com/send?phone=919980318883&amp;text=Hi!%20Can%20I%20get%20more%20information%20on%20this?" target="_blank">
-            <img width="64" height="64" style="border-radius:25px;" src="<?=base_url('assets/images/whatsapp.png')?>" alt="whatsapp--v1">
-          </a>
-          <a title="Call Us"  class="call-widget" href="tel:+919980318883" target="_blank">
-            <img width="64" height="64" src="<?=base_url('assets/images/call.png')?>" alt="call">
-          </a>
-        </div>
-        <!--footer section start-->
-        <footer class="footer-section">
-            <div class="footer-wrapper pt-50 position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
-                <div class="container">
-                    <div class="row justify-content-between">
-                        <div class="col-xl-5 col-lg-5">
-                            <div class="footer-widget widget-basic">
-                                <h3 class="widget-title-large mb-4 text-white">Have a Question? Feel Free to Ask..Feedback</h3>
-                                <p class="mb-40"></p>
-                                <div class="phone-box d-flex align-items-center">
-                                    <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white"><i class="flaticon-phone-call"></i></span>
-                                    <h4 class="text-white ms-3 mb-0">+91 9980318883</h4>
-                                </div>
-                                <div class="sb-form mt-40">
-                                    <h5 class="text-white mb-4">Get latest updates & offers</h5>
-                                    <form method="POST" id="subscribe-form" action="<?=base_url('Contact/subscribe')?>" class="footer-sb-form position-relative">
-                                        <input type="email" name="email" placeholder="Enter your email..." required maxlength="100" class="bg-white text-dark w-100 py-4">
-                                        <button type="button" id="subscribe" class="btn btn-primary py-4">Subscribe</button>
-                                    </form>
-                                </div>
+    <div id="whatsapp-widget" class="d-block dsm-none">
+      <a title="Whatsapp Us" href="https://api.whatsapp.com/send?phone=919980318883&amp;text=Hi!%20Can%20I%20get%20more%20information%20on%20this?" target="_blank">
+        <img width="64" height="64" style="border-radius:25px;" src="<?=base_url('assets/images/whatsapp.png')?>" alt="whatsapp--v1">
+      </a>
+      <a title="Call Us"  class="call-widget" href="tel:+919980318883" target="_blank">
+        <img width="64" height="64" src="<?=base_url('assets/images/call.png')?>" alt="call">
+      </a>
+    </div>
+    <!--footer section start-->
+    <footer class="footer-section">
+        <div class="footer-wrapper pt-50 position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-bg.png">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-xl-5 col-lg-5">
+                        <div class="footer-widget widget-basic">
+                            <h3 class="widget-title-large mb-4 text-white">Have a Question? Feel Free to Ask..Feedback</h3>
+                            <p class="mb-40"></p>
+                            <div class="phone-box d-flex align-items-center">
+                                <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle bg-primary text-white"><i class="flaticon-phone-call"></i></span>
+                                <h4 class="text-white ms-3 mb-0">+91 9980318883</h4>
                             </div>
-                        </div>
-                        <div class="col-xl-6 col-lg-7">
-                            <div class="ms-lg-5 ms-xl-0 mt-5 mt-lg-0">
-                                <div class="row align-items-center">
-                                    <div class="col-xl-9 col-md-9 col-sm-12">
-                                        <div class="row">
-                                            <div class="col-xl-4 col-md-4 col-sm-6">
-                                                <img class="footerlogo img-fluid" src="<?=base_url()?>logo/logo2.png" alt="logo">
-                                            </div>
-                                            <div class="col-xl-6 col-md-8 col-sm-6">
-                                                <div class="d-inline text-start m-1 p-1">
-                                                    <span class="h5 text-white w-75 mt-1 d-block">ROCK N ROLL</span>
-                                                    <span style="border-top: 2px dashed #fdfd06;" class="h5 text-white pt-1 d-block w-75">RENTALS</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-3 col-md-3 col-sm-12">
-                                        <div class="text-end">
-                                            <div class="footer-social d-inline-block text-start">
-                                                <h6 class="text-white">Follow us on</h6>
-                                                <ul class="footer-social-list">
-                                                    <?php if( is_array($social) && $social['facebook'] != "" ){ ?>
-                                                    <li><a href="<?=$social['facebook']?>"><i class="fa fa-facebook-f"></i></a></li>
-                                                    <?php } ?>
-                                                    <?php if( is_array($social) && $social['twitter'] != "" ){ ?>
-                                                    <li><a href="<?=$social['twitter']?>"><i class="fa fa-twitter"></i></a></li>
-                                                    <?php } ?>
-                                                    <?php if( is_array($social) && $social['instagram'] != "" ){ ?>
-                                                    <li><a href="<?=$social['instagram']?>"><i class="fa fa-instagram"></i></a></li>
-                                                    <?php } ?>
-                                                    <?php if( is_array($social) && $social['youtube'] != "" ){ ?>
-                                                    <li><a href="<?=$social['youtube']?>"><i class="fa fa-youtube"></i></a></li>
-                                                    <?php } ?>                                      
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="footer-links row mt-30">
-                                    <div class="col-xl-4 col-md-4 col-sm-12">
-                                        <div class="footer-widget footer-nav-widget mb-5 mb-sm-0">
-                                            <h6 class="widget-title text-white mb-3">About Company</h6>
-                                            <ul class="footer-nav">
-                                                <li><a href="<?=base_url('About')?>">About Us</a></li>
-                                                <li><a href="<?=base_url('Contact')?>">Contact Us</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-md-4 col-sm-12">
-                                        <div class="footer-widget footer-nav-widget mb-5 mb-sm-0">
-                                            <h6 class="widget-title text-white mb-3">Book a Ride</h6>
-                                            <ul class="footer-nav">
-                                                <li><a href="<?=base_url('Tariff')?>">Tariff</a></li>
-                                                <li><a href="<?=base_url('Bookaride')?>">Book a Ride</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-md-4 col-sm-12">
-                                        <div class="footer-widget footer-nav-widget mb-5 mb-sm-0">
-                                            <h6 class="widget-title text-white mb-3">Quick links</h6>
-                                            <ul class="footer-nav">
-                                                <li><a href="<?=base_url('Terms')?>">Terms</a></li>
-                                                <li><a href="<?=base_url('Privacy')?>">Privacy</a></li>
-                                                <li><a href="<?=base_url('Refund')?>">Refund & Cancellation</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="sb-form mt-40">
+                                <h5 class="text-white mb-4">Get latest updates & offers</h5>
+                                <form method="POST" id="subscribe-form" action="<?=base_url('Contact/subscribe')?>" class="footer-sb-form position-relative">
+                                    <input type="email" name="email" placeholder="Enter your email..." required maxlength="100" class="bg-white text-dark w-100 py-4">
+                                    <button type="button" id="subscribe" class="btn btn-primary py-4">Subscribe</button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="footer-copyright">
-                    <div class="container">
-                        <div class="row align-items-center">
-                            <div class="col-sm-7">
-                                <div class="copyright-text">
-                                    <p class="mb-0">&copy; All rights reserved. By <a href="rocknrollrental.com">RockNRollRental.com</a></p>
+                    <div class="col-xl-6 col-lg-7">
+                        <div class="ms-lg-5 ms-xl-0 mt-5 mt-lg-0">
+                            <div class="row align-items-center">
+                                <div class="col-xl-9 col-md-9 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-xl-4 col-md-4 col-sm-6">
+                                            <img class="footerlogo img-fluid" src="<?=base_url()?>logo/logo2.png" alt="logo">
+                                        </div>
+                                        <div class="col-xl-6 col-md-8 col-sm-6">
+                                            <div class="d-inline text-start m-1 p-1">
+                                                <span class="h5 text-white w-75 mt-1 d-block">ROCK N ROLL</span>
+                                                <span style="border-top: 2px dashed #fdfd06;" class="h5 text-white pt-1 d-block w-75">RENTALS</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-3 col-sm-12">
+                                    <div class="text-end">
+                                        <div class="footer-social d-inline-block text-start">
+                                            <h6 class="text-white">Follow us on</h6>
+                                            <ul class="footer-social-list">
+                                                <?php if( is_array($social) && $social['facebook'] != "" ){ ?>
+                                                <li><a href="<?=$social['facebook']?>"><i class="fa fa-facebook-f"></i></a></li>
+                                                <?php } ?>
+                                                <?php if( is_array($social) && $social['twitter'] != "" ){ ?>
+                                                <li><a href="<?=$social['twitter']?>"><i class="fa fa-twitter"></i></a></li>
+                                                <?php } ?>
+                                                <?php if( is_array($social) && $social['instagram'] != "" ){ ?>
+                                                <li><a href="<?=$social['instagram']?>"><i class="fa fa-instagram"></i></a></li>
+                                                <?php } ?>
+                                                <?php if( is_array($social) && $social['youtube'] != "" ){ ?>
+                                                <li><a href="<?=$social['youtube']?>"><i class="fa fa-youtube"></i></a></li>
+                                                <?php } ?>                                      
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-5">
-                                <div class="copyright-text text-end text-sm-end mt-1 mt-sm-0">
-                                    <p class="mb-0">
-                                        &nbsp;Designed &amp; Developed By : <a  href="https://www.jvmtech.in">JVM TECH SOLUTIONS</a>
-                                    </p>
+                            <div class="footer-links row mt-30">
+                                <div class="col-xl-4 col-md-4 col-sm-12">
+                                    <div class="footer-widget footer-nav-widget mb-5 mb-sm-0">
+                                        <h6 class="widget-title text-white mb-3">About Company</h6>
+                                        <ul class="footer-nav">
+                                            <li><a href="<?=base_url('About')?>">About Us</a></li>
+                                            <li><a href="<?=base_url('Contact')?>">Contact Us</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-md-4 col-sm-12">
+                                    <div class="footer-widget footer-nav-widget mb-5 mb-sm-0">
+                                        <h6 class="widget-title text-white mb-3">Book a Ride</h6>
+                                        <ul class="footer-nav">
+                                            <li><a href="<?=base_url('Tariff')?>">Tariff</a></li>
+                                            <li><a href="<?=base_url('Bookaride')?>">Book a Ride</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-md-4 col-sm-12">
+                                    <div class="footer-widget footer-nav-widget mb-5 mb-sm-0">
+                                        <h6 class="widget-title text-white mb-3">Quick links</h6>
+                                        <ul class="footer-nav">
+                                            <li><a href="<?=base_url('Terms')?>">Terms</a></li>
+                                            <li><a href="<?=base_url('Privacy')?>">Privacy</a></li>
+                                            <li><a href="<?=base_url('Refund')?>">Refund & Cancellation</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </footer>
-        <!--footer section end-->
-
-        <div class="d-none d-sm-block" id="whatsapp-widget-mobile">
-          <a title="Whatsapp Us" class="btn btn-warning" href="https://api.whatsapp.com/send?phone=919980318883&amp;text=Hi!%20Can%20I%20get%20more%20information%20on%20this?" target="_blank">
-            <img width="30" height="30" src="<?=base_url('assets/images/whatsapp.png')?>" alt="whatsapp--v1">&nbsp; Whatsapp Us
-          </a>
-          <a title="Call Us"  class="btn btn-warning call-widget" href="tel:+919980318883" target="_blank">
-            <img width="30" height="30" src="<?=base_url('assets/images/call.png')?>" alt="call">&nbsp; Call Us
-          </a>
+            <div class="footer-copyright">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-sm-7">
+                            <div class="copyright-text">
+                                <p class="mb-0">&copy; All rights reserved. By <a href="rocknrollrental.com">RockNRollRental.com</a></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="copyright-text text-end text-sm-end mt-1 mt-sm-0">
+                                <p class="mb-0">
+                                    &nbsp;Designed &amp; Developed By : <a  href="https://www.jvmtech.in">JVM TECH SOLUTIONS</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </footer>
+    <!--footer section end-->
+
+   
 
     </div>
     <!-- main content wrapper ends -->
+
+     <div class="d-none dsm-block" id="whatsapp-widget-mobile">
+      <a title="Whatsapp Us" class="btn btn-warning" href="https://api.whatsapp.com/send?phone=919980318883&amp;text=Hi!%20Can%20I%20get%20more%20information%20on%20this?" target="_blank">
+        <img width="30" height="30" src="<?=base_url('assets/images/whatsapp.png')?>" alt="whatsapp--v1">&nbsp; Whatsapp Us
+      </a>
+      <a title="Call Us"  class="btn btn-warning call-widget" href="tel:+919980318883" target="_blank">
+        <img width="30" height="30" src="<?=base_url('assets/images/call.png')?>" alt="call">&nbsp; Call Us
+      </a>
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="bike_customize">
