@@ -103,7 +103,7 @@
 </section>
 
 <!--about section start-->
-<section class="h3-about-section ptb-80">
+<section class="h3-about-section ptb-60">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-7">
@@ -151,7 +151,7 @@
 
 <?php if( isset($bikes) && count($bikes) > 0 ) {?>
 <!--latest collection start-->
-<section class="latest-collection pt-10 pb-80">
+<section class="latest-collection pt-10 pb-60">
     <div class="container">
         <div class="row align-items-center justify-content-between">
             <div class="col-lg-6">
@@ -229,7 +229,7 @@
 <?php } ?>
 
 <!--staff area start-->
-<section class="staff-area ptb-80 bg-md-primary">
+<section class="staff-area ptb-60 bg-md-primary">
     <div class="container">
         <div class="row justify-content-center ">
             <div class="col-xl-6 col-lg-7">
@@ -277,7 +277,7 @@
 <!--staff area end-->
 
 <!--about section start-->
-<section class="about-section pt-80 pb-80 bg-primary-light position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/about-bg.jpg">
+<section class="about-section pt-60 pb-60 bg-primary-light position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/about-bg.jpg">
     <img src="<?=base_url()?>/assets/img/shapes/tire-primary-light.png" alt="tire" class="tire-primary-light position-absolute end-0 top-0 z--1">
     <span class="small-circle-shape position-absolute z--1"></span>
     <div class="container">
@@ -323,7 +323,7 @@
 <!--about section end-->
 
 <!--countdown section start-->
-<section class="h3-counter-section pt-80 pb-80 position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-shape.png">
+<section class="h3-counter-section pt-60 pb-60 position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-shape.png">
     <div class="overlay position-absolute start-0 top-0 bg-secondary-gradient z--1 w-100 h-100"></div>
     <div class="container">
         <div class="row justify-content-center">
@@ -374,7 +374,7 @@
 <!--countdown section end-->
 
 <!--feedback section start-->
-<section class="h2-feedback-section pb-80 bg-white" style="background-repeat: no-repeat;background-size: cover;" data-background="<?=base_url()?>/assets/images/bg.jpg">
+<section class="h2-feedback-section pb-60 bg-white" style="background-repeat: no-repeat;background-size: cover;" data-background="<?=base_url()?>/assets/images/bg.jpg">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-6 col-lg-7">
