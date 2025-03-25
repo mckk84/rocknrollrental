@@ -124,7 +124,7 @@
                             </tr>
                             <tr>
                                <td>
-                                    <label class="w-50 float-left">
+                                    <label class="w-50 float-left mt-2">
                                         <input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] > 0)?"checked":""?> > Add extra for ₹50/day. </label>
 
                                     <div style="display:<?=($cart["helmets_qty"] > 0)?"inline-flex":"none"?>;" class="helmet-row cart-count bg-white justify-content-center">

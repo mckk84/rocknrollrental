@@ -180,7 +180,7 @@ class Payment extends CI_Controller {
 		            $this->bookingbikes_model->addNew($bookingbikes_record);
 		        }
 		        $order_bikes .= ($order_bikes == "") ? $bike['bike_type_name']."(".$bike['quantity'].")" : ",".$bike['bike_type_name']."(".$bike['quantity'].")";
-		        $worder_bikes .= ($order_bikes == "") ? $bike['bike_type_name']."(".$bike['quantity'].")" : ";".$bike['bike_type_name']."(".$bike['quantity'].")";
+		        $worder_bikes .= ($worder_bikes == "") ? $bike['bike_type_name']."(".$bike['quantity'].")" : ";".$bike['bike_type_name']."(".$bike['quantity'].")";
 	        }
 
 	        // Add Payment Record
@@ -289,7 +289,7 @@ class Payment extends CI_Controller {
             $rent_price = $bike['rent_price'];
             $order_bikes .= ($order_bikes == "") ? $bike['bike_type_name']."(".$bike_quantity.")" : ",".$bike['bike_type_name']."(".$bike_quantity.")";
             $subtotal += $bike_quantity * $rent_price;
-            $worder_bikes .= ($order_bikes == "") ? $bike['bike_type_name']."(".$bike_quantity.")" : ";".$bike['bike_type_name']."(".$bike_quantity.")";
+            $worder_bikes .= ($worder_bikes == "") ? $bike['bike_type_name']."(".$bike_quantity.")" : ";".$bike['bike_type_name']."(".$bike_quantity.")";
         }
 
         $total = $subtotal;
