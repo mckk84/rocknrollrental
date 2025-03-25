@@ -559,7 +559,7 @@ $(document).ready(function(){
   {
     setTimeSpecial($("#pickup_time"), hour);
     $("#pickup_time option:first").attr('selected','selected');
-    setTimeAll($("#dropoff_time"), hour);
+    setTimeSpecial($("#dropoff_time"), hour);
     $("#dropoff_time option:last").attr('selected','selected');
   }
 
