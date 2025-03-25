@@ -27,6 +27,9 @@
                         Personal Details
                     </h4>
                 </div>
+                <?php
+                $isMobile = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+                if( $isMobile == false ){?>
                 <div class="shopping-cart-left">
                     <div class="table-content table-responsive table-bordered bg-white rounded">
                         <table class="table cartbikes">
@@ -45,13 +48,26 @@
                         </table>
                     </div>
                 </div> 
+                <?php } else { ?>
+                <div class="shopping-cart-left">
+                    <div class="table-content table-responsive table-bordered bg-white rounded">
+                        <table class="table cartbikes">
+                            <tr><th class="bg-warning-light">Name</th><td><?=$user['name']?></td></tr>
+                            <tr><th class="bg-warning-light" >Email</th><td><?=$user['email']?></td></tr>
+                            <tr><th class="bg-warning-light">Phone</th><td><?=$user['phone']?></td></tr>
+                        </table>
+                    </div>
+                </div>    
                 <?php } ?>
-
+                <?php } ?>
                 <div class="checkout-badge bg-light px-0 d-flex align-items-center justify-content-between">
                     <h4 class="h5 px-4 mb-0">
                         Your Order
                     </h4>
                 </div>
+                <?php
+                $isMobile = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+                if( $isMobile == false ){?>
                 <div class="shopping-cart-left mb-4">
                     <?php 
                     $bike_quantity = 0;
@@ -131,6 +147,113 @@
                         </table>
                     </div>
                 </div>
+                <?php } else { ?>
+                <div class="shopping-cart-left mb-4">
+                    <?php 
+                    $bike_quantity = 0;
+                    $subtotal = 0;
+                    $gst = 0;
+                    $total = 0;
+                    $helmets_total = 0;
+                    ?>
+                    <div class="table-content table-responsive table-bordered bg-white rounded">
+                            <?php 
+                            if( isset($cart) && isset($cart['cart_bikes']) )
+                            { 
+                                foreach($cart['cart_bikes'] as $index => $bike) 
+                                {
+                                    $rent_price = $bike['rent_price'];
+                                    $rent_total = round($bike['quantity'] * $rent_price, 2);
+                                    $bike_quantity += $bike['quantity'];
+                                    $sl = $index + 1;
+                                    $subtotal += $rent_total;
+                                ?>
+                                <table class="table cartbikes mb-1">
+                                    <tr class="border bike-row" data-id="<?=$bike['bike_type_id']?>">
+                                        <td class="position-relative" colspan="2">
+                                            <span style="position: absolute;top: 1px;left: 1px;padding: 5px;border-right: 1px solid rgba(11, 22, 63, 0.07);border-bottom: 1px solid rgba(11, 22, 63, 0.07);z-index: 9;display: block;width: 50px;background-color: rgb(255, 220, 0);" class="fw-bold fa-md text-center"><?=$sl?></span>
+                                            <span class="d-block fw-bold fa-xl w-100 text-center p-3"><?=$bike['bike_type_name']?></span>
+                                            <img style="max-width:250px;display: block; margin:auto;" src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid">
+                                            <button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" style="right:5px;bottom:5px" class="position-absolute cart-delete text-danger bg-transparent"><i class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="border">
+                                        <td colspan="2" class="text-center position-relative p-1">
+                                            <span class="d-block w-45 float-left">
+                                                <span class="w-100 m-1 p-1 fa-md d-block"><b><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
+                                                <span class="w-100 m-1 py-1 px-4 fa-md d-block"><b><?=$cart['pickup_time']?></b></span>
+                                            </span>
+                                            <span style="width: 30px;float: left;display: block;text-align: center;color: orange;padding: 5px 10px;font-size:30px;margin-top:10px;">></span>
+                                            <span class="d-block w-45 float-left">
+                                                <span class="w-100 m-1 p-1 fa-md d-block"><b><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
+                                                <span class="w-100 m-1 py-1 px-4 fa-md d-block"><b><?=$cart['dropoff_time']?></b></span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr class="border">
+                                        <td colspan="2" class="border-0 text-center p-1">
+                                            <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">Qty</label>
+                                            <?php if( $bike['bikes_available'] > 1 ){?>
+                                            <div class="cart-count border p-0 d-inline-flex align-items-center">
+                                                <button class="cart-minus p-2 btn btn-sm bg-secondary text-white rounded-0"><i class="fa fa-minus"></i></button>
+                                                <input type="text" style="padding:8px" data-bike="<?=$bike['bike_type_id']?>" data-available="<?=$bike['bikes_available']?>" class="bg-white cart-input" value="<?=$bike['quantity']?>">
+                                                <button class="cart-plus p-2 btn btn-sm bg-secondary text-white rounded-0"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                            <?php } else { ?>
+                                            <div class="cart-count border d-inline-flex align-items-center">
+                                                <input type="text" disabled class="cart-input" value="<?=$bike['quantity']?>">
+                                            </div>
+                                            <?php } ?>
+                                            &nbsp;
+                                            <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">X</label>
+                                            &nbsp;
+                                            <i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?>
+                                            &nbsp;
+                                            <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">=</label>
+                                            &nbsp;
+                                            <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal fw-semibold fa-md d-inline-block p-1"><b><?=round($rent_price * $bike['quantity'], 2)?></b></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <?php } 
+                                $total += $subtotal;
+                            }
+                            if( isset($cart['helmets_qty']) && $cart['helmets_qty'] > 0 ){
+
+                                $helmets_price = 50;
+                                $helmets_total = $cart['helmets_qty'] * $helmets_price;
+                                $total += $helmets_total;
+                            ?>
+                                <table class="table">
+                                    <tr class="bg-eq-primary">
+                                        <th colspan="2">Addons</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="helmet-option">
+                                                <label class="w-100">1 Helmet is free.  </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1">0</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                            <label class="w-100">Extra Hemelts (<?=$cart["helmets_qty"]?>)</label>
+                                            
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"] * 50:0?></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <?php }
+                        ?>
+                        </table>
+                    </div>
+                </div>   
+                <?php } ?>
             </div>
             <div class="col-xxl-4 col-lg-6">
                 <div class="cart-sidebar bg-white rounded p-0 mt-xxl-0">
