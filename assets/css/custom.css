@@ -346,8 +346,12 @@ ul.footer-nav {
         margin: auto;
         padding: 10px;
         color: #FFF;
+    }
+
+    #whatsapp-widget-mobile .btn:nth-child(1){
         border-right: 1px solid #fff;
     }
+
     #whatsapp-widget-mobile{
         background-color: #FFF;
         position: fixed;
