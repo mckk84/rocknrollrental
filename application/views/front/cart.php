@@ -450,8 +450,8 @@
         <?php } ?>
         <?php }else { ?>
             <div class="row">
-                <div class="col-6">
-                    <img src="<?=base_url('assets/images/empty-cart.png')?>" class="img-fluid d-block mx-auto">
+                <div class="col-6 mx-auto text-center">
+                    <img src="<?=base_url('assets/images/empty-cart.png')?>" class="w-50 img-fluid d-block mx-auto">
                     <h4 class="h4 text-center text-danger">Your Cart is empty.</h4>
                     <a class="btn btn-primary" href="<?=base_url('Bookaride')?>">Book a Ride</a>
                 </div>
