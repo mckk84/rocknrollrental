@@ -266,7 +266,7 @@
                                         <button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" style="right:5px;bottom:5px" class="position-absolute cart-delete text-danger bg-transparent"><i class="fa fa-trash"></i></button>
                                     </td>
                                 </tr>
-                                <tr class="border bg-warning-light">
+                                <tr class="border">
                                     <td colspan="2" class="text-center position-relative p-1">
                                         <span class="d-block w-45 float-left">
                                             <span class="w-100 m-1 p-1 fa-md d-block"><b><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
@@ -279,7 +279,7 @@
                                         </span>
                                     </td>
                                 </tr>
-                                <tr class="border bg-warning-light">
+                                <tr class="border">
                                     <td colspan="2" class="border-0 text-center p-1">
                                         <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">Qty</label>
                                         <?php if( $bike['bikes_available'] > 1 ){?>
