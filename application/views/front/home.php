@@ -161,11 +161,6 @@
                 </div>
             </div>
             <div class="col-lg-6 align-self-end">
-                <!-- <div class="collection-filter-controls d-flex align-items-center justify-content-center justify-content-lg-end flex-wrap mt-5 mt-lg-0">
-                    <button class="at-filter-btn active" data-filter="*">All</button>
-                    <button class="at-filter-btn" data-filter=".bikes">Bikes</button>
-                    <button class="at-filter-btn" data-filter=".scooty">Scooty</button>
-                </div> -->
             </div>
         </div>
         <div class="filter-items-wrapper mt-5">
@@ -173,9 +168,6 @@
                 <?php foreach($bikes as $bike){ ?>
                 <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 latest">
                     <div class="filter-card-item position-relative overflow-hidden rounded bg-white">
-                        <!-- <a href="#" class="icon-btn compare-btn position-absolute"><i class="fa-solid fa-compress"></i></a>
-                        <a href="#" class="icon-btn wish-btn position-absolute"><i class="fa-solid fa-heart"></i></a> -->
-                        <!-- <span class="date position-absolute">2017</span> -->
                         <div class="feature-thumb position-relative overflow-hidden">
                             <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid">
                         </div>
