@@ -130,12 +130,12 @@
     <!-- main content wrapper ends -->
 
      <div class="d-none dsm-block" id="whatsapp-widget-mobile">
-      <a title="Whatsapp Us" class="fa-lg btn btn-warning" href="https://api.whatsapp.com/send?phone=919980318883&amp;text=Hi!%20Can%20I%20get%20more%20information%20on%20this?" target="_blank">
+      <a title="Whatsapp Us" class="btn btn-warning" href="https://api.whatsapp.com/send?phone=919980318883&amp;text=Hi!%20Can%20I%20get%20more%20information%20on%20this?" target="_blank">
         <!-- <img width="30" height="30" src="<?=base_url('assets/images/whatsapp.png')?>" alt="whatsapp--v1"> -->
         <i class="fa fa-whatsapp"></i>
         &nbsp; Whatsapp Us
       </a>
-      <a title="Call Us"  class="fa-lg btn btn-warning call-widget" href="tel:+919980318883" target="_blank">
+      <a title="Call Us"  class="btn btn-warning call-widget" href="tel:+919980318883" target="_blank">
         <!-- <img width="30" height="30" src="<?=base_url('assets/images/call.png')?>" alt="call"> -->
         <i class="fa fa-phone"></i>
         &nbsp; Call Us
