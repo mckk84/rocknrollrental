@@ -72,11 +72,7 @@
                             <span class="slide-index text-dark position-absolute fw-bold">Bajaj Avenger</span>
                         </div>
                     </div>
-                    <div class="bike-slider-pagination"></div>
-                    <div class="bike-pagination-text">
-                        <span>Honda Activa</span>
-                        <span>Bajaj Avenger</span>
-                    </div>
+                    
                 </div>
             </div>
         </div>
