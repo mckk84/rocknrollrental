@@ -450,9 +450,11 @@
         <?php } ?>
         <?php }else { ?>
             <div class="row">
-                <img src="<?=base_url('assets/images/empty-cart.png')?>" class="img-fluid d-block mx-auto">
-                <h4 class="h4 text-center text-danger">Your Cart is empty.</h4>
-                <a class="btn btn-primary" href="<?=base_url('Bookaride')?>">Book a Ride</a>
+                <div class="col-6">
+                    <img src="<?=base_url('assets/images/empty-cart.png')?>" class="img-fluid d-block mx-auto">
+                    <h4 class="h4 text-center text-danger">Your Cart is empty.</h4>
+                    <a class="btn btn-primary" href="<?=base_url('Bookaride')?>">Book a Ride</a>
+                </div>
             </div>
         <?php } ?>
     </div>
