@@ -382,6 +382,10 @@ input[type="checkbox"] {
     .col-sm-6 {
         width: 49.33333333%;
     }
+
+    .col-sm-3 {
+        width: 30%;
+    }
 }
 
 @media (min-width: 800px){
