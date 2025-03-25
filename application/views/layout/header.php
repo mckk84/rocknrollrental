@@ -224,7 +224,7 @@
                 <h4 class="mb-4 mt-5">Contact Info</h4>
                 <ul class="at_canvus_address">
                     <li>Chikmagalur, Karnataka 577001</li>
-                    <li>+91-9980318883</li>
+                    <li>+91 9980318883</li>
                     <li>info@rocknrollrental.com</li>
                 </ul>
             </div>
