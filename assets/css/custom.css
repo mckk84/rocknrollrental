@@ -363,6 +363,9 @@ ul.footer-nav {
     .footer-section{
         padding-bottom:55px;
     }
+    .theme-scrolltop-btn{
+        bottom: 140px !important;
+    }
 }
 
 
