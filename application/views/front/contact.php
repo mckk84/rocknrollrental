@@ -73,11 +73,11 @@
                                     <span class="icon-wrapper d-flex align-items-center justify-content-center rounded bg-light-primary rounded-circle flex-shrink-0"><i class="fa-brands fa-whatsapp"></i></span>
                                     <div class="ms-3 info-content">
                                         <span class="d-block">Call:</span>
-                                        <a href="tel:905431478798">+91-9980318883</a>
+                                        <a href="tel:905431478798">+91 9980318883</a>
                                     </div>
                                 </li>
                                 <li class="d-flex align-items-center">
-                                    <span class="icon-wrapper d-flex align-items-center justify-content-center rounded bg-light-primary rounded-circle flex-shrink-0"><i class="fa-regular fa-envelope"></i></span>
+                                    <span class="icon-wrapper d-flex align-items-center justify-content-center rounded bg-light-primary rounded-circle flex-shrink-0"><i class="fa-regular fa-envelope"></i></span>d
                                     <div class="ms-3 info-content">
                                         <span class="d-block">Email</span>
                                         <a href="maito:info@rocknrollrental.com">info@rocknrollrental.com</a>

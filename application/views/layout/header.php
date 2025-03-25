@@ -190,7 +190,7 @@
             <div class="contact-info mt-60">
                 <h4 class="mb-20">Contact Info</h4>
                 <p>Chikmagalur, Karnataka 577001</p>
-                <p>+91-9980318883</p>
+                <p>+91 9980318883</p>
                 <p>info@rocknrollrental.com</p>
                 <div class="social-contact">
                     <?php if( is_array($social) && $social['facebook'] != "" ){ ?>
