@@ -19,7 +19,7 @@
     <div class="container">
         <?php if( isset($cart) && isset($cart['cart_bikes']) ) {
 
-        $isMobile = preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+        $isMobile = checkMobile();
         if( $isMobile == false ){
         ?> 
         <div class="row">
