@@ -1025,7 +1025,7 @@ $(document).ready(function(){
                         $("#bike_availability").html("Availability : <i class='fa fa-check'></i>");
                     }
                     $("#custom_bike :input").prop("disabled", false);
-                    $("#custom_bike button[type='button']").html("Book Now");                                   
+                    $("#custom_bike button[type='button']").html("Book Now");                          
                 }
             },
             error: function (data) {

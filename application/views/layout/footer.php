@@ -145,12 +145,12 @@
     <!-- Modal -->
     <div class="modal fade" id="bike_customize">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content product_modal px-4 py-4">
+            <div class="modal-content product_modal px-2 py-2">
                 <div class="at_product_view">
                     <div class="card w-100 bg-white border-0"  style="max-width: 480px;">
                         <div class="card-body p-1">
                             <div class="text-center border-bottom-primary">
-                                <span class="card-title fw-bold mb-1 fs-5"></span>
+                                <span class="d-block card-title fw-bold mb-1 fs-5"></span>
                             </div>
                             <div class="mt-1 mb-2 text-center">
                                 <form id="custom_bike" method="POST" action="<?=base_url('Checkout/instant')?>" class="custom_bike row d-flex align-items-center mx-1 my-0">
@@ -194,68 +194,89 @@
                                     </div>
                                     <div class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
-                                            <div class="col-xl-8 py-2">
-                                                <div class="w-25 pt-1 text-dark float-left">Qty</div>
-                                                <div class="w-75 cart-count d-flex justify-content-center">
+                                            <div class="col-xl-4 col-sm-4 py-2">
+                                                <div class="w-50 pt-1 text-dark float-left">Qty</div>
+                                            </div>
+                                            <div class="col-xl-4  col-sm-4 py-2">
+                                                <div class="w-100 cart-count d-flex justify-content-center">
                                                     <span class="btn btn-sm cart-minus bg-primary text-white rounded-0"><i class="fa fa-minus"></i></span>
                                                     <input type="text" name="bikeqty" class="w-50 cart-input text-center border text-black rounded-0" value="1">
                                                     <span class="btn btn-sm cart-plus bg-primary text-white rounded-0"><i class="fa fa-plus"></i></span>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-4 py-2">
+                                            <div class="col-xl-4  col-sm-4 py-2">
                                                 <span id="bike_availability" class="text-success m-1">Availability : <i class="fa fa-check"></i></span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
-                                            <div class="col-xl-8 py-2">
-                                                <div class="text-dark m-1">Rental Price : (<i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="bike_price"></span>x<span class="d-inline" id="bike_qty"></span>)</div>
+                                            <div class="col-xl-4 col-sm-4 py-2">
+                                                <div class="w-100 pt-1 text-dark float-left">Rental Price</div>
                                             </div>
-                                            <div class="col-xl-4 py-2">
+                                            <div class="col-xl-4 col-sm-4 py-2">
+                                                <div class="text-dark m-1"> <i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="bike_price"></span> X <span class="d-inline" id="bike_qty"></span></div>
+                                            </div>
+                                            <div class="col-xl-4 col-sm-4 py-2">
                                                 <div class="text-dark m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="bike_price_subtotal"></span></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 border-bottom-primary">
-                                        <div class="row px-2">
-                                            <div class="col-xl-8 py-2">
-                                                <div class="w-50 pt-1 text-dark float-left">Helmets</div>
-                                                <div class="cart-count w-50 d-flex justify-content-center">
-                                                    <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0"><i class="fa fa-minus"></i></span>
-                                                    <input type="text" name="helmets_qty" class="w-50 cart-helmets text-center border text-black rounded-0" value="0">
-                                                    <span class="btn btn-sm cart-hplus bg-primary text-white rounded-0"><i class="fa fa-plus"></i></span>
-                                                </div>
-                                                <span class="d-block text-info text-sm mt-1">(1 Helmet is included for each Bike.)</span>
+                                        <div class="border-bottom-dotted-primary row px-2">
+                                            <div class="col-xl-12 py-1 text-center">
+                                                <b>Addons</b>
                                             </div>
-                                            <div class="col-xl-4 py-2">
+                                        </div>
+                                        <div class="border-bottom-dotted-primary row px-2">
+                                            <div class="col-xl-8 col-sm-8 py-1">
+                                                <div class="w-50 text-sm pt-1 text-dark float-left">1 Helmet is free. </div>
+                                            </div>
+                                            <div class="col-xl-4  col-sm-4 py-1">
+                                               <div class="text-dark m-1"> <i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block p-1">0</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="row px-2">
+                                            <div class="col-xl-4  col-sm-4 py-1">
+                                                <div class="w-100 text-sm text-dark float-left">
+                                                    Add extra for ₹50/day.
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4  col-sm-4 py-1">
+                                                <div class="cart-count w-100 d-flex justify-content-center">
+                                                    <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0 p-1 m-1 mx-0"><i class="fa fa-minus"></i></span>
+                                                    <input type="text" name="helmets_qty" class="w-50 cart-helmets text-center border text-black rounded-0 p-1 m-1 mx-0" value="0">
+                                                    <span class="btn btn-sm cart-hplus bg-primary text-white rounded-0 p-1 m-1 mx-0"><i class="fa fa-plus"></i></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4  col-sm-4 py-1">
                                                 <div class="text-dark m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="helmets_total"></span></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div id="early_pickup_div" style="display:none;" class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
-                                            <div class="col-xl-8 py-2">
+                                            <div class="col-xl-8  col-sm-8 py-2">
                                                     <label class="fa-md text-dark py-2 px-2"><input style="width:20px;height: 20px;vertical-align:middle;" type="checkbox" name="early_pickup_charge" value="1" > Pickup early at 6:00 AM for  200 extra / bike.</label>
                                             </div>
-                                            <div class="col-xl-4 py-2">
+                                            <div class="col-xl-4  col-sm-4 py-2">
                                                 <div class="text-dark m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="early_pickup">0</span></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-12">
                                         <div class="row px-2">
-                                            <div class="col-xl-8 py-2">
+                                            <div class="col-xl-8  col-sm-8 py-2">
                                                 <div class="w-25 pt-1 text-dark float-left">Total</div>
                                             </div>
-                                            <div class="col-xl-4 py-2">
+                                            <div class="col-xl-4  col-sm-4 py-2">
                                                 <div class="text-dark m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="cart_total"></span></div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="sumit_row" class="col-xl-12 mt-2 px-2 pt-2 mb-2">
+                                    <div id="sumit_row" class="col-xl-12 mt-2 px-2 pt-2 mb-1">
                                         <div class="text-center">
-                                            <button class="custom_bike_submit btn btn-primary" type="button">Book Now</button>
+                                            <button class="custom_bike_submit btn btn-md btn-primary" type="button">Book Now</button>
                                         </div>
                                     </div>
                                 </form>

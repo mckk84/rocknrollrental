@@ -338,7 +338,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1">0</span>
+                                    <i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block p-1">0</span>
                                 </td>
                             </tr>
                             <tr>

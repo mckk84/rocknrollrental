@@ -78,7 +78,7 @@
                                         <span class="icon-wrapper me-2">
                                           <i class="flaticon-phone-call"></i>
                                       </span>
-                                        <p class="mb-0"><a class="text-dark" href="tel:9980318883">+91-9980318883</a></p>
+                                        <p class="mb-0"><a class="text-dark" href="tel:9980318883">+91 9980318883</a></p>
                                     </div>
                                     <div class="d-none tp-info d-xl-inline-flex align-items-center">
                                         <span class="icon-wrapper me-2">
