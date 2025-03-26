@@ -268,7 +268,7 @@ $(document).ready(function(){
         console.log("localStorage"+bikesincart_local);
         console.log("localStorage"+bike_ids_local);
 
-        if( bike_ids_local != null )
+        if( bike_ids_local != "" && bike_ids_local != null )
         {
             var bi = JSON.parse(bike_ids_local);
             for (var prop in bi) 
