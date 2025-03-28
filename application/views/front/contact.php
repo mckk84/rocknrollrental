@@ -26,31 +26,31 @@
                             <h4 class="mb-3">Send your query</h4>
                             <form id="contactform" method="POST" action="<?=base_url('Contact/savequery')?>" class="ct-form-wrapper">
                                 <div class="row g-4">
-                                    <div class="col-sm-6">
+                                    <div class="col-md-6 col-sm-12">
                                         <div class="input-field">
                                             <label class="fw-semibold text-secondary mb-1">Name</label>
                                             <input type="text" name="name" maxlength="100" required placeholder="Full Name" class="border w-100 rounded">
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-md-6 col-sm-12">
                                         <div class="input-field">
                                             <label class="fw-semibold text-secondary mb-1">Email</label>
                                             <input type="email" name="email" maxlength="100" required placeholder="Email" class="border w-100 rounded">
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-md-6 col-sm-12">
                                         <div class="input-field">
                                             <label class="fw-semibold text-secondary mb-1">Phone</label>
                                             <input type="tel" name="phone" maxlength="10" required placeholder="Phone" class="border w-100 rounded">
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-md-6 col-sm-12">
                                         <div class="input-field">
                                             <label class="fw-semibold text-secondary mb-1">Subject</label>
                                             <input type="text" name="subject" maxlength="100" required placeholder="Subject" class="border w-100 rounded">
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-md-12 col-sm-12">
                                         <div class="input-field">
                                             <label class="fw-semibold text-secondary mb-1">Message</label>
                                             <textarea placeholder="Message" name="message" class="border w-100 rounded" rows="5"></textarea>

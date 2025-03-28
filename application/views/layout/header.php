@@ -61,7 +61,7 @@
     <div class="main-wrapper">
 
         <!--header area start-->
-        <header class="rent-header position-relative z-2 header-sticky">
+        <header class="rent-header position-relative z-2">
             <div class="rent-header-info position-relative z-2">
                 <div class="container">
                     <div class="row">
