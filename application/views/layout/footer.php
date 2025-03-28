@@ -199,9 +199,9 @@
                                             </div>
                                             <div class="col-xl-4  col-sm-4 py-2">
                                                 <div class="w-100 cart-count d-flex justify-content-center">
-                                                    <span class="btn btn-sm cart-minus bg-primary text-white rounded-0"><i class="fa fa-minus"></i></span>
+                                                    <span class="btn btn-sm cart-minus bg-primary text-white rounded-0 px-2 py-1"><i class="fa fa-minus"></i></span>
                                                     <input type="text" name="bikeqty" class="w-50 cart-input text-center border text-black rounded-0" value="1">
-                                                    <span class="btn btn-sm cart-plus bg-primary text-white rounded-0"><i class="fa fa-plus"></i></span>
+                                                    <span class="btn btn-sm cart-plus bg-primary text-white rounded-0 px-2 py-1"><i class="fa fa-plus"></i></span>
                                                 </div>
                                             </div>
                                             <div class="col-xl-4  col-sm-4 py-2">

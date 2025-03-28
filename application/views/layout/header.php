@@ -213,7 +213,7 @@
         <!--ofcanvus menu start-->
         <div class="at_offcanvus_menu position-fixed">
             <button class="at-offcanvus-close"><i class="fa fa-xmark"></i></button>
-            <a href="<?=base_url()?>" class="logo-wrapper d-inline-block mb-5"><img style="width:190px;" src="<?=base_url()?>/logo/logo2.png" alt="logo"></a>
+            <a href="<?=base_url()?>" class="logo-wrapper d-inline-block mb-5"><img style="width:150px;" src="<?=base_url()?>/logo/logo2.png" alt="logo"></a>
             <div class="offcanvus-content">
                 <h4 class="mb-4">About Us</h4>
                 <p>A hassle-free and simple bike rental company. We remain loyal to our customers by making it easy to rent a bike. We have a wide range of scooters & bikes available to rent and move on.</p>
