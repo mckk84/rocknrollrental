@@ -456,3 +456,24 @@ input[type="checkbox"] {
         padding: 0 20px 14px;
     }
 }
+
+.infoicon {
+    position: relative;
+    left: 95%;
+    top: -35px;
+    z-index: 999;
+}
+
+.tooltiptext {
+    display: none;
+    width: 200px;
+    background-color: rgb(232, 240, 254);
+    color: #000;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 9999;
+    font-size: 12px;
+    right: 0px;
+    border: 1px solid darkgrey;
+}

@@ -379,8 +379,10 @@
                                     <div class="mb-4">
                                         <input type="tel" name="phone" autocomplete="off" maxlength="10" placeholder="Phone" class="form-control" required>
                                     </div>
-                                    <div class="mb-4">
+                                    <div class="mb-4 position-relative">
                                         <input type="password" name="password" autocomplete="off" placeholder="Password" class="form-control" required>
+                                        <a class="infoicon"><i class="fa fa-info"></i></a>
+                                        <span class="tooltiptext">Password should contain alphanumberic with atleast 1 special character.</span>
                                     </div>
                                     <div class="cookies-area d-flex align-items-center flex-wrap justify-content-between mt-3">
                                         <label><input type="checkbox" checked class="me-1">Get Updates on Whatsapp</label>
@@ -490,5 +492,18 @@
     <script src="<?=base_url()?>assets/js/app.js"></script>
     <script src="<?=base_url()?>assets/js/auth.js"></script>
     
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+
+            $('body').on('mouseover','.infoicon',function(){
+               $(".tooltiptext").slideDown();
+            });
+
+            $('body').on('mouseleave','.infoicon',function(){
+               $(".tooltiptext").slideUp();
+            });
+        });
+    </script>
 </body>
 </html>

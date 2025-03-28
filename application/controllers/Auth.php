@@ -96,7 +96,7 @@ class Auth extends CI_Controller {
 		        if(!preg_match('/^(?=.*\d)[0-9A-Za-z_!@#$%]{6,}$/', $password)) 
 		        {
 				    $response["error"] = 1;
-		            $response["error_message"] = "Password contains invalid characters.";
+		            $response["error_message"] = "Password is not strong.";
 		            die(json_encode($response));
 				}
 				

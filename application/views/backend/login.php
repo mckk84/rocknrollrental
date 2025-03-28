@@ -31,7 +31,7 @@
   <main>
     <div class="container">
 
-      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-0">
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
@@ -42,7 +42,7 @@
                     </div>
                 </div>
               <div class="card mb-3">
-                <div class="card-body">
+                <div class="card-body mh-100">
                   <div class="pt-1 pb-1">
                     <h5 class="card-title text-center pb-0">Adminstrator Login</h5>
                   </div>
