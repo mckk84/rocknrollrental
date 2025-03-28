@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="breadcrumb-content-wrapper text-center position-relative z-3">
-                            <h1 class="text-white">Contact Us</h1>
+                            <h1 class="text-white">Contact</h1>
                         </div>
                     </div>
                 </div>
@@ -70,14 +70,14 @@
                             <hr class="mt-4 mb-4">
                             <ul class="contact-info">
                                 <li class="d-flex align-items-center">
-                                    <span class="icon-wrapper d-flex align-items-center justify-content-center rounded bg-light-primary rounded-circle flex-shrink-0"><i class="fa-brands fa-whatsapp"></i></span>
+                                    <span class="icon-wrapper d-flex align-items-center justify-content-center rounded bg-light-primary rounded-circle flex-shrink-0"><i class="fa fa-phone"></i></span>
                                     <div class="ms-3 info-content">
                                         <span class="d-block">Call:</span>
                                         <a href="tel:905431478798">+91 9980318883</a>
                                     </div>
                                 </li>
                                 <li class="d-flex align-items-center">
-                                    <span class="icon-wrapper d-flex align-items-center justify-content-center rounded bg-light-primary rounded-circle flex-shrink-0"><i class="fa-regular fa-envelope"></i></span>d
+                                    <span class="icon-wrapper d-flex align-items-center justify-content-center rounded bg-light-primary rounded-circle flex-shrink-0"><i class="fa fa-envelope"></i></span>
                                     <div class="ms-3 info-content">
                                         <span class="d-block">Email</span>
                                         <a href="maito:info@rocknrollrental.com">info@rocknrollrental.com</a>
