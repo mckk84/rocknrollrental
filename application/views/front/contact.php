@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="col-xl-8">
                         <div class="contact-form-area bg-white rounded">
-                            <h4 class="mb-3">Need Help? Send Message</h4>
+                            <h4 class="mb-3">Send your query</h4>
                             <form id="contactform" method="POST" action="<?=base_url('Contact/savequery')?>" class="ct-form-wrapper">
                                 <div class="row g-4">
                                     <div class="col-sm-6">
