@@ -18,7 +18,7 @@
         <!--breadcrumb section end-->
 
         <!--contact section start-->
-        <section class="contact-section ptb-120">
+        <section class="contact-section ptb-60">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-8">

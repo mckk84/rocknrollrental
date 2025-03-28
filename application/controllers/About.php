@@ -7,6 +7,7 @@ class About extends CI_Controller {
 	{
 		$data['page_title'] = 'Rock N Roll Bike Rentals | Bike rentals in Chikmangaluru | Unlimited Kilometers | About';
 		$data['user'] = $this->session->userdata("Auth");
+		$data['reviews'] = get_google_reviews();
         $this->load->view('layout/header', $data);
         $this->load->view('front/about', $data);
         $this->load->view('layout/footer');

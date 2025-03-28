@@ -349,6 +349,10 @@ p.offer_timer {
     width: 70% !important;
 }
 
+.w-75{
+    width: 75% !important;
+}
+
 ul.footer-nav {
     display: block;
 }
@@ -392,8 +396,9 @@ ul.footer-nav {
         text-align: center;
         margin: auto;
         padding: 10px;
-        color: #FFF;
+        color: #000;
         font-size: 15px;
+        background-color: #FFDC00;
     }
 
     #whatsapp-widget-mobile .btn:nth-child(1){

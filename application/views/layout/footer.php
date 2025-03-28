@@ -315,7 +315,7 @@
                                         <button type="button" class="signin btn btn-primary btn-lg">Sign in</button>
                                     </div>
                                     <p class="text-center text-muted mt-4">Don't have an account yet?
-                                        <a data-bs-toggle="modal" data-bs-target="#at_signup" href="javascript:void(0)" class="text-decoration-none">Sign up</a>.
+                                        <a data-bs-toggle="modal" data-bs-target="#at_signup" href="javascript:void(0)" class="text-decoration-none forgot_pass_inside">Sign up</a>.
                                     </p>
                                 </form>
                             </div>
@@ -462,7 +462,7 @@
     </div>
 
     <!--scrolltop button-->
-    <button class="theme-scrolltop-btn"><i class="fa-regular fa-hand-pointer"></i></button>
+    <button class="theme-scrolltop-btn text-dark"><i class="fa fa-angle-up"></i></button>
     <!--scrolltop button end-->
 
     <!--build:js-->

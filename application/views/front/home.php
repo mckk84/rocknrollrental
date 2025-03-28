@@ -368,7 +368,7 @@
             <div class="col-xl-6 col-lg-7">
                 <div class="at-section-title text-center">
                     <span class="subtitle text-primary lead">Customer <mark class="bg-transparent p-0 text-dark">Feedback</mark></span>
-                    <h2 class="h1 mt-3 mb-3">Our Happy Customers Saying</h2>
+                    <h2 class="h1 mt-3 mb-3">Our Customers Say</h2>
                 </div>
             </div>
         </div>
@@ -382,10 +382,10 @@
                             <div class="feedback-top mt-1 d-flex align-items-center justify-content-center">
                                 <img src="<?=$review->user_image?>" alt="client" class="rounded-circle mt-0 border border-2 border-white">
                             </div>
-                            <p class="w-80 mx-auto text-white mt-3 mb-4"><?=$review->text?></p>
+                            <p class="w-75 mx-auto text-white mt-3 mb-4"><?=$review->text?></p>
                             <div class="client-info text-center g-2">
                                 <span class="star-rating rounded-pill"><span class="me-2"><i class="fa-solid fa-star"></i></span><?=$review->rating?></span>
-                                <h6 class="mt-2 mb-1 text-white"><?=$review->author_name?></h6>          
+                                <h6 class="mt-2 fs-5 mb-1 text-white"><?=$review->author_name?></h6>          
                                 <p class="text-white"><?=$review->relative_time_description?></p>                          
                             </div>
                         </div>

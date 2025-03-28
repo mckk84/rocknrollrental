@@ -20,7 +20,7 @@
         <!--breadcrumb section end-->
 
         <!--about section start-->
-        <section class="h3-about-section ptb-80">
+        <section class="h3-about-section ptb-60">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
@@ -47,7 +47,7 @@
         <!--about section end-->
   
         <!--feature section start-->
-        <section class="sr-feature-section ptb-120 position-relative overflow-hidden z-1 bg-white">
+        <section class="sr-feature-section ptb-60 position-relative overflow-hidden z-1 bg-white">
             <span class="primary-blur rounded-circle position-absolute start-0 top-0 z--1"></span>
             <span class="yellow-blur rounded-circle position-absolute end-0 bottom-0 z--1"></span>
             <div class="container">
@@ -64,24 +64,24 @@
                             <div class="sr-feature-content">
                                 <ul class="sr-ft-list">
                                     <li>
-                                        <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="flaticon-credit-card"></i></span>
+                                        <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="fa fa-check"></i></span>
                                         <div class="sr-ft-list-content text-end bg-white rounded">
-                                            <h6>Easy-to-Use Interfaces</h6>
-                                            <p>The experience is intuitive, user-friendly, and easy to navigate.</p>
+                                            <h6>Sanitised Bikes</h6>
+                                            <p>Our bikes maintained so well you will feel they are brand new!</p>
                                         </div>
                                     </li>
                                     <li>
-                                        <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="flaticon-shield"></i></span>
+                                        <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="fa fa-road"></i></span>
                                         <div class="sr-ft-list-content text-end bg-white rounded">
-                                            <h6>Loyalty Programs</h6>
-                                            <p>Reward returning customers with special offers, discounts, or exclusive access to certain products/services. </p>
+                                            <h6>Unlimited Kilometers</h6>
+                                            <p>Want to rent a bike for a day, a week or even for longer periods? We are here to cover all your needs.</p>
                                         </div>
                                     </li>
                                     <li>
                                         <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="flaticon-24-7"></i></span>
                                         <div class="sr-ft-list-content text-end bg-white rounded">
                                             <h6>Responsive Customer Service</h6>
-                                            <p>We provide fast, efficient, and friendly customer support. Use multiple channels like phone, email, live chat, or social media, and ensure our team is well-trained to handle inquiries and resolve issues quickly.</p>
+                                            <p>We provide fast, efficient, and friendly customer support. Our team is well-trained to handle inquiries and resolve issues quickly.</p>
                                         </div>
                                     </li>
                                 </ul>
@@ -96,17 +96,17 @@
                             <div class="sr-feature-content">
                                 <ul class="sr-ft-list">
                                     <li>
-                                        <span class="icon-wrapper icon-left d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="flaticon-drive"></i></span>
+                                        <span class="icon-wrapper icon-left d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="fa fa-credit-card"></i></span>
                                         <div class="sr-ft-list-content icon-left bg-white rounded">
-                                            <h6>Consistency</h6>
-                                            <p>We ensure that customers have a consistent experience across all touchpoints.</p>
+                                            <h6>Secure Payments</h6>
+                                            <p>Our Payment Partners are Industry Leaders.</p>
                                         </div>
                                     </li>
                                     <li>
-                                        <span class="icon-wrapper icon-left d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="flaticon-search"></i></span>
+                                        <span class="icon-wrapper icon-left d-inline-flex align-items-center justify-content-center rounded-circle bg-white"><i class="flaticon-shield"></i></span>
                                         <div class="sr-ft-list-content icon-left bg-white rounded">
-                                            <h6>Personalization</h6>
-                                            <p>We use data and insights to recommend products, services, or solutions based on your preferences and past behaviors. </p>
+                                            <h6>Insurance covered</h6>
+                                            <p>At no extra cost, we offer comprehensive insurance for your rented vehicle.</p>
                                         </div>
                                     </li>
                                     <li>
@@ -127,7 +127,7 @@
         <!--feature section end-->
 
         <!--countdown section start-->
-        <section class="h3-counter-section pt-120 pb-80 position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-shape.png">
+        <section class="h3-counter-section pt-60 pb-60 position-relative z-1 overflow-hidden" data-background="<?=base_url()?>/assets/img/shapes/texture-shape.png">
             <div class="overlay position-absolute start-0 top-0 bg-secondary-gradient z--1 w-100 h-100"></div>
             <div class="container">
                 <div class="row justify-content-center">
@@ -178,45 +178,39 @@
         <!--countdown section end-->
 
         <!--feedback section start-->
-        <section class="h2-feedback-section pb-80 bg-white" style="background-repeat: no-repeat;background-size: cover;" data-background="<?=base_url()?>/assets/images/bg.jpg">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-xl-6 col-lg-7">
-                        <div class="at-section-title text-center">
-                            <span class="subtitle text-primary lead">Customer <mark class="bg-transparent p-0 text-dark">Feedback</mark></span>
-                            <h2 class="h1 mt-3 mb-3">Our Happy Customer Saying</h2>
-                        </div>
+    <section class="h2-feedback-section pb-60 bg-white" style="background-repeat: no-repeat;background-size: cover;" data-background="<?=base_url()?>/assets/images/bg.jpg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-lg-7">
+                    <div class="at-section-title text-center">
+                        <span class="subtitle text-primary lead">Customer <mark class="bg-transparent p-0 text-dark">Feedback</mark></span>
+                        <h2 class="h1 mt-3 mb-3">Our Customers Say</h2>
                     </div>
-                </div>
-                <div class="swiper h2-feedback-slider mt-5">
-                    <div class="swiper-wrapper">
-                        <div class="h2-feedback-single swiper-slide">                            
-                            <div class="h2-feedback-content mt-1 bg-white rounded position-relative">
-                                <div class="feedback-top mt-1 d-flex align-items-center justify-content-between">
-                                    <img src="<?=base_url()?>/assets/images/user.png" alt="client" class="rounded-circle mt-0 border border-2 border-white">
-                                    <span class="star-rating rounded-pill"><span class="me-2"><i class="fa-solid fa-star"></i></span>4.5</span>
-                                </div>
-                                <p class="mt-3 mb-4">Assertive disseminate integrated human capital through dynamic bandwidth. independent partnerships. Energy statically extend B2C potentialities without backend synergy.</p>
-                                <div class="client-info">
-                                    <h6 class="mb-0">Adam Smith</h6>                                    
-                                </div>
-                            </div>
-                        </div>
-                        <div class="h2-feedback-single swiper-slide">
-                            <div class="h2-feedback-content mt-1 bg-white rounded position-relative">
-                                <div class="feedback-top mt-1 d-flex align-items-center justify-content-between">
-                                    <img src="<?=base_url()?>/assets/images/user.png" alt="client" class="rounded-circle mt-0 border border-2 border-white">
-                                    <span class="star-rating rounded-pill"><span class="me-2"><i class="fa-solid fa-star"></i></span>4.5</span>
-                                </div>
-                                <p class="mt-3 mb-4">Assertive disseminate integrated human capital through dynamic bandwidth. independent partnerships. Energy statically extend B2C potentialities without backend synergy.</p>
-                                <div class="client-info">
-                                    <h6 class="mb-0">Adam Smith</h6>                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-pagination"></div>
                 </div>
             </div>
-        </section>
-        <!--feedback section end-->
+            <div class="swiper h2-feedback-slider mt-5">
+                <div class="swiper-wrapper">
+                    <?php if( is_array($reviews) && count($reviews) > 0) {
+                        foreach($reviews as $review) {
+                        ?>
+                        <div class="h2-feedback-single swiper-slide">                            
+                            <div class="h2-feedback-content mt-1 rounded position-relative">
+                                <div class="feedback-top mt-1 d-flex align-items-center justify-content-center">
+                                    <img src="<?=$review->user_image?>" alt="client" class="rounded-circle mt-0 border border-2 border-white">
+                                </div>
+                                <p class="w-75 mx-auto text-white mt-3 mb-4"><?=$review->text?></p>
+                                <div class="client-info text-center g-2">
+                                    <span class="star-rating rounded-pill"><span class="me-2"><i class="fa-solid fa-star"></i></span><?=$review->rating?></span>
+                                    <h6 class="mt-2 mb-1 fs-5 text-white"><?=$review->author_name?></h6>          
+                                    <p class="text-white"><?=$review->relative_time_description?></p>                          
+                                </div>
+                            </div>
+                        </div>
+                    <?php }
+                    } ?>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+    <!--feedback section end-->

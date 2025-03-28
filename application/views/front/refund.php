@@ -16,7 +16,7 @@
         <!--breadcrumb section end-->
 
         <!--about section start-->
-        <section class="h3-about-section ptb-80">
+        <section class="h3-about-section ptb-60">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-7">
