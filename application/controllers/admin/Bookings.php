@@ -228,7 +228,8 @@ class Bookings extends CI_Controller
         $ordered_bike_qty = "";
         foreach($bike_type_qty as $btype => $bq)
         {
-           $ordered_bike_qty .= "<span class='w-100 text-danger font-bold d-block'>".$btype." ( ".$bq." )</span>";
+           $ordered_bike_qty .= ($ordered_bike_qty == "") ? "": ",";
+           $ordered_bike_qty .= "<b>".$btype." ( ".$bq." )</b>";
         }
 
         if( count($bike_assigned_ids) == 0 )

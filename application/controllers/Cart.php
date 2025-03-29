@@ -66,6 +66,12 @@ class Cart extends CI_Controller {
 			    }					
 			    $data['cart']['cart_bikes'][$index] = $bike;
 			}
+
+			$data['cart']['helmets_qty'] = (isset($data['cart']['helmets_qty']) && $data['cart']['helmets_qty'] != "") ? $data['cart']['helmets_qty'] : 0;
+			$data['cart']['coupon_code'] =  (isset($data['cart']['coupon_code']) && $data['cart']['coupon_code'] != "") ? $data['cart']['coupon_code'] : "";
+			$data['cart']['early_pickup'] =  (isset($data['cart']['early_pickup']) && $data['cart']['early_pickup'] != "") ? $data['cart']['early_pickup'] : 0;
+			$data['cart']['free_helmet'] =  (isset($data['cart']['free_helmet']) && $data['cart']['free_helmet'] != "") ? $data['cart']['free_helmet'] : 0;
+
 			$this->session->set_userdata("cart", $data['cart']);
 		}
 		else
@@ -83,6 +89,7 @@ class Cart extends CI_Controller {
 		if( isset($_POST) && count($_POST) > 0 )
 		{
 			$cartform = $this->input->post('cartform');
+			$this->load->model('coupons_model');
 			if( isset($cartform) && $cartform == 1 )
 			{
 				// submitted from cart

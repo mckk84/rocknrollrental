@@ -98,6 +98,7 @@
                             <input type="hidden" name="weekend" value="<?=$cart['weekend']?>">
                             <input type="hidden" name="early_pickup" value="<?=$cart['early_pickup']?>">
                             <input type="hidden" name="coupon_code" value="<?=isset($cart['coupon_code'])?$cart['coupon_code']:""?>">
+                            <input type="hidden" name="free_helmet" value="<?=isset($cart['free_helmet'])?$cart['free_helmet']:"0"?>">
                             <input type="hidden" name="helmets_qty" value="<?=isset($cart['helmets_qty'])?$cart['helmets_qty']:"0"?>">
                             <a id="checkout" style="display: none;float: right;" class="btn btn-sm btn-primary" href="javascript:void(0)">Book Now</a>
                         </form>
@@ -115,7 +116,7 @@
                             <tr>
                                 <td>
                                     <div class="helmet-option">
-                                        <label class="w-100">1 Helmet is free.  </label>
+                                        <label class="w-100"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="free_helmet" name="free_helmet" class="me-2" <?=($cart["free_helmet"] > 0)?"checked":""?> > 1 Helmet is free.  </label>
                                     </div>
                                 </td>
                                 <td>
