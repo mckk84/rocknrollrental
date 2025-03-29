@@ -32,8 +32,6 @@ class Bikes extends CI_Controller
             $data['user'] = $this->session->userdata();
             $data['page_title'] = "Bikes";
             $data['records'] = $this->bike_model->getAll();
-
-            $data['manufacturers'] = $this->manufacturer_model->getAll();
             $data['biketypes'] = $this->biketypes_model->getAll();
             
             $this->load->view('layout_admin/header', $data);
@@ -60,17 +58,10 @@ class Bikes extends CI_Controller
     {
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
         $this->load->library('form_validation');       
-        $id = $this->security->xss_clean($this->input->post('record_id'));     
-        $this->form_validation->set_rules('name','Name','trim|required|max_length[128]');
-        $this->form_validation->set_rules('number','Number','trim|required|max_length[128]');
-        $this->form_validation->set_rules('manufacturer_id','Manufacturer','trim|required');
-        $this->form_validation->set_rules('type_id','Bike Type','trim|required');
-        $this->form_validation->set_rules('cc','CC','trim|required|max_length[10]');
-        $this->form_validation->set_rules('color','Color','trim|required|max_length[25]');
-        $this->form_validation->set_rules('model','Model','trim|required|max_length[25]');
-        $this->form_validation->set_rules('milage','Milage','trim|required|max_length[50]');
-        $this->form_validation->set_rules('weight','Weight','trim|required|max_length[50]');
-        $this->form_validation->set_rules('power','Power','trim|required|max_length[50]');
+        
+        $type_id = $this->security->xss_clean($this->input->post('type_id'));     
+        $this->form_validation->set_rules('type_id','Bike Type','trim|required|max_length[128]');
+        $this->form_validation->set_rules('bikes','Bikes','trim|required|max_length[250]');
                 
         if($this->form_validation->run() == FALSE)
         {
@@ -78,155 +69,52 @@ class Bikes extends CI_Controller
             $response["error_message"] = $this->form_validation->error_string();
             die(json_encode($response));
         }
-
-        $image = "";
-        $image_type = "";
-        $target_folder = $_SERVER['DOCUMENT_ROOT']."/rocknrollrental/bikes/";
-
-        $bike_image = $_FILES['image']; // Get the uploaded file
-        if ( $bike_image && $bike_image['name']) 
-        {
-            $image = trim($bike_image['name']);
-            $imageFileType = strtolower(pathinfo($image,PATHINFO_EXTENSION));
-            
-            $temp_image_name = ucwords(strtolower($this->security->xss_clean(trim($this->input->post('name')))));
-            $temp_image_name = preg_replace('/\s+/', '', $temp_image_name);
-            $temp_image_name = preg_replace('/[^a-z\d ]/i', '', $temp_image_name);
-            $new_image_name = $temp_image_name.".".$imageFileType;
-            $target_file = $target_folder.$new_image_name;
-            
-            // Allow certain file formats
-            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" ) 
-            {
-                $response["error"] = 1;
-                $response["error_message"] = "Image format invalid. Upload jpg/jpeg/png.";
-                die(json_encode($response));
-            }
-            
-            // Check file size
-            if ( $bike_image["size"] > 2000000 || $bike_image["error"] == 1) 
-            {
-                $response["error"] = 1;
-                $response["error_message"] = "Image size too large. Upload size less than 2MB.";
-                die(json_encode($response));
-            }
-            
-            if( file_exists($target_file) )
-            {
-                for($i=0; $i < 25; $i++)
-                {
-                    $concat = ( $i < 10 ) ? "0".$i: $i;
-                    $new_image_name = $temp_image_name."_".$concat.".".$imageFileType;
-                    if( !file_exists($target_folder.$new_image_name) )
-                    {
-                        $target_file = $target_folder.$new_image_name;
-                        break;
-                    }
-                }
-            }
-            
-            // upload file
-            if (move_uploaded_file($bike_image["tmp_name"], $target_file)) 
-            {
-                // upload suuccess 
-                $image = $new_image_name;
-            } else {
-                $response["error"] = 1;
-                $response["error_message"] = "Image upload failed";
-                die(json_encode($response));
-            }
-        } 
-        else 
-        {
-            if( $id == "" )
-            {
-                $response["error"] = 1;
-                $response["error_message"] = "Please upload Image";
-                die(json_encode($response));
-            }
-            else
-            {
-                $bikerecord = $this->bike_model->getById($id);
-                $image = $bikerecord['image'];
-            }
-        }
         
         $user = $this->session->userdata();
-        $id = $this->security->xss_clean($this->input->post('record_id'));
-        $name = $this->security->xss_clean($this->input->post('name'));
-        $vehicle_number = $this->security->xss_clean($this->input->post('number'));
-        $manufacturer_id = $this->security->xss_clean($this->input->post('manufacturer_id'));
+
         $type_id = $this->security->xss_clean($this->input->post('type_id'));
-        $cc = $this->security->xss_clean($this->input->post('cc'));
-        $color = $this->security->xss_clean($this->input->post('color'));
-        $model = $this->security->xss_clean($this->input->post('model'));
-        $milage = $this->security->xss_clean($this->input->post('milage'));
-        $weight = $this->security->xss_clean($this->input->post('weight'));
-        $power = $this->security->xss_clean($this->input->post('power'));
-        
-        $recordInfo = array(
-                'name' => $name,
+        $in_bikes = $this->security->xss_clean($this->input->post('bikes'));
+
+        $bikes = explode(",", $in_bikes);
+            
+        if( count($bikes) == 0 )
+        {
+            $response["error"] = 1;
+            $response["error_message"] = "No bikes added";
+            die(json_encode($response));
+        }
+
+        foreach($bikes as $vehicle_number)
+        {
+            if( $this->bike_model->checkRecordExists($vehicle_number) )
+            {
+                $response["error"] = 1;
+                $response["error_message"] = "Vehicle with vehicle_number ".$vehicle_number." already exists.";
+                die(json_encode($response));
+            }
+        }
+
+        foreach($bikes as $vehicle_number)
+        {
+            $recordInfo = array(
                 'vehicle_number' => $vehicle_number, 
-                'manufacturer_id' => $manufacturer_id,
                 'type_id' => $type_id,
-                'cc' => $cc,
-                'color' => $color,
-                'model' => $model,
-                'milage' => $milage,
-                'weight' => $weight,
-                'power' => $power,
-                'image' => $image,
                 'created_by' => $user['userId']
             );
 
-        if( $id == "" )
-        {
-            if( $this->bike_model->checkRecordExists($name, $vehicle_number) )
+            $result = $this->bike_model->addNew($recordInfo);
+            if($result > 0)
+            {
+                $response["error"] = 0;
+                $response["error_message"] = "";
+                $response["success_message"] = "Record added successfully";
+            } 
+            else 
             {
                 $response["error"] = 1;
-                $response["error_message"] = "Record already exists.";
-            }
-            else
-            {
-                $result = $this->bike_model->addNew($recordInfo);
-                if($result > 0)
-                {
-                    $response["error"] = 0;
-                    $response["error_message"] = "";
-                    $response["success_message"] = "Record added successfully";
-                } 
-                else 
-                {
-                    $response["error"] = 1;
-                    $response["error_message"] = "Record add failed.";
-                }
-            }    
-        }
-        else
-        {
-            $result = $this->bike_model->checkRecordExists1($name, $vehicle_number, $id);
-            if( $result )
-            {
-                $response["error"] = 1;
-                $response["error_message"] = "Record already exists";
-                $response["success_message"] = "";
-            }
-            else
-            {
-                $result = $this->bike_model->updateRecord($recordInfo, $id);
-                if($result > 0)
-                {
-                    $response["error"] = 0;
-                    $response["error_message"] = "";
-                    $response["success_message"] = "Record updated successfully";
-                } 
-                else 
-                {
-                    $response["error"] = 1;
-                    $response["error_message"] = "Record update failed.";
-                }
-            }                
-        }            
+                $response["error_message"] = "Record add failed.";
+            } 
+        }                  
         die(json_encode($response));        
     }
 
@@ -234,6 +122,15 @@ class Bikes extends CI_Controller
     {
         $record_id = intval($this->uri->segment(4));
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
+        $user = $this->session->userdata();
+
+        if( $user['user_type'] !== "Admin" )
+        {
+            $response["error"] = 1;
+            $response["error_message"] = "Your have no permission.";   
+            die(json_encode($response));
+        }
+
         
         if( $record_id == 0 )
         {   

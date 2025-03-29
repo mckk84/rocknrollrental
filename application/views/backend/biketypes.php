@@ -17,7 +17,7 @@
 
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Bike Types <button type="button" data-bs-toggle="modal" data-bs-target="#add-bike-type" class="btn btn-primary float-right">Add <i class="bi bi-plus-circle ms-1"></i></button></h5>
+                <h5 class="card-title">Bike Types <button type="button" class="new-bike-type btn btn-primary float-right">Add <i class="bi bi-plus-circle ms-1"></i></button></h5>
                 <div class="d-inline showalert">
                   <?php if( count($records) == 0 ) { ?>
                   <div class="alert alert-danger m-2">No Records found.</div>
@@ -41,7 +41,14 @@
                   <thead>
                     <tr>
                       <th scope="col">#</th>
+                      <th scope="col">Image</th>
                       <th scope="col">Type</th>
+                      <th style="max-width:20%;" scope="col">Description</th>
+                      <th scope="col">Manufacturer</th>
+                      <th scope="col">CC</th>
+                      <th scope="col">Milage</th>
+                      <th scope="col">Weight</th>
+                      <th scope="col">Power</th>
                       <th scope="col">Added By</th>
                       <th scope="col">Added On</th>
                       <th scope="col">Action</th>
@@ -51,12 +58,21 @@
                     <?php foreach($records as $index => $row) {?>
                     <tr>
                       <th scope="row"><?=$row['id']?></th>
+                      <td><img src="<?=base_url('bikes/'.$row['image'])?>" style="width: 100px;"/></td>
                       <td><?=$row['type']?></td>
+                      <td><?=$row['description']?></td>
+                      <td><?=$row['manufacturer']?></td>
+                      <td><?=$row['cc']?></td>
+                      <td><?=$row['milage']?></td>
+                      <td><?=$row['weight']?></td>
+                      <td><?=$row['power']?></td>
                       <td><?=$row['created_by']?></td>
                       <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
                       <td><div class="d-flex justify-content-start">
                         <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-biketype-record text-warning float-right mx-2"><i class="bi bi-pencil-fill"></i></a>
+                        <?php if( isset($user['user_type']) && $user['user_type'] == 'Admin' ){?>
                         <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record text-danger float-right mx-2"><i class="bi bi-trash-fill"></i></a>
+                        <?php } ?>
                       </div></td>
                     </tr>
                      <?php } ?>
@@ -73,20 +89,69 @@
 
   </main><!-- End #main -->
 
+
   <div class="modal fade" id="add-bike-type" tabindex="-1" data-bs-backdrop="false">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-md">
       <div class="modal-content">
-        <form id="addbiketype" action="<?=base_url('admin/Biketypes/save_record')?>" method="POST">
+        <form id="addbiketype" action="<?=base_url('admin/Biketypes/save_record')?>" method="POST" encypt="multipart/data">
             <input type="hidden" name="record_id" value="">
             <div class="modal-header">
               <h5 class="modal-title">Add Bike Type</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="col-md-6">
-                  <label for="validationDefault01" class="form-label">Type</label>
-                  <input type="text" class="form-control" name="type" id="validationDefault01" value="" required>
-                </div>
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <div class="row g-1">
+                      <div class="col-md-6">
+                        <div class="row g-1">
+                          <div class="col-md-12 mb-2">
+                            <label for="bikename" class="form-label">Bike type</label>
+                            <input type="text" class="form-control" maxlength="100" name="type" id="type" placeholder="Bike type" required>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <label for="manufacturer" class="form-label">Manufacturer</label>
+                          <select id="manufacturer" name="manufacturer_id" class="form-select">
+                            <option selected>-Select-</option>
+                            <?php foreach($manufacturers as $index => $row) {?>
+                            <option value="<?=$row['id']?>"><?=$row['name']?></option>
+                            <?php } ?>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-6 p-2">
+                        <img class="shadow" style="max-width:200px;border:1px solid lightblue;border-radius:2px;margin: auto;display: block;" id="preview_image" src="<?=base_url('assets/images/motorcyclist.png')?>" title="Preview Image" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <label for="cc" class="form-label">Description</label>
+                    <textarea name="description" rows="2" class="form-control"></textarea>
+                  </div>                  
+                  <div class="col-md-6">
+                    <label for="cc" class="form-label">CC</label>
+                    <input type="text" class="form-control" id="cc" name="cc" placeholder="CC" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="milage" class="form-label">Milage</label>
+                    <input type="text" id="milage" class="form-control" name="milage" placeholder="Milage" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="weight" class="form-label">Weight</label>
+                    <input type="text" id="weight" class="form-control" name="weight" placeholder="Weight" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="power" class="form-label">Power</label>
+                    <input type="text" id="power" class="form-control" name="power" placeholder="Power" required>
+                  </div>
+
+                  <div class="col-md-12">
+                    <label for="bikeimage" class="form-label">Bike Image</label>
+                    <input type="file" class="form-control" onchange="loadFile(event)" id="bikeimage" name="image" placeholder="Bike Image">
+                  </div>
+
+              </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" id="submitBiketype" type="submit">Submit</button>
@@ -97,4 +162,12 @@
     </div>
   </div><!-- End Disabled Backdrop Modal-->
 
-  
+  <script>
+  var loadFile = function(event) {
+    var output = document.getElementById('preview_image');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src) // free memory
+    }
+  };
+</script>

@@ -105,7 +105,7 @@
                     <th class="text-start">Refund Status</th>
                     <th class="text-end">
                       <?php if( $order['refund_status'] == 0) { ?>
-                        <span class="badge bg-success-light">Pending</span>
+                        <span class="badge bg-warning">Pending</span>
                       <?php } else if($order['refund_status'] == 1) { ?>
                         <span class="badge bg-success">Paid</span>
                       <?php } else { ?>
@@ -117,7 +117,7 @@
                   <tr>
                     <th class="text-start">Pickup Status</th><th class="text-end">
                     <?php if( $order['status'] == 0) { ?>
-                        <span class="badge bg-success-light">Pre Booked</span>
+                        <span class="badge bg-success">Pre Booked</span>
                       <?php } else if($order['status'] == 1) { ?>
                         <span class="badge bg-success">Rented</span>
                       <?php } else { ?>

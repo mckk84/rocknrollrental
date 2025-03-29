@@ -1,5 +1,51 @@
 //ajax calls
 
+function bike_type_change(order_row_id)
+{
+    var order_row = order_row_id;
+    console.log(order_row_id);
+    var type_id = $("#order_row_"+order_row_id+" select[name='assign_biketype_row_"+order_row_id+"']").val();
+    console.log(type_id);
+    var params = {};
+    params.type_id = type_id;
+    params.booking_id = $(".booking_form input[name='booking_id']").val();
+    console.log(params);
+    $.ajax({
+        type: "POST",
+        url: booking_url+'/getOrderBikeTypes',
+        data: params, // Serialize form data
+        success: function (data) {
+            var d = JSON.parse(data);
+            var available_bikes = d.data.available_bikes;
+            var ele = $("#order_row_"+order_row_id+" select[name='assign_bike_row_"+order_row_id+"']").empty();
+            var ele = $("#order_row_"+order_row_id+" select[name='assign_bike_row_"+order_row_id+"']");
+            ele.append($('<option>', {
+                    value: 0,
+                    text: "-Select-"
+                }));
+            var image = "";
+            var rent_price = "";
+            for (var j = 0; j < available_bikes.length; j++) 
+            {
+                var ab = available_bikes[j];
+                rent_price = ab.rent_price;
+                image = ab.image;
+                ele.append($('<option>', {
+                    value: ab.bid,
+                    text: ab.vehicle_number
+                }));
+            }
+
+            $("#order_row_"+order_row_id+" img").attr("src", base_url+'bikes/'+image);
+            $("#order_row_"+order_row_id+" #assign_bike_rent_"+order_row_id+"").html(rent_price);
+
+        },
+        error: function (data) {
+            alert("Error Occured. Try again later.");
+        }
+    });
+}
+
 $(document).ready(function(){
 
     function formatdate(dt)
@@ -173,11 +219,10 @@ $(document).ready(function(){
             success: function (data) 
             {
                 var response = JSON.parse(data);
-                $('#edit-booking').modal('show');    
-
                 var order = response.data.order;
                 var customer = response.data.customer;
                 var biketypes = response.data.biketypes;
+
                 var available_bikes = response.data.available_bikes;
                 var order_bike_types = response.data.order_bike_types;
                 var order_payment = response.data.order_payment;
@@ -185,34 +230,37 @@ $(document).ready(function(){
                 $(".booking_form input[name='booking_id']").val(response.data.order.id);
 
                 var html = "<table class='table datatable table-responsive border rounded mb-0'>";
-                html += "<tbody><tr><th class='bg-warning-light'>Pickup Date</th><td>"+formatdate(order.pickup_date)+" "+order.pickup_time+"</td></tr>";
-                html += "<tr><th class='bg-warning-light'>Dropoff Date</th><td>"+formatdate(order.dropoff_date)+" "+order.dropoff_time+"</td></tr>";
+                html += "<tbody><tr><th class='bg-warning-light w-20'>PICKUP</th><td>"+formatdate(order.pickup_date)+" "+order.pickup_time+"</td>";
+                html += "<th class='bg-warning-light w-20'>DROPOFF</th><td>"+formatdate(order.dropoff_date)+" "+order.dropoff_time+"</td></tr></tbody></table>";
 
-                html += "<tr><td><b>Duration</b></td><td> "+response.data.period_days+" days, <b>"+response.data.period_hours+"</b> hours</td></tr>";
-                html += "<tr><td><b>Weekend </b></td><td>"+((response.data.weekend)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr>";
-                html += "<tr><td><b>Public Holiday </b></td><td>"+((response.data.public_holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td>";
-                html += "</tr></tbody></table>";
+                $(".booking_form #order_dates").html(html);
+
+                html = "<table class='table datatable table-responsive border rounded mb-0'>";
+                html += "<tbody><th class='bg-warning-light w-25'>Customer</th><td>"+response.data.customer.name+" ("+response.data.customer.phone+")</td></tr>";
+                html += "<tr><th class='bg-warning-light w-25'>Bikes Ordered</th><td>"+response.data.ordered_bikes+"</td></tr>";
+                html += "<tr><th class='bg-warning-light w-25'> Helmets </th><td>"+response.data.order.helmet_quantity+"</td></tr>";
+                if( response.data.order.notes != "" )
+                {
+                    html += "<tr><th class='bg-warning-light w-25'>Notes:</th><td> <b>"+response.data.order.notes+"</b></td></tr>";
+                }
+                if( response.data.order.early_pickup != 0 )
+                {
+                    html += "<tr><th class='bg-warning-light w-25'>Early Pickup: </th><td><b>"+((response.data.order.early_pickup)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</b></td></tr>";
+                }
+                html += "</tbody></table>";
 
                 $(".booking_form #order_details").html(html);
 
                 var html = "<table class='table datatable table-responsive border rounded mb-0'>";
-                html += "<tbody><th class='bg-warning-light'>Customer</th><td>"+response.data.customer.name+" ("+response.data.customer.phone+")</td></tr>";
-                html += "<tr><th class='bg-warning-light'>Bikes Ordered</th><td>"+response.data.ordered_bikes+"</td></tr>";
-                html += "<tr><th class='bg-warning-light'> Helmets </th><td>"+response.data.order.helmet_quantity+"</td></tr>";
-                if( response.data.order.notes != "" )
-                {
-                    html += "<tr><td>Notes:</td><td> <b>"+response.data.order.notes+"</b></td></tr>";
-                }
-                if( response.data.order.early_pickup != 0 )
-                {
-                    html += "<tr><td>Early Pickup: </td><td><b>"+((response.data.order.early_pickup)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</b></td></tr>";
-                }
-                html += "</tbody></table>";
+                html += "<tr><td class='bg-warning-light w-30'><b>Duration</b></td><td> "+response.data.period_days+" days, <b>"+response.data.period_hours+"</b> hours</td></tr>";
+                html += "<tr><td class='bg-warning-light w-30'><b>Weekend </b></td><td>"+((response.data.weekend)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr>";
+                html += "<tr><td class='bg-warning-light w-30'><b>Public Holiday </b></td><td>"+((response.data.public_holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td>";
+                html += "</tr></tbody></table>";            
 
                 $(".booking_form #order_details1").html(html);
 
                 html = "<table class='table datatable table-responsive rounded border text-center mb-0'>";
-                html += "<thead><tr><th class='bg-warning-light text-center'>#</th><th class='bg-warning-light'>Bike Type</th><th class='bg-warning-light'>Image</th>";
+                html += "<thead><tr><th class='bg-warning-light text-center'>#</th><th class='bg-warning-light w-30'>Bike Type</th><th class='bg-warning-light'>Image</th>";
                 html += "<th class='bg-warning-light'>Assign Vehicle</th><th class='bg-warning-light'>Rent Price</th></tr></thead>";
                 html += "<tbody>";
                 var bikes = response.data.order_bike_types;
@@ -220,6 +268,7 @@ $(document).ready(function(){
                 for (var i = 0; i < bikes.length; i++) 
                 {
                   var row = bikes[i];
+                  console.log(row);
                   var available_bikes = response.data.available_bikes;
                   if( order_bike_types.indexOf(row.id) < 0 )
                   {
@@ -234,14 +283,23 @@ $(document).ready(function(){
                     {
                         row.rent_price = ab.rent_price;
                         row.bike_image = ab.image;
-                        ab_html += "<option "+((row.bike_id==ab.bid)?'selected':'')+" data-obt='"+row.id+"' value='"+ab.bid+"'>"+ab.vehicle_number+"</option>";
+                        ab_html += "<option "+((row.bike_id==ab.bid)?'selected':'')+" value='"+ab.bid+"'>"+ab.vehicle_number+"</option>";
                     }
                   }
                   ab_html += "</select>";
+                  console.log(row);
+                  html += "<tr id='order_row_"+row.id+"'><td>#"+(i+1)+"</td>";
 
-                  html += "<tr><td>#"+(i+1)+"</td><td><span style='vertical-align:middle;'>"+row.type+"</span></td>";
-                  html += "<td><img style='width:50px;margin:auto;display:block;' class='img-fluid' src='"+response.data.bike_url+row.bike_image+"'/></td>";
-                  html += "<td>"+ab_html+"</td><td>"+row.rent_price+"</td></tr>";
+                  var bt_html = "<td class='w-30'><select name='assign_biketype_row_"+row.id+"' onchange='bike_type_change("+row.id+")' class='bike_type_order form-select'>";
+                  Object.keys(biketypes).forEach(function(key, index)
+                  {
+                      bt_html += "<option "+((row.type_id==key)?'selected':'')+" value='"+key+"'>"+biketypes[key]+"</option>";
+                  });
+                  bt_html += "</select></td>";
+
+                  html += bt_html; //<td><span style='vertical-align:middle;'>"+row.type+"</span></td>";
+                  html += "<td><img style='width:50px;margin:auto;display:block;' class='img-fluid' src='"+response.data.bike_url+row.image+"'/></td>";
+                  html += "<td>"+ab_html+"</td><td><span class='d-block w-100' id='assign_bike_rent_"+row.id+"'>"+row.rent_price+"</span></td></tr>";
                 }
                 html += "</tbody>";
                 html += "</table><input type='hidden' name='order_bike_types' value='"+order_bike_types.join(',')+"'>";
@@ -333,6 +391,9 @@ $(document).ready(function(){
                 html += "</table></div>";
 
                 $(".booking_form #order_summary").html(html);
+
+                $('#edit-booking').modal('show');    
+                $('#edit-booking .modal-title').html("Booking Order <b>#"+id+"</b>");
                                 
             },
             error: function (data) {
@@ -605,6 +666,43 @@ $(document).ready(function(){
         });
     });
 
+    $(".new-bike").click(function(event) {
+        $('#add-bike').modal('show');    
+        $('#add-bike .modal-title').html('Add Bike');
+
+        $("#add-bike #bike_type").on("change", function(){
+            let id = $(this).val();
+            let url = base_url+"admin/Biketypes/getImage?type_id="+id;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    var d = JSON.parse(data);
+                    $('#add-bike #preview_image').attr('src', base_url+'/bikes/'+d.image); 
+                },
+                error: function (data) {
+                    console.log("Error occured");
+                }
+            });
+        });
+    });
+
+    $(".tablebikes .addrow").click(function(){
+
+        var index = $(".tablebikes tbody tr").length;
+        console.log(index);
+        var next = index + 1;
+        $(".tablebikes tbody").append('<tr id="brow'+next+'"><td>#'+next+'</td><td><input type="text" class="vehicle_number form-control" id="vehicle_number'+next+'" name="vehicle_number'+next+'" placeholder="Vehicle Number" required></td><td><a data-row="'+next+'" onclick="removerow('+next+')" class="fs-6 text-danger" title="Delete"><i class="bi bi-trash"></i></a></td></tr>');
+
+    });
+
+    $(".tablebikes .removerow").click(function(){
+    
+        $(this).parent('tr').remove(); 
+
+    });
+
+
     // add bike
     $("#submitbike").click(function (event) {
         event.preventDefault(); // Prevent default form submission
@@ -612,8 +710,6 @@ $(document).ready(function(){
         $(this).prop('disabled', true);
         $(this).html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
 
-        let form = $("#addbike")[0];
-        var formData = new FormData(form);
         let mbody = $("#addbike .modal-body");
         let url = $("#addbike").attr('action');
 
@@ -621,13 +717,28 @@ $(document).ready(function(){
             $(this).remove();
         });
 
+        var params = {};
+        params.type_id = $("#addbike #bike_type").val();
+        if( params.type_id == 0 )
+        {
+            mbody.append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
+            return false;
+        }
+
+        var bikes = [];
+        var nob = $(".tablebikes tbody tr").length;
+        for(var i=0; i < nob; i++)
+        {
+            var d = i + 1;
+            bikes.push($("#vehicle_number"+d).val().trim());
+        }
+        params.bikes = bikes.join(',');
+        console.log(params);
+
         $.ajax({
             type: "POST",
             url: url,
-            data: formData, // Serialize form data
-            contentType: false,       
-            cache: false,             
-            processData:false, 
+            data: params, // Serialize form data
             success: function (data) {
                 var d = JSON.parse(data);
                 console.log(d);
@@ -699,14 +810,23 @@ $(document).ready(function(){
         });
     });
 
+    $(".new-bike-type").click(function(event) {
+        $('#add-bike-type').modal('show');    
+        $('#add-bike-type .modal-title').html('Add Bike Type');
+    });
+
     // add manufacturer
     $("#submitBiketype").click(function (event) {
         event.preventDefault(); // Prevent default form submission
+        $("#addbiketype .modal-title").html('Add Bike Type');
         $(this).prop('disabled', true);
         $(this).html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
-        let form = $("#addbiketype");
+
+        let form = $("#addbiketype")[0];
+        var formData = new FormData(form);
         let mbody = $("#addbiketype .modal-body");
-        let url = form.attr('action');
+        let url = $("#addbiketype").attr('action');
+        console.log(formData);
 
         mbody.find(".alert").each(function(){
             $(this).remove();
@@ -715,7 +835,10 @@ $(document).ready(function(){
         $.ajax({
             type: "POST",
             url: url,
-            data: form.serialize(), // Serialize form data
+            data: formData, 
+            contentType: false,       
+            cache: false,             
+            processData:false, 
             success: function (data) {
                 var d = JSON.parse(data);
                 console.log(d);
@@ -1000,8 +1123,17 @@ $(document).ready(function(){
             success: function (data) {
                 var d = JSON.parse(data);
                 $('#add-bike-type').modal('show');    
-                $('#add-bike-type input[name="record_id"]').val(d.id);
-                $('#add-bike-type input[name="type"]').val(d.type);   
+                $('#add-bike-type .modal-title').html('Edit Bike Type');
+                $('#addbiketype input[name="record_id"]').val(d.id);
+                $('#addbiketype input[name="type"]').val(d.type);
+                $('#addbiketype select[name="manufacturer_id"]').val(d.manufacturer_id);
+                $('#addbiketype textarea[name="description"]').val(d.description);
+                $('#addbiketype input[name="cc"]').val(d.cc);
+                $('#addbiketype input[name="milage"]').val(d.milage);   
+                $('#addbiketype input[name="weight"]').val(d.weight);   
+                $('#addbiketype input[name="power"]').val(d.power);   
+
+                $('#addbiketype #preview_image').attr('src', base_url+'/bikes/'+d.image);  
             },
             error: function (data) {
                 console.log("Error occured");
@@ -1058,7 +1190,7 @@ $(document).ready(function(){
                 	$(".showalert").append("<div class='alert alert-success mt-1 mb-0'>"+d.success_message+"</div>");
                 	setTimeout(function(){
                 		window.location.reload();
-                	}, 2000);
+                	}, 500);
                 }
 		    },
 		    error: function(request,msg,error) {

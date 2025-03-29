@@ -9,9 +9,10 @@ class Biketypes_model extends CI_Model
     function getAll()
     {
         $this->db->order_by('tbl_bike_types.id', 'ASC');
-        $this->db->select('tbl_bike_types.*, tbl_users.name as created_by');
+        $this->db->select('tbl_bike_types.*, tbl_manufacturer.name as manufacturer,tbl_users.name as created_by');
         $this->db->from('tbl_bike_types');
-        $this->db->join('tbl_users', 'tbl_users.userId = tbl_bike_types.created_by');
+        $this->db->join('tbl_users', 'tbl_users.userId = tbl_bike_types.created_by', 'left');
+        $this->db->join('tbl_manufacturer', 'tbl_manufacturer.id = tbl_bike_types.manufacturer_id', 'left');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0){

@@ -188,11 +188,13 @@
               <i class="bi bi-gear-fill"></i><span>Settings</span>
             </a>
           </li>
+          <?php if( isset($user['user_type']) && $user['user_type'] == 'Admin' ){?>
           <li>
             <a href="<?=base_url('admin/Users')?>">
               <i class="bi bi-people"></i><span>Users</span>
             </a>
           </li>
+          <?php } ?>
           <li>
             <a href="<?=base_url('admin/Holidays')?>">
               <i class="bi bi-calendar"></i><span>Holidays</span>

@@ -8,11 +8,10 @@ class Bike_model extends CI_Model
 {
     function getAll()
     {
-        $this->db->order_by('tbl_bikes.id', 'ASC');
-        $this->db->select('tbl_bikes.*, tbl_users.name as created_by,tbl_manufacturer.name as manufacturer,tbl_bike_types.type as bike_type');
+        $this->db->order_by('tbl_bikes.id', 'DESC');
+        $this->db->select('tbl_bikes.*, tbl_users.name as created_by,tbl_bike_types.image,tbl_bike_types.type as bike_type');
         $this->db->from('tbl_bikes');
         $this->db->join('tbl_users', 'tbl_users.userId = tbl_bikes.created_by');
-        $this->db->join('tbl_manufacturer', 'tbl_manufacturer.id = tbl_bikes.manufacturer_id');
         $this->db->join('tbl_bike_types', 'tbl_bike_types.id = tbl_bikes.type_id');
         $query = $this->db->get();
 
@@ -25,9 +24,8 @@ class Bike_model extends CI_Model
             
     function getById($id)
     {
-        $this->db->select('tbl_bikes.*,tbl_manufacturer.name as manufacturer,tbl_bike_types.type as bike_type');
+        $this->db->select('tbl_bikes.*,tbl_bike_types.image,tbl_bike_types.type as bike_type');
         $this->db->from('tbl_bikes');
-        $this->db->join('tbl_manufacturer', 'tbl_manufacturer.id = tbl_bikes.manufacturer_id');
         $this->db->join('tbl_bike_types', 'tbl_bike_types.id = tbl_bikes.type_id');
         $this->db->where('tbl_bikes.id', $id);
         $query = $this->db->get();
@@ -60,9 +58,10 @@ class Bike_model extends CI_Model
 
     function getBikesByType($type_id)
     {
-        $this->db->select('*');
+        $this->db->select('tbl_bikes.*, tbl_bike_types.type as name');
         $this->db->from('tbl_bikes');
         $this->db->where('tbl_bikes.type_id', $type_id);
+        $this->db->join('tbl_bike_types', 'tbl_bike_types.id = tbl_bikes.type_id', 'left');
         $query = $this->db->get();
         
         if ($query->num_rows() > 0)
@@ -76,9 +75,9 @@ class Bike_model extends CI_Model
     function getImageForType($type_id)
     {
         $this->db->limit(1);
-        $this->db->select('tbl_bikes.image');
-        $this->db->from('tbl_bikes');
-        $this->db->where('tbl_bikes.type_id', $type_id);
+        $this->db->select('tbl_bike_types.image');
+        $this->db->from('tbl_bike_types');
+        $this->db->where('tbl_bike_types.id', $type_id);
         $query = $this->db->get();
         
         if ($query->num_rows() > 0)
@@ -89,15 +88,9 @@ class Bike_model extends CI_Model
         }
     }
 
-    /**
-     * This function used to check email exists or not
-     * @param {string} $email : This is users email id
-     * @return {boolean} $result : TRUE/FALSE
-     */
-    function checkRecordExists($name, $vehicle_number)
+    function checkRecordExists($vehicle_number)
     {
-        $this->db->select('name');
-        $this->db->where('name', $name);
+        $this->db->select('*');
         $this->db->where('vehicle_number', $vehicle_number);
         $query = $this->db->get('tbl_bikes');
 
@@ -113,9 +106,9 @@ class Bike_model extends CI_Model
      * @param {string} $email : This is users email id
      * @return {boolean} $result : TRUE/FALSE
      */
-    function checkRecordExists1($name, $vehicle_number, $record_id)
+    function checkRecordExists1($vehicle_number, $record_id)
     {
-        $this->db->select('name');
+        $this->db->select('*');
         $this->db->where('name', $name);
         $this->db->where('vehicle_number', $vehicle_number);
         $this->db->where('id !=', $record_id);

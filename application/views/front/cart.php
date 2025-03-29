@@ -4,7 +4,7 @@
     <img src="<?=base_url()?>/assets/img/shapes/tire-print-right.png" alt="tire print" class="position-absolute end-0 z-1 tire-print">
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-6 mx-auto">
                 <div class="breadcrumb-content-wrapper text-center position-relative z-3">
                     <h1 class="text-white">Cart</h1>
                 </div>

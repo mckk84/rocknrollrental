@@ -154,6 +154,36 @@ class Bookings extends CI_Controller
         $this->load->view('layout_admin/footer');
     }
 
+    public function getOrderBikeTypes()
+    {
+        $response = array("error" => 0, "error_message" => "", "success_message" => "");
+        $this->load->library('form_validation'); 
+        $this->form_validation->set_rules('type_id','Bike Type','trim|required|max_length[128]');
+        $this->form_validation->set_rules('booking_id','Booking Id','trim|required|max_length[128]');
+        
+        if($this->form_validation->run() == FALSE)
+        {
+            $response["error"] = 1;
+            $response["error_message"] = $this->form_validation->error_string();
+            die(json_encode($response));
+        }
+        else
+        {
+            $data['booking_id'] = trim($this->input->post('booking_id'));
+            $data['type_id'] = trim($this->input->post('type_id'));
+            $data['order'] = $this->bookings_model->getById($data['booking_id']);
+            
+            $data['available_bikes'] = $this->searchbike_model->searchBikes($data['type_id'], $data['order']['pickup_date'], $data['order']['pickup_time'], $data['order']['dropoff_date'], $data['order']['dropoff_time']);
+
+            $response["error"] = 0;
+            $response["error_message"] = "";
+            $response["success_message"] = "Success";
+            $response["data"] = $data;
+            die(json_encode($response));
+        }
+            
+    }
+
     public function getRecord()
     {
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
@@ -198,7 +228,7 @@ class Bookings extends CI_Controller
         $ordered_bike_qty = "";
         foreach($bike_type_qty as $btype => $bq)
         {
-           $ordered_bike_qty .= "<span class='w-100 text-danger font-bold d-block'>".$btype." ( ".$bq." Nos. )</span>";
+           $ordered_bike_qty .= "<span class='w-100 text-danger font-bold d-block'>".$btype." ( ".$bq." )</span>";
         }
 
         if( count($bike_assigned_ids) == 0 )
@@ -638,33 +668,29 @@ class Bookings extends CI_Controller
             
             foreach($obt_rows as $row_id)
             {
-                if( !isset($_POST['assign_bike_row_'.$row_id]))
+                $old_row = $this->bookingbikes_model->getById($row_id);
+
+                $bike_id = $_POST['assign_bike_row_'.$row_id];
+                $bike_type_id = $_POST['assign_biketype_row_'.$row_id];
+
+                if( $old_row['type_id'] !== $bike_type_id )
                 {
-                    $response["error"] = 1;
-                    $response["error_message"] = "Please assign vehicles.";
-                    die(json_encode($response));
+                    if( $old_row['bike_id'] != 0 )
+                    {
+                        $this->bike_model->updateRecord(array("available" => 1), $old_row['bike_id']);
+                    }
                 }
-                else if( isset($_POST['assign_bike_row_'.$row_id]) && $_POST['assign_bike_row_'.$row_id] == 0 )
+
+                $this->bookingbikes_model->updateRecord(array("bike_id" => $bike_id, "type_id" => $bike_type_id), $row_id);
+                if( $data['pickup_status'] == 1 )
                 {
-                    $response["error"] = 1;
-                    $response["error_message"] = "Please assign vehicles.";
-                    die(json_encode($response));
+                    // update bikerecord to unavailable
+                    $this->bike_model->updateRecord(array("available" => 0), $bike_id);
                 }
                 else
                 {
-                    $bike_id = $_POST['assign_bike_row_'.$row_id];
-                    $this->bookingbikes_model->updateRecord(array("bike_id" => $bike_id), $row_id);
-
-                    if( $data['pickup_status'] == 1 )
-                    {
-                        // update bikerecord to unavailable
-                        $this->bike_model->updateRecord(array("available" => 0), $bike_id);
-                    }
-                    else
-                    {
-                        // update bikerecord to unavailable
-                        $this->bike_model->updateRecord(array("available" => 1), $bike_id);
-                    }
+                    // update bikerecord to available
+                    $this->bike_model->updateRecord(array("available" => 1), $bike_id);
                 }
             }
 
@@ -691,7 +717,14 @@ class Bookings extends CI_Controller
     {
         $record_id = intval($this->uri->segment(4));
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
-        
+        $user = $this->session->userdata();
+
+        if( $user['user_type'] !== "Admin" )
+        {
+            $response["error"] = 1;
+            $response["error_message"] = "Your have no permission.";   
+            die(json_encode($response));
+        }
         if( $record_id == 0 )
         {   
             $response["error"] = 1;

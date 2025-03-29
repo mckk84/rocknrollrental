@@ -5,6 +5,30 @@ function checkMobile()
     return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
 }
 
+function getNewImage($target_folder, $name, $imageFileType)
+{
+    $temp_image_name = ucwords(strtolower($name));
+    $temp_image_name = preg_replace('/\s+/', '', $temp_image_name);
+    $temp_image_name = preg_replace('/[^a-z\d ]/i', '', $temp_image_name);
+    $new_image_name = $temp_image_name.".".$imageFileType;
+    $target_file = $target_folder.$new_image_name;
+
+    if( file_exists($target_file) )
+    {
+        for($i=0; $i < 25; $i++)
+        {
+            $concat = ( $i < 10 ) ? "0".$i: $i;
+            $new_image_name = $temp_image_name."_".$concat.".".$imageFileType;
+            if( !file_exists($target_folder.$new_image_name) )
+            {
+                $target_file = $target_folder.$new_image_name;
+                break;
+            }
+        }
+    }
+    return array($new_image_name, $target_file);
+}
+
 if (!function_exists('getSocial'))
 {
     function getSocial()

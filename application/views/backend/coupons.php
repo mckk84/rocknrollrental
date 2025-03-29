@@ -72,7 +72,9 @@
                       <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
                       <td><div class="d-flex justify-content-start">
                         <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-coupon-record text-warning float-right mx-2"><i class="bi bi-pencil-fill"></i></a>
+                        <?php if( isset($user['user_type']) && $user['user_type'] == 'Admin' ){?>
                         <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record text-danger float-right mx-2"><i class="bi bi-trash-fill"></i></a>
+                        <?php } ?>
                       </div></td>
                     </tr>
                      <?php } ?>

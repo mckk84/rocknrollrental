@@ -10,11 +10,12 @@ class Bikeservice_model extends CI_Model
     {
         $this->db->order_by('tbl_bikeservice.id', 'DESC');
         $this->db->group_by('tbl_bikeservice.id', 'DESC');
-        $this->db->select('tbl_bikeservice.*, tbl_users.name as created_by, GROUP_CONCAT(tbl_service_bikes.bike_id) as bike_ids, GROUP_CONCAT(tbl_bikes.name) as names,GROUP_CONCAT(tbl_bikes.vehicle_number) as vehicle_numbers');
+        $this->db->select('tbl_bikeservice.*, tbl_users.name as created_by, GROUP_CONCAT(tbl_service_bikes.bike_id) as bike_ids, GROUP_CONCAT(tbl_bike_types.type) as names,GROUP_CONCAT(tbl_bikes.vehicle_number) as vehicle_numbers');
         $this->db->from('tbl_bikeservice');
         $this->db->join('tbl_users', 'tbl_users.userId = tbl_bikeservice.created_by');
         $this->db->join('tbl_service_bikes', 'tbl_service_bikes.service_id = tbl_bikeservice.id');
         $this->db->join('tbl_bikes', 'tbl_service_bikes.bike_id = tbl_bikes.id');
+        $this->db->join('tbl_bike_types', 'tbl_bikes.type_id = tbl_bike_types.id');
         $query = $this->db->get();
 
         if ($query->num_rows() > 0){

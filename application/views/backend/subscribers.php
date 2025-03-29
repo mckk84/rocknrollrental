@@ -53,9 +53,11 @@
                       <td><?=$row['email']?></td>
                       <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
                       <td>
+                        <?php if( isset($user['user_type']) && $user['user_type'] == 'Admin' ){?>
                         <div class="d-flex justify-content-start">
                           <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record text-danger float-right mx-2"><i class="bi bi-trash-fill"></i></a>
                         </div>
+                        <?php } ?>
                       </td>
                     </tr>
                      <?php } ?>

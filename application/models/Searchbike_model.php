@@ -168,8 +168,8 @@ class Searchbike_model extends CI_Model
 	public function getAvailableBikes($pickup_date, $pickup_time, $dropoff_date, $dropoff_time)
 	{
         $this->db->group_by('tbl_bike_types.id');
-		$this->db->order_by('tbl_bikes.cc', 'ASC');
-        $this->db->select('tbl_bikes.image,tbl_bikes.milage,tbl_bikes.power,tbl_bikes.cc,COUNT(tbl_bikes.id) as bikes_available, tbl_bike_types.type as bike_type_name,tbl_bike_types.id as bike_type_id, tbl_prices.*');
+		$this->db->order_by('tbl_bike_types.cc', 'ASC');
+        $this->db->select('tbl_bike_types.image,tbl_bike_types.milage,tbl_bike_types.power,tbl_bike_types.cc,COUNT(tbl_bikes.id) as bikes_available, tbl_bike_types.type as bike_type_name,tbl_bike_types.id as bike_type_id, tbl_prices.*');
         $this->db->from('tbl_bike_types');
         $this->db->join('tbl_bikes', 'tbl_bike_types.id = tbl_bikes.type_id', 'left');
         $this->db->join('tbl_prices', 'tbl_prices.type_id = tbl_bikes.type_id', 'left');
@@ -218,7 +218,7 @@ class Searchbike_model extends CI_Model
             return array();
         }
         $this->db->order_by('tbl_bike_types.id', 'ASC');
-        $this->db->select('tbl_bikes.id as bid,tbl_bikes.image,tbl_bikes.model,tbl_bikes.milage,tbl_bikes.power,tbl_bikes.cc, tbl_bikes.vehicle_number,tbl_bikes.available, tbl_bike_types.type as bike_type_name,tbl_bike_types.id as bike_type_id, tbl_prices.*');
+        $this->db->select('tbl_bikes.id as bid,tbl_bike_types.image,tbl_bike_types.milage,tbl_bike_types.power,tbl_bike_types.cc,tbl_bikes.vehicle_number,tbl_bikes.available, tbl_bike_types.type as bike_type_name,tbl_bike_types.id as bike_type_id, tbl_prices.*');
         $this->db->from('tbl_bike_types');
         $this->db->join('tbl_bikes', 'tbl_bike_types.id = tbl_bikes.type_id', 'left');
         $this->db->join('tbl_prices', 'tbl_prices.type_id = tbl_bikes.type_id', 'left');
@@ -259,8 +259,8 @@ class Searchbike_model extends CI_Model
             return array();
         }
         $this->db->group_by('tbl_bike_types.id');
-        $this->db->order_by('tbl_bikes.cc', 'ASC');
-        $this->db->select('tbl_bikes.image,tbl_bikes.model,tbl_bikes.milage,tbl_bikes.power,tbl_bikes.cc, tbl_bikes.vehicle_number,COUNT(tbl_bikes.id) as bikes_available, tbl_bike_types.type as bike_type_name,tbl_bike_types.id as bike_type_id, tbl_prices.*');
+        $this->db->order_by('tbl_bike_types.cc', 'ASC');
+        $this->db->select('tbl_bike_types.image,tbl_bike_types.milage,tbl_bike_types.power,tbl_bike_types.cc, tbl_bikes.vehicle_number,COUNT(tbl_bikes.id) as bikes_available, tbl_bike_types.type as bike_type_name,tbl_bike_types.id as bike_type_id, tbl_prices.*');
         $this->db->from('tbl_bike_types');
         $this->db->join('tbl_bikes', 'tbl_bike_types.id = tbl_bikes.type_id', 'left');
         $this->db->join('tbl_prices', 'tbl_prices.type_id = tbl_bikes.type_id', 'left');
@@ -304,8 +304,8 @@ class Searchbike_model extends CI_Model
     public function getBikesByType()
     {
         $this->db->group_by('tbl_bike_types.id');
-        $this->db->order_by('tbl_bikes.cc', 'ASC');
-        $this->db->select('tbl_bike_types.id as bike_type_id,tbl_bike_types.type as bike_type_name, tbl_bikes.image, tbl_bikes.cc, tbl_bikes.milage, tbl_bikes.power, tbl_prices.*');
+        $this->db->order_by('tbl_bike_types.cc', 'ASC');
+        $this->db->select('tbl_bike_types.id as bike_type_id,tbl_bike_types.type as bike_type_name, tbl_bike_types.image, tbl_bike_types.cc, tbl_bike_types.milage, tbl_bike_types.power, tbl_prices.*');
         $this->db->from('tbl_bike_types');
         $this->db->join('tbl_bikes', 'tbl_bike_types.id = tbl_bikes.type_id', 'left');
         $this->db->join('tbl_prices', 'tbl_bike_types.id = tbl_prices.type_id', 'left');

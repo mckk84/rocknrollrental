@@ -224,6 +224,15 @@ class Bikeservice extends CI_Controller
             $response["error_message"] = "Invalid Request";
             die(json_encode($response));
         }
+
+        $user = $this->session->userdata();
+
+        if( $user['user_type'] !== "Admin" )
+        {
+            $response["error"] = 1;
+            $response["error_message"] = "Your have no permission.";   
+            die(json_encode($response));
+        }
         
         $data['record'] = $this->bikeservice_model->getById($record_id);
         if( count($data['record']) == 0 )

@@ -158,7 +158,14 @@ class Prices extends CI_Controller
     {
         $record_id = intval($this->uri->segment(4));
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
-        
+        $user = $this->session->userdata();
+
+        if( $user['user_type'] !== "Admin" )
+        {
+            $response["error"] = 1;
+            $response["error_message"] = "Your have no permission.";   
+            die(json_encode($response));
+        }
         if( $record_id == 0 )
         {   
             $response["error"] = 1;
