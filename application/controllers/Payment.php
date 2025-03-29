@@ -122,6 +122,10 @@ class Payment extends CI_Controller {
         {
             $total += $bikes_quantity * 200;
         }
+        else
+        {
+        	$data['cart']['early_pickup'] = 0;
+        }
       	
       	$total = $total - $discount;
 
@@ -152,7 +156,7 @@ class Payment extends CI_Controller {
             	"gst" => $gst,
             	"payment_mode" => $pmode_row['id'],
             	"status" => 0,
-            	"early_pickup" => (is_null($data['cart']['early_pickup'])?1:0),
+            	"early_pickup" => $data['cart']['early_pickup'],
             	"pickup_date" => dateformatdb($data['cart']['pickup_date']),
             	"pickup_time" => $data['cart']['pickup_time'],
             	"dropoff_date" => dateformatdb($data['cart']['dropoff_date']),
@@ -318,6 +322,10 @@ class Payment extends CI_Controller {
         {
             $total += $bike_quantity * 200;
         }
+        else
+        {
+        	$data['cart']['early_pickup'] = 0;
+        }
         $total = $total - $discount;
         $gst = round($subtotal * 0.05, 2);
         $total_paid = 0;
@@ -347,7 +355,7 @@ class Payment extends CI_Controller {
             	"gst" => $gst,
             	"payment_mode" => $pmode_row['id'],
             	"status" => 0,
-            	"early_pickup" => (is_null($data['cart']['early_pickup'])?1:0),
+            	"early_pickup" => $data['cart']['early_pickup'],
             	"pickup_date" => dateformatdb($data['cart']['pickup_date']),
             	"pickup_time" => $data['cart']['pickup_time'],
             	"dropoff_date" => dateformatdb($data['cart']['dropoff_date']),
