@@ -184,6 +184,19 @@ class Bookings extends CI_Controller
             
     }
 
+    public function getBikeTypes()
+    {
+        $response = array("error" => 0, "error_message" => "", "success_message" => "");
+        
+        $data['biketypes'] = $this->biketypes_model->getAll();
+
+        $response["error"] = 0;
+        $response["error_message"] = "";
+        $response["success_message"] = "Success";
+        $response["data"] = $data;
+        die(json_encode($response));
+    }
+
     public function getRecord()
     {
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
@@ -229,7 +242,7 @@ class Bookings extends CI_Controller
         foreach($bike_type_qty as $btype => $bq)
         {
            $ordered_bike_qty .= ($ordered_bike_qty == "") ? "": ",";
-           $ordered_bike_qty .= "<b>".$btype." ( ".$bq." )</b>";
+           $ordered_bike_qty .= $btype." ( ".$bq." )";
         }
 
         if( count($bike_assigned_ids) == 0 )

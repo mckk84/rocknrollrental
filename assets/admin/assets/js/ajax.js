@@ -1,5 +1,55 @@
 //ajax calls
 
+function addnewbike()
+{
+    $("#addnewbike").prop("disabled", true);
+    var visible = $("#extra_bikes").css('display');
+    if( visible == 'none' ){
+        $("#extra_bikes").show();
+    }
+    let url = booking_url+"/getBikeTypes";
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function (data) 
+        {
+            $("#addnewbike").prop("disabled", false);
+            var d = JSON.parse(data);
+            if( d.error == 1 )
+            {
+                alert('Error Occured');
+                return false;
+            }
+            else
+            {
+                var biketypes = d.data.biketypes;
+                var index = $("#extra_bikes tbody tr").length;
+                index = (index == 0) ? 1 : index + 1;
+                var html = "";
+                var ab_html = "<select name='assign_bike_row_"+index+"' class='form-select'><option value=''>-Select-</option></select>";
+                html += "<tr id='order_row_"+index+"'><td>#"+index+"</td>";
+                var bt_html = "<td class='w-30'><select name='assign_biketype_row_"+index+"' onchange='bike_type_change("+index+")' class='bike_type_order form-select'><option value='0'>-Select-</option>";
+                Object.keys(biketypes).forEach(function(key, index)
+                {
+                  bt_html += "<option value='"+biketypes[key].id+"'>"+biketypes[key].type+"</option>";
+                });
+                bt_html += "</select></td>";
+
+                html += bt_html;
+                html += "<td><img style='max-width:50px;height:30px;margin:auto;display:block;' class='img-fluid' src='"+base_url+"assets/images/bike.png'/></td>";
+                html += "<td>"+ab_html+"</td><td><span  class='d-block w-100' id='assign_bike_rent_"+index+"'>N/A</span></td></tr>";
+                console.log(html);
+                $("#extra_bikes tbody").append(html);
+                console.log(1);
+            }
+        },
+        error: function (data) {
+            console.log("Error occured");
+            $("#addnewbike").prop("disabled", false);
+        }
+    }); 
+}
+
 function bike_type_change(order_row_id)
 {
     var order_row = order_row_id;
@@ -35,9 +85,13 @@ function bike_type_change(order_row_id)
                     text: ab.vehicle_number
                 }));
             }
-
-            $("#order_row_"+order_row_id+" img").attr("src", base_url+'bikes/'+image);
-            $("#order_row_"+order_row_id+" #assign_bike_rent_"+order_row_id+"").html(rent_price);
+            if( image == "" ){
+                $("#order_row_"+order_row_id+" img").attr("src", base_url+'assets/images/bike.png');
+                $("#order_row_"+order_row_id+" #assign_bike_rent_"+order_row_id+"").html('N/A');
+            }else{
+                $("#order_row_"+order_row_id+" img").attr("src", base_url+'bikes/'+image);
+                $("#order_row_"+order_row_id+" #assign_bike_rent_"+order_row_id+"").html(rent_price);
+            }
 
         },
         error: function (data) {
@@ -229,39 +283,39 @@ $(document).ready(function(){
 
                 $(".booking_form input[name='booking_id']").val(response.data.order.id);
 
-                var html = "<table class='table datatable table-responsive border rounded mb-0'>";
-                html += "<tbody><tr><th class='bg-warning-light w-20'>PICKUP</th><td class='fs-6'>"+formatdate(order.pickup_date)+" "+order.pickup_time+"</td>";
-                html += "<th class='bg-warning-light w-20'>DROPOFF</th><td class='fs-6'>"+formatdate(order.dropoff_date)+" "+order.dropoff_time+"</td></tr></tbody></table>";
+                var html = "<table class='table datatable table-responsive border rounded mb-0 small'>";
+                html += "<tbody><tr><th class='bg-warning-light w-20'>PICKUP</th><td class='fs-8'>"+formatdate(order.pickup_date)+" "+order.pickup_time+"</td>";
+                html += "<th class='bg-warning-light w-20'>DROPOFF</th><td class='fs-8'>"+formatdate(order.dropoff_date)+" "+order.dropoff_time+"</td></tr></tbody></table>";
 
                 $(".booking_form #order_dates").html(html);
 
-                html = "<table class='table datatable table-responsive border rounded mb-0'>";
-                html += "<tbody><th class='bg-warning-light w-25'>Customer</th><td>"+response.data.customer.name+" ("+response.data.customer.phone+")</td></tr>";
-                html += "<tr><th class='bg-warning-light w-25'>Bikes Ordered</th><td>"+response.data.ordered_bikes+"</td></tr>";
-                html += "<tr><th class='bg-warning-light w-25'> Helmets </th><td>"+response.data.order.helmet_quantity+"</td></tr>";
+                html = "<table class='table datatable table-responsive border rounded mb-0 small'>";
+                html += "<tbody><th class='bg-warning-light w-25'>Customer</th><td class='fs-8'>"+response.data.customer.name+" ("+response.data.customer.phone+")</td></tr>";
+                html += "<tr><th class='bg-warning-light w-25'>Bikes Ordered</th><td class='fs-8'>"+response.data.ordered_bikes+"</td></tr>";
+                html += "<tr><th class='bg-warning-light w-25'> Helmets </th><td class='fs-8'>"+response.data.order.helmet_quantity+"</td></tr>";
                 if( response.data.order.notes != "" )
                 {
-                    html += "<tr><th class='bg-warning-light w-25'>Notes:</th><td> <b>"+response.data.order.notes+"</b></td></tr>";
+                    html += "<tr><th class='bg-warning-light w-25'>Notes:</th><td class='fs-8'>"+response.data.order.notes+"</td></tr>";
                 }
                 if( response.data.order.early_pickup != 0 )
                 {
-                    html += "<tr><th class='bg-warning-light w-25'>Early Pickup: </th><td><b>"+((response.data.order.early_pickup)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</b></td></tr>";
+                    html += "<tr><th class='bg-warning-light w-25'>Early Pickup: </th><td class='fs-8'>"+((response.data.order.early_pickup)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</b></td></tr>";
                 }
                 html += "</tbody></table>";
 
                 $(".booking_form #order_details").html(html);
 
-                var html = "<table class='table datatable table-responsive border rounded mb-0'>";
-                html += "<tr><td class='bg-warning-light w-30'><b>Duration</b></td><td> "+response.data.period_days+" days, <b>"+response.data.period_hours+"</b> hours</td></tr>";
-                html += "<tr><td class='bg-warning-light w-30'><b>Weekend </b></td><td>"+((response.data.weekend)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr>";
-                html += "<tr><td class='bg-warning-light w-30'><b>Public Holiday </b></td><td>"+((response.data.public_holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td>";
+                var html = "<table class='table datatable table-responsive border rounded mb-0 small'>";
+                html += "<tr><th class='bg-warning-light w-40'>Duration</th><td class='fs-8'> "+response.data.period_days+" days, "+response.data.period_hours+" hours</td></tr>";
+                html += "<tr><th class='bg-warning-light w-40'>Weekend </th><td class='fs-8'>"+((response.data.weekend)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr>";
+                html += "<tr><th class='bg-warning-light w-40'>Public Holiday </th><td class='fs-8'>"+((response.data.public_holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td>";
                 html += "</tr></tbody></table>";            
 
                 $(".booking_form #order_details1").html(html);
 
-                html = "<table class='table datatable table-responsive rounded border text-center mb-0'>";
+                html = "<table class='table datatable table-responsive rounded border text-center mb-0 small'>";
                 html += "<thead><tr><th class='bg-warning-light text-center'>#</th><th class='bg-warning-light w-30'>Bike Type</th><th class='bg-warning-light'>Image</th>";
-                html += "<th class='bg-warning-light'>Assign Vehicle</th><th class='bg-warning-light'>Rent Price</th></tr></thead>";
+                html += "<th class='bg-warning-light'>Assign Vehicle</th><th class='bg-warning-light'>Rent Price</th><th class='bg-warning-light w-10'>Action</th></tr></thead>";
                 html += "<tbody>";
                 var bikes = response.data.order_bike_types;
                 var order_bike_types = new Array();
@@ -298,11 +352,12 @@ $(document).ready(function(){
                   bt_html += "</select></td>";
 
                   html += bt_html; //<td><span style='vertical-align:middle;'>"+row.type+"</span></td>";
-                  html += "<td><img style='width:50px;margin:auto;display:block;' class='img-fluid' src='"+response.data.bike_url+row.image+"'/></td>";
+                  html += "<td><img style='max-width:50px;margin:auto;display:block;' class='img-fluid' src='"+response.data.bike_url+row.image+"'/></td>";
                   html += "<td>"+ab_html+"</td><td><span class='d-block w-100' id='assign_bike_rent_"+row.id+"'>"+row.rent_price+"</span></td></tr>";
                 }
                 html += "</tbody>";
-                html += "</table><input type='hidden' name='order_bike_types' value='"+order_bike_types.join(',')+"'>";
+                html += "</table><a id='addnewbike' onclick='addnewbike()' class='btn btn-sm btn-outline-primary d-block float-left p-1 mb-1 mt-1'><i class='bi bi-plus-circle me-1'></i>Add Bikes</a><input type='hidden' name='order_bike_types' value='"+order_bike_types.join(',')+"'>";
+                html += "<table style='display:none' id='extra_bikes' class='table datatable table-responsive rounded border text-center mt-1 mb-0 small'><tbody></tbody></table";
                 $(".booking_form #bike_select").html(html);
 
                 var total_amount = 0;
@@ -325,7 +380,7 @@ $(document).ready(function(){
                 bike_total = bike_total - response.data.order.gst;
 
                 html = "<div style='width:49%;float:left;' class='table-responisve'>";
-                html += "<table class='table'>";
+                html += "<table class='table small'>";
                 html += "<tr><th class='text-start bg-warning-light' colspan='2'>Order Updaes</th></tr>";
                 html += "<tr><th class='text-start'>Refund Status</th><th class='text-end'>";
                 html += "<select name='refund_status' class='form-select'>";
@@ -359,7 +414,7 @@ $(document).ready(function(){
                 html += "</table></div>";
                 
                 html += "<div style='float:right;' class='w-50 table-responisve'>";
-                html += "<table class='table'>";
+                html += "<table class='table small'>";
                 html += "<tr><th class='text-start bg-warning-light' colspan='3'>Order Summary</th></tr>";
                 html += "<tr><th class='text-start'>Bike Rental</th><th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='d-inline-block text-info p-1'>"+bike_total+"</span></th>";
                 html += "</tr>";

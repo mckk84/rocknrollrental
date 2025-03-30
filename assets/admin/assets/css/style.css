@@ -14,7 +14,7 @@
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Nunito", sans-serif;
   background: #FFF;
   color: #444444;
   font-size: 0.80rem;
@@ -36,7 +36,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Poppins", sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
 /*--------------------------------------------------------------
@@ -1236,6 +1236,11 @@ h6 {
 .table td, .table th{
   color: #000;
   vertical-align: middle !important;
+  padding: 0.3rem 0.5rem;
+}
+
+.table th{
+  text-transform: uppercase;
 }
 
 tbody, td, tfoot, th, thead, tr {
@@ -1397,4 +1402,18 @@ button#multiSelectDropdown {
 
 .modal-header {
     padding: 10px 15px;
+}
+
+.fs-7 {
+    font-size: 0.9rem!important;
+}
+
+.fs-8 {
+    font-size: 0.8rem!important;
+}
+
+.form-select:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(237, 233, 157,.25);
 }
