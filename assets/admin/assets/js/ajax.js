@@ -424,7 +424,7 @@ $(document).ready(function(){
                 if( response.data.order.helmet_quantity > 0 || response.data.order.early_pickup > 0 )
                 {
                     html += "<tr>";
-                    html += "<th colspan='2' class='text-center'>Addons</th>";
+                    html += "<th colspan='2' class='bg-warning-light text-center'>Addons</th>";
                     html += "</tr>";
                 }
 

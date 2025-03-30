@@ -48,7 +48,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn md-primary-btn mt-40 w-100">Search</button>
+                            <button type="submit" class="btn md-primary-btn mt-20 w-100">Search</button>
                         </form>
                     </div>
                 </div>
@@ -65,7 +65,6 @@
                         <input type="hidden" name="period_hours" value="<?=$period_hours?>">
                         <input type="hidden" name="public_holiday" value="<?=$public_holiday?>">
                         <input type="hidden" name="weekend" value="<?=$weekend?>">
-                        <!-- <a id="checkout" style="display: none;float: right;" class="btn btn-sm btn-primary" href="javascript:void(0)">Book Now</a> -->
                     </form>
                     <div class="row g-2">
                         <?php if( isset($available_bikes) && count($available_bikes) > 0 ){
@@ -362,7 +361,7 @@ $(document).ready(function(){
             // Settime
             setTimeAll($("#pickup_time"));
             $("#pickup_time option:first").attr('selected','selected');
-
+            
             setTimeAll($("#dropoff_time"));
             $("#dropoff_time option:last").attr('selected','selected');
         }
@@ -370,6 +369,7 @@ $(document).ready(function(){
         {
             setTimeAll($("#pickup_time"));
             $("#pickup_time option:first").attr('selected','selected');
+
             setTimeAll($("#dropoff_time"));
             $("#dropoff_time option:last").attr('selected','selected');
         }
@@ -386,6 +386,7 @@ $(document).ready(function(){
     {
         setTimeAll($("#pickup_time"));
         $("#pickup_time option:first").attr('selected','selected');
+
         setTimeAll($("#dropoff_time"));
         $("#dropoff_time option:last").attr('selected','selected');
     }

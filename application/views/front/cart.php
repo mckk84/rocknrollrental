@@ -63,7 +63,7 @@
                                         <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><b><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
                                         <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['dropoff_time']?></b></span>
                                     </td>
-                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?></td>
+                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block bike_rent"><?=$rent_price?></span></td>
                                     <td>
                                         <?php if( $bike['bikes_available'] > 1 ){?>
                                         <div class="cart-count d-inline-flex align-items-center">
@@ -77,7 +77,7 @@
                                         </div>
                                         <?php } ?>
                                     </td>
-                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=round($rent_price * $bike['quantity'], 2)?></span></td>
+                                    <td><i class="fa fa-indian-rupee-sign me-1"></i><span class="bike_subtotal d-inline-block p-1"><?=round($rent_price * $bike['quantity'], 2)?></span></td>
                                     <td><button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" class="cart-delete bg-transparent"><i class="fa fa-trash"></i></button></td>
                                 </tr>
                                 <?php } 
@@ -107,6 +107,8 @@
                         <div class="bikes-option">
                             <a href="<?=base_url('Bookaride')?>" class="btn btn-secondary">Add More Bikes</a>
                         </div>
+                        <div class="cart_error fs-6">
+                        </div>
                     </div>
                     <div class="table-content table-responsive table-bordered bg-white rounded mb-4">
                         <table class="table">
@@ -120,7 +122,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1">0</span>
+                                    <i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block p-1">0</span>
                                 </td>
                             </tr>
                             <tr>
@@ -135,17 +137,12 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"] * 50:0?></span>
+                                    <i class="fa fa-indian-rupee-sign me-1"></i><span class="helmet_subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"] * 50:0?></span>
                                 </td>
                             </tr>
-                        </table>
-                        <?php if( isset($cart['helmets_qty']) && $cart['helmets_qty'] != 0 && $cart['helmets_qty'] != "" )
-                        {
-                            $total += intval($cart['helmets_qty']) * 50;
-                        }
-                        ?>
+                        </table>                        
                     </div>
-                    <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-4 pt-4 pt-lg-0 mt-lg-0">
+                    <div class="addons_table table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-4 pt-4 pt-lg-0 mt-lg-0">
                         <form method="POST" id="coupon_form" action="<?=base_url('Checkout/coupon')?>" class="d-flex align-items-center flex-wrap">
                             <input type="text" class="text-dark" name="coupon_code" placeholder="Coupon code" required value="<?=isset($cart['coupon_code'])?$cart['coupon_code']:""?>" maxlength="20">
                             <?php if( !isset($cart['coupon_code']) || $cart['coupon_code'] == "" ) {?>
@@ -168,13 +165,6 @@
                                 <th class="text-start">Subtotal</th>
                                 <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_subtotal d-inline-block"><?=$subtotal - round($subtotal * 0.05, 2)?></span></th>
                             </tr>
-                            <?php if($cart['early_pickup'] == 1){
-                                $total = $total + round($bike_quantity * 200, 2);?>
-                            <tr>
-                                <th class="text-start">Early Pickup</th>
-                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="early_pickup d-inline-block"><?=round($bike_quantity * 200, 2)?></span></th>
-                            </tr>
-                            <?php } ?>
                             <tr>
                                 <th class="text-start">GST</th>
                                 <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_gst d-inline-block"><?=round($subtotal * 0.05, 2)?></span></th>
@@ -188,11 +178,40 @@
                                 }
                                 $total = $total - $discount;
                             ?>
-                            <tr>
+                            <tr class="order_discount">
                                 <th class="text-start text-warning">Coupon(<?=$cart['coupon_code']?>) Discount</th>
                                 <th class="text-end text-warning"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block"><?=$discount?></span></th>
                             </tr>
+                            <?php }  else { ?>
+                            <tr style="display:none;" class="order_discount">
+                                <th class="text-start">Discount</th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_discount d-inline-block">0</span></th>
+                            </tr>    
                             <?php } ?>
+                            <?php if( isset($cart['helmets_qty']) && $cart['helmets_qty'] != 0 && $cart['helmets_qty'] != "" ){
+                                $total = $total + round($cart['helmets_qty'] * 50, 2);?>
+                            <tr class="order_helemt">
+                                <th class="text-start">Helmet Charges</th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="helmet_order_subtotal d-inline-block"><?=round($cart['helmets_qty'] * 50, 2)?></span></th>
+                            </tr>
+                            <?php } else { ?>
+                            <tr style="display:none;" class="order_helemt">
+                                <th class="text-start">Helmet Charges</th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="helmet_order_subtotal d-inline-block">0</span></th>
+                            </tr>    
+                            <?php } ?>
+                            <?php if($cart['early_pickup'] == 1){
+                                $total = $total + round($bike_quantity * 200, 2);?>
+                            <tr class="order_early_pickup">
+                                <th class="text-start">Early Pickup</th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="early_pickup d-inline-block"><?=round($bike_quantity * 200, 2)?></span></th>
+                            </tr>
+                            <?php } else { ?>
+                            <tr style="display:none;" class="order_early_pickup">
+                                <th class="text-start">Early Pickup</th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="early_pickup d-inline-block"><?=round($bike_quantity * 200, 2)?></span></th>
+                            </tr>    
+                            <?php } ?>   
                             <tr>
                                 <td class="text-start fw-bold">Total</td>
                                 <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$total?></span></td>
@@ -200,17 +219,21 @@
                             <tr>
                                 <td class="text-start text-warning fw-bold border-0">Refundable Deposit / Vehicle
                                     <span class="d-block text-gray fw-normal text-sm">To be paid at the time of pickup</span></td>
-                                <td class="fw-bold text-end border-0"><i class="fa fa-indian-rupee-sign me-1"></i> 1000
+                                <td class="fw-bold text-end border-0"><i class="fa fa-indian-rupee-sign me-1"></i> <span class="refundable_deposit d-inline-block"><?=round($bike_quantity * 1000, 2)?></span>
                                     <span class="d-block text-info fw-normal text-sm">(Not paying now)</span>
                                 </td>
                             </tr>                                                           
                         </table>
                         <div class="d-flex flex-column px-4 pb-4 pt-2">
                             <form method="POST" action="<?=base_url('Checkout')?>">
-                                <?php if( $cart['early_pickup'] == 1 || $cart['pickup_time'] == '07:30 AM' ){?>
+                                <?php if( $cart['early_pickup'] == 1 || $cart['pickup_time'] == '07:30 AM' || $cart['pickup_time'] == '08:00 AM'){?>
                                 <div class="w-100 mb-4 border rounded bg-light">
                                     <label class="fa-md text-info py-2 px-2"><input type="checkbox" name="early_pickup_charge" value="1" <?=($cart['early_pickup']==1)?"checked":""?> > Pickup early at 6:00 AM for  200 extra / bike.</label>
                                 </div>                                
+                                <?php } elseif( $cart['pickup_time'] == '07:30 AM' || $cart['pickup_time'] == '08:00 AM' ){ ?>
+                                <div class="w-100 mb-4 border rounded bg-light">
+                                    <label class="fa-md text-info py-2 px-2"><input type="checkbox" name="early_pickup_charge" value="0"> Pickup early at 6:00 AM for  200 extra / bike.</label>
+                                </div>
                                 <?php } ?>
                                 <div class="row px-2 mb-4 justify-content-center">
                                     <label class="w-100 p-0 fa-md mb-1 fw-semibold text-center"><input style="width:20px;height:20px;vertical-align:middle;" type="radio" name="paymentOption" value="PAY_FULL" onclick="__setPayment('PAY_FULL');" checked> FULL PAYMENT</label>
@@ -293,11 +316,11 @@
                                         &nbsp;
                                         <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">X</label>
                                         &nbsp;
-                                        <i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?>
+                                        <i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block bike_rent"><?=$rent_price?></span>
                                         &nbsp;
                                         <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">=</label>
                                         &nbsp;
-                                        <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal fw-semibold fa-md d-inline-block p-1"><b><?=round($rent_price * $bike['quantity'], 2)?></b></span>
+                                        <i class="fa fa-indian-rupee-sign me-1"></i><span class="bike_subtotal fw-semibold fa-md d-inline-block p-1"><b><?=round($rent_price * $bike['quantity'], 2)?></b></span>
                                     </td>
                                 </tr>
                                 </table>
@@ -318,6 +341,7 @@
                             <input type="hidden" name="weekend" value="<?=$cart['weekend']?>">
                             <input type="hidden" name="early_pickup" value="<?=$cart['early_pickup']?>">
                             <input type="hidden" name="coupon_code" value="<?=isset($cart['coupon_code'])?$cart['coupon_code']:""?>">
+                            <input type="hidden" name="free_helmet" value="<?=isset($cart['free_helmet'])?$cart['free_helmet']:"0"?>">
                             <input type="hidden" name="helmets_qty" value="<?=isset($cart['helmets_qty'])?$cart['helmets_qty']:"0"?>">
                             <a id="checkout" style="display: none;float: right;" class="btn btn-sm btn-primary" href="javascript:void(0)">Book Now</a>
                         </form>
@@ -325,6 +349,8 @@
                     <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-2 pt-2 pt-lg-0 mt-lg-0">
                         <div class="bikes-option">
                             <a href="<?=base_url('Bookaride')?>" class="btn btn-secondary">Add More Bikes</a>
+                        </div>
+                        <div class="cart_error fs-6">
                         </div>
                     </div>
                     <div class="table-content table-responsive table-bordered bg-white rounded mb-4">
@@ -335,7 +361,7 @@
                             <tr>
                                 <td>
                                     <div class="helmet-option">
-                                        <label class="w-100">1 Helmet is free.  </label>
+                                        <label class="w-100"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="free_helmet" name="free_helmet" class="me-2" <?=($cart["free_helmet"] > 0)?"checked":""?> > 1 Helmet is free.  </label>
                                     </div>
                                 </td>
                                 <td>
@@ -352,17 +378,12 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"] * 50:0?></span>
+                                    <i class="fa fa-indian-rupee-sign me-1"></i><span class="helmet_subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"] * 50:0?></span>
                                 </td>
                             </tr>
                         </table>
-                        <?php if( isset($cart['helmets_qty']) && $cart['helmets_qty'] != 0 && $cart['helmets_qty'] != "" )
-                        {
-                            $total += intval($cart['helmets_qty']) * 50;
-                        }
-                        ?>
                     </div>
-                    <div class="table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-4 pt-4 pt-lg-0 mt-lg-0">
+                    <div class="addons_table table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-4 pt-4 pt-lg-0 mt-lg-0">
                         <form method="POST" id="coupon_form" action="<?=base_url('Checkout/coupon')?>" class="d-flex align-items-center flex-wrap">
                             <input type="text" class="text-dark" name="coupon_code" placeholder="Coupon code" required value="<?=isset($cart['coupon_code'])?$cart['coupon_code']:""?>" maxlength="20">
                             <?php if( !isset($cart['coupon_code']) || $cart['coupon_code'] == "" ) {?>
@@ -385,13 +406,6 @@
                                 <th class="text-start">Subtotal</th>
                                 <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_subtotal d-inline-block"><?=$subtotal - round($subtotal * 0.05, 2)?></span></th>
                             </tr>
-                            <?php if($cart['early_pickup'] == 1){
-                                $total = $total + round($bike_quantity * 200, 2);?>
-                            <tr>
-                                <th class="text-start">Early Pickup</th>
-                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="early_pickup d-inline-block"><?=round($bike_quantity * 200, 2)?></span></th>
-                            </tr>
-                            <?php } ?>
                             <tr>
                                 <th class="text-start">GST</th>
                                 <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_gst d-inline-block"><?=round($subtotal * 0.05, 2)?></span></th>
@@ -410,6 +424,30 @@
                                 <th class="text-end text-warning"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block"><?=$discount?></span></th>
                             </tr>
                             <?php } ?>
+                            <?php if( isset($cart['helmets_qty']) && $cart['helmets_qty'] != 0 && $cart['helmets_qty'] != "" ){
+                                $total = $total + round($cart['helmets_qty'] * 50, 2);?>
+                            <tr class="order_helemt">
+                                <th class="text-start">Helmet Charges</th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="helmet_order_subtotal d-inline-block"><?=round($cart['helmets_qty'] * 50, 2)?></span></th>
+                            </tr>
+                            <?php } else { ?>
+                            <tr style="display:none;" class="order_helemt">
+                                <th class="text-start">Helmet Charges</th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="helmet_order_subtotal d-inline-block">0</span></th>
+                            </tr>    
+                            <?php } ?>
+                            <?php if($cart['early_pickup'] == 1){
+                                $total = $total + round($bike_quantity * 200, 2);?>
+                            <tr class="order_early_pickup">
+                                <th class="text-start">Early Pickup</th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="early_pickup d-inline-block"><?=round($bike_quantity * 200, 2)?></span></th>
+                            </tr>
+                            <?php } else { ?>
+                            <tr style="display:none;" class="order_early_pickup">
+                                <th class="text-start">Early Pickup</th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="early_pickup d-inline-block">0</span></th>
+                            </tr>    
+                            <?php } ?> 
                             <tr>
                                 <td class="text-start fw-bold">Total</td>
                                 <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$total?></span></td>
@@ -417,7 +455,7 @@
                             <tr>
                                 <td class="w-50 text-start text-warning fw-bold border-0">Refundable Deposit / Vehicle
                                     <span class="d-block text-gray fw-normal text-sm">To be paid at the time of pickup</span></td>
-                                <td class="fw-bold text-end border-0"><i class="fa fa-indian-rupee-sign me-1"></i> 1000
+                                <td class="fw-bold text-end border-0"><i class="fa fa-indian-rupee-sign me-1"></i> <span class="refundable_deposit d-inline-block"><?=round($bike_quantity * 1000, 2)?></span>
                                     <span class="d-block text-info fw-normal text-sm">(Not paying now)</span>
                                 </td>
                             </tr>                                                           
@@ -472,28 +510,7 @@ $(document).ready(function(){
 
     function cartdelete(bikeId) 
     {
-        var bikesincart = localStorage.getItem("bikesincart");
-        var temp = localStorage.getItem("bike_ids");
-        var bike_ids = JSON.parse(temp);
         $(".cartbikes").find('[data-id="'+bikeId+'"]').remove();
-        if( bikesincart > 0)
-        {
-            bikesincart = parseInt(bikesincart) - 1;
-        }
-        bike_ids = bike_ids.filter(item => item.bike_id !== bikeId);
-
-        localStorage.setItem("bikesincart", bikesincart);
-        localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
-
-        var v = $(".cart-helmets").val();
-        if( bikesincart < 1 ){
-            $("#cartform input[name='helmets_qty']").val(0);
-        }
-        else
-        {
-            $("#cartform input[name='helmets_qty']").val(v);
-        }
-        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
         $("#cartform").submit();    
     }
 
@@ -513,18 +530,21 @@ $(document).ready(function(){
         $("#cartform").submit();
     });
 
-    $("input[name='early_pickup_charge']").on("change", function () {
-        var temp = localStorage.getItem("bike_ids");
-        var bike_ids = JSON.parse(temp);
+    $("input[name='free_helmet']").on("change", function () {
+        if ($(this).is(":checked")) {
+          $("#cartform input[name='free_helmet']").val(1);
+        } else {
+          $("#cartform input[name='free_helmet']").val(0);
+        }
+        $("#cartform").submit();
+    });
 
+    $("input[name='early_pickup_charge']").on("change", function () {
         if ($(this).is(":checked")) {
           $("#cartform input[name='early_pickup']").val(1);
         } else {
           $("#cartform input[name='early_pickup']").val(0);         
         }
-        var v = $(".cart-helmets").val();
-        $("#cartform input[name='helmets_qty']").val(v);
-        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
         $("#cartform").submit();
     });
 
@@ -532,6 +552,7 @@ $(document).ready(function(){
     {
         var v = $(this).siblings(".cart-input").val();
         var v = parseInt(v);
+        console.log(v);
         var available = parseInt($(this).siblings(".cart-input").attr('data-available'));
         var bike_id = $(this).siblings(".cart-input").attr('data-bike');
         var bikesincart = localStorage.getItem("bikesincart");
@@ -542,21 +563,7 @@ $(document).ready(function(){
         if( v < available ) 
         {
             v = parseInt(v) + 1;
-            $(".cart-input").val(v);    
-            for (var prop in bike_ids) 
-            {
-                var p = bike_ids[prop];
-                if( p.bike_id == bike_id ){
-                    p.qty = v;
-                }
-                bike_ids[prop] = p;
-            }
-            localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
-            bikesincart = bike_ids.length;
-            localStorage.setItem("bikesincart", bikesincart);
-            var v = $(".cart-helmets").val();
-            $("#cartform input[name='helmets_qty']").val(v);
-            $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
+            $(this).siblings(".cart-input").val(v);    
             $("#cartform").submit();
         }
         else
@@ -572,35 +579,13 @@ $(document).ready(function(){
 
     $(".cart-minus").click(function()
     {
-        var bike_id = $(this).siblings(".cart-input").attr('data-bike');
-        var temp = localStorage.getItem("bike_ids");
-        var bike_ids = JSON.parse(temp);
-        console.log(bike_ids);
         var v = $(this).siblings(".cart-input").val();
-        if( v == 0 )
-        {
-            return false;
-        }
         v = parseInt(v) - 1;
         if( v == 0 ){
-            return cartdelete(bike_id);
+            return false;
         }
         $(this).siblings(".cart-input").val(v);
-
-        for (var prop in bike_ids) 
-        {
-            var p = bike_ids[prop];
-            if( p.bike_id == bike_id ){
-                p.qty = v;
-            }
-            bike_ids[prop] = p;
-        }
-        localStorage.setItem("bikesincart", bike_ids.length);
-        localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
-        var v = $(".cart-helmets").val();
-        $("#cartform input[name='helmets_qty']").val(v);
-        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
-        $("#cartform").submit();    
+        $("#cartform").submit();
 
     });
 
@@ -617,16 +602,8 @@ $(document).ready(function(){
         }
         v = parseInt(v) - 1;
         $(".cart-helmets").val(v);
-        var helemt_rent_price = $(".helmet_content .helemt_rent_price").html();
-        var helemt_total = $(".helmet_content .subtotal").html();
-        helemt_total = parseInt(helemt_rent_price) * parseInt(v);
-        $(".helmet_content .subtotal").html(helemt_total);
         $("#cartform input[name='helmets_qty']").val(v);
-
-        var temp = localStorage.getItem("bike_ids");
-        var bike_ids = JSON.parse(temp);
-        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
-            
+    
         $("#cartform").submit();
     });
 
@@ -643,21 +620,19 @@ $(document).ready(function(){
         }
         if( bike_qty == 1 && v >= bike_qty )
         {
+            $(".addons_table").append("<div class='alert alert-danger mt-1 mb-0'>Extra helmet is limited to 1/bike.</div>");
+            setTimeout(function(){
+                $(".addons_table").find(".alert").each(function(){
+                  $(this).remove();
+                });
+            }, 2000);
             return false;
         }
 
         v = parseInt(v) + 1;
+        console.log(v);
         $(".cart-helmets").val(v);
-        var helemt_rent_price = $(".helmet_content .helemt_rent_price").html();
-        var helemt_total = $(".helmet_content .subtotal").html();
-        helemt_total = parseInt(helemt_rent_price) * parseInt(v);
-        $(".helmet_content .subtotal").html(helemt_total);
         $("#cartform input[name='helmets_qty']").val(v);
-
-        
-        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
-
-        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
         $("#cartform").submit();
     });
 
@@ -778,6 +753,108 @@ $(document).ready(function(){
             }
         });
 
+    });
+
+    $("#cartform").submit(function(e){
+        e.preventDefault();
+
+        //changed helmets qty
+        if ($("input[name='add_helmet']").is(":checked")) 
+        {
+            var v = $("#cartform input[name='helmets_qty']").val();
+            $(".cart-helmets").val(v);  
+            $(".helmet-row").css("display", "inline-flex");
+        } 
+        else 
+        {
+            $(".cart-helmets").val(0);
+            $("#cartform input[name='helmets_qty']").val(0);
+            $(".helmet-row").css("display", "none");
+        }
+        var v = $(".cart-helmets").val();
+        $("#cartform input[name='helmets_qty']").val(v);        
+        $(".helmet_subtotal").html( v * 50 );
+        // end
+
+        var early_pickup_check = $(".order_early_pickup").css("display");
+        var early_pickup_charge = (early_pickup_check == "none") ? 0 : 1;
+        var total_bike_qty = 0;
+        var subtotal = 0;
+        var gst = 0;
+        var total = 0;
+        var helmet_total =  v * 50;
+        var early_pickup_total = early_pickup_charge * 200;
+        if( helmet_total != 0 )
+        {
+            $(".cart-sidebar .order_helemt").show()
+        }
+        // changed bike qty
+        var bike_ids = [];
+        $("tr.bike-row").each(function(e)
+        {
+            var bike_type_id = $(this).attr('data-id'); 
+            var bike_qty = $(this).find('.cart-input').val();
+            var bike_rent = $(this).find('.bike_rent').html();
+            console.log(bike_type_id, bike_qty, bike_rent);
+            $(this).find('.bike_subtotal').html( parseInt(bike_qty) * parseInt(bike_rent));
+            total_bike_qty += parseInt(bike_qty);
+            subtotal += parseInt(bike_qty) * parseInt(bike_rent);
+            bike_ids.push({"bike_id":bike_type_id,"qty":bike_qty});
+        });
+
+        $("#cartform input[name='bike_ids']").val(JSON.stringify(bike_ids));
+        localStorage.setItem("bike_ids", JSON.stringify(bike_ids));
+        bikesincart = bike_ids.length;
+        localStorage.setItem("bikesincart", bikesincart);
+
+        var gst = (subtotal * 0.05).toFixed(2);
+        subtotal = subtotal - gst;
+        total = parseFloat(subtotal) + parseFloat(gst) + parseFloat(early_pickup_total) + parseFloat(helmet_total);
+        $(".helmet_order_subtotal").html(v * 50); 
+        $(".cart-sidebar .order_subtotal").html(subtotal);
+        $(".cart-sidebar .order_gst").html(gst);
+        $(".cart-sidebar .early_pickup").html(early_pickup_total);
+        $(".cart-sidebar .refundable_deposit").html( total_bike_qty * 1000);
+        $(".cart-sidebar .helmet_order_subtotal").html(helmet_total);
+        $(".cart-sidebar .total").html(total);
+
+        // update cart
+        var url = $("#cartform").attr('action');
+        var form = $("#cartform");
+        $(".cart_error").html("<span class='spinner-border spinner-border-sm text-info' role='status' aria-hidden='true'></span>");
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            data: form.serialize(), // Serialize form data
+            success: function (response) {
+                console.log(response);
+                if( response.error == 1 )
+                {
+                    $(".cart_error").html(response.error_message);
+                }
+                else
+                {
+                    $(".cart_error").html("<span class='d-inline-block text-success'><i class='fa fa-check-circle'></i></span>");
+
+                    if(bike_ids.length == 0)
+                    {
+                        window.location.reload();
+                    }
+
+                }
+                setTimeout(function(){
+
+                    $(".cart_error").html("");
+
+                }, 3000);
+            },
+            error:function(response){
+                $(".cart_error").html("Error Occured");
+            }
+        });
+
+        return false;
     });
 
 });

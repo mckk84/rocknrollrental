@@ -153,7 +153,7 @@
                                 <span class="d-block card-title fw-bold mb-1 fs-5"></span>
                             </div>
                             <div class="mt-1 mb-2 text-center">
-                                <form id="custom_bike" method="POST" action="<?=base_url('Checkout/instant')?>" class="custom_bike row d-flex align-items-center mx-1 my-0">
+                                <form id="custom_bike" method="POST" action="<?=base_url('Cart/instant')?>" class="custom_bike row d-flex align-items-center mx-1 my-0">
                                     <input type="hidden" name="bike_type_id" value="">
                                     <input type="hidden" name="bike_type_name" value="">
                                     <div class="col-xl-12 border-bottom-primary">
@@ -230,7 +230,7 @@
                                         </div>
                                         <div class="border-bottom-dotted-primary row px-2">
                                             <div class="col-xl-8 col-sm-8 py-1">
-                                                <div class="w-50 text-sm pt-1 text-dark float-left">1 Helmet is free. </div>
+                                                <div class="w-50 text-sm pt-1 text-dark float-left"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="free_helmet" name="free_helmet" value="1" class="me-2">1 Helmet is free. </div>
                                             </div>
                                             <div class="col-xl-4  col-sm-4 py-1">
                                                <div class="text-dark m-1"> <i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block p-1">0</span></div>
@@ -257,7 +257,7 @@
                                     <div id="early_pickup_div" style="display:none;" class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
                                             <div class="col-xl-8  col-sm-8 py-2">
-                                                    <label class="fa-md text-dark py-2 px-2"><input style="width:20px;height: 20px;vertical-align:middle;" type="checkbox" name="early_pickup_charge" value="1" > Pickup early at 6:00 AM for  200 extra / bike.</label>
+                                                    <label class="fa-md text-dark py-2 px-2"><input style="width:20px;height: 20px;vertical-align:middle;" type="checkbox" name="early_pickup" value="1" > Pickup early at 6:00 AM for  200 extra / bike.</label>
                                             </div>
                                             <div class="col-xl-4  col-sm-4 py-2">
                                                 <div class="text-dark m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="early_pickup">0</span></div>

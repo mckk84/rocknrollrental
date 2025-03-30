@@ -122,11 +122,10 @@
                             </table>
 
                             <?php 
-                            if( isset($cart['helmets_qty']) && $cart['helmets_qty'] > 0 ){
+                            if( (isset($cart['helmets_qty']) && $cart['helmets_qty'] > 0) || (isset($cart['free_helmet']) && $cart['free_helmet'] > 0) ){
 
                                 $helmets_price = 50;
                                 $helmets_total = $cart['helmets_qty'] * $helmets_price;
-                                $total += $helmets_total;
                             ?>
                                 <table class="table">
                                     <tr class="bg-eq-primary">
@@ -142,6 +141,7 @@
                                             <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1">0</span>
                                         </td>
                                     </tr>
+                                    <?php if( (isset($cart['helmets_qty']) && $cart['helmets_qty'] > 0) ){?>
                                     <tr>
                                        <td>
                                             <label class="w-100">Extra Hemelts (<?=$cart["helmets_qty"]?>)</label>
@@ -151,6 +151,7 @@
                                             <i class="fa fa-indian-rupee-sign me-1"></i><span class="subtotal d-inline-block p-1"><?=isset($cart["helmets_qty"])?$cart["helmets_qty"] * 50:0?></span>
                                         </td>
                                     </tr>
+                                    <?php } ?>
                                 </table>
                                 <?php }
                         ?>
@@ -232,7 +233,6 @@
 
                                 $helmets_price = 50;
                                 $helmets_total = $cart['helmets_qty'] * $helmets_price;
-                                $total += $helmets_total;
                             ?>
                                 <table class="table">
                                     <tr class="bg-eq-primary">
@@ -263,7 +263,8 @@
                         </table>
                     </div>
                 </div>   
-                <?php } ?>
+                <?php } 
+                ?>
             </div>
             <div class="col-xxl-4 col-lg-6">
                 <div class="cart-sidebar bg-white rounded p-0 mt-xxl-0">
@@ -276,6 +277,14 @@
                                 <th class="text-start">Subtotal</th>
                                 <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$subtotal - round($subtotal * 0.05, 2)?></th>
                             </tr>
+                            <?php if($cart['helmets_qty'] > 0){
+                                $total = $total + round($cart['helmets_qty'] * 50, 2);
+                            ?>
+                            <tr>
+                                <th class="text-start">Helmet Charges</th>
+                                <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="helmet_order_subtotal d-inline-block"><?=round($cart['helmets_qty'] * 50, 2)?></span></th>
+                            </tr>
+                            <?php } ?>
                             <?php if($cart['early_pickup'] == 1){
                                 $total = $total + round($bike_quantity * 200, 2);
                             ?>
@@ -327,7 +336,7 @@
                                     <label class="fa-md">Delivery Notes:</label>
                                     <textarea rows="2" class="form-control" name="notes" value=""></textarea>
                                 </div>
-                                <button type="button" id="proceed_payment" class="btn btn-primary btn-md d-block mt-4">Proceed to Pay</a>
+                                <button type="button" id="proceed_payment" class="btn btn-primary btn-md d-block mt-4 mx-auto">Proceed to Pay</a>
                             </form>
                             <?php } else { ?>
                             <a href="javascript:void(0)" class="btn btn-primary d-none d-lg-inline-block me-3" data-bs-toggle="modal" data-bs-target="#at_product_view">Login/Sign Up</a>

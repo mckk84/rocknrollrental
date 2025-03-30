@@ -30,12 +30,16 @@ class Bookaride extends CI_Controller {
 		}else{
 			$data['pickup_date'] = date("d-m-Y");
 			$hour = date("h");
+			$hour = intval($hour) + 1;
 			$ampm = date("A");
 			if( $ampm == "AM" )
 			{
-				if( $hour <= 7 ){
+				if( $hour <= 7 )
+				{
 					$data['pickup_time'] = "07:30 AM";	
-				}else{
+				}
+				else
+				{
 					$sh = $hour + 1;
 					$sh = ( $sh < 10 ) ? "0".$sh : $sh;
 					$data['pickup_time'] = $sh.":30 AM";
@@ -44,8 +48,7 @@ class Bookaride extends CI_Controller {
 			else
 			{
 				//PM
-				$hour = intval($hour);
-				if( $hour > 8 )
+				if( $hour >= 8 )
 				{
 					$data['pickup_date'] = date("d-m-Y", strtotime("+1 day"));
 					$data['pickup_time'] = "07:30 AM";	
@@ -60,6 +63,7 @@ class Bookaride extends CI_Controller {
 			
 			$data['dropoff_date'] = $data['pickup_date'];
 			$data['dropoff_time'] = "08:00 PM";
+
 		}
 
 		$d1= new DateTime($data['dropoff_date']." ".$data['dropoff_time']); // first date
@@ -80,7 +84,15 @@ class Bookaride extends CI_Controller {
 			$data['public_holiday'] = 1;
 		}
 
-		$data['available_bikes'] = $this->searchbike_model->getAvailableBikes($data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time']);
+		if( $data['period_days'] > 0 || $data['period_hours'] > 0 )
+		{
+			$data['available_bikes'] = $this->searchbike_model->getAvailableBikes($data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time']);
+		}
+		else
+		{
+			$data['available_bikes'] = array();
+		}
+
 			
         $this->load->view('layout/header', $data);
         $this->load->view('front/bookaride', $data);

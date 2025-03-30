@@ -55,6 +55,10 @@
                           $bikes_order .= ( $bikes_order == "" ) ? $name."(<b>".$qty."</b>)" : "<br/>".$name."(<b>".$qty."</b>)";
                         }
 
+                        if( isset($row['free_helmet']) && $row['free_helmet'] > 0 )
+                        {
+                          $bikes_order .= "<br/>Free Helmet(<b>".$row['free_helmet']."</b>)";
+                        }
                         if( isset($row['helmet_quantity']) && $row['helmet_quantity'] > 0 )
                         {
                           $bikes_order .= "<br/>Helmet(<b>".$row['helmet_quantity']."</b>)";
@@ -74,7 +78,7 @@
                         <?php } else { ?>
                           <span class="d-block mx-auto mb-1 py-2 badge bg-info">Closed</span>
                         <?php } ?>
-                        <a title="Edit" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record btn btn-outline-primary btn-sm small py-1 px-2">EDIT</a>
+                        <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record py-1 bg-info badge small fs-8">EDIT</a>
                         </td>
                       </tr>
                        <?php } ?>

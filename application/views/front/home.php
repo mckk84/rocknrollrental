@@ -721,7 +721,7 @@ $(document).ready(function(){
             $("#custom_bike .cart-input").val(bike_qty);
         }
         var h_qty = $("#custom_bike .cart-helmets").val();
-        var early_pickup_charge = $("#custom_bike input[name='early_pickup_charge']:checked").val();
+        var early_pickup_charge = $("#custom_bike input[name='early_pickup']:checked").val();
         var total = 0;
         
         $("#custom_bike input[name='bike_type_id']").val(bikeId);
@@ -801,7 +801,7 @@ $(document).ready(function(){
             if( ampm == "PM" )
             {
               $("#early_pickup_div").hide();
-              $("#custom_bike input[name='early_pickup_charge']").prop("checked", false);
+              $("#custom_bike input[name='early_pickup']").prop("checked", false);
               console.log(ampm);
               if( hour >= 1 && hour <= 7 )
               {
@@ -830,12 +830,12 @@ $(document).ready(function(){
               if( hour == 8 || hour == 7 )
               {
                 $("#early_pickup_div").show();
-                $("#custom_bike input[name='early_pickup_charge']").prop("checked", false);
+                $("#custom_bike input[name='early_pickup']").prop("checked", false);
               }
               else
               {
                 $("#early_pickup_div").hide();
-                $("#custom_bike input[name='early_pickup_charge']").prop("checked", false);
+                $("#custom_bike input[name='early_pickup']").prop("checked", false);
               }
             }
             $("#custom_bike #dropoff_time").empty();
@@ -862,7 +862,7 @@ $(document).ready(function(){
                 setTimeAll($("#custom_bike #pickuptime"));
                 $("#custom_bike #pickuptime option:first").attr('selected','selected');
                 $("#early_pickup_div").show();
-                $("#custom_bike input[name='early_pickup_charge']").prop("checked", false);
+                $("#custom_bike input[name='early_pickup']").prop("checked", false);
 
                 $("#custom_bike #dropofftime").empty();
                 setTimeAll($("#custom_bike #dropofftime"));
@@ -873,7 +873,7 @@ $(document).ready(function(){
                 $("#custom_bike #pickuptime").empty();
                 setTimeSpecial($("#custom_bike #pickuptime"), hour);
                 $("#early_pickup_div").hide();
-                $("#custom_bike input[name='early_pickup_charge']").prop("checked", false);
+                $("#custom_bike input[name='early_pickup']").prop("checked", false);
             }
             checkbikesubmitform();
         });
@@ -911,7 +911,7 @@ $(document).ready(function(){
         checkbikesubmitform();
     });
     
-    $("input[name='early_pickup_charge']").change(function(){
+    $("input[name='early_pickup']").change(function(){
         checkbikesubmitform();
     });
 
@@ -1000,7 +1000,7 @@ $(document).ready(function(){
                         $("#custom_bike .cart-helmets").val(bike_qty);
                     }
 
-                    var early_pickup_charge = $("#custom_bike input[name='early_pickup_charge']:checked").val();
+                    var early_pickup_charge = $("#custom_bike input[name='early_pickup']:checked").val();
 
                     $("#custom_bike #bike_price").html(bike_price);
                     $("#custom_bike #bike_qty").html(bike_qty);
