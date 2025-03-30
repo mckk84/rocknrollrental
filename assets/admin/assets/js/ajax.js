@@ -1,5 +1,20 @@
 //ajax calls
 
+function deletebikerow(row_id)
+{
+    $("#extra_bikes #order_row_"+row_id).remove();
+}
+
+function deletebikerow1(row_id)
+{
+    $("#ordered_bikes #order_row_"+row_id).remove();
+}
+
+function updatebookingbikes()
+{
+
+}
+
 function addnewbike()
 {
     $("#addnewbike").prop("disabled", true);
@@ -23,11 +38,14 @@ function addnewbike()
             else
             {
                 var biketypes = d.data.biketypes;
+                var oindex = $("#ordered_bikes tbody tr").length;
+                console.log(oindex);
                 var index = $("#extra_bikes tbody tr").length;
+                index = parseInt(index) + parseInt(oindex);
                 index = (index == 0) ? 1 : index + 1;
                 var html = "";
                 var ab_html = "<select name='assign_bike_row_"+index+"' class='form-select'><option value=''>-Select-</option></select>";
-                html += "<tr id='order_row_"+index+"'><td>#"+index+"</td>";
+                html += "<tr id='order_row_"+index+"'>";
                 var bt_html = "<td class='w-30'><select name='assign_biketype_row_"+index+"' onchange='bike_type_change("+index+")' class='bike_type_order form-select'><option value='0'>-Select-</option>";
                 Object.keys(biketypes).forEach(function(key, index)
                 {
@@ -36,8 +54,8 @@ function addnewbike()
                 bt_html += "</select></td>";
 
                 html += bt_html;
-                html += "<td><img style='max-width:50px;height:30px;margin:auto;display:block;' class='img-fluid' src='"+base_url+"assets/images/bike.png'/></td>";
-                html += "<td>"+ab_html+"</td><td><span  class='d-block w-100' id='assign_bike_rent_"+index+"'>N/A</span></td></tr>";
+                html += "<td style='width:10%'><img style='max-width:50px;height:30px;margin:auto;display:block;' class='img-fluid' src='"+base_url+"assets/images/bike.png'/></td>";
+                html += "<td class='w-30'>"+ab_html+"</td><td style='width:10%'><span class='d-block w-100' id='assign_bike_rent_"+index+"'>0</span></td><td><a onclick='deletebikerow("+index+")' href='javascript:void(0)' class='d-block text-danger w-100' id='assign_bike_"+index+"'><i class='bi bi-trash'></a></td></tr>";
                 console.log(html);
                 $("#extra_bikes tbody").append(html);
                 console.log(1);
@@ -292,7 +310,13 @@ $(document).ready(function(){
                 html = "<table class='table datatable table-responsive border rounded mb-0 small'>";
                 html += "<tbody><th class='bg-warning-light w-25'>Customer</th><td class='fs-8'>"+response.data.customer.name+" ("+response.data.customer.phone+")</td></tr>";
                 html += "<tr><th class='bg-warning-light w-25'>Bikes Ordered</th><td class='fs-8'>"+response.data.ordered_bikes+"</td></tr>";
-                html += "<tr><th class='bg-warning-light w-25'> Helmets </th><td class='fs-8'>"+response.data.order.helmet_quantity+"</td></tr>";
+                html += "<tr><th class='bg-warning-light w-25'> Helmets </th>";
+                html += "<td class='fs-8'><div class='d-flex'><label class='d-inline-block'>Free Helmet :<input type='checkbox' disabled class='align-middle form-checkbox' value='1' "+((response.data.order.free_helmet)?"checked":"")+" name='free_helmet'/></label> &nbsp; <label class='d-inline-block'>Extra Helmets:<input type='checkbox' class='align-middle form-checkbox' disabled value='1' "+((response.data.order.helmet_quantity > 0)?"checked":"")+" name='extra_helemts'/></label>";
+
+                html += "<div style='display:"+((response.data.order.helmet_quantity > 0)?"inline-block":"none")+"' class='w-30 mx-2 helmet-row cart-count bg-white justify-content-center'>";
+                html += "<input type='number' name='helmets_qty' disabled class='w-50 font-bold cart-helmets text-center border text-black' value='"+((response.data.order.helmet_quantity > 0)? response.data.order.helmet_quantity :0)+"'>";
+                html += "</div></div></td></tr>";
+
                 if( response.data.order.notes != "" )
                 {
                     html += "<tr><th class='bg-warning-light w-25'>Notes:</th><td class='fs-8'>"+response.data.order.notes+"</td></tr>";
@@ -313,8 +337,8 @@ $(document).ready(function(){
 
                 $(".booking_form #order_details1").html(html);
 
-                html = "<table class='table datatable table-responsive rounded border text-center mb-0 small'>";
-                html += "<thead><tr><th class='bg-warning-light text-center'>#</th><th class='bg-warning-light w-30'>Bike Type</th><th class='bg-warning-light'>Image</th>";
+                html = "<table id='ordered_bikes' class='table datatable table-responsive rounded border text-center mb-0 small'>";
+                html += "<thead><tr><th class='bg-warning-light w-30'>Bike Type</th><th class='bg-warning-light'>Image</th>";
                 html += "<th class='bg-warning-light'>Assign Vehicle</th><th class='bg-warning-light'>Rent Price</th><th class='bg-warning-light w-10'>Action</th></tr></thead>";
                 html += "<tbody>";
                 var bikes = response.data.order_bike_types;
@@ -342,7 +366,7 @@ $(document).ready(function(){
                   }
                   ab_html += "</select>";
                   console.log(row);
-                  html += "<tr id='order_row_"+row.id+"'><td>#"+(i+1)+"</td>";
+                  html += "<tr id='order_row_"+row.id+"'>";
 
                   var bt_html = "<td class='w-30'><select name='assign_biketype_row_"+row.id+"' onchange='bike_type_change("+row.id+")' class='bike_type_order form-select'>";
                   Object.keys(biketypes).forEach(function(key, index)
@@ -352,12 +376,12 @@ $(document).ready(function(){
                   bt_html += "</select></td>";
 
                   html += bt_html; //<td><span style='vertical-align:middle;'>"+row.type+"</span></td>";
-                  html += "<td><img style='max-width:50px;margin:auto;display:block;' class='img-fluid' src='"+response.data.bike_url+row.image+"'/></td>";
-                  html += "<td>"+ab_html+"</td><td><span class='d-block w-100' id='assign_bike_rent_"+row.id+"'>"+row.rent_price+"</span></td></tr>";
+                  html += "<td style='width:10%'><img style='max-width:50px;margin:auto;display:block;' class='img-fluid' src='"+response.data.bike_url+row.image+"'/></td>";
+                  html += "<td class='w-30'>"+ab_html+"</td><td  style='width:10%'><span class='d-block w-100' id='assign_bike_rent_"+row.id+"'>"+row.rent_price+"</span></td><td><a onclick='deletebikerow1("+row.id+")' href='javascript:void(0)' class='d-block text-danger w-100' id='assign_bike_"+row.id+"'><i class='bi bi-trash'></a></td></tr>";
                 }
                 html += "</tbody>";
-                html += "</table><a id='addnewbike' onclick='addnewbike()' class='btn btn-sm btn-outline-primary d-block float-left p-1 mb-1 mt-1'><i class='bi bi-plus-circle me-1'></i>Add Bikes</a><input type='hidden' name='order_bike_types' value='"+order_bike_types.join(',')+"'>";
-                html += "<table style='display:none' id='extra_bikes' class='table datatable table-responsive rounded border text-center mt-1 mb-0 small'><tbody></tbody></table";
+                html += "</table><input type='hidden' name='order_bike_types' value='"+order_bike_types.join(',')+"'>";
+                html += "<table style='display:none' id='extra_bikes' class='table datatable table-responsive rounded border text-center mt-1 mb-0 small'><tbody></tbody></table><a id='addnewbike' onclick='addnewbike()' class='btn btn-sm btn-outline-primary d-block float-left p-1 mb-1 mt-1'><i class='align-middle bi bi-plus-circle me-1 fs-8'></i>Add Bikes</a>";
                 $(".booking_form #bike_select").html(html);
 
                 var total_amount = 0;

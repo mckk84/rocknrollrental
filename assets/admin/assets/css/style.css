@@ -1417,3 +1417,13 @@ button#multiSelectDropdown {
     outline: 0;
     box-shadow: 0 0 0 .25rem rgba(237, 233, 157,.25);
 }
+
+.form-checkbox {
+    width: 20px;
+    height: 20px;
+    margin: 1px 2px;
+}
+
+input[type="checkbox" i]:disabled {
+    background-color: lawngreen;
+}
