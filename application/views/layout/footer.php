@@ -444,6 +444,45 @@
         </div>
     </div>
 
+    <!-- Terms and Conditions Modal -->
+    <div class="modal fade" id="cancellation_terms_view">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content product_modal shadow">
+                <div class="terms_view">
+                    <div class="card w-100" style="max-width: 480px;">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h1 class="card-title h3">Booking Cancellation Terms</h1>
+                            </div>
+                            <div class="mt-4">
+                                <form id="cancellation_form" method="POST" action="<?=base_url('Cancellation')?>" class="cancellation-form">
+                                    <input type="hidden" name="booking_id" value=""> 
+                                    <div class="mb-4">
+                                        <p>You are about to cancel your booking.</p>
+                                        <ul style="list-style-type: circle;margin-left: 50px;">
+                                            <li>
+                                                <p class="mb-2">Cancellation will be charged with fee of 50% of the booking amount.</p>
+                                            </li>                                
+                                        </ul>
+                                    </div>
+                                    <div class="mb-4">
+                                        <p>Please check our cancellation terms and conditions here <a class="text-primary" href="<?=base_url('Refund')?>">Terms</a>.</p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label><input type="checkbox" id="agree_cc" class="form-checkbox me-2" checked>I agree terms & conditions</label>
+                                    </div>
+                                    <div class="d-grid mt-2">
+                                        <button type="button" class="payment_proceed btn btn-primary btn-lg">Proceed</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="lightbox">
         
       <div class="box">

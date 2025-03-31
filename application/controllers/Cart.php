@@ -299,4 +299,69 @@ class Cart extends CI_Controller {
         die(json_encode($response));
 	}
 
+	public function search()
+	{
+		$response = array('error' => 0, 'error_message' => 'Invalid Request', 'success_message' => '');
+		$data['user'] = $this->session->userdata("Auth");
+		$this->load->model('biketypes_model');
+		$this->load->model('searchbike_model');
+		$this->load->model('publicholidays_model');
+		
+		$data['pickup_date'] = "";
+		$data['pickup_time'] = "";
+		$data['dropoff_date'] = "";
+		$data['dropoff_time'] = "";
+		$data['period_days'] = "";
+		$data['period_hours'] = "";
+		$data['weekend'] = 0;
+		$data['public_holiday'] = 0;
+		
+		if( isset($_POST) && count($_POST) > 0 )
+		{
+			$data['pickup_date'] = $this->input->post('pickup_date');
+			$data['pickup_time'] = $this->input->post('pickup_time');
+			$data['dropoff_date'] = $this->input->post('dropoff_date');
+			$data['dropoff_time'] = $this->input->post('dropoff_time');		
+		
+			$d1= new DateTime($data['dropoff_date']." ".$data['dropoff_time']); // first date
+			$d2= new DateTime($data['pickup_date']." ".$data['pickup_time']); // second date
+			$interval= $d1->diff($d2); // get difference between two dates
+			$data['period_days'] = $interval->days;
+			$data['period_hours'] = $interval->h; 
+
+			$date=date_create($data['pickup_date']);
+			$day = date_format($date,"D");
+			if( $day == 'Fri' || $day == 'Sat' || $day == 'Sun' )
+			{
+				$data['weekend'] = 1;
+			}
+			$res = $this->publicholidays_model->checkRecordExists(dateformatdb($data['pickup_date']));
+			if( $res )
+			{
+				$data['public_holiday'] = 1;
+			}
+
+			if( $data['period_days'] > 0 || $data['period_hours'] > 0 )
+			{
+				$data['available_bikes'] = $this->searchbike_model->getAvailableBikes($data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time']);
+			}
+			else
+			{
+				$data['available_bikes'] = array();
+			}
+
+			$response["data"] = $data;
+			$response["error"] = 0;
+			$response["success_message"] = "Success";
+			$response["error_message"] = "";
+			die(json_encode($response)); 	
+		}
+		else{
+			$response["error"] = 1;
+			$response["error_message"] = "Invalid Request";
+			die(json_encode($response));
+		}
+			
+	}
+
 }

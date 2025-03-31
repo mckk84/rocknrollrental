@@ -118,7 +118,7 @@
                                             <div class="col-12 overflow-auto">
                                                 <?php $subtotal = 0;$gst = 0;$total = 0;?>
                                                 <div style="min-width: 800px;" class="table table-responsive bg-white rounded">
-                                                    <table class="table table-bordered">
+                                                    <table class="table table-bordered small">
                                                         <thead>
                                                             <tr class="bg-primary">
                                                                 <th style="width:5%;">#</th>
@@ -129,6 +129,7 @@
                                                                 <th>Refund Amount</th>
                                                                 <th>Paid</th>
                                                                 <th>Status</th>
+                                                                <th>Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -159,30 +160,38 @@
                                                             <td>
                                                                 <?=$row['id']?>
                                                             </td>
-                                                            <td>
+                                                            <td class="text-nowrap">
                                                                 <?=$bikes_order?>
                                                                 <?php if( $row['helmet_quantity'] != 0) {?>
                                                                 <p class="d-block mt-2 fa-sm fw-bold">Helmets(<?=$row['helmet_quantity']?>)</p>
                                                                 <?php } ?>
                                                             </td>
-                                                            <td>
-                                                                <span class="m-2 p-2 fa-sm d-inline"><b><?=date("d M Y", strtotime($row['pickup_date']))?>&nbsp;<?=$row['pickup_time']?></b></span>
+                                                            <td class="text-nowrap">
+                                                                <span class="m-2 p-2 fa-sm d-block"><b><?=date("d M Y", strtotime($row['pickup_date']))?></b></span>
+                                                                <span class="m-2 p-2 fa-sm d-block"><b><?=$row['pickup_time']?></b></span>
                                                             </td>
-                                                            <td>
-                                                                <span class=" m-2 p-2 fa-sm d-inline"><b><?=date("d M Y", strtotime($row['dropoff_date']))?>&nbsp;<?=$row['dropoff_time']?></b></span>
+                                                            <td class="text-nowrap">
+                                                                <span class=" m-2 p-2 fa-sm d-block"><b><?=date("d M Y", strtotime($row['dropoff_date']))?></b></span>
+                                                                <span class=" m-2 p-2 fa-sm d-block"><b><?=$row['dropoff_time']?></b></span>
                                                             </td>
                                                             <td class="text-nowrap"><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['total_amount']?></td>
                                                             <td class="text-nowrap"><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['refund_amount']?></td>
                                                             <td class="text-nowrap"><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['booking_amount']?></td>
                                                             <td>
                                                                 <?php if( $row['status'] == 0 ){ ?>
-                                                                    <span class="text-white p-1 px-2 border rounded-5 bg-warning font-sm text-nowrap">Pre Booked</span>
+                                                                    <span class="text-white py-0 px-2 border rounded-5 bg-warning font-sm text-nowrap">Pre Booked</span>
                                                                 <?php } elseif( $row['status'] == 1 ){ ?>
-                                                                    <span class="text-white p-1 px-2 border rounded-5 bg-success font-sm">Rented</span>
+                                                                    <span class="text-white py-0 px-2 border rounded-5 bg-success font-sm">Rented</span>
                                                                 <?php }
                                                                 else { ?>
-                                                                    <span class="text-white p-1 px-2 border rounded-5 bg-info font-sm">Closed</span>
+                                                                    <span class="text-white py-0 px-2 border rounded-5 bg-info font-sm">Closed</span>
                                                                 <?php } ?>                                                                        
+                                                            </td>
+                                                            <td class="text-nowrap">
+                                                                <?php if( $row['status'] == 0 ){ ?>
+                                                                    <a title="Edit Booking" class="p-1 px-2 text-xl text-info editbooking" href="<?=base_url('Account/edit?id='.$row['id'])?>"><i class="fa fa-edit"></i></a>
+                                                                    <a title="Cancel Booking" data-id="<?=$row['id']?>" class="p-1 px-2 text-xl text-danger cancellation" href="javascript:void(0)"><i class="fa fa-xmark-circle"></i></a>
+                                                                <?php } ?>
                                                             </td>
                                                         </tr>
                                                         <?php } ?>
@@ -208,6 +217,7 @@
                                                                 <th>Refund Amount</th>
                                                                 <th>Paid</th>
                                                                 <th>Status</th>
+                                                                <th>Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -238,7 +248,7 @@
                                                             <td>
                                                                 <?=$row['id']?>
                                                             </td>
-                                                            <td>
+                                                            <td class="text-nowrap">
                                                                 <?=$bikes_order?>
                                                                 <?php if( $row['helmet_quantity'] != 0) {?>
                                                                 <p class="d-block mt-2 fa-sm fw-bold">Helmets(<?=$row['helmet_quantity']?>)</p>
@@ -262,6 +272,12 @@
                                                                 else { ?>
                                                                     <span class="text-white p-1 px-2 border rounded-5 bg-info font-sm">Closed</span>
                                                                 <?php } ?>                                                                        
+                                                            </td>
+                                                            <td class="text-nowrap">
+                                                                <?php if( $row['status'] == 0 ){ ?>
+                                                                    <a data-id="<?=$row['id']?>" class="btn btn-sm p-1 btn-outline-info editbooking" href="javascript:void(0)">Edit</a>
+                                                                    <a data-id="<?=$row['booking_id']?>" class="btn btn-sm p-1 btn-outline-danger cancellation" href="javascript:void(0)">Cancel</a>
+                                                                <?php } ?>
                                                             </td>
                                                         </tr>
                                                         <?php } ?>
@@ -296,6 +312,14 @@
 
                 $(".dropdown-menu a").click(function(){
                     $(".dropdown .dropdown-menu").slideToggle("fast");
+                });
+
+                $(".cancellation").click(function(){
+
+                    var booking_id = $(this).attr('data-id');
+                    $(".cancellation_form input[name='booking_id']").val(booking_id);
+                    $("#cancellation_terms_view").modal("show");
+
                 });
 
             });
