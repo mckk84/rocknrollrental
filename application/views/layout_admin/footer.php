@@ -10,7 +10,6 @@
             <div class="modal-body">
                 <div class="row g-0 px-2">
                   <div id="order_dates" class="col-md-12 mb-1 px-1">
-
                   </div>
                   <div id="order_details" class="col-md-8 mb-1 px-1">
 

@@ -18,21 +18,41 @@
               <div class="card-body w-75">
                 <h5 class="card-title">Booking #<?=$booking_id?><a title="Edit Record" href="javascript:void(0)" record-data="<?=$booking_id?>" class="edit-booking-record float-right btn btn-warning btn-sm mx-2">Edit</a></h5>
 
-                <table style="width:50%;float:left;" class="table table-responsive border rounded mb-2">
+                <table style="width:49%;float:left;" class="table table-responsive border rounded mb-2 small">
                   <tbody>
                     <tr>
-                      <th class="bg-success-light">Pickup Date</th>
-                      <td><?=$order['pickup_date']." ".$order['pickup_time']?></td></tr>
-                      <tr><th class="bg-success-light">Dropoff Date</th><td><?=$order['dropoff_date']." ".$order['dropoff_time']?></td></tr>
-                      <tr><td><b>Duration</b></td><td> <?=$period_days?> days, <b><?=$period_hours?></b> hours</td></tr>
-                      <tr><td><b>Weekend </b></td><td>
+                      <th class="bg-success-light w-30">Pickup Date</th><td><?=$order['pickup_date']." ".$order['pickup_time']?></td></tr>
+                  </tbody>
+                </table>
+                <table style="width:51%;float:left;" class="table table-responsive border rounded mb-2 small">
+                  <tbody>
+                    <tr><th class="bg-success-light w-30">Dropoff Date</th><td><?=$order['dropoff_date']." ".$order['dropoff_time']?></td></tr>
+                  </tbody>
+                </table>
+                <table style="width:49%;float:left;" class="table table-responsive border rounded mb-2 small">
+                  <tbody>
+                  <tr><th class="bg-success-light w-30">Customer</th><td class="fw-bold"><?=$customer['name']?> ( <?=$customer['phone']?>)</td></tr>
+                  <tr><th class="bg-success-light">Bikes Ordered</th><td><?=$ordered_bikes?></td></tr>
+                  <tr><th class="bg-success-light">Helmets </th><td class="fw-bold">Free Helemts: <?=$order['free_helmet']?>,&nbsp;&nbsp; Extra Helmet : <?=$order['helmet_quantity']?></td></tr>
+                  <?php 
+                  if( $order['notes'] != "" ) {?>
+                      <tr><th class="bg-success-light">Notes:</th><td> <b><?=$order['notes']?></b></td></tr>
+                  <?php } if( $order['early_pickup'] != 0 ) {?>
+                      <tr><th class="bg-success-light">Early Pickup: </th><td><span class="badge bg-success">Yes</span></td></tr>
+                  <?php } ?>
+                  </tbody>
+                </table>
+                <table style="width:51%;float:right;" class="table table-responsive border rounded mb-2 small">
+                  <tbody>      
+                    <tr><th class="bg-success-light w-30">Duration</td><th> <?=$period_days?> days, <b><?=$period_hours?></b> hours</th></tr>
+                    <tr><th class="bg-success-light">Weekend</th><td>
                       <?php if($weekend){
                           echo "<span class='badge bg-success'>Yes</span>";
                         }else{
                           echo "<span class='badge bg-danger'>No</span>";
                         }
                       ?></td></tr>
-                      <tr><td><b>Public Holiday </b></td>
+                      <tr><th class="bg-success-light">Public Holiday</th>
                         <td>
                           <?php 
                         if($public_holiday){
@@ -44,20 +64,9 @@
                         </td>
                       </tr></tbody></table>
 
-                <table style="width:49%;float:left;margin-left:2px;" class="table table-responsive border rounded mb-2">
-                <tbody>
-                <tr><th class="bg-success-light">Customer</th><td><?=$customer['name']?> ( <?=$customer['phone']?>)</td></tr>
-                <tr><th class="bg-success-light">Bikes Ordered</th><td><?=$ordered_bikes?></td></tr>
-                <tr><th class="bg-success-light"> Helmets </th><td><?=$order['helmet_quantity']?></td></tr>
-                <?php 
-                if( $order['notes'] != "" ) {?>
-                    <tr><td>Notes:</td><td> <b><?=$order['notes']?></b></td></tr>
-                <?php } if( $order['early_pickup'] != 0 ) {?>
-                    <tr><td>Early Pickup: </td><td><span class="badge bg-success">Yes</span></td></tr>
-                <?php } ?>
-                </tbody></table>
+                
 
-                <table class="table table-responsive rounded border text-center mb-2">
+                <table class="table table-responsive rounded border text-center mb-2 small">
                 <thead>
                   <tr><th class="bg-success-light text-center">#</th><th class="bg-success-light">Bike Type</th><th class="bg-success-light">Image</th>
                 <th class="bg-success-light">Assigned Vehicle</th><th class="bg-success-light">Rent Price</th></tr></thead>
@@ -71,7 +80,7 @@
                       <?php } else { ?>
                       <td><img style="width:24px;margin:auto;display:block;" class="img-fluid" src="<?=base_url("assets/admin/assets/img/bike.png")?>" ></td>
                       <?php } ?>  
-                      <td><?=$row['vehicle_number']?></td>
+                      <td><?php if($row['vehicle_number'] != "") {?><span class="vh"><?=$row['vehicle_number']?><?php } else { ?>N/A<?php } ?></span></td>
                       <td><?=$row['rent_price']?></td>
                     </tr>   
                   <?php } ?>
@@ -94,16 +103,17 @@
                     $early_pickup = 200 * $order['quantity'];
                 }
 
-                $total_amount = $order['total_amount'] - $helmet_total - $early_pickup;
+                $total_amount = $order['total_amount'] + $helmet_total + $early_pickup;
+                $pending = $total_amount - $order['booking_amount'];
                 ?>
 
                 <div style='width:49%;float:left;' class="table-responisve">
-                  <table class="table">
+                  <table class="table small">
                   <tr>
                     <th class="text-start bg-success-light" colspan="2">Order Updaes</th></tr>
                   <tr>
-                    <th class="text-start">Refund Status</th>
-                    <th class="text-end">
+                    <th class="w-30 text-start">Refund Status</th>
+                    <td>
                       <?php if( $order['refund_status'] == 0) { ?>
                         <span class="badge bg-warning">Pending</span>
                       <?php } else if($order['refund_status'] == 1) { ?>
@@ -111,11 +121,11 @@
                       <?php } else { ?>
                         <span class="badge bg-info">Returned</span>
                       <?php } ?>
-                    </th>
+                    </td>
                   </tr>
 
                   <tr>
-                    <th class="text-start">Pickup Status</th><th class="text-end">
+                    <th class="text-start">Pickup Status</th><td>
                     <?php if( $order['status'] == 0) { ?>
                         <span class="badge bg-success">Pre Booked</span>
                       <?php } else if($order['status'] == 1) { ?>
@@ -124,20 +134,26 @@
                         <span class="badge bg-info">Closed</span>
                       <?php } ?>
                       
-                    </th>
+                    </td>
                   </tr>
 
-                  <tr><th class="text-start">Delivery Notes</th><th class="text-end"><?=$order['delivery_notes']?></th>
+                  <tr><th class="text-start">Delivery Notes</th><td><?=$order['delivery_notes']?></td>
                   </tr>
 
                   </table>
                 </div>
 
                 <div style='float:right;' class="w-50 table-responisve">
-                  <table class="table">
+                  <table class="table small">
                     <tr><th class="text-start bg-success-light" colspan="3">Order Summary</th></tr>
                     <tr><th class="text-start">Bike Rental</th><th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block text-info p-1"><?=$order['total_amount'] - $order['gst']?></span></th>
                     </tr>
+                    <tr><th class="text-start">GST</th>
+                    <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="text-info d-inline-block p-1"><?=$order['gst']?></span></th></tr>
+
+                    <?php if( $order['helmet_quantity'] > 0 || $order['early_pickup'] > 0  ){?>
+                        <tr><th colspan="2" class="bg-success-light text-center">Addons </th></tr>
+                    <?php } ?>
 
                     <?php if( $order['helmet_quantity'] > 0 ){?>
                         <tr><th class="text-start">Helmet </th><th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="text-info d-inline-block p-1"><?=$helmet_total?></span></th></tr>
@@ -148,10 +164,9 @@
                         <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="text-info d-inline-block p-1"><?=$early_pickup?></span></th></tr>
                     <?php } ?>
 
-                    <tr><th class="text-start">GST</th>
-                    <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="text-info d-inline-block p-1"><?=$order['gst']?></span></th></tr>
-                    <tr><th class="text-start">Total</th>
-                    <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_total text-info d-inline-block p-1"><?=$order['total_amount']?></span></td>
+                    
+                    <tr><th class="bg-success-light text-start">Total</th>
+                    <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_total text-info d-inline-block p-1"><?=$total_amount?></span></td>
                     </tr>
                     <tr>
                     <th class="text-start">Refundable Deposit</th>

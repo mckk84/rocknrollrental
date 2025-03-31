@@ -125,7 +125,7 @@
                     </tr>
                      <?php } ?>
                   </tbody>
-                </table>                
+                </table>               
                 <?php } ?>
               </div>
             </div>

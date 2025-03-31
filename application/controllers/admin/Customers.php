@@ -40,11 +40,25 @@ class Customers extends CI_Controller
     public function getRecord()
     {
         $id = isset($_GET['id']) ? $_GET['id'] : 0;
-
         if( $id )
         {
             $record = $this->customers_model->getById($id);
             die(json_encode($record));
+        }
+        else
+        {
+            die("{'error':1,'error_message':'Invalid Request'}");
+        }
+    }
+
+    public function search()
+    {
+        $search = isset($_GET['search']) ? $_GET['search'] : 0;
+        if( $search )
+        {
+            $record = $this->customers_model->search($search);
+            $data['items'] = $record;
+            die(json_encode($data));
         }
         else
         {

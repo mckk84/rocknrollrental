@@ -194,7 +194,7 @@ h6 {
 
 .bg-success-light {
   background-color: #d1e7dd !important;
-  border-color: #fff;
+  border-color: rgba(0, 0, 0, 0.175);
 }
 
 .bg-danger-light {
@@ -1380,12 +1380,23 @@ button#multiSelectDropdown {
   max-height: 98%;
 }
 
+.w-70{
+  width: 70% !important;
+}
+
 .w-45{
   width: 45% !important;
 }
 
 .w-20{
   width: 20% !important;
+}
+
+.w-10{
+  width: 10% !important;
+}
+.w-15{
+  width: 15% !important;
 }
 
 .w-25{
@@ -1426,4 +1437,24 @@ button#multiSelectDropdown {
 
 input[type="checkbox" i]:disabled {
     background-color: lawngreen;
+}
+
+.select2-container--default .select2-selection--single {
+    height: 35px;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    padding-top: 3px;
+}
+.small, small {
+    font-size: .8rem;
+}
+
+.vh{
+  min-width: 150px;
+  font-weight: 600;
+  display: inline-block;
+  padding: 2px 4px;
+  background-color: #fff3cd;
+  border: 2px solid black;
 }

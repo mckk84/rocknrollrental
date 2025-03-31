@@ -23,6 +23,7 @@ class Bookings extends CI_Controller
         $this->load->model('searchbike_model');
         $this->load->model('customers_model');
         $this->load->model('users_model');
+        $this->load->model('orderhistory_model');
     }
 
     /**
@@ -116,7 +117,7 @@ class Bookings extends CI_Controller
         $ordered_bike_qty = "";
         foreach($bike_type_qty as $btype => $bq)
         {
-           $ordered_bike_qty .= "<span class='w-100 text-dark font-bold d-block'>".$btype." ( ".$bq." Nos. )</span>";
+           $ordered_bike_qty .= "<span class='w-100 text-dark font-bold d-block'>".$btype." ( ".$bq." )</span>";
         }
 
         $d1= new DateTime($data['order']['dropoff_date']." ".$data['order']['dropoff_time']); // first date
@@ -483,12 +484,14 @@ class Bookings extends CI_Controller
             $data['dropoff_date'] = trim($this->input->post('dropoff_date'));
             $data['dropoff_time'] = trim($this->input->post('dropoff_time'));
             $data['helmets_qty'] = trim($this->input->post('helmets_qty'));
+            $data['free_helmet'] = trim($this->input->post('free_helmet'));
             $data['early_pickup'] = trim($this->input->post('early_pickup'));
             $data['customer_id'] = trim($this->input->post('customer_id'));
             $data['paid'] = trim($this->input->post('paid'));
             $data['paymentOption'] = trim($this->input->post('paymentOption'));
             $data['delivery_notes'] = trim($this->input->post('delivery_notes'));
             $data['pickup_status'] = trim($this->input->post('pickup_status'));
+            $data['refund_status'] = trim($this->input->post('refund_status'));
 
             $d1= new DateTime($data['dropoff_date']." ".$data['dropoff_time']); // first date
             $d2= new DateTime($data['pickup_date']." ".$data['pickup_time']); // second date
@@ -520,11 +523,9 @@ class Bookings extends CI_Controller
                     }
                 }   
             }
-            $total = $subtotal;
             if( isset($data['helmets_qty']) && $data['helmets_qty'] > 0 )
             {
-                $helmets_total = $data['helmets_qty'] * 50;
-                $total += $helmets_total;
+                //
             }
             else
             {
@@ -534,36 +535,45 @@ class Bookings extends CI_Controller
             if( isset($data['early_pickup']) && $data['early_pickup'] > 0 )
             {
                 $early_pickup = 1;
-                $total += 200 * $bikes_quantity;
+            }
+            else
+            {
+                $early_pickup = 0;
             }
             
             $gst = round($subtotal * 0.05, 2);
             $pmode_row = $this->paymentmode_model->getIdByMode($data['paymentOption']);
+
+            $order_snap = [];
 
             // INSERT RECORDS
             $booking_record = array(
                     "customer_id" => $data['customer_id'],
                     "quantity" => $bikes_quantity,
                     "helmet_quantity" => $data['helmets_qty'],
+                    "free_helmet" => $data['free_helmet'],
                     "booking_amount" => $data['paid'],
                     "total_amount" => $subtotal,
                     "gst" => $gst,
                     "refund_amount" => $refund_total,
-                    "refund_status" => 1,
+                    "refund_status" => $data['refund_status'],
                     "payment_mode" => $pmode_row['id'],
                     "status" => $data['pickup_status'],
                     "pickup_date" => dateformatdb($data['pickup_date']),
                     "pickup_time" => $data['pickup_time'],
                     "dropoff_date" => dateformatdb($data['dropoff_date']),
                     "dropoff_time" => $data['dropoff_time'],
-                    "early_pickup" => $data['early_pickup'],
+                    "early_pickup" => $early_pickup,
                     "delivery_notes" => $data['delivery_notes'],
                     "created_by" => $user['userId'],  
                 );
+
+            $order_snap['booking_record'] = $booking_record;
             
             $booking_id = $this->bookings_model->addNew($booking_record);
             if( $booking_id != "" )
             {
+                $order_history["booking_id"] = $booking_id;
                 foreach($data['cart_bikes'] as $bike) 
                 {
                     $bookingbikes_record = array(
@@ -577,6 +587,7 @@ class Bookings extends CI_Controller
 
                     // update bike to unavailable
                     $this->bike_model->updateRecord(array("available" => 0), $bike['bid']);
+                    $order_snap['booking_bikes_records'][] = $booking_record;
                 }
 
                 // Add Payment Record
@@ -587,6 +598,7 @@ class Bookings extends CI_Controller
                     "created_by" => $user['userId']
                 );
                 $this->bookingpayment_model->addNew($booking_payment);
+                $order_snap['booking_payment_record'] = $booking_payment;
 
                 $data['payment_status'] = "Success";
                 
@@ -594,6 +606,11 @@ class Bookings extends CI_Controller
                 $response["error"] = 0;
                 $response["error_message"] = "";
                 $response["success_message"] = "Record inserted successfully";
+
+                // Save Snapshot
+                $order_history["order_json"] = json_encode($order_snap);
+                $order_history["created_by"] = $user['userId'];
+                $this->orderhistory_model->addNew($order_history);
 
                 die(json_encode($response));
             }
@@ -609,6 +626,7 @@ class Bookings extends CI_Controller
 
     public function update()
     {
+
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
         $this->load->library('form_validation'); 
 
@@ -627,6 +645,7 @@ class Bookings extends CI_Controller
             // check booking id
             $data['booking_id'] = trim($this->input->post('booking_id'));
             $data['order'] = $this->bookings_model->getById($data['booking_id']);
+            $data['bike_types'] = $this->bookingbikes_model->getByBookingId($data['booking_id']);
             if( count($data['order']) == 0 )
             {
                 $response["error"] = 1;
@@ -635,14 +654,34 @@ class Bookings extends CI_Controller
             }
 
             $user = $this->session->userdata();
+
+            if( $this->input->post('free_helmet') != null ){
+                $data['free_helmet'] = trim($this->input->post('free_helmet'));
+            }else{
+                $data['free_helmet'] = 0;
+            }
+
+            if( $this->input->post('extra_helemts') != null ){
+                $data['helmets_qty'] = trim($this->input->post('helmets_qty'));
+            }else{
+                $data['helmets_qty'] = 0;
+            }
+
             $data['delivery_notes'] = trim($this->input->post('delivery_notes'));
             $data['pickup_status'] = trim($this->input->post('pickup_status'));
             $data['refund_status'] = trim($this->input->post('refund_status'));
             $data['new_payment'] = trim($this->input->post('new_payment'));
             $data['order_bike_types'] = trim($this->input->post('order_bike_types'));
+
+            $old_biketypes = [];
+            foreach($data['bike_types'] as $obs)
+            {
+                $old_biketypes[] = $obs['type_id'];
+            }
             
             $obt_rows = explode(",", $data['order_bike_types']);
             $bikes_assigned = [];
+            $bike_types_assigned = [];
             foreach($obt_rows as $row_id)
             {
                 if( !isset($_POST['assign_bike_row_'.$row_id]))
@@ -662,6 +701,7 @@ class Bookings extends CI_Controller
                     if( !in_array( $_POST['assign_bike_row_'.$row_id], $bikes_assigned ) )
                     {
                         $bikes_assigned[] = $_POST['assign_bike_row_'.$row_id];
+                        $bike_types_assigned[] = $_POST['assign_biketype_row_'.$row_id];
                     }
                     else
                     {
@@ -671,42 +711,114 @@ class Bookings extends CI_Controller
                     }
                 }
             }
+            $order_snap = [];
+            $diff = array_diff_assoc($old_biketypes, $bike_types_assigned);
+            if( count($diff) > 0 )
+            {
+                // New Bikes assigned
+                $total = 0;
+                $gst = 0;
 
-            $booking_record = array(
+                // OLD BIKES FREE
+                foreach($data['bike_types'] as $obs)
+                {
+                    if( $obs['bike_id'] != 0 )
+                    {
+                        $this->bike_model->updateRecord(array("available" => 1), $obs['bike_id']);
+                    }
+                }
+                $this->bookingbikes_model->deleteByBookingId($data['booking_id']);
+
+                $bike_total = 0;
+                // INSERT NEW BIKE TYPES
+                foreach($obt_rows as $row_id)
+                {
+                    $bike_id = $_POST['assign_bike_row_'.$row_id];
+                    $bike_type_id = $_POST['assign_biketype_row_'.$row_id];
+                    $rent = $_POST['assign_bike_rent_'.$row_id];
+
+                    $bookingbikes_record = array(
+                        "booking_id" => $data['booking_id'],
+                        "type_id" => $bike_type_id,
+                        "bike_id" => $bike_id,
+                        "quantity" => 1,
+                        "created_by" => $user['userId'],  
+                    );
+                    $this->bookingbikes_model->addNew($bookingbikes_record);
+                    $order_snap['booking_bikes_records'][] = $bookingbikes_record;
+
+                    if( $data['pickup_status'] == 1 )
+                    {
+                        // update bikerecord to unavailable
+                        $this->bike_model->updateRecord(array("available" => 0), $bike_id);
+                    }
+                    else
+                    {
+                        // update bikerecord to available
+                        $this->bike_model->updateRecord(array("available" => 1), $bike_id);
+                    }
+
+                    $bike_total += $rent;
+                }
+
+                $total = $bike_total;
+                $gst = round(($bike_total * 0.05), 2);
+
+                $booking_record = array(
+                    "total_amount" => $total,
+                    "gst" => $gst,
+                    "helmet_quantity" => $data['helmets_qty'],
+                    "free_helmet" => $data['free_helmet'],
+                    "refund_status" => $data['refund_status'],
+                    "status" => $data['pickup_status'],
+                    "delivery_notes" => $data['delivery_notes'],  
+                );
+                $this->bookings_model->updateRecord($booking_record, $data['booking_id']);
+                $order_snap['booking_record'] = $booking_record;
+            }
+            else
+            {
+                $booking_record = array(
+                    "helmet_quantity" => $data['helmets_qty'],
+                    "free_helmet" => $data['free_helmet'],
                     "refund_status" => $data['refund_status'],
                     "status" => $data['pickup_status'],
                     "delivery_notes" => $data['delivery_notes'],  
                 );
             
-            $this->bookings_model->updateRecord($booking_record, $data['booking_id']);
-            
-            foreach($obt_rows as $row_id)
-            {
-                $old_row = $this->bookingbikes_model->getById($row_id);
-
-                $bike_id = $_POST['assign_bike_row_'.$row_id];
-                $bike_type_id = $_POST['assign_biketype_row_'.$row_id];
-
-                if( $old_row['type_id'] !== $bike_type_id )
+                $this->bookings_model->updateRecord($booking_record, $data['booking_id']);
+                $order_snap['booking_record'] = $booking_record;
+                
+                foreach($obt_rows as $row_id)
                 {
-                    if( $old_row['bike_id'] != 0 )
+                    $old_row = $this->bookingbikes_model->getById($row_id);
+
+                    $bike_id = $_POST['assign_bike_row_'.$row_id];
+                    $bike_type_id = $_POST['assign_biketype_row_'.$row_id];
+
+                    if( $old_row['type_id'] !== $bike_type_id )
                     {
-                        $this->bike_model->updateRecord(array("available" => 1), $old_row['bike_id']);
+                        if( $old_row['bike_id'] != 0 )
+                        {
+                            $this->bike_model->updateRecord(array("available" => 1), $old_row['bike_id']);
+                        }
+                    }
+
+                    $this->bookingbikes_model->updateRecord(array("bike_id" => $bike_id, "type_id" => $bike_type_id), $row_id);
+                    $order_snap['booking_bikes_records'][] = array("bike_id" => $bike_id, "type_id" => $bike_type_id);
+                    if( $data['pickup_status'] == 1 )
+                    {
+                        // update bikerecord to unavailable
+                        $this->bike_model->updateRecord(array("available" => 0), $bike_id);
+                    }
+                    else
+                    {
+                        // update bikerecord to available
+                        $this->bike_model->updateRecord(array("available" => 1), $bike_id);
                     }
                 }
-
-                $this->bookingbikes_model->updateRecord(array("bike_id" => $bike_id, "type_id" => $bike_type_id), $row_id);
-                if( $data['pickup_status'] == 1 )
-                {
-                    // update bikerecord to unavailable
-                    $this->bike_model->updateRecord(array("available" => 0), $bike_id);
-                }
-                else
-                {
-                    // update bikerecord to available
-                    $this->bike_model->updateRecord(array("available" => 1), $bike_id);
-                }
             }
+            
 
             if( $data['new_payment'] != "" && $data['new_payment'] != 0 )
             {
@@ -717,7 +829,14 @@ class Bookings extends CI_Controller
                     "created_by" => $user['userId']
                 );
                 $this->bookingpayment_model->addNew($booking_payment);
+                $order_snap['booking_payment_record'] = $booking_payment;
             }
+
+            // Save Snapshot
+            $order_history["booking_id"] = $data['booking_id'];
+            $order_history["order_json"] = json_encode($order_snap);
+            $order_history["created_by"] = $user['userId'];
+            $this->orderhistory_model->addNew($order_history);
             
             $response["error"] = 0;
             $response["error_message"] = "";

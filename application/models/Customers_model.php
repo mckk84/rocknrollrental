@@ -34,6 +34,21 @@ class Customers_model extends CI_Model
         }
     }
 
+    public function search($search)
+    {
+        $this->db->select('id, name as text, phone');
+        $this->db->from('tbl_customers');
+        $this->db->like('name', $search);
+        $this->db->or_like('phone', $search);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0)
+        {
+            return $query->result_array();
+        } else {
+            return array();
+        }
+    }
+
     /**
      * This function used to check the login credentials of the user
      * @param string $email : This is email of the user

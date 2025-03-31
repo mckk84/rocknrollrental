@@ -43,11 +43,15 @@
                       <th scope="col">Customer</th>
                       <th scope="col">From</th>
                       <th scope="col">To</th>
-                      <th scope="col">Total</th>   
+                      <th scope="col">Total</th>
+                      <th scope="col">Refund</th>   
                       <th scope="col">Paid</th>
                       <th scope="col">Pending</th>
+                      <th scope="col">Payment Mode</th>
                       <th scope="col">Status</th>
-                      <th scope="col">Del. Notes</th>
+                      <th scope="col">Notes</th>
+                      <th scope="col">Added By</th>
+                      <th scope="col">Added On</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
@@ -75,24 +79,29 @@
 
                       foreach($bikes_ordered as $name => $qty)
                       {
-                        $bikes_order = ( $bikes_order == "" ) ? $name."(".$qty.")" : "<br/>".$name."(".$qty.")";
+                        $bikes_order .= ( $bikes_order == "" ) ? $name."(".$qty.")" : "<br/>".$name."(".$qty.")";
                       }
 
                       if( isset($row['helmet_quantity']) && $row['helmet_quantity'] > 0 )
                       {
                         $bikes_order .= "<br/>Helmet(".$row['helmet_quantity'].")";
                       }
-                      
                       ?>
                     <tr>
-                      <td scope="row"><a title="View Record" href="<?=base_url('admin/Bookings/view?bid='.$row['id'])?>" class="text-info float-right mx-2"><?=$row['id']?></a></td>
+                      <td scope="row"><?=$row['id']?></td>
                       <td><?=$bikes_order?></td>
-                      <td><?=$row['name']?><br/><?=$row['email']?><br/><?=$row['phone']?></td>
-                      <td><?=date("d-m-Y", strtotime($row['pickup_date']))?><br/><?=$row['pickup_time']?></td>
-                      <td><?=date("d-m-Y", strtotime($row['dropoff_date']))?><br/><?=$row['dropoff_time']?></td>
+                      <td><?=$row['name']?><br/><?=$row['phone']?></td>
+                      <td>
+                       <span class="w-100 p-1 fa-sm d-block"><?=date("d-m-Y", strtotime($row['pickup_date']))?></span>
+                       <span class="w-100 p-1 fa-sm d-block"><?=$row['pickup_time']?></span>
+                      </td>
+                      <td><span class="w-100 p-1 fa-sm d-block"><?=date("d-m-Y", strtotime($row['dropoff_date']))?></span>
+                        <span class="w-100 p-1 fa-sm d-block"><?=$row['dropoff_time']?></span></td>
                       <td><?=$row['total_amount']?></td>
+                      <td><?=$row['refund_amount']?></td>
                       <td><?=$row['booking_amount']?></td>
                       <td><?=($row['booking_amount'] > $row['total_amount'] ) ? 0: $row['total_amount'] - $row['booking_amount']?></td>
+                      <td><?=$row['paymentmode']?></td>
                       <td><?php if( $row['status'] == 0) { ?>
                         <span class="badge bg-warning">Pre Booked</span>
                       <?php } else if($row['status'] == 1) { ?>
@@ -101,18 +110,22 @@
                         <span class="badge bg-info">Closed</span>
                       <?php } ?>
                       </td>
-                      <td><?=$row['delivery_notes']?></td>
-                      <td>
-                        <div class="d-flex justify-content-start">
-                          
-                          <a title="Send Reminder in Whatsapp" target="_blank" href="<?=base_url('admin/Bookings/whatsapp_reminder?bid='.$row['id'])?>"><i class="bi bi-whatsapp"></i></a>
-
-                          <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record text-warning float-right mx-2"><i class="bi bi-pencil-fill"></i></a>
+                      <td><?=$row['notes']?></td>
+                      <td><?=($row['created_by'] == "") ? "ONLINE":$row['created_by']?></td>
+                      <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
+                      <td><div class="d-flex justify-content-start">
+                        <a title="Send Whatsapp" class="fs-6" target="_blank" href="<?=base_url('admin/Bookings/whatsapp?bid='.$row['id'])?>"><i class="bi bi-whatsapp"></i></a>
+                        <a title="View Record" href="<?=base_url('admin/Bookings/view?bid='.$row['id'])?>" class="text-info float-right fs-6 mx-2"><i class="bi bi-eye-fill"></i></a>
+                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record fs-6 text-warning float-right mx-2"><i class="bi bi-pencil-fill"></i></a>
+                        <?php if( isset($user['user_type']) && $user['user_type'] == 'Admin' ){?>
+                        <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record fs-6 text-danger float-right mx-2"><i class="bi bi-trash-fill"></i></a>
+                        <?php } ?>
                       </div></td>
                     </tr>
                      <?php } ?>
                   </tbody>
-                </table>                
+                </table>  
+                               
                 <?php } ?>
               </div>
             </div>

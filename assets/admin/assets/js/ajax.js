@@ -68,6 +68,52 @@ function addnewbike()
     }); 
 }
 
+function updateEditOrder()
+{
+    var bike_ids = "";
+    var bike_total = 0;
+    var order_gst = 0;
+    var total_amount = 0;
+    var helmet_quantity = 0;
+    if( $(".order_info input[name='extra_helemts']").is('checked') )
+    {   
+        helmet_quantity = $(".order_info input[name='helmets_qty']").val();
+    }
+    var helmet_total = parseInt(helmet_quantity * 50);
+    var early_pickup = parseInt($(".order_summary .early_pickup").html());
+    var refund_amount = parseInt($(".order_summary .refund_amount").html());
+    var paid_amount = parseInt($(".order_summary .paid_amount").html());
+    var pending_amount = 0;
+    $("#ordered_bikes tbody tr").each(function(ele){
+        var order_row_id = $(this).attr('data-id');
+        var bike_type_id = $(this).find("select[name='assign_biketype_row_"+order_row_id+"'").val();
+        var rent_price = $(this).find("#assign_bike_rent_"+order_row_id).html();
+        bike_ids = (bike_ids == "") ? bike_type_id : ","+bike_type_id;
+        $("#ordered_bikes input[name='order_bike_types']").val(bike_ids);    
+        bike_total += parseInt(rent_price);
+
+        order_gst = (bike_total * 0.05).toFixed(2);
+        order_gst = parseFloat(order_gst);
+
+        $(".order_summary .bike_total").html(bike_total - order_gst);
+        $(".order_summary .order_gst").html(order_gst);
+        console.log(bike_total,order_gst,helmet_total,early_pickup,refund_amount);
+        total_amount = parseInt(bike_total) + parseInt(helmet_total) + parseInt(early_pickup) + parseInt(refund_amount);
+        console.log(total_amount);
+        $(".order_summary .order_total").html(total_amount);
+
+        if( paid_amount > total_amount )
+        {
+            $(".order_summary .pending_amount").html("<b>-</b>"+(paid_amount - total_amount));
+        }
+        else
+        {
+            $(".order_summary .pending_amount").html(total_amount - paid_amount);
+        }
+    });  
+    return true;
+}
+
 function bike_type_change(order_row_id)
 {
     var order_row = order_row_id;
@@ -106,11 +152,13 @@ function bike_type_change(order_row_id)
             if( image == "" ){
                 $("#order_row_"+order_row_id+" img").attr("src", base_url+'assets/images/bike.png');
                 $("#order_row_"+order_row_id+" #assign_bike_rent_"+order_row_id+"").html('N/A');
+                $("#order_row_"+order_row_id+" input[name='assign_bike_rent_"+order_row_id+"']").val('0');
             }else{
                 $("#order_row_"+order_row_id+" img").attr("src", base_url+'bikes/'+image);
                 $("#order_row_"+order_row_id+" #assign_bike_rent_"+order_row_id+"").html(rent_price);
+                $("#order_row_"+order_row_id+" input[name='assign_bike_rent_"+order_row_id+"']").val(rent_price);
             }
-
+            updateEditOrder();
         },
         error: function (data) {
             alert("Error Occured. Try again later.");
@@ -279,6 +327,9 @@ $(document).ready(function(){
         });
     });
 
+    //<a id='addnewbike' onclick='addnewbike()' class='btn btn-sm btn-outline-primary d-block float-left p-1 mb-1 mt-1'><i class='align-middle bi bi-plus-circle me-1 fs-8'></i>Add Bikes</a>
+    //<table style='display:none' id='extra_bikes' class='table datatable table-responsive rounded border text-center mt-1 mb-0 small'><tbody></tbody></table>
+    //<a onclick='deletebikerow1("+row.id+")' href='javascript:void(0)' class='d-block text-danger w-100' id='assign_bike_"+row.id+"'><i class='bi bi-trash'></a>
     //edit order
     $(".edit-booking-record").click(function (event) {
         event.preventDefault(); // Prevent default form submission
@@ -307,23 +358,24 @@ $(document).ready(function(){
 
                 $(".booking_form #order_dates").html(html);
 
-                html = "<table class='table datatable table-responsive border rounded mb-0 small'>";
-                html += "<tbody><th class='bg-warning-light w-25'>Customer</th><td class='fs-8'>"+response.data.customer.name+" ("+response.data.customer.phone+")</td></tr>";
-                html += "<tr><th class='bg-warning-light w-25'>Bikes Ordered</th><td class='fs-8'>"+response.data.ordered_bikes+"</td></tr>";
-                html += "<tr><th class='bg-warning-light w-25'> Helmets </th>";
-                html += "<td class='fs-8'><div class='d-flex'><label class='d-inline-block'>Free Helmet :<input type='checkbox' disabled class='align-middle form-checkbox' value='1' "+((response.data.order.free_helmet)?"checked":"")+" name='free_helmet'/></label> &nbsp; <label class='d-inline-block'>Extra Helmets:<input type='checkbox' class='align-middle form-checkbox' disabled value='1' "+((response.data.order.helmet_quantity > 0)?"checked":"")+" name='extra_helemts'/></label>";
+                html = "<table class='order_info table datatable table-responsive border rounded mb-0 small'>";
+                html += "<tbody><th class='bg-warning-light w-30'>Customer</th><td class='fs-8'>"+response.data.customer.name+" ("+response.data.customer.phone+")</td></tr>";
+                html += "<tr><th class='bg-warning-light w-30'>Bikes Ordered</th><td class='fs-8'>"+response.data.ordered_bikes+"</td></tr>";
+                html += "<tr><th class='bg-warning-light w-30'> Helmets </th>";
+                html += "<td class='fs-8'><div class='d-flex'><label class='d-inline-block'>Free Helmet :<input name='free_helmet' type='checkbox' class='align-middle form-checkbox' value='1' "+((response.data.order.free_helmet)?"checked":"")+" name='free_helmet'/></label> ";
+                html += "&nbsp; <label class='d-inline-block'>Extra Helmets:<input type='checkbox' class='align-middle form-checkbox' value='1' "+((response.data.order.helmet_quantity > 0)?"checked":"")+" name='extra_helemts'/></label>";
 
                 html += "<div style='display:"+((response.data.order.helmet_quantity > 0)?"inline-block":"none")+"' class='w-30 mx-2 helmet-row cart-count bg-white justify-content-center'>";
-                html += "<input type='number' name='helmets_qty' disabled class='w-50 font-bold cart-helmets text-center border text-black' value='"+((response.data.order.helmet_quantity > 0)? response.data.order.helmet_quantity :0)+"'>";
+                html += "<input type='number' name='helmets_qty' class='w-50 font-bold text-center border text-black' value='"+((response.data.order.helmet_quantity > 0)? response.data.order.helmet_quantity :0)+"'>";
                 html += "</div></div></td></tr>";
 
                 if( response.data.order.notes != "" )
                 {
-                    html += "<tr><th class='bg-warning-light w-25'>Notes:</th><td class='fs-8'>"+response.data.order.notes+"</td></tr>";
+                    html += "<tr><th class='bg-warning-light w-30'>Notes:</th><td class='fs-8'>"+response.data.order.notes+"</td></tr>";
                 }
                 if( response.data.order.early_pickup != 0 )
                 {
-                    html += "<tr><th class='bg-warning-light w-25'>Early Pickup: </th><td class='fs-8'>"+((response.data.order.early_pickup)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</b></td></tr>";
+                    html += "<tr><th class='bg-warning-light w-30'>Early Pickup: </th><td class='fs-8'>"+((response.data.order.early_pickup)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</b></td></tr>";
                 }
                 html += "</tbody></table>";
 
@@ -339,7 +391,7 @@ $(document).ready(function(){
 
                 html = "<table id='ordered_bikes' class='table datatable table-responsive rounded border text-center mb-0 small'>";
                 html += "<thead><tr><th class='bg-warning-light w-30'>Bike Type</th><th class='bg-warning-light'>Image</th>";
-                html += "<th class='bg-warning-light'>Assign Vehicle</th><th class='bg-warning-light'>Rent Price</th><th class='bg-warning-light w-10'>Action</th></tr></thead>";
+                html += "<th class='bg-warning-light'>Assign Vehicle</th><th class='bg-warning-light'>Rent</th></tr></thead>";
                 html += "<tbody>";
                 var bikes = response.data.order_bike_types;
                 var order_bike_types = new Array();
@@ -365,8 +417,7 @@ $(document).ready(function(){
                     }
                   }
                   ab_html += "</select>";
-                  console.log(row);
-                  html += "<tr id='order_row_"+row.id+"'>";
+                  html += "<tr data-id='"+row.id+"' id='order_row_"+row.id+"'>";
 
                   var bt_html = "<td class='w-30'><select name='assign_biketype_row_"+row.id+"' onchange='bike_type_change("+row.id+")' class='bike_type_order form-select'>";
                   Object.keys(biketypes).forEach(function(key, index)
@@ -377,11 +428,11 @@ $(document).ready(function(){
 
                   html += bt_html; //<td><span style='vertical-align:middle;'>"+row.type+"</span></td>";
                   html += "<td style='width:10%'><img style='max-width:50px;margin:auto;display:block;' class='img-fluid' src='"+response.data.bike_url+row.image+"'/></td>";
-                  html += "<td class='w-30'>"+ab_html+"</td><td  style='width:10%'><span class='d-block w-100' id='assign_bike_rent_"+row.id+"'>"+row.rent_price+"</span></td><td><a onclick='deletebikerow1("+row.id+")' href='javascript:void(0)' class='d-block text-danger w-100' id='assign_bike_"+row.id+"'><i class='bi bi-trash'></a></td></tr>";
+                  html += "<td class='w-30'>"+ab_html+"</td><td  style='width:10%'><input type='hidden' name='assign_bike_rent_"+row.id+"' value='"+row.rent_price+"'/> <span class='d-block w-100' id='assign_bike_rent_"+row.id+"'>"+row.rent_price+"</span></td></tr>";
                 }
                 html += "</tbody>";
                 html += "</table><input type='hidden' name='order_bike_types' value='"+order_bike_types.join(',')+"'>";
-                html += "<table style='display:none' id='extra_bikes' class='table datatable table-responsive rounded border text-center mt-1 mb-0 small'><tbody></tbody></table><a id='addnewbike' onclick='addnewbike()' class='btn btn-sm btn-outline-primary d-block float-left p-1 mb-1 mt-1'><i class='align-middle bi bi-plus-circle me-1 fs-8'></i>Add Bikes</a>";
+                html += "";
                 $(".booking_form #bike_select").html(html);
 
                 var total_amount = 0;
@@ -399,12 +450,15 @@ $(document).ready(function(){
                     early_pickup = 200 * order.quantity;
                 }
 
-                total_amount = response.data.order.total_amount;
-                bike_total = total_amount - helmet_total - early_pickup;
-                bike_total = bike_total - response.data.order.gst;
+                total_amount = parseFloat(response.data.order.total_amount);
+                total_amount = total_amount + helmet_total + early_pickup;
+                bike_total = parseFloat(response.data.order.total_amount) - parseFloat(response.data.order.gst);
+
+                pending = parseFloat(response.data.order.total_amount) - parseFloat(response.data.order.booking_amount);
+
 
                 html = "<div style='width:49%;float:left;' class='table-responisve'>";
-                html += "<table class='table small'>";
+                html += "<table class='table datatable small'>";
                 html += "<tr><th class='text-start bg-warning-light' colspan='2'>Order Updaes</th></tr>";
                 html += "<tr><th class='text-start'>Refund Status</th><th class='text-end'>";
                 html += "<select name='refund_status' class='form-select'>";
@@ -438,16 +492,22 @@ $(document).ready(function(){
                 html += "</table></div>";
                 
                 html += "<div style='float:right;' class='w-50 table-responisve'>";
-                html += "<table class='table small'>";
+                html += "<table class='order_summary table datatable small'>";
                 html += "<tr><th class='text-start bg-warning-light' colspan='3'>Order Summary</th></tr>";
-                html += "<tr><th class='text-start'>Bike Rental</th><th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='d-inline-block text-info p-1'>"+bike_total+"</span></th>";
+                html += "<tr><th class='text-start'>Bike Rental</th><th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='bike_total d-inline-block text-info p-1'>"+bike_total+"</span></th>";
                 html += "</tr>";
                 html += "<tr><th class='text-start'>GST</th>";
-                html += "<th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='text-info d-inline-block p-1'>"+response.data.order.gst+"</span></th></tr>";
+                html += "<th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='order_gst text-info d-inline-block p-1'>"+response.data.order.gst+"</span></th></tr>";
 
                 if( response.data.order.helmet_quantity > 0 || response.data.order.early_pickup > 0 )
                 {
-                    html += "<tr>";
+                    html += "<tr class='addons'>";
+                    html += "<th colspan='2' class='bg-warning-light text-center'>Addons</th>";
+                    html += "</tr>";
+                }
+                else
+                {
+                    html += "<tr class='addons'>";
                     html += "<th colspan='2' class='bg-warning-light text-center'>Addons</th>";
                     html += "</tr>";
                 }
@@ -455,8 +515,14 @@ $(document).ready(function(){
                 if( response.data.order.helmet_quantity > 0 )
                 {
 
-                    html += "<tr>";
-                    html += "<th class='text-start'>Helmet </th><th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='text-info d-inline-block p-1'>"+helmet_total+"</span></th>";
+                    html += "<tr class='helmet_row'>";
+                    html += "<th class='text-start'>Helmet </th><th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='helmet_total text-info d-inline-block p-1'>"+helmet_total+"</span></th>";
+                    html += "</tr>";
+                }
+                else
+                {
+                    html += "<tr style='display:none' class='helmet_row'>";
+                    html += "<th class='text-start'>Helmet </th><th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='helmet_total text-info d-inline-block p-1'>"+helmet_total+"</span></th>";
                     html += "</tr>";
                 }
 
@@ -464,14 +530,20 @@ $(document).ready(function(){
                 {
                     html += "<tr>";
                     html += "<th class='text-start'>Early Pickup</th>";
-                    html += "<th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='text-info d-inline-block p-1'>"+early_pickup+"</span></th></tr>";
+                    html += "<th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='early_pickup text-info d-inline-block p-1'>"+early_pickup+"</span></th></tr>";
+                }
+                else
+                {
+                    html += "<tr style='display:none' class='early_pickup_row'>";
+                    html += "<th class='text-start'>Early Pickup</th>";
+                    html += "<th class='text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='early_pickup text-info d-inline-block p-1'>"+early_pickup+"</span></th></tr>";
                 }
                 
-                html += "<tr><th class='text-start'>Total</th>";
+                html += "<tr><th class='bg-warning-light text-start'>Total</th>";
                 html += "<td class='fw-bold text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='order_total text-info d-inline-block p-1'>"+total_amount+"</span></td>";
                 html += "</tr>";
                 html += "<tr><th class='text-start'>Refundable Deposit</th>";
-                html += "<td class='fw-bold text-end'><i class='fa fa-indian-rupee-sign me-1'></i> <span class='text-info d-inline-block p-1'>"+response.data.order.refund_amount+"</span></td>";
+                html += "<td class='fw-bold text-end'><i class='fa fa-indian-rupee-sign me-1'></i> <span class='refund_amount text-info d-inline-block p-1'>"+response.data.order.refund_amount+"</span></td>";
                 html += "</tr>";
                 html += "<tr><th class='text-start text-success'>Paid</th>";
                 html += "<td class='fw-bold text-end'><i class='fa fa-indian-rupee-sign me-1'></i><span class='paid_amount text-success d-inline-block p-1'>"+response.data.order.booking_amount+"</span></td></tr>";
@@ -483,6 +555,42 @@ $(document).ready(function(){
 
                 $('#edit-booking').modal('show');    
                 $('#edit-booking .modal-title').html("Booking Order <b>#"+id+"</b>");
+
+                $("input[name='extra_helemts']").change(function(){
+                    if( $(this).prop('checked') )
+                    {
+                        $(".order_info .helmet-row").show();
+                        $(".order_summary .helmet_row").show();
+                        $(".order_info input[name='helmets_qty']").val(1);
+                        var qty = $(".order_info input[name='helmets_qty']").val();
+                        $(".order_summary .helmet_total").html(qty * 50);
+                    }
+                    else
+                    {
+                        $(".order_info .helmet-row").hide();
+                        $(".order_summary .helmet_row").hide();
+                        $(".order_info input[name='helmets_qty']").val(0)
+                        $(".order_summary .helmet_total").html(50);
+                    }
+                });
+
+                $("input[name='helmets_qty']").change(function(){
+                    var qty = $(".order_info input[name='helmets_qty']").val();
+                    if( qty == 0 )
+                    {
+                        $(".order_info input[name='helmets_qty']").val(1);
+                        $(".order_summary .helmet_total").html(50);
+                        return false;
+                    }
+                    var oindex = $("#ordered_bikes tbody tr").length;
+                    if( qty > oindex )
+                    {
+                        $(".order_info input[name='helmets_qty']").val(oindex);
+                        $(".order_summary .helmet_total").html(oindex * 50);
+                        return false;
+                    }
+                    $(".order_summary .helmet_total").html(qty * 50);                    
+                });
                                 
             },
             error: function (data) {

@@ -94,35 +94,47 @@
                               </div> 
                           </div>
                           <div class="col-md-6">
-                            <button id="search_bike" class="btn btn-warning" type="button">Search</button>
+                            <button id="search_bike" class="w-50 btn btn-sm btn-warning" type="button">Search</button>
                           </div>
                       </div>                      
-                      <div id="payment_form" class="row p-2">
+                      <div id="payment_form" class="row">
                         <div id="sumit_form" class="col-md-12 p-2">
-                          <div class="row mb-2">
+                          <div class="row border-bottom p-2">
                             <div class="col-md-4">
-                              <label class="text-dark mb-2">Customer</label>
+                              <label class="d-block text-dark mt-2">Customer</label>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                               <select id="customer_id" name="customer_id" class="form-select">
                                   <option value="">-Select-</option>
                                   <?php foreach($customers as $index => $row){?>
-                                    <option value="<?=$row['id']?>"><?=$row['name']?>(<?=$row['phone']?>)</option>
+                                    <option value="<?=$row['id']?>"><?=$row['name']?> (<?=$row['phone']?>)</option>
                                   <?php } ?>
                               </select>
                             </div>
                           </div>
-                          <div class="row mb-2">
+                          <div class="row border-bottom p-2">
                             <div class="col-md-4">
-                                <label class="text-dark mb-2">Add Helmet</label>
+                                <label class="text-dark align-middle">Free Helmet</label>
                             </div>
                             <div class="col-md-6">
+                                <input type="checkbox" name="free_helmet" style="display:inline;width: 20px;height: 20px;vertical-align: bottom;" value="1">
+                            </div>
+                          </div>
+                          <div class="row border-bottom p-2">
+                            <div class="col-md-4">
+                                <label class="text-dark align-middle">Extra Helmets</label>
+                            </div>
+                            <div class="col-md-8">
                                 <input type="checkbox" name="helmets" style="display:inline;width: 20px;height: 20px;vertical-align: bottom;" value="1">
+                                <span id="extra_helemt_block" style="display:none;margin-left:5px;" class="float-right w-60">
+                                  <label class="w-20 float-left d-block p-1 text-dark align-middle">Qty:</label>
+                                  <input type="number" style="line-height: 1rem;" class="w-30 form-control float-left text-dark p-1 px-2" name="helmets_qty" value="1">
+                                </span>
                             </div>
                           </div>  
-                          <div class="row mb-2">
+                          <div class="row border-bottom p-2">
                             <div class="col-md-4">
-                                <label class="text-dark mb-2">Early Pickup</label>
+                                <label class="text-dark align-middle">Early Pickup</label>
                             </div>
                             <div class="col-md-6">
                                 <input type="checkbox" name="early_pickup" style="display:inline;width: 20px;height: 20px;vertical-align: bottom;" value="1">
@@ -149,7 +161,7 @@
                           <input type="hidden" name="vehicle_count" value="0">
                           <input type="hidden" name="vehicle_numbers" value="">
                           <div class="col-md-12 table-responisve">
-                              <table class="table">
+                              <table class="table small">
                                   <tr>
                                       <th class="text-start bg-warning" colspan="2">Order Summary</th>
                                   </tr>
@@ -157,17 +169,17 @@
                                       <th class="text-start">Bike Rental</th>
                                       <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="bike_total d-inline-block p-1"></span></th>
                                   </tr>
+                                  <tr>
+                                      <th class="text-start">GST</th>
+                                      <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_gst d-inline-block p-1"></span></th>
+                                  </tr>
                                   <tr style="display:none" id="helmets_row">
-                                      <th class="text-start">Helmet <input type="number" name="helmets_qty" style="max-width: 100px;display: inline;margin-left: 25px;" class="cart-helmets form-control" value="0"></th>
+                                      <th class="text-start">Helmet</th>
                                       <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="helmet_total d-inline-block p-1">50</span></th>
                                   </tr>
                                   <tr style="display:none" id="earlypickup_row">
                                       <th class="text-start">Early Pickup</th>
                                       <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="earlypickup_charge d-inline-block p-1">200</span></th>
-                                  </tr>
-                                  <tr>
-                                      <th class="text-start">GST</th>
-                                      <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_gst d-inline-block p-1"></span></th>
                                   </tr>
                                   <tr>
                                       <th class="text-start">Total</th>
@@ -203,23 +215,39 @@
                     </div>
                   </div>
                   <div class="row g-3">
-                    <div class="col-md-2 mb-2">
-                      <label class="d-block text-dark mt-1">Pickup Status</label>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                      <select name="pickup_status" class="form-select">
-                        <option>-Select-</option>
-                        <option value="0">Pre Book</option>
-                        <option value="1">Rented</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="row g-3">
-                    <div class="col-md-2 mb-2">
-                      <label class="d-block text-dark mt-3">Delivery Notes</label>
-                    </div>
-                    <div class="col-md-6 mb-2">
-                      <textarea name="delivery_notes" rows="2" class="form-control"></textarea>
+                    <div class="col-md-8">
+                      <div class="row g-3">
+                        <div class="col-md-2 mb-2">
+                          <label class="d-block text-dark mt-1">Pickup Status</label>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                          <select name="pickup_status" class="form-select">
+                            <option>-Select-</option>
+                            <option value="0">Pre Book</option>
+                            <option value="1">Rented</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row g-3">
+                        <div class="col-md-2 mb-2">
+                          <label class="d-block text-dark mt-1">Refund Status</label>
+                        </div>
+                        <div class="col-md-4 mb-2">
+                          <select name="refund_status" class="form-select">
+                            <option>-Select-</option>
+                            <option value="0">Pending</option>
+                            <option value="1">Paid</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row g-3">
+                        <div class="col-md-2 mb-2">
+                          <label class="d-block text-dark mt-3">Delivery Notes</label>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                          <textarea name="delivery_notes" rows="2" class="form-control"></textarea>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div id="save_row" class="row g-3">
@@ -356,7 +384,23 @@
         });
       });
 
-      $("#customer_id").select2();
+      $('#customer_id').select2({
+        ajax: {
+          url: '<?=base_url('admin/Customers/search')?>',
+          data: function (params) {
+            var query = {
+              search: params.term,
+            }
+            return query;
+          },
+          processResults: function (data) {
+            var response = JSON.parse(data);
+            return {
+              results: response.items
+            };
+          }
+        }
+      });
 
       $("#customer_id").change(function(){
 
@@ -368,11 +412,11 @@
 
       $("input[name='helmets']").change(function(){
         if ($(this).is(":checked")) {
-          $("#helmets_row input[name='helmets_qty']").val(1);
-          $("#helmets_row").slideDown();
+          $("input[name='helmets_qty']").val(1);
+          $("#extra_helemt_block").slideDown();
         } else {
-          $("#helmets_row input[name='helmets_qty']").val(0);
-          $("#helmets_row").slideUp();
+          $("input[name='helmets_qty']").val(0);
+          $("#extra_helemt_block").slideUp();
         }
         updateCart();
       });
@@ -399,7 +443,6 @@
         {
           updateCart();
         }
-
       });
 
       $("#search_bike").click(function(){
@@ -447,19 +490,19 @@
                 {
                   $(".booking_form #search_bike").prop("disabled", false);
                   
-                  var html = "<table class='table datatable table-responsive border rounded mb-1'>";
-                  html += "<tbody><tr><td class='font-bold w-50'>Pickup</td><td><span class='d-block p-1 font-bold'>"+formatdate(response.data.pickup_date)+" "+response.data.pickup_time+"</span></td></tr><tr><td class='font-bold w-50'>Dropoff</td><td><span class='d-block p-1 font-bold'>"+formatdate(response.data.dropoff_date)+" "+response.data.dropoff_time+"</span></td></tr><tr><td class='font-bold w-50'>Duration</td><td><b>"+response.data.period_days+"</b> days, <b>"+response.data.period_hours+"</b> hours </td></tr><tr><td class='font-bold w-50'>Holiday</td><td>"+((response.data.holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr><tr><td class='font-bold w-50'>Public Holiday</td><td>"+((response.data.public_holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr><tr><td class='font-bold w-50'>Weekend</td><td>"+((response.data.weekend)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr></tbody></table>";
+                  var html = "<table class='table datatable table-responsive rounded border small'>";
+                  html += "<tbody><tr><td class='bg-warning-light font-bold w-30'>Pickup</td><td><span class='d-block p-1 fs-8 font-bold'>"+formatdate(response.data.pickup_date)+" &nbsp;&nbsp;&nbsp; "+response.data.pickup_time+"</span></td></tr><tr><td class='bg-warning-light font-bold w-30'>Dropoff</td><td><span class='d-block p-1 fs-8 font-bold'>"+formatdate(response.data.dropoff_date)+" &nbsp;&nbsp;&nbsp; "+response.data.dropoff_time+"</span></td></tr><tr><td class='bg-warning-light font-bold w-30'>Duration</td><td><b>"+response.data.period_days+"</b> days, <b>"+response.data.period_hours+"</b> hours </td></tr><tr><td class='bg-warning-light font-bold w-30'>Holiday</td><td>"+((response.data.holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr><tr><td class='bg-warning-light font-bold w-30'>Public Holiday</td><td>"+((response.data.public_holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr><tr><td class='bg-warning-light font-bold w-30'>Weekend</td><td>"+((response.data.weekend)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr></tbody></table>";
 
                   $(".booking_form #search_bikes_row").html(html);
 
-                  html = "<table class='table datatable table-responsive rounded border'>";
-                  html += "<thead><tr><th class='bg-warning'>Id</th><th class='bg-warning'>Bike</th><th class='bg-warning'>Image</th><th class='bg-warning'>CC</th><th class='bg-warning'>Model</th><th class='bg-warning'>Vehicle Number</th><th class='bg-warning'>Rent Price</th><th class='bg-warning'>Available</th></tr></thead>";
+                  html = "<table class='table datatable table-responsive rounded border small text-center'>";
+                  html += "<thead><tr><th class='bg-warning'>Id</th><th class='bg-warning'>Bike</th><th class='bg-warning'>Image</th><th class='bg-warning'>CC</th><th class='bg-warning'>Vehicle Number</th><th class='bg-warning'>Rent Price</th><th class='bg-warning'>Available</th></tr></thead>";
                   html += "<tbody>";
                   var bikes = response.data.cart_bikes;
                   for (var i = 0; i < bikes.length; i++) 
                   {
                     var row = bikes[i];
-                    html += "<tr><td><div class='form-check'><input class='form-check-input' id='bike_"+row.bid+"' type='checkbox' style='height:20px;width:20px;' onchange='bike_added("+row.bid+", "+row.rent_price+")' class='bike_check' value='1'></div></td><td><span style='vertical-align:middle;'>"+row.bike_type_name+"</span></td><td><img style='max-width:50px;float:left;' class='img-fluid' src='"+bike_url+row.image+"'></td><td>"+row.cc+"</td><td>"+row.model+"</td><td>"+row.vehicle_number+"</td><td>"+row.rent_price+"</td><td><span class='badge bg-success'>Yes</span></td></tr>";
+                    html += "<tr><td><div class='form-check'><input class='form-check-input' id='bike_"+row.bid+"' type='checkbox' style='height:20px;width:20px;' onchange='bike_added("+row.bid+", "+row.rent_price+")' class='bike_check' value='1'></div></td><td><span style='vertical-align:middle;'>"+row.bike_type_name+"</span></td><td><img style='max-width:50px;float:left;' class='img-fluid' src='"+bike_url+row.image+"'></td><td>"+row.cc+"</td><td>"+row.vehicle_number+"</td><td>"+row.rent_price+"</td><td><span class='badge bg-success'>Yes</span></td></tr>";
                   }
                   html += "</tbody>";
                   html += "</table>";
