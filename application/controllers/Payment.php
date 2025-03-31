@@ -16,6 +16,7 @@ class Payment extends CI_Controller {
 		$this->load->model('bookingpayment_model');
 		$this->load->model('paymentmode_model');
 		$this->load->model('coupons_model');
+		$this->load->model('orderhistory_model');
 
 		$data['cart_bikes'] = array();
 
@@ -143,7 +144,7 @@ class Payment extends CI_Controller {
         }
 
         $pmode_row = $this->paymentmode_model->getIdByMode($data['cart']['paymentOption']);
-
+        $order_snap = [];
         // INSERT RECORDS
         $booking_record = array(
             	"customer_id" => $data['user']['userId'],
@@ -169,6 +170,7 @@ class Payment extends CI_Controller {
             );
         $order_bikes = "";
         $worder_bikes = "";
+        $order_snap['booking_record'] = $booking_record;
         $booking_id = $this->bookings_model->addNew($booking_record);
         if( $booking_id != "" )
         {
@@ -183,6 +185,7 @@ class Payment extends CI_Controller {
 		            	"created_by" => 0,	
 		            );
 		            $this->bookingbikes_model->addNew($bookingbikes_record);
+		            $order_snap['booking_bikes_records'][] = $bookingbikes_record;
 		        }
 		        $order_bikes .= ($order_bikes == "") ? $bike['bike_type_name']."(".$bike['quantity'].")" : ",".$bike['bike_type_name']."(".$bike['quantity'].")";
 		        $worder_bikes .= ($worder_bikes == "") ? $bike['bike_type_name']."(".$bike['quantity'].")" : ";".$bike['bike_type_name']."(".$bike['quantity'].")";
@@ -196,8 +199,14 @@ class Payment extends CI_Controller {
 	        	"created_by" => 0
 	        );
 	        $this->bookingpayment_model->addNew($booking_payment);
+	        $order_snap['booking_payment_record'] = $booking_payment;
 	        $data['payment_status'] = "Success";
 	        $data['booking_id'] = $booking_id;
+
+	        $order_history["booking_id"] = $booking_id;
+	        $order_history["order_json"] = json_encode($order_snap);
+            $order_history["created_by"] = 0;
+            $this->orderhistory_model->addNew($order_history);
 
 	        // Send Whatsapp Message
 	        sendNewOrdertoCustomer($data['user']['phone'], $data['user']['name'], $booking_id, $worder_bikes, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time'], $total, $total_paid);
