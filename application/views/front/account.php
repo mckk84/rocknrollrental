@@ -45,6 +45,19 @@
                         </ul>
                     </div>
                     <div class="col-xl-9 col-md-8 col-sm-12 mb-2 ">
+                        <?php $error = $this->session->flashdata('error');
+                        if($error) { ?>
+                        <div class="alert alert-danger">
+                            <?php echo $this->session->flashdata('error'); ?>
+                        </div>
+                        <?php } ?>
+                        <?php $success = $this->session->flashdata('success');
+                            if($success) {
+                        ?>
+                        <div class="alert alert-success alert-dismissable">
+                            <?php echo $this->session->flashdata('success'); ?>
+                        </div>
+                        <?php } ?>
                         <div class="product-details-tab-content border">
                             <div class="tab-content mt-0">
                                 <div class="tab-pane fade show active" id="basicinfo">
@@ -179,18 +192,21 @@
                                                             <td class="text-nowrap"><i class="fa fa-indian-rupee-sign me-1"></i><?=$row['booking_amount']?></td>
                                                             <td>
                                                                 <?php if( $row['status'] == 0 ){ ?>
-                                                                    <span class="text-white py-0 px-2 border rounded-5 bg-warning font-sm text-nowrap">Pre Booked</span>
+                                                                    <span class="text-white p-1 px-2 border rounded-5 bg-warning font-sm text-nowrap">Pre Booked</span>
                                                                 <?php } elseif( $row['status'] == 1 ){ ?>
-                                                                    <span class="text-white py-0 px-2 border rounded-5 bg-success font-sm">Rented</span>
-                                                                <?php }
-                                                                else { ?>
-                                                                    <span class="text-white py-0 px-2 border rounded-5 bg-info font-sm">Closed</span>
-                                                                <?php } ?>                                                                        
+                                                                    <span class="text-white p-1 px-2 border rounded-5 bg-success font-sm">Rented</span>
+                                                                <?php } elseif( $row['status'] == 2 ){ ?>
+                                                                    <span class="text-white p-1 px-2 border rounded-5 bg-success font-sm">Closed</span>
+                                                                <?php } else { ?>
+                                                                    <span class="text-white p-1 px-2 border rounded-5 bg-danger font-sm">Cancelled</span>
+                                                                <?php } ?>                                                                           
                                                             </td>
                                                             <td class="text-nowrap">
                                                                 <?php if( $row['status'] == 0 && checkOrderEdit($row['pickup_date'], $row['pickup_time']) ){ ?>
                                                                     <a title="Edit Booking" class="p-1 px-2 text-xl text-info editbooking" href="<?=base_url('Account/edit?id='.$row['id'])?>"><i class="fa fa-edit"></i></a>
                                                                     <a title="Cancel Booking" data-id="<?=$row['id']?>" class="p-1 px-2 text-xl text-danger cancellation" href="javascript:void(0)"><i class="fa fa-xmark-circle"></i></a>
+                                                                <?php } else{ ?>
+                                                                    <span class="d-inline-block p-1">N/A<span>
                                                                 <?php } ?>
                                                             </td>
                                                         </tr>
@@ -268,15 +284,18 @@
                                                                     <span class="text-white p-1 px-2 border rounded-5 bg-warning font-sm text-nowrap">Pre Booked</span>
                                                                 <?php } elseif( $row['status'] == 1 ){ ?>
                                                                     <span class="text-white p-1 px-2 border rounded-5 bg-success font-sm">Rented</span>
-                                                                <?php }
-                                                                else { ?>
-                                                                    <span class="text-white p-1 px-2 border rounded-5 bg-info font-sm">Closed</span>
+                                                                <?php } elseif( $row['status'] == 2 ){ ?>
+                                                                    <span class="text-white p-1 px-2 border rounded-5 bg-success font-sm">Closed</span>
+                                                                <?php } else { ?>
+                                                                    <span class="text-white p-1 px-2 border rounded-5 bg-danger font-sm">Cancelled</span>
                                                                 <?php } ?>                                                                        
                                                             </td>
                                                             <td class="text-nowrap">
                                                                 <?php if( $row['status'] == 0 ){ ?>
                                                                     <a data-id="<?=$row['id']?>" class="btn btn-sm p-1 btn-outline-info editbooking" href="javascript:void(0)">Edit</a>
-                                                                    <a data-id="<?=$row['booking_id']?>" class="btn btn-sm p-1 btn-outline-danger cancellation" href="javascript:void(0)">Cancel</a>
+                                                                    <a data-id="<?=$row['id']?>" class="btn btn-sm p-1 btn-outline-danger cancellation" href="javascript:void(0)">Cancel</a>
+                                                                <?php } else { ?>
+                                                                    <span class="d-inline-block p-1">N/A<span>
                                                                 <?php } ?>
                                                             </td>
                                                         </tr>
@@ -317,7 +336,7 @@
                 $(".cancellation").click(function(){
 
                     var booking_id = $(this).attr('data-id');
-                    $(".cancellation_form input[name='booking_id']").val(booking_id);
+                    $("#cancellation_form input[name='booking_id']").val(booking_id);
                     $("#cancellation_terms_view").modal("show");
 
                 });

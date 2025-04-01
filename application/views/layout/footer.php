@@ -455,7 +455,7 @@
                                 <h1 class="card-title h3">Booking Cancellation Terms</h1>
                             </div>
                             <div class="mt-4">
-                                <form id="cancellation_form" method="POST" action="<?=base_url('Cancellation')?>" class="cancellation-form">
+                                <form id="cancellation_form" method="POST" action="<?=base_url('Cancelbooking')?>" class="cancellation-form">
                                     <input type="hidden" name="booking_id" value=""> 
                                     <div class="mb-4">
                                         <p>You are about to cancel your booking.</p>
@@ -472,7 +472,7 @@
                                         <label><input type="checkbox" id="agree_cc" class="form-checkbox me-2" checked>I agree terms & conditions</label>
                                     </div>
                                     <div class="d-grid mt-2">
-                                        <button type="button" class="payment_proceed btn btn-primary btn-lg">Proceed</button>
+                                        <button type="button" class="cancel_proceed btn btn-primary btn-lg">Proceed</button>
                                     </div>
                                 </form>
                             </div>

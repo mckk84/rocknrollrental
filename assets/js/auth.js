@@ -88,7 +88,24 @@ $(document).ready(function(){
     }
     else
     {
-      $("#payment_form").prepend("<div class='alert alert-danger mt-1 mb-0'>Please check the terms and conditions to procced.</div>");
+      $("#payment_form").prepend("<div class='alert alert-danger mt-1 mb-0'>Please check the terms and conditions to proceed.</div>");
+    }
+    return false;
+  });
+
+  $(".cancel_proceed").click(function()
+  {
+    $("#cancellation_form").find(".alert").each(function(){
+        $(this).remove();
+    });
+    var check1 = $("#cancellation_form #agree_cc").prop("checked");
+    if( check1 )
+    {
+      $("#cancellation_form").submit();
+    }
+    else
+    {
+      $("#cancellation_form").prepend("<div class='alert alert-danger mt-1 mb-0'>Please check the terms and conditions to proceed.</div>");
     }
     return false;
   });
