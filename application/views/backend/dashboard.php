@@ -73,12 +73,18 @@
                         <td><?=$row['total_amount']?><br/><?=$row['paymentmode']?></td>
                         <td><?php if( $row['status'] == 0) { ?>
                           <span class="d-block mx-auto mb-1 py-2 badge bg-warning">Pre Booked</span>
+                          <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record shadow py-1 px-2 bg-info badge"><i class="bi bi-pencil-fill me-1"></i>EDIT</a>
                         <?php } else if($row['status'] == 1) { ?>
                           <span class="d-block mx-auto mb-1 py-2 badge bg-success">Rented</span>
+
+                          <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record shadow py-1 px-2 bg-info badge"><i class="bi bi-pencil-fill me-1"></i>Update</a>
+                          <?php if($user['user_type'] == "Admin"){?>
+                            <a title="Cancel Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="cancel-booking-record shadow py-1 px-2 bg-danger badge"><i class="bi bi-trash me-1"></i>Cancel</a>
+                          <?php } ?>
+
                         <?php } else { ?>
                           <span class="d-block mx-auto mb-1 py-2 badge bg-info">Closed</span>
                         <?php } ?>
-                        <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record py-1 bg-info badge small fs-8">EDIT</a>
                         </td>
                       </tr>
                        <?php } ?>

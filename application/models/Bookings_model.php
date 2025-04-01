@@ -6,7 +6,7 @@
  */
 class Bookings_model extends CI_Model
 {
-    function getAll($limit = 0)
+    function getAll($status = "",  $limit = 0)
     {
         if( $limit != 0 )
         {
@@ -20,9 +20,11 @@ class Bookings_model extends CI_Model
         $this->db->join('tbl_customers', 'tbl_customers.id = tbl_bookings.customer_id', 'left');
         $this->db->join('tbl_payment_mode', 'tbl_payment_mode.id = tbl_bookings.payment_mode', 'left');
         $this->db->join('tbl_booking_bikes', 'tbl_booking_bikes.booking_id = tbl_bookings.id', 'left');
+        if( $status != "" )
+        {
+            $this->db->where('tbl_bookings.status IN ( '.$status.' )');    
+        }
         $query = $this->db->get();
-        //echo $this->db->last_query();
-        //die();
         if ($query->num_rows() > 0){
             return $query->result_array();
         } else {

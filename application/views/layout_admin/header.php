@@ -44,14 +44,21 @@
     </div><!-- End Logo -->
 
     <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">   
 
-        <li class="nav-item dropdown pe-3">
+      <ul class="d-flex align-items-center me-2">   
 
+        <li class="nav-item dropdown pe-4">
+          <a class="nav-link nav-profile <?=($user['user_type']=="Admin")?"text-danger":"text-info"?> d-flex align-items-center pe-0" href="#">
+            <i class="bi bi-circle-fill align-middle mt-1"></i>
+            <span class="d-none d-md-block  fw-bold ps-1"><?=$user['user_type']?></span>
+          </a>
+        </li>
+
+        <li class="nav-item dropdown pe-1">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-person"></i>
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?=$user['name']?></span>
-          </a><!-- End Profile Iamge Icon -->
+            <i class="bi bi-person align-middle mt-1"></i>
+            <span class="d-none d-md-block dropdown-toggle ps-1"><?=$user['name']?></span>
+          </a>
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li>
@@ -106,9 +113,9 @@
       </li> -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="<?=base_url('admin/Bookings')?>">
+        <a class="nav-link collapsed" href="<?=base_url('admin/Bookings?status=0')?>">
           <i class="bi bi-card-list"></i>
-          <span>Bookings</span>
+          <span>New Bookings</span>
         </a>
       </li>
 
@@ -119,7 +126,7 @@
         <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
           <li>
             <a href="<?=base_url('admin/Bookings')?>">
-              <i class="bi bi-card-list"></i><span>Online Bookings</span>
+              <i class="bi bi-card-list"></i><span>Bookings</span>
             </a>
           </li>
           <li>
@@ -217,8 +224,6 @@
           </li>
         </ul>
       </li><!-- End Tables Nav -->
-    
-
     </ul>
 
   </aside><!-- End Sidebar-->

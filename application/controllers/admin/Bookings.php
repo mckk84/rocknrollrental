@@ -38,11 +38,12 @@ class Bookings extends CI_Controller
         }
         else
         {
+            $status = isset($_GET['status']) ? intval($_GET['status']) : ""; 
             $data['user'] = $this->session->userdata();
             $data['page_title'] = "Bookings";
             $biketypes = $this->biketypes_model->getAll();
             $data['biketypes'] = result_to_array($biketypes);
-            $data['records'] = $this->bookings_model->getAll();
+            $data['records'] = $this->bookings_model->getAll($status);
             
             $this->load->view('layout_admin/header', $data);
             $this->load->view('backend/bookings', $data);
