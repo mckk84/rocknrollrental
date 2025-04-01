@@ -112,6 +112,13 @@ class Cart extends CI_Controller {
         $this->load->view('layout/footer');
 	}
 
+	public function cancel()
+	{
+		$this->session->set_userdata("cart", array());
+		$this->session->set_userdata("order", array());
+		redirect('/Cart');
+	}
+
 	public function addtoCart()
 	{
 		if( isset($_POST) && count($_POST) > 0 )

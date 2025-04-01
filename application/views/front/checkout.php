@@ -20,7 +20,7 @@
         <?php if( isset($order) && is_array($order) && count($order) > 0 ){?>
         <div class="row">
             <div class="col-xl-6">
-                <p class="m-1 mb-2 font-bold fs-7"><b><?=$order['order']['customer']['name']?></b>, You are editing Booking Order: <b>#<?=$order['order']['booking_id']?></b></p>
+                <p class="m-1 mb-2 font-bold fs-7"><b><?=$order['order']['customer']['name']?></b>, You are editing Booking Order: <b>#<?=$order['order']['booking_id']?></b><a class="d-inline-block btn btn-sm btn-danger py-1 px-2 text-white mx-3" title="Cancel Editing Order" href="<?=base_url('/Cart/cancel')?>">Cancel</a></p>
             </div>
         </div>
         <?php } ?>

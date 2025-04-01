@@ -19,8 +19,8 @@
     <div class="container">
         <?php if( isset($order) && is_array($order) && count($order) > 0 ){?>
         <div class="row">
-            <div class="col-xl-6">
-                <p class="m-1 mb-2 font-bold fs-7"><b><?=$order['order']['customer']['name']?></b>, You are editing Booking Order: <b>#<?=$order['order']['booking_id']?></b></p>
+            <div class="col-xl-6 col-sm-12">
+                <p class="m-1 mb-2 font-bold fs-7"><b><?=$order['order']['customer']['name']?></b>, You are editing Booking Order: <b>#<?=$order['order']['booking_id']?></b><a class="d-inline-block btn btn-sm btn-danger py-1 px-2 text-white mx-3" title="Cancel Editing Order" href="<?=base_url('/Cart/cancel')?>">Cancel</a></p>
             </div>
         </div>
         <?php } ?>
@@ -493,6 +493,31 @@
                                 </td>
                             </tr>                                                           
                         </table>
+                        <?php if( isset($order) && is_array($order) && count($order) > 0 ){?>
+                        <table class="table rounded">
+                            <tr class="bg-eq-primary">
+                                <th colspan="2" class="text-center fw-bold p-1">Order Changes</th>
+                            </tr>
+                            <tr>
+                                <td class="text-start text-success fw-bold">Paid</td>
+                                <td class="fw-bold text-success text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$order['order']['booking_amount']?></span></td>
+                            </tr>
+                            <?php if( $total > $order['order']['booking_amount'] ){ ?>
+                            <tr>
+                                <td class="text-start text-success fw-bold">Balance</td>
+                                <td class="fw-bold text-success text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$total - $order['order']['booking_amount']?></span>
+                                </td>
+                            </tr>
+                            <?php } else {?>
+                            <tr>
+                                <td class="text-start text-success fw-bold">Balance</td>
+                                <td class="fw-bold text-success text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$total - $order['order']['booking_amount']?></span>
+                                    <span class="d-block text-info fw-normal text-sm">Negative amount will be settled at the time of pickup.</span>
+                                </td>
+                            </tr>    
+                            <?php } ?>
+                        </table>
+                        <?php } ?>
                         <div class="d-flex flex-column px-4 pb-4 pt-2">
                             <form method="POST" action="<?=base_url('Checkout')?>">
                                 <?php if( $cart['early_pickup'] == 1 || $cart['pickup_time'] == '07:30 AM' ){?>
