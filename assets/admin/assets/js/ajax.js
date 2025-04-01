@@ -673,6 +673,43 @@ $(document).ready(function(){
         });
     });
 
+    //delete manaufacturer
+    $(".cancel-booking-record").click(function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        var result = confirm("Are you sure to Cancel the Order?");
+        if (result==false) {
+           return true;
+        }       
+
+        let id = $(this).attr('record-data');
+        let url = booking_url+"/cancel/"+id;
+        
+        $.ajax({
+            url: url,
+            method: 'GET',
+            contentType: 'application/json',
+            success: function(data) {
+                var d = JSON.parse(data);
+                //console.log(d);
+                if( d.error == 1 )
+                {
+                    $(".showalert").append("<div class='alert alert-danger mt-1 mb-0'>"+d.error_message+"</div>");
+                }
+                else
+                {
+                    $(".showalert").append("<div class='alert alert-success mt-1 mb-0'>"+d.success_message+"</div>");
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 500);
+                }
+            },
+            error: function(request,msg,error) {
+                console.log(error);
+            }
+        });
+    });
+
     // add public holiday
     $("#submitpublicholiday").click(function (event) {
         event.preventDefault(); // Prevent default form submission
@@ -1425,5 +1462,6 @@ $(document).ready(function(){
 		    }
 		});
     });
+
 
 })

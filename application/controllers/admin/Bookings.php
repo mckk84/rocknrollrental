@@ -183,7 +183,6 @@ class Bookings extends CI_Controller
             $response["data"] = $data;
             die(json_encode($response));
         }
-            
     }
 
     public function getBikeTypes()
@@ -845,6 +844,60 @@ class Bookings extends CI_Controller
 
             die(json_encode($response));
         }
+    }
+
+    public function cancel()
+    {
+        $record_id = intval($this->uri->segment(4));
+        $response = array("error" => 0, "error_message" => "", "success_message" => "");
+        $user = $this->session->userdata();
+
+        if( $user['user_type'] !== "Admin" )
+        {
+            $response["error"] = 1;
+            $response["error_message"] = "Your have no permission.";   
+            die(json_encode($response));
+        }
+        if( $record_id == 0 )
+        {   
+            $response["error"] = 1;
+            $response["error_message"] = "Invalid Request";
+            die(json_encode($response));
+        }
+        
+        $data['record'] = $this->bookings_model->getById($record_id);
+        if( count($data['record']) == 0 )
+        {   
+            $response["error"] = 1;
+            $response["error_message"] = "Record not found";
+        }
+        else
+        {
+            if( $data['record']['status'] == 0 )
+            {
+                $order_snap = [];
+
+                $booking_record = array(
+                    "status" => 3,
+                    "cancel" => 1,
+                    "cancel_by" => $user['userId'],
+                    "cancel_date" => date("Y-m-d H:i:s")  
+                );
+                $this->bookings_model->updateRecord($booking_record, $record_id);
+                $order_snap['booking_record'] = $booking_record;
+
+                $order_history["booking_id"] = $record_id;
+                $order_history["order_json"] = json_encode($order_snap);
+                $order_history["created_by"] = $user['userId'];
+                $this->orderhistory_model->addNew($order_history);
+            }
+
+            $response["error"] = 0;
+            $response["error_message"] = "";
+            $response["success_message"] = "Record updated successfully";
+        }
+        
+        die(json_encode($response));
     }
 
     public function deleteRecord()
