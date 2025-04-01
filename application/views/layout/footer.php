@@ -146,6 +146,9 @@
     <div class="modal fade" id="bike_customize">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content product_modal px-2 py-2">
+                <div class="close-btn-wrapper text-end">
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
                 <div class="at_product_view">
                     <div class="card w-100 bg-white border-0"  style="max-width: 480px;">
                         <div class="card-body p-1">
