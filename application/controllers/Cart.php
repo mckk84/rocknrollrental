@@ -16,6 +16,8 @@ class Cart extends CI_Controller {
 		$data['cart']['public_holiday'] = 0;
 
 		$session_cart = $this->session->userdata("cart");
+		$session_order = $this->session->userdata("order");
+		$data['order'] = $session_order;
 
 		if( isset($session_cart['bike_ids']) && $session_cart['bike_ids'] != "" )
 		{
@@ -59,6 +61,21 @@ class Cart extends CI_Controller {
 
 			$data['cart']['cart_bikes'] = $this->searchbike_model->getCartBikes($bike_id_string, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time']);
 
+			if( isset($session_order) && count($session_order) > 0 )
+			{
+				foreach($data['cart']['cart_bikes'] as $i => $row)
+				{
+					foreach($session_order['order']['order_cart_bikes'] as $orow)
+					{
+						if( $row['bike_type_id'] == $orow['type_id'] )
+						{
+							$row['bikes_available'] = $row['bikes_available'] + $orow['bikes_qty'];
+							$data['cart']['cart_bikes'][$i] = $row;
+						}
+					}
+				}
+			}
+
 			foreach($data['cart']['cart_bikes'] as $index => $bike)
 			{
 				foreach($bike_ids as $i => $obj) 
@@ -87,6 +104,7 @@ class Cart extends CI_Controller {
 		else
 		{
 			$this->session->set_userdata("cart", array());
+			$this->session->set_userdata("order", array());
 		}
 
         $this->load->view('layout/header', $data);

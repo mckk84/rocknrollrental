@@ -88,3 +88,4 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 
 defined('BIKE_UPLOAD_PATH') 	OR define('BIKE_UPLOAD_PATH', $_SERVER['DOCUMENT_ROOT']."/rocknrollrental/bikes/");
+defined('LOG_FILE')				OR define('LOG_FILE', $_SERVER['DOCUMENT_ROOT']."/rocknrollrental/application/logs/session.log");

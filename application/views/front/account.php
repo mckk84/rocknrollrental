@@ -188,7 +188,7 @@
                                                                 <?php } ?>                                                                        
                                                             </td>
                                                             <td class="text-nowrap">
-                                                                <?php if( $row['status'] == 0 ){ ?>
+                                                                <?php if( $row['status'] == 0 && checkOrderEdit($row['pickup_date'], $row['pickup_time']) ){ ?>
                                                                     <a title="Edit Booking" class="p-1 px-2 text-xl text-info editbooking" href="<?=base_url('Account/edit?id='.$row['id'])?>"><i class="fa fa-edit"></i></a>
                                                                     <a title="Cancel Booking" data-id="<?=$row['id']?>" class="p-1 px-2 text-xl text-danger cancellation" href="javascript:void(0)"><i class="fa fa-xmark-circle"></i></a>
                                                                 <?php } ?>

@@ -54,6 +54,25 @@ class Bookingbikes_model extends CI_Model
     }  
 
     
+    function getByBookingIdGroup($booking_id)
+    {
+        $this->db->group_by('tbl_booking_bikes.type_id');
+        $this->db->select(' GROUP_CONCAT(tbl_booking_bikes.type_id) as type_id, GROUP_CONCAT(tbl_booking_bikes.quantity) as bikes_qty, tbl_bike_types.type, tbl_bikes.vehicle_number, tbl_bike_types.image');
+        $this->db->from('tbl_booking_bikes');
+        $this->db->join('tbl_bike_types', 'tbl_booking_bikes.type_id = tbl_bike_types.id', 'left');
+        $this->db->join('tbl_bikes', 'tbl_booking_bikes.bike_id = tbl_bikes.id', 'left');
+        $this->db->where('booking_id', $booking_id);
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0)
+        {
+            return $query->result_array();
+        } else {
+            return array();
+        }
+    }
+
+    
     function getByTypeId($booking_id, $type_id)
     {
         $this->db->limit(1);

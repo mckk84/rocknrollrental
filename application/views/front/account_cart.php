@@ -143,7 +143,7 @@
                         </table>                        
                     </div>
                     <div class="addons_table table-bottom d-flex flex-wrap align-items-center justify-content-between bg-white mt-4 pt-4 pt-lg-0 mt-lg-0">
-                        <form method="POST" id="coupon_form" action="<?=base_url('Checkout/coupon')?>" class="d-flex align-items-center flex-wrap">
+                        <form method="POST" id="coupon_form" action="<?=base_url('Account/coupon')?>" class="d-flex align-items-center flex-wrap">
                             <input type="text" class="text-dark" name="coupon_code" placeholder="Coupon code" required value="<?=isset($cart['coupon_code'])?$cart['coupon_code']:""?>" maxlength="20">
                             <?php if( !isset($cart['coupon_code']) || $cart['coupon_code'] == "" ) {?>
                             <button type="button" class="coupon_apply btn btn-secondary btn-md">Apply Now</button>
@@ -644,11 +644,12 @@ $(document).ready(function(){
     }
 
 
-    function addtoCart(bike_id)
+    function addtoCart(bike_id, qty)
     {
         var url = '<?=base_url('Account/addtoCart')?>';
         var formdata = {
-            bike_id:bike_id
+            bike_ids:bike_id,
+            qty:qty
         };
         $("#available_bikes a[bike-id='"+bike_id+"']").html("<span class='spinner-border spinner-border-sm text-info' role='status' aria-hidden='true'></span>");
         $.ajax({
@@ -671,6 +672,68 @@ $(document).ready(function(){
             },
             error:function(response){
                 $("#available_bikes a[bike-id='"+bike_id+"']").html("Error Occured");
+            }
+        });
+    }
+
+    function updateHelmets(helmet_qty) 
+    {
+        var url = '<?=base_url('Account/updateCart')?>';
+        var formdata = {
+            helmet_qty:helmet_qty
+        };
+        $(".cart_error").html("<span class='spinner-border spinner-border-sm text-info' role='status' aria-hidden='true'></span>");
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            data: formdata, // Serialize form data
+            success: function (response) {
+                console.log(response);
+                if( response.error == 1 )
+                {
+                    $(".cart_error").html("Error Occured");
+                }
+                else
+                {
+                    $(".cart_error").html("Success");
+                    window.location.reload();
+                }
+            },
+            error:function(response){
+                $(".cart_error").html("Error Occured");
+            }
+        });    
+    }
+
+    function removefromCart(bike_id, qty)
+    {
+        var url = '<?=base_url('Account/deletefromCart')?>';
+        var formdata = {
+            bike_ids:bike_id,
+            qty:qty
+        };
+        $(".cart_error").html("<span class='spinner-border spinner-border-sm text-info' role='status' aria-hidden='true'></span>");
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            data: formdata, // Serialize form data
+            success: function (response) {
+                console.log(response);
+                if( response.error == 1 )
+                {
+                    $(".cart_error").html("Error Occured");
+                }
+                else
+                {
+                    $(".cart_error").html("Success");
+                    $("#add-more-bikes").modal('hide');
+                    window.location.reload();
+                }
+            },
+            error:function(response){
+                $(".cart_error").html("Error Occured");
             }
         });
     }
@@ -906,7 +969,7 @@ $(document).ready(function(){
             pickupdate = $(this).val();
             /*var temp = pickupdate.split('-');
             pickupdate = temp[2]+"-"+temp[1]+"-"+temp[0];*/
-            $("#search_bikes #dropoffdate").val(pickupdate);
+            $("#search_bikes #dropoff_date").val(pickupdate);
             var pd = $("#search_bikes #pickup_date").val();
             const date1 = moment(today_date);
             const date2 = moment(pd);
@@ -967,11 +1030,12 @@ $(document).ready(function(){
         checkbikesubmitform();
     });
 
-    function cartdelete(bikeId) 
+   /* function cartdelete(bikeId) 
     {
         $(".cartbikes").find('[data-id="'+bikeId+'"]').remove();
-        $("#cartform").submit();    
-    }
+        var qty = $(".cartbikes .cart-input").val();
+        removefromCart(bikeId, qty);
+    }*/
 
     $("input[name='add_helmet']").on("change", function () {
         if ($(this).is(":checked")) {
@@ -1011,7 +1075,6 @@ $(document).ready(function(){
     {
         var v = $(this).siblings(".cart-input").val();
         var v = parseInt(v);
-        console.log(v);
         var available = parseInt($(this).siblings(".cart-input").attr('data-available'));
         var bike_id = $(this).siblings(".cart-input").attr('data-bike');
         var bikesincart = localStorage.getItem("bikesincart");
@@ -1023,7 +1086,7 @@ $(document).ready(function(){
         {
             v = parseInt(v) + 1;
             $(this).siblings(".cart-input").val(v);    
-            $("#cartform").submit();
+            addtoCart(bike_id, 1);
         }
         else
         {
@@ -1044,13 +1107,17 @@ $(document).ready(function(){
             return false;
         }
         $(this).siblings(".cart-input").val(v);
-        $("#cartform").submit();
-
+        var bike_id = $(this).siblings(".cart-input").attr('data-bike');
+        removefromCart(bike_id, 1);
     });
 
-    $(".cart-delete").click(function(){
+    $(".cart-delete").click(function()
+    {
         var bikeId = $(this).attr("bike-id");
-        cartdelete(bikeId);   
+        var eletr = $(".cartbikes").find('[data-id="'+bikeId+'"]').eq(0);
+        var qty = eletr.find('.cart-input').val();
+        removefromCart(bikeId, qty);   
+        $(".cartbikes").find('[data-id="'+bikeId+'"]').remove();
     });
 
     $(".cart-hminus").click(function()
@@ -1062,8 +1129,7 @@ $(document).ready(function(){
         v = parseInt(v) - 1;
         $(".cart-helmets").val(v);
         $("#cartform input[name='helmets_qty']").val(v);
-    
-        $("#cartform").submit();
+        updateHelmets(v);
     });
 
     $(".cart-hplus").click(function()
@@ -1092,7 +1158,7 @@ $(document).ready(function(){
         console.log(v);
         $(".cart-helmets").val(v);
         $("#cartform input[name='helmets_qty']").val(v);
-        $("#cartform").submit();
+        updateHelmets(v);
     });
 
     $(".coupon_apply").click(function()

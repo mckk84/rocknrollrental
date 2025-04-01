@@ -17,6 +17,13 @@
 <!--shopping cart-->
 <section class="shopping-cart ptb-60">
     <div class="container">
+        <?php if( isset($order) && is_array($order) && count($order) > 0 ){?>
+        <div class="row">
+            <div class="col-xl-6">
+                <p class="m-1 mb-2 font-bold fs-7"><b><?=$order['order']['customer']['name']?></b>, You are editing Booking Order: <b>#<?=$order['order']['booking_id']?></b></p>
+            </div>
+        </div>
+        <?php } ?>
         <div class="row">
             <div class="col-xxl-8">
                 <?php if( !isset($user) || !isset($user['Authorization']) || ( isset($user['Authorization']) && $user['Authorization'] == false) ) { ?>
@@ -315,6 +322,7 @@
                                 <td class="text-start fw-bold">Total</td>
                                 <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$total;?></td>
                             </tr>
+                            <?php $paying = $total; ?>
                             <tr>
                                 <td class="text-start fw-bold">
                                     Paying Now
@@ -324,11 +332,38 @@
                                 </td>
                                 <?php if($cart['paymentOption'] == "PAY_FULL"){?>
                                 <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=$total?></td>
-                                <?php } else { ?>
+                                <?php } else { 
+                                    $paying = round( $total /2 , 2);
+                                    ?>
                                 <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i> <?=round( $total /2 , 2);?></td>
                                 <?php } ?>
                             </tr>                                                           
                         </table>
+                        <?php if( isset($order) && is_array($order) && count($order) > 0 ){?>
+                        <table class="table rounded">
+                            <tr class="bg-eq-primary">
+                                <th colspan="2" class="text-center fw-bold p-1">Order Changes</th>
+                            </tr>
+                            <tr>
+                                <td class="text-start text-success fw-bold">Paid</td>
+                                <td class="fw-bold text-success text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$order['order']['booking_amount']?></span></td>
+                            </tr>
+                            <?php if( $total > $order['order']['booking_amount'] ){ ?>
+                            <tr>
+                                <td class="text-start text-success fw-bold">Balance</td>
+                                <td class="fw-bold text-success text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$paying - $order['order']['booking_amount']?></span>
+                                </td>
+                            </tr>
+                            <?php } else {?>
+                            <tr>
+                                <td class="text-start text-success fw-bold">Balance</td>
+                                <td class="fw-bold text-success text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$paying - $order['order']['booking_amount']?></span>
+                                    <span class="d-block text-info fw-normal text-sm">Negative amount will be settled at the time of pickup.</span>
+                                </td>
+                            </tr>    
+                            <?php } ?>
+                        </table>
+                        <?php } ?>
                         <div class="d-flex flex-column p-4">
                             <?php if( isset($user) && ( isset($user['Authorization']) && $user['Authorization'] == true) ) { ?>
                             <form class="pay_payment_form" method="POST" action="<?=base_url('Payment')?>">

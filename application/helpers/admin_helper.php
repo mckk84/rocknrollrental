@@ -5,6 +5,25 @@ function checkMobile()
     return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
 }
 
+function checkOrderEdit($date, $time)
+{
+    return true;
+    $date1=date_create($date." ".$time);
+    $date2=date_create(date("Y-m-d H:i A"));
+    $diff=date_diff($date2,$date1);
+    $s = $diff->format("%R");
+    $d = $diff->format("%a");
+    if( $s == '-' )
+    {
+        return false;
+    }
+    if( $d == 0 )
+    {
+        return false;
+    }
+    return true;
+}
+
 function getNewImage($target_folder, $name, $imageFileType)
 {
     $temp_image_name = ucwords(strtolower($name));

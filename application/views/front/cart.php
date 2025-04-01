@@ -17,6 +17,14 @@
 <!--shopping cart-->
 <section class="shopping-cart ptb-60">
     <div class="container">
+        <?php if( isset($order) && is_array($order) && count($order) > 0 ){?>
+        <div class="row">
+            <div class="col-xl-6">
+                <p class="m-1 mb-2 font-bold fs-7"><b><?=$order['order']['customer']['name']?></b>, You are editing Booking Order: <b>#<?=$order['order']['booking_id']?></b></p>
+            </div>
+        </div>
+        <?php } ?>
+ 
         <?php if( isset($cart) && isset($cart['cart_bikes']) ) {
 
         $isMobile = checkMobile();
@@ -216,12 +224,6 @@
                                 <td class="text-start fw-bold">Total</td>
                                 <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$total?></span></td>
                             </tr>
-                            <?php if( isset($cart['booking_amount']) &&  $cart['booking_amount'] > 0){?>
-                            <tr>
-                                <td class="text-start text-success fw-bold">Paid</td>
-                                <td class="fw-bold text-success text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$cart['booking_amount']?></span></td>
-                            </tr>    
-                            <?php } ?>
                             <tr>
                                 <td class="text-start text-warning fw-bold border-0">Refundable Deposit / Vehicle
                                     <span class="d-block text-gray fw-normal text-sm">To be paid at the time of pickup</span></td>
@@ -230,6 +232,31 @@
                                 </td>
                             </tr>                                                           
                         </table>
+                        <?php if( isset($order) && is_array($order) && count($order) > 0 ){?>
+                        <table class="table rounded">
+                            <tr class="bg-eq-primary">
+                                <th colspan="2" class="text-center fw-bold p-1">Order Changes</th>
+                            </tr>
+                            <tr>
+                                <td class="text-start text-success fw-bold">Paid</td>
+                                <td class="fw-bold text-success text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$order['order']['booking_amount']?></span></td>
+                            </tr>
+                            <?php if( $total > $order['order']['booking_amount'] ){ ?>
+                            <tr>
+                                <td class="text-start text-success fw-bold">Balance</td>
+                                <td class="fw-bold text-success text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$total - $order['order']['booking_amount']?></span>
+                                </td>
+                            </tr>
+                            <?php } else {?>
+                            <tr>
+                                <td class="text-start text-success fw-bold">Balance</td>
+                                <td class="fw-bold text-success text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block"><?=$total - $order['order']['booking_amount']?></span>
+                                    <span class="d-block text-info fw-normal text-sm">Negative amount will be settled at the time of pickup.</span>
+                                </td>
+                            </tr>    
+                            <?php } ?>
+                        </table>
+                        <?php } ?>
                         <div class="d-flex flex-column px-4 pb-4 pt-2">
                             <form method="POST" action="<?=base_url('Checkout')?>">
                                 <?php if( $cart['early_pickup'] == 1 || $cart['pickup_time'] == '07:30 AM' || $cart['pickup_time'] == '08:00 AM'){?>

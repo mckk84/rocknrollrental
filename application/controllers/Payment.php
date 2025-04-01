@@ -21,159 +21,172 @@ class Payment extends CI_Controller {
 		$data['cart_bikes'] = array();
 
 		$data['cart'] = $this->session->userdata("cart");
-		$bike_ids = json_decode($data['cart']['bike_ids']);
+		$session_order = $this->session->userdata("order");
+		$data['order'] = $session_order;
 
-		$data['payment_status'] = "Failed";
-
-		$data['cart']['notes'] = "";
-
-		if( isset($_POST) && count($_POST) > 0 )
+		if( is_array($data['order']) && count($data['order']) > 0 )
 		{
-			$data['cart']['notes'] = trim($this->input->post('notes'));
-		}
-		
-		if( isset($bike_ids) && is_array($bike_ids) && count($bike_ids) > 0 )
-		{
-			$bike_id_string = "";
-			foreach($bike_ids as $i => $obj) 
+			// update the order.
+			$bike_ids = json_decode($data['cart']['bike_ids']);
+			$data['payment_status'] = "Failed";
+			$data['cart']['notes'] = "";
+
+			if( isset($_POST) && count($_POST) > 0 )
 			{
-		        $bike_id_string .= ($bike_id_string == "") ? $obj->bike_id: ",".$obj->bike_id;
-		    }
-		}
-		else
-		{
-			$this->session->set_userdata("cart", array());
-			redirect();
-		}
-
-		if( $data['cart']['coupon_code'] != "" ) {
-			$coupon = $this->coupons_model->getByCode($data['cart']['coupon_code']);
-			$data['cart']['coupon_code'] = $coupon['code'];
-			$data['cart']['coupon_type'] = $coupon['type'];
-			$data['cart']['coupon_discount'] = $coupon['discount_amount']; 
-		}else{
-			$data['cart']['coupon_code'] = "";
-			$data['cart']['coupon_type'] = "";
-			$data['cart']['coupon_discount'] = 0; 
-		}
-
-		$d1= new DateTime($data['cart']['dropoff_date']." ".$data['cart']['dropoff_time']); // first date
-		$d2= new DateTime($data['cart']['pickup_date']." ".$data['cart']['pickup_time']); // second date
-		$interval= $d1->diff($d2);
-		$data['cart']['period_days'] = $interval->days;
-		$data['cart']['period_hours'] = $interval->h; 
-
-		$date=date_create($data['cart']['pickup_date']);
-		$day = date_format($date,"D");
-		if( $day == 'Sat' || $day == 'Sun' )
-		{
-			$data['cart']['weekend'] = 1;
-		}
-		$res = $this->publicholidays_model->checkRecordExists(dateformatdb($data['cart']['pickup_date']));
-		if( $res )
-		{
-			$data['cart']['public_holiday'] = 1;
-		}
-		
-		$data['cart']['cart_bikes'] = $this->searchbike_model->getCartBikes($bike_id_string, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time']);
-
-		$subtotal = 0;
-        $gst = 0;
-        $total = 0;
-        $helmets_total = 0;
-        $bikes_quantity = 0;
-        $refund_amount = 1000;
-        $discount = 0;
-		foreach($data['cart']['cart_bikes'] as $index => $bike) 
-        {
-        	foreach($bike_ids as $i => $obj) 
+				$data['cart']['notes'] = trim($this->input->post('notes'));
+			}
+			
+			if( isset($bike_ids) && is_array($bike_ids) && count($bike_ids) > 0 )
 			{
-				if($obj->bike_id == $bike['type_id'])
+				$bike_id_string = "";
+				foreach($bike_ids as $i => $obj) 
 				{
-					$bike['quantity'] = $obj->qty;
-					break;
-				}
-		    }
-			    
-        	$bikes_quantity = $bikes_quantity + $bike['quantity'];
-            $rent_price = $bike['rent_price'];
-            $subtotal += $rent_price * $bike['quantity'];
-            $data['cart']['cart_bikes'][$index] = $bike;
-        }
-        $total = $subtotal;
-        if( $data['cart']['coupon_code'] != "" ) {
-	        if( $data['cart']['coupon_type'] == 'percent' )
+			        $bike_id_string .= ($bike_id_string == "") ? $obj->bike_id: ",".$obj->bike_id;
+			    }
+			}
+			else
+			{
+				$this->session->set_userdata("cart", array());
+				$this->session->set_userdata("order", array());
+				redirect();
+			}
+
+			if( $data['cart']['coupon_code'] != "" ) {
+				$coupon = $this->coupons_model->getByCode($data['cart']['coupon_code']);
+				$data['cart']['coupon_code'] = $coupon['code'];
+				$data['cart']['coupon_type'] = $coupon['type'];
+				$data['cart']['coupon_discount'] = $coupon['discount_amount']; 
+			}else{
+				$data['cart']['coupon_code'] = "";
+				$data['cart']['coupon_type'] = "";
+				$data['cart']['coupon_discount'] = 0; 
+			}
+
+			$d1= new DateTime($data['cart']['dropoff_date']." ".$data['cart']['dropoff_time']); // first date
+			$d2= new DateTime($data['cart']['pickup_date']." ".$data['cart']['pickup_time']); // second date
+			$interval= $d1->diff($d2);
+			$data['cart']['period_days'] = $interval->days;
+			$data['cart']['period_hours'] = $interval->h; 
+
+			$date=date_create($data['cart']['pickup_date']);
+			$day = date_format($date,"D");
+			if( $day == 'Sat' || $day == 'Sun' )
+			{
+				$data['cart']['weekend'] = 1;
+			}
+			$res = $this->publicholidays_model->checkRecordExists(dateformatdb($data['cart']['pickup_date']));
+			if( $res )
+			{
+				$data['cart']['public_holiday'] = 1;
+			}
+			
+			$data['cart']['cart_bikes'] = $this->searchbike_model->getCartBikes($bike_id_string, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time']);
+
+			$subtotal = 0;
+	        $gst = 0;
+	        $total = 0;
+	        $helmets_total = 0;
+	        $bikes_quantity = 0;
+	        $refund_amount = 1000;
+	        $discount = 0;
+			foreach($data['cart']['cart_bikes'] as $index => $bike) 
 	        {
-	            $discount = round($subtotal * ($data['cart']['coupon_discount'] / 100));
-	        }else{
-	            $discount = $data['cart']['coupon_discount'];
+	        	foreach($bike_ids as $i => $obj) 
+				{
+					if($obj->bike_id == $bike['type_id'])
+					{
+						$bike['quantity'] = $obj->qty;
+						break;
+					}
+			    }
+				    
+	        	$bikes_quantity = $bikes_quantity + $bike['quantity'];
+	            $rent_price = $bike['rent_price'];
+	            $subtotal += $rent_price * $bike['quantity'];
+	            $data['cart']['cart_bikes'][$index] = $bike;
 	        }
-	    }
-        if( isset($data['cart']['helmets_qty']) && $data['cart']['helmets_qty'] > 0 )
-        {
-            $helmets_price = 50;
-            $helmets_total = $data['cart']['helmets_qty'] * $helmets_price;
-            $total += $helmets_total;
-        }
-        else
-        {
-        	$data['cart']['helmets_qty'] = 0;
-        }
-        if( isset($data['cart']['early_pickup']) && $data['cart']['early_pickup'] > 0 )
-        {
-            $total += $bikes_quantity * 200;
-        }
-        else
-        {
-        	$data['cart']['early_pickup'] = 0;
-        }
-      	
-      	$total = $total - $discount;
+	        $total = $subtotal;
+	        if( $data['cart']['coupon_code'] != "" ) {
+		        if( $data['cart']['coupon_type'] == 'percent' )
+		        {
+		            $discount = round($subtotal * ($data['cart']['coupon_discount'] / 100));
+		        }else{
+		            $discount = $data['cart']['coupon_discount'];
+		        }
+		    }
+	        if( isset($data['cart']['helmets_qty']) && $data['cart']['helmets_qty'] > 0 )
+	        {
+	            $helmets_price = 50;
+	            $helmets_total = $data['cart']['helmets_qty'] * $helmets_price;
+	            $total += $helmets_total;
+	        }
+	        else
+	        {
+	        	$data['cart']['helmets_qty'] = 0;
+	        }
+	        if( isset($data['cart']['early_pickup']) && $data['cart']['early_pickup'] > 0 )
+	        {
+	            $total += $bikes_quantity * 200;
+	        }
+	        else
+	        {
+	        	$data['cart']['early_pickup'] = 0;
+	        }
+	      	
+	      	$total = $total - $discount;
 
-        $gst = round($subtotal * 0.05, 2);
-        $total_paid = 0;
-        $refund_amount = $refund_amount * $bikes_quantity;
+	        $gst = round($subtotal * 0.05, 2);
+	        $total_paid = 0;
+	        $refund_amount = $refund_amount * $bikes_quantity;
 
-        if( $data['cart']['paymentOption'] == "PAY_FULL" )
-        {
-        	$total_paid = $total;
-        }
-        else
-        {
-        	$total_paid = round($total/2, 2);
-        }
+	        if( $data['cart']['paymentOption'] == "PAY_FULL" )
+	        {
+	        	$total_paid = $total;
+	        }
+	        else
+	        {
+	        	$total_paid = round($total/2, 2);
+	        }
 
-        $pmode_row = $this->paymentmode_model->getIdByMode($data['cart']['paymentOption']);
-        $order_snap = [];
-        // INSERT RECORDS
-        $booking_record = array(
-            	"customer_id" => $data['user']['userId'],
-            	"quantity" => $bikes_quantity,
-            	"helmet_quantity" => $data['cart']['helmets_qty'],
-            	"free_helmet" => $data['cart']['free_helmet'],
-            	"booking_amount" => $total_paid,
-            	"total_amount" => $total,
-            	"refund_amount" => $refund_amount,
-            	"refund_status" => 0,
-            	"gst" => $gst,
-            	"payment_mode" => $pmode_row['id'],
-            	"status" => 0,
-            	"early_pickup" => $data['cart']['early_pickup'],
-            	"pickup_date" => dateformatdb($data['cart']['pickup_date']),
-            	"pickup_time" => $data['cart']['pickup_time'],
-            	"dropoff_date" => dateformatdb($data['cart']['dropoff_date']),
-            	"dropoff_time" => $data['cart']['dropoff_time'],
-            	"notes" => $data['cart']['notes'],
-            	"coupon_code" => $data['cart']['coupon_code'],
-            	"discount" => $discount,
-            	"created_by" => 0,	
-            );
-        $order_bikes = "";
-        $worder_bikes = "";
-        $order_snap['booking_record'] = $booking_record;
-        $booking_id = $this->bookings_model->addNew($booking_record);
-        if( $booking_id != "" )
-        {
+	        $pmode_row = $this->paymentmode_model->getIdByMode($data['cart']['paymentOption']);
+
+	        $booking_id = $data['order']['order']['booking_id'];
+	        $paid = $data['order']['order']['booking_amount'];
+	        $new_payment = 0;
+	        if( $total > $paid )
+	        {
+	        	$paid = $paid + ($total - $paid);
+	        	$new_payment = $total - $paid;
+	        }
+	        $order_snap = [];
+	        $booking_record = array(
+	            	"quantity" => $bikes_quantity,
+	            	"helmet_quantity" => $data['cart']['helmets_qty'],
+	            	"free_helmet" => $data['cart']['free_helmet'],
+	            	"booking_amount" => $paid,
+	            	"total_amount" => $total,
+	            	"refund_amount" => $refund_amount,
+	            	"refund_status" => 0,
+	            	"gst" => $gst,
+	            	"payment_mode" => $pmode_row['id'],
+	            	"status" => 0,
+	            	"early_pickup" => $data['cart']['early_pickup'],
+	            	"pickup_date" => dateformatdb($data['cart']['pickup_date']),
+	            	"pickup_time" => $data['cart']['pickup_time'],
+	            	"dropoff_date" => dateformatdb($data['cart']['dropoff_date']),
+	            	"dropoff_time" => $data['cart']['dropoff_time'],
+	            	"notes" => $data['cart']['notes'],
+	            	"coupon_code" => $data['cart']['coupon_code'],
+	            	"discount" => $discount,
+	            	"created_by" => 0,	
+	            );
+	        $order_bikes = "";
+	        $worder_bikes = "";
+	        $order_snap['booking_record'] = $booking_record;
+	        $this->bookings_model->updateRecord($booking_record, $booking_id);
+
+	        $old_biketypes = $this->bookingbikes_model->deleteByBookingId($booking_id);
+
             foreach($data['cart']['cart_bikes'] as $bike) 
             {
             	for ($i=0; $i < $bike['quantity']; $i++) 
@@ -191,15 +204,19 @@ class Payment extends CI_Controller {
 		        $worder_bikes .= ($worder_bikes == "") ? $bike['bike_type_name']."(".$bike['quantity'].")" : ";".$bike['bike_type_name']."(".$bike['quantity'].")";
 	        }
 
-	        // Add Payment Record
-	        $booking_payment = array(
-	        	"booking_id" => $booking_id,
-	        	"amount" => $total_paid,
-	        	"payment_mode" => $pmode_row['id'],
-	        	"created_by" => 0
-	        );
-	        $this->bookingpayment_model->addNew($booking_payment);
-	        $order_snap['booking_payment_record'] = $booking_payment;
+		    if( $new_payment > 0 )
+		    {
+		    	// Add Payment Record
+		        $booking_payment = array(
+		        	"booking_id" => $booking_id,
+		        	"amount" => $total_paid,
+		        	"payment_mode" => $pmode_row['id'],
+		        	"created_by" => 0
+		        );
+		        $this->bookingpayment_model->addNew($booking_payment);
+		        $order_snap['booking_payment_record'] = $booking_payment;
+		    }
+
 	        $data['payment_status'] = "Success";
 	        $data['booking_id'] = $booking_id;
 
@@ -214,7 +231,205 @@ class Payment extends CI_Controller {
 	        sendNewOrderAlertToAdmin($data['admin_phone'], $data['user']['name'], $booking_id, $worder_bikes, $data['cart']['pickup_date']." ".$data['cart']['pickup_time'], $data['user']['phone']);
 
 	        $this->session->set_userdata("cart", array());
-        }
+	        $this->session->set_userdata("order", array());
+		}
+		else
+		{
+
+			$bike_ids = json_decode($data['cart']['bike_ids']);
+			$data['payment_status'] = "Failed";
+			$data['cart']['notes'] = "";
+
+			if( isset($_POST) && count($_POST) > 0 )
+			{
+				$data['cart']['notes'] = trim($this->input->post('notes'));
+			}
+			
+			if( isset($bike_ids) && is_array($bike_ids) && count($bike_ids) > 0 )
+			{
+				$bike_id_string = "";
+				foreach($bike_ids as $i => $obj) 
+				{
+			        $bike_id_string .= ($bike_id_string == "") ? $obj->bike_id: ",".$obj->bike_id;
+			    }
+			}
+			else
+			{
+				$this->session->set_userdata("cart", array());
+				$this->session->set_userdata("order", array());
+				redirect();
+			}
+
+			if( $data['cart']['coupon_code'] != "" ) {
+				$coupon = $this->coupons_model->getByCode($data['cart']['coupon_code']);
+				$data['cart']['coupon_code'] = $coupon['code'];
+				$data['cart']['coupon_type'] = $coupon['type'];
+				$data['cart']['coupon_discount'] = $coupon['discount_amount']; 
+			}else{
+				$data['cart']['coupon_code'] = "";
+				$data['cart']['coupon_type'] = "";
+				$data['cart']['coupon_discount'] = 0; 
+			}
+
+			$d1= new DateTime($data['cart']['dropoff_date']." ".$data['cart']['dropoff_time']); // first date
+			$d2= new DateTime($data['cart']['pickup_date']." ".$data['cart']['pickup_time']); // second date
+			$interval= $d1->diff($d2);
+			$data['cart']['period_days'] = $interval->days;
+			$data['cart']['period_hours'] = $interval->h; 
+
+			$date=date_create($data['cart']['pickup_date']);
+			$day = date_format($date,"D");
+			if( $day == 'Sat' || $day == 'Sun' )
+			{
+				$data['cart']['weekend'] = 1;
+			}
+			$res = $this->publicholidays_model->checkRecordExists(dateformatdb($data['cart']['pickup_date']));
+			if( $res )
+			{
+				$data['cart']['public_holiday'] = 1;
+			}
+			
+			$data['cart']['cart_bikes'] = $this->searchbike_model->getCartBikes($bike_id_string, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time']);
+
+			$subtotal = 0;
+	        $gst = 0;
+	        $total = 0;
+	        $helmets_total = 0;
+	        $bikes_quantity = 0;
+	        $refund_amount = 1000;
+	        $discount = 0;
+			foreach($data['cart']['cart_bikes'] as $index => $bike) 
+	        {
+	        	foreach($bike_ids as $i => $obj) 
+				{
+					if($obj->bike_id == $bike['type_id'])
+					{
+						$bike['quantity'] = $obj->qty;
+						break;
+					}
+			    }
+				    
+	        	$bikes_quantity = $bikes_quantity + $bike['quantity'];
+	            $rent_price = $bike['rent_price'];
+	            $subtotal += $rent_price * $bike['quantity'];
+	            $data['cart']['cart_bikes'][$index] = $bike;
+	        }
+	        $total = $subtotal;
+	        if( $data['cart']['coupon_code'] != "" ) {
+		        if( $data['cart']['coupon_type'] == 'percent' )
+		        {
+		            $discount = round($subtotal * ($data['cart']['coupon_discount'] / 100));
+		        }else{
+		            $discount = $data['cart']['coupon_discount'];
+		        }
+		    }
+	        if( isset($data['cart']['helmets_qty']) && $data['cart']['helmets_qty'] > 0 )
+	        {
+	            $helmets_price = 50;
+	            $helmets_total = $data['cart']['helmets_qty'] * $helmets_price;
+	            $total += $helmets_total;
+	        }
+	        else
+	        {
+	        	$data['cart']['helmets_qty'] = 0;
+	        }
+	        if( isset($data['cart']['early_pickup']) && $data['cart']['early_pickup'] > 0 )
+	        {
+	            $total += $bikes_quantity * 200;
+	        }
+	        else
+	        {
+	        	$data['cart']['early_pickup'] = 0;
+	        }
+	      	
+	      	$total = $total - $discount;
+
+	        $gst = round($subtotal * 0.05, 2);
+	        $total_paid = 0;
+	        $refund_amount = $refund_amount * $bikes_quantity;
+
+	        if( $data['cart']['paymentOption'] == "PAY_FULL" )
+	        {
+	        	$total_paid = $total;
+	        }
+	        else
+	        {
+	        	$total_paid = round($total/2, 2);
+	        }
+
+	        $pmode_row = $this->paymentmode_model->getIdByMode($data['cart']['paymentOption']);
+	        $order_snap = [];
+	        // INSERT RECORDS
+	        $booking_record = array(
+	            	"customer_id" => $data['user']['userId'],
+	            	"quantity" => $bikes_quantity,
+	            	"helmet_quantity" => $data['cart']['helmets_qty'],
+	            	"free_helmet" => $data['cart']['free_helmet'],
+	            	"booking_amount" => $total_paid,
+	            	"total_amount" => $total,
+	            	"refund_amount" => $refund_amount,
+	            	"refund_status" => 0,
+	            	"gst" => $gst,
+	            	"payment_mode" => $pmode_row['id'],
+	            	"status" => 0,
+	            	"early_pickup" => $data['cart']['early_pickup'],
+	            	"pickup_date" => dateformatdb($data['cart']['pickup_date']),
+	            	"pickup_time" => $data['cart']['pickup_time'],
+	            	"dropoff_date" => dateformatdb($data['cart']['dropoff_date']),
+	            	"dropoff_time" => $data['cart']['dropoff_time'],
+	            	"notes" => $data['cart']['notes'],
+	            	"coupon_code" => $data['cart']['coupon_code'],
+	            	"discount" => $discount,
+	            	"created_by" => 0,	
+	            );
+	        $order_bikes = "";
+	        $worder_bikes = "";
+	        $order_snap['booking_record'] = $booking_record;
+	        $booking_id = $this->bookings_model->addNew($booking_record);
+	        if( $booking_id != "" )
+	        {
+	            foreach($data['cart']['cart_bikes'] as $bike) 
+	            {
+	            	for ($i=0; $i < $bike['quantity']; $i++) 
+	            	{ 
+	            		$bookingbikes_record = array(
+			            	"booking_id" => $booking_id,
+			            	"type_id" => $bike['type_id'],
+			            	"quantity" => 1,
+			            	"created_by" => 0,	
+			            );
+			            $this->bookingbikes_model->addNew($bookingbikes_record);
+			            $order_snap['booking_bikes_records'][] = $bookingbikes_record;
+			        }
+			        $order_bikes .= ($order_bikes == "") ? $bike['bike_type_name']."(".$bike['quantity'].")" : ",".$bike['bike_type_name']."(".$bike['quantity'].")";
+			        $worder_bikes .= ($worder_bikes == "") ? $bike['bike_type_name']."(".$bike['quantity'].")" : ";".$bike['bike_type_name']."(".$bike['quantity'].")";
+		        }
+
+		        // Add Payment Record
+		        $booking_payment = array(
+		        	"booking_id" => $booking_id,
+		        	"amount" => $total_paid,
+		        	"payment_mode" => $pmode_row['id'],
+		        	"created_by" => 0
+		        );
+		        $this->bookingpayment_model->addNew($booking_payment);
+		        $order_snap['booking_payment_record'] = $booking_payment;
+		        $data['payment_status'] = "Success";
+		        $data['booking_id'] = $booking_id;
+
+		        $order_history["booking_id"] = $booking_id;
+		        $order_history["order_json"] = json_encode($order_snap);
+	            $order_history["created_by"] = 0;
+	            $this->orderhistory_model->addNew($order_history);
+
+		        // Send Whatsapp Message
+		        sendNewOrdertoCustomer($data['user']['phone'], $data['user']['name'], $booking_id, $worder_bikes, $data['cart']['pickup_date'], $data['cart']['pickup_time'], $data['cart']['dropoff_date'], $data['cart']['dropoff_time'], $total, $total_paid);
+
+		        sendNewOrderAlertToAdmin($data['admin_phone'], $data['user']['name'], $booking_id, $worder_bikes, $data['cart']['pickup_date']." ".$data['cart']['pickup_time'], $data['user']['phone']);
+
+		        $this->session->set_userdata("cart", array());
+	        }
+	    }
 
         $this->load->view('layout/header', $data);
         $this->load->view('front/payment_success', $data);

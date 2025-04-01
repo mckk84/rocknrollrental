@@ -13,6 +13,9 @@ class Checkout extends CI_Controller {
 		$data['cart_bikes'] = array();
 
 		$data['cart'] = $this->session->userdata("cart");
+		$session_order = $this->session->userdata("order");
+		$data['order'] = $session_order;
+		
 		$bike_ids = json_decode($data['cart']['bike_ids']);
 		$data['cart']['paymentOption'] = "PAY_FULL";
 		
