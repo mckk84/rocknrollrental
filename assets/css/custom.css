@@ -257,6 +257,10 @@ span#bike_availability {
     font-size: 16px;
 }
 
+.text-2xl{
+    font-size: 18px;
+}
+
 .lightbox {
     display: none;
     position: absolute;

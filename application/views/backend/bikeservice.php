@@ -16,7 +16,7 @@
 
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Bike Services <button type="button" data-bs-toggle="modal" data-bs-target="#add-bike-service" class="btn btn-primary float-right">Add <i class="bi bi-plus-circle ms-1"></i></button></h5>
+                <h5 class="card-title">Bike Services <button type="button" data-bs-toggle="modal" data-bs-target="#add-bike-service" class="btn btn-sm btn-primary float-right">Add <i class="bi bi-plus-circle ms-1"></i></button></h5>
                 <div class="d-inline showalert">
                   <?php if( count($records) == 0 ) { ?>
                   <div class="alert alert-danger m-2">No Records found.</div>
@@ -76,10 +76,12 @@
                       <td><?=$row['request_note']?></td>
                       <td><?=$row['created_by']?></td>
                       <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
-                      <td><div class="d-flex justify-content-start">
-                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-bike-record text-warning float-right mx-2"><i class="bi bi-pencil-fill"></i></a>
+                      <td><div class="d-flex justify-content-center">
                         <?php if( isset($user['user_type']) && $user['user_type'] == 'Admin' ){?>
+                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-bike-record text-warning float-right mx-2"><i class="bi bi-pencil-fill"></i></a>
                         <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record text-danger float-right mx-2"><i class="bi bi-trash-fill"></i></a>
+                        <?php } else { ?>
+                          <span class="d-inline fs-6 p-2">N/A</span>
                         <?php } ?>
                       </div></td>
                     </tr>

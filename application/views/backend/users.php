@@ -17,7 +17,7 @@
 
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Users <button type="button" id="add_user" class="btn btn-primary float-right">Add <i class="bi bi-plus-circle ms-1"></i></button></h5>
+                <h5 class="card-title">Users <button type="button" id="add_user" class="btn btn-sm btn-primary float-right">Add <i class="bi bi-plus-circle ms-1"></i></button></h5>
                 <div class="d-inline showalert">
                   <?php if( count($records) == 0 ) { ?>
                   <div class="alert alert-danger m-2">No Records found.</div>
@@ -60,7 +60,7 @@
                       <td><?=$row['phone']?></td>
                       <td><?=$row['user_type']?></td>
                       <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
-                      <td><div class="d-flex justify-content-start">
+                      <td><div class="d-flex justify-content-center">
                         <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['userId']?>" class="edit-user-record text-warning float-right mx-2"><i class="bi bi-pencil-fill"></i></a>
                         <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['userId']?>" class="delete-record text-danger float-right mx-2"><i class="bi bi-trash-fill"></i></a>
                       </div></td>

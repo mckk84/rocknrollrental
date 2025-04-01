@@ -109,10 +109,14 @@
                                         </ul>
                                         <div class="pricing-bottom d-flex align-items-center justify-content-between mt-4">
                                             <h5 class="mb-0"><i class="fa fa-indian-rupee-sign me-1"></i><?=$bike['rent_price']?></h5>
-                                            <?php if(isset($bike['not_available']) && $bike['not_available'] == $bike['bikes_available']) { ?>
-                                            <a href="javascript:void(0)" title="<?=$bike['bike_type_name']?>">Sold Out</a>
-                                            <?php } else { ?>
-                                            <a href="javascript:void(0)" class="booknow btn md-primary-btn p-1 px-2" bike-name="<?=$bike['bike_type_name']?>" bike-id="<?=$bike['bike_type_id']?>" title="Book Now">BOOK NOW</a>    
+                                            <?php if( $holiday == 1 ){?>
+                                                <a class="btn btn-sm btn-outline-warning" href="javascript:void(0)" title="<?=$bike['bike_type_name']?>">Sold Out</a>
+                                            <?php } else { ?>    
+                                                <?php if(isset($bike['not_available']) && $bike['not_available'] == $bike['bikes_available']) { ?>
+                                                <a href="javascript:void(0)" title="<?=$bike['bike_type_name']?>">Sold Out</a>
+                                                <?php } else { ?>
+                                                <a href="javascript:void(0)" class="booknow btn md-primary-btn p-1 px-2" bike-name="<?=$bike['bike_type_name']?>" bike-id="<?=$bike['bike_type_id']?>" title="Book Now">BOOK NOW</a>    
+                                                <?php } ?>
                                             <?php } ?>
                                         </div>
                                     </div>
@@ -141,6 +145,25 @@ $(document).ready(function(){
     var hour = today.getHours();
     console.log("today="+today_date);
     console.log(hour);
+
+    function getNextHour(time) 
+    {
+        var s = time.split(":");
+        var h = parseInt(s[0]);
+        if( h == 12 )
+        {
+            return 1;
+        }
+        else if( h == 8 )
+        {
+            return 8;
+        }
+        else
+        {
+            h = h + 1;
+            return h;
+        }
+    }
 
     function setTimeSpecial(ele, hour)
     {
@@ -465,6 +488,8 @@ $(document).ready(function(){
         }
         else
         {
+            var hour = getNextHour($("#pickup_time").val());
+            console.log(hour);
             $("#dropoff_time").empty();
             setTimeSpecial($("#dropoff_time"), hour);
             $("#dropoff_time option:last").attr('selected', 'selected');

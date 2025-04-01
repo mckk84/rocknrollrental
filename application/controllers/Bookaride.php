@@ -10,6 +10,7 @@ class Bookaride extends CI_Controller {
 		$this->load->model('biketypes_model');
 		$this->load->model('searchbike_model');
 		$this->load->model('publicholidays_model');
+		$this->load->model('holidays_model');
 		
 		$data['pickup_date'] = "";
 		$data['pickup_time'] = "";
@@ -19,6 +20,7 @@ class Bookaride extends CI_Controller {
 		$data['period_hours'] = "";
 		$data['weekend'] = 0;
 		$data['public_holiday'] = 0;
+		$data['holiday'] = 0;
 		
 		if( isset($_POST) && count($_POST) > 0 )
 		{
@@ -82,6 +84,18 @@ class Bookaride extends CI_Controller {
 		if( $res )
 		{
 			$data['public_holiday'] = 1;
+		}
+
+		$res = $this->holidays_model->checkRecordExists(dateformatdb($data['pickup_date']));
+		if( $res )
+		{
+			$data['holiday'] = 1;
+		}
+
+		$res = $this->holidays_model->checkRecordExists(dateformatdb($data['dropoff_date']));
+		if( $res )
+		{
+			$data['holiday'] = 1;
 		}
 
 		if( $data['period_days'] > 0 || $data['period_hours'] > 0 )

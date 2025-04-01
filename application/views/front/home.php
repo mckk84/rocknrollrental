@@ -165,11 +165,11 @@
                 <div class="col-xxl-3 col-lg-3 col-md-6 col-sm-12 latest">
                     <div class="filter-card-item position-relative overflow-hidden rounded bg-white">
                         <div class="feature-thumb position-relative overflow-hidden">
-                            <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid">
+                            <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" style="height:180px;width:100%;" class="img-fluid">
                         </div>
                         <div class="filter-card-content">
                             <div class="mt-4 d-block">
-                                <h5><?=$bike['bike_type_name']?></h5>
+                                <h5 class="text-2xl"><?=$bike['bike_type_name']?></h5>
                             </div>
                             <span class="meta-content"><strong class="text-primary">UNLIMITED KILOMETERS</strong></span>
                             <hr class="spacer mt-3 mb-3">
@@ -491,6 +491,25 @@ $(document).ready(function(){
 
   }
 
+    function getNextHour(time) 
+    {
+        var s = time.split(":");
+        var h = parseInt(s[0]);
+        if( h == 12 )
+        {
+            return 1;
+        }
+        else if( h == 8 )
+        {
+            return 8;
+        }
+        else
+        {
+            h = h + 1;
+            return h;
+        }
+    }
+
   function dateformatstring(this_date)
   {
     var dt = this_date.split('-');
@@ -663,8 +682,11 @@ $(document).ready(function(){
     }
     else
     {
+        var hour = getNextHour($("#pickup_time").val());
+        console.log(hour);
         $("#dropoff_time").empty();
         setTimeSpecial($("#dropoff_time"), hour);
+        $("#dropoff_time option:last").attr('selected', 'selected');
     }
   });
 
@@ -894,11 +916,15 @@ $(document).ready(function(){
             {
                 $("#custom_bike #dropofftime").empty();
                 setTimeAll($("#custom_bike #dropofftime"));
+                $("#custom_bike #dropofftime option:last").attr('selected', 'selected');
             }
             else
             {
+                var hour = getNextHour($("#custom_bike #pickuptime").val());
+                console.log(hour);
                 $("#custom_bike #dropofftime").empty();
                 setTimeSpecial($("#custom_bike #dropofftime"), hour);
+                $("#custom_bike #dropofftime option:last").attr('selected', 'selected');
             }
             checkbikesubmitform();
         });

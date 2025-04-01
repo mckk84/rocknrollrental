@@ -149,10 +149,10 @@
                 <div class="at_product_view">
                     <div class="card w-100 bg-white border-0"  style="max-width: 480px;">
                         <div class="card-body p-1">
-                            <div class="text-center border-bottom-primary">
+                            <div class="text-center">
                                 <span class="d-block card-title fw-bold mb-1 fs-5"></span>
                             </div>
-                            <div class="mt-1 mb-2 text-center">
+                            <div class="mt-1 mb-2 text-center border">
                                 <form id="custom_bike" method="POST" action="<?=base_url('Cart/instant')?>" class="custom_bike row d-flex align-items-center mx-1 my-0">
                                     <input type="hidden" name="bike_type_id" value="">
                                     <input type="hidden" name="bike_type_name" value="">
@@ -188,7 +188,7 @@
                                     <div class="col-xl-12 border-bottom-primary">
                                         <div class="row">
                                             <div class="col-xl-12 col-sm-12 py-2">
-                                                <p class="font-md mb-1"><span class="text-dark">LOCATION :</span>&nbsp;Chokanna Street, near Mayura Hotel Opp: Sai Angels School, Chikkamagaluru, Karnataka 577101 <a href="https://maps.app.goo.gl/XkDwJyZ2tcNp9YUy6" class="text-success d-inline-block" title="View on Map"><img style="width:25px;" src="<?=base_url('assets/img/icons/map-pin.svg')?>" class="img-fluid"/></a></p>
+                                                <p class="font-md mb-1"><span class="text-dark">LOCATION :</span>&nbsp;Chokanna Street, near Mayura Hotel Opp: Sai Angels School, Chikmagaluru, Karnataka 577101. <a target="_blank" href="https://maps.app.goo.gl/XkDwJyZ2tcNp9YUy6" class="text-success d-inline-block" title="View on Map"><img style="width:25px;" src="<?=base_url('assets/img/icons/map-pin.svg')?>" class="img-fluid"/></a></p>
                                             </div>
                                         </div>
                                     </div>
@@ -230,23 +230,23 @@
                                         </div>
                                         <div class="border-bottom-dotted-primary row px-2">
                                             <div class="col-xl-8 col-sm-8 py-1">
-                                                <div class="w-50 text-sm pt-1 text-dark float-left"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="free_helmet" name="free_helmet" value="1" class="me-2">1 Helmet is free. </div>
+                                                <div class="w-50 text-sm mt-1 pt-1 text-dark float-left"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="free_helmet" name="free_helmet" value="1" class="me-2">1 Helmet is free. </div>
                                             </div>
                                             <div class="col-xl-4  col-sm-4 py-1">
                                                <div class="text-dark m-1"> <i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block p-1">0</span></div>
                                             </div>
                                         </div>
                                         <div class="row px-2">
-                                            <div class="col-xl-4  col-sm-4 py-1">
-                                                <div class="w-100 text-sm text-dark float-left">
+                                            <div class="col-xl-4 px-1 col-sm-4 py-1">
+                                                <div class="w-100 text-sm text-dark mt-2">
                                                     Add extra for ₹50/day.
                                                 </div>
                                             </div>
                                             <div class="col-xl-4  col-sm-4 py-1">
                                                 <div class="cart-count w-100 d-flex justify-content-center">
-                                                    <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0 p-1 m-1 mx-0"><i class="fa fa-minus"></i></span>
-                                                    <input type="text" name="helmets_qty" class="w-50 cart-helmets text-center border text-black rounded-0 p-1 m-1 mx-0" value="0">
-                                                    <span class="btn btn-sm cart-hplus bg-primary text-white rounded-0 p-1 m-1 mx-0"><i class="fa fa-plus"></i></span>
+                                                    <span class="btn btn-sm cart-hminus bg-primary text-white rounded-0 px-2 py-1"><i class="fa fa-minus"></i></span>
+                                                    <input type="text" name="helmets_qty" class="w-50 cart-helmets text-center border text-black rounded-0" value="0">
+                                                    <span class="btn btn-sm cart-hplus bg-primary text-white rounded-0 px-2 py-1"><i class="fa fa-plus"></i></span>
                                                 </div>
                                             </div>
                                             <div class="col-xl-4  col-sm-4 py-1">
@@ -257,14 +257,14 @@
                                     <div id="early_pickup_div" style="display:none;" class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
                                             <div class="col-xl-8  col-sm-8 py-2">
-                                                    <label class="fa-md text-dark py-2 px-2"><input style="width:20px;height: 20px;vertical-align:middle;" type="checkbox" name="early_pickup" value="1" > Pickup early at 6:00 AM for  200 extra / bike.</label>
+                                                    <label class="fa-md text-sm text-dark py-2 px-2"><input style="width:20px;height: 20px;vertical-align:middle;" type="checkbox" name="early_pickup" value="1" > Pickup early at 6:00 AM for  200 extra / bike.</label>
                                             </div>
                                             <div class="col-xl-4  col-sm-4 py-2">
                                                 <div class="text-dark m-1"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline" id="early_pickup">0</span></div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-12">
+                                    <div class="col-xl-12 border-bottom-primary">
                                         <div class="row px-2">
                                             <div class="col-xl-8  col-sm-8 py-2">
                                                 <div class="w-25 pt-1 text-dark float-left">Total</div>
@@ -276,7 +276,7 @@
                                     </div>
                                     <div id="sumit_row" class="col-xl-12 mt-2 px-2 pt-2 mb-1">
                                         <div class="text-center">
-                                            <button class="custom_bike_submit btn btn-md btn-primary" type="button">Book Now</button>
+                                            <button class="custom_bike_submit btn btn-sm btn-primary" type="button">Book Now</button>
                                         </div>
                                     </div>
                                 </form>

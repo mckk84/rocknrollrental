@@ -16,7 +16,7 @@
 
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Bikes <button type="button" class="new-bike btn btn-primary float-right">Add <i class="bi bi-plus-circle ms-1"></i></button></h5>
+                <h5 class="card-title">Bikes <button type="button" class="new-bike btn btn-sm btn-primary float-right">Add <i class="bi bi-plus-circle ms-1"></i></button></h5>
                 <div class="d-inline showalert">
                   <?php if( count($records) == 0 ) { ?>
                   <div class="alert alert-danger m-2">No Records found.</div>
@@ -54,7 +54,7 @@
                     <tr>
                       <th scope="row"><?=$row['id']?></th>
                       <td><?=$row['bike_type']?></td>
-                      <td><?=$row['vehicle_number']?></td>
+                      <td><span class="vh"><?=$row['vehicle_number']?></span></td>
                       <td><img src="<?=base_url('bikes/'.$row['image'])?>" style="width: 100px;"/></td>
                       <td><?=($row['available'] == 1 ? "<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>") ?></td>
                       <td><?=$row['created_by']?></td>
@@ -62,6 +62,8 @@
                       <td><div class="d-flex justify-content-center">
                         <?php if( isset($user['user_type']) && $user['user_type'] == 'Admin' ){?>
                         <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record fs-6 text-danger float-right mx-2"><i class="bi bi-trash-fill"></i></a>
+                        <?php } else { ?>
+                          <span class="d-inline fs-6 p-2">N/A</span>
                         <?php } ?>
                       </div></td>
                     </tr>

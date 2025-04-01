@@ -16,7 +16,7 @@
 
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Bookings <a href="<?=base_url('admin/Bookings/new')?>" class="btn btn-primary float-right">New <i class="bi bi-plus-circle ms-1"></i></a></h5>
+                <h5 class="card-title">Bookings <a href="<?=base_url('admin/Bookings/new')?>" class="btn btn-sm btn-primary float-right">New <i class="bi bi-plus-circle ms-1"></i></a></h5>
                 <div class="d-inline showalert">
                   <?php if( count($records) == 0 ) { ?>
                   <div class="alert alert-danger m-2">No Records found.</div>
@@ -117,11 +117,12 @@
                       <td><?=$row['notes']?></td>
                       <td><?=($row['created_by'] == "") ? "ONLINE":$row['created_by']?></td>
                       <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
-                      <td><div class="d-flex justify-content-start">
+                      <td><div class="d-flex justify-content-center">
                         <!-- <a title="Send Whatsapp" class="fs-6" target="_blank" href="<?=base_url('admin/Bookings/whatsapp?bid='.$row['id'])?>"><i class="bi bi-whatsapp"></i></a> -->
+
                         <a title="View Record" href="<?=base_url('admin/Bookings/view?bid='.$row['id'])?>" class="text-info float-right fs-6 mx-2"><i class="bi bi-eye-fill"></i></a>
-                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record fs-6 text-warning float-right mx-2"><i class="bi bi-pencil-fill"></i></a>
                         <?php if( isset($user['user_type']) && $user['user_type'] == 'Admin' ){?>
+                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record fs-6 text-warning float-right mx-2"><i class="bi bi-pencil-fill"></i></a>
                         <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record fs-6 text-danger float-right mx-2"><i class="bi bi-trash-fill"></i></a>
                         <?php } ?>
                       </div></td>
