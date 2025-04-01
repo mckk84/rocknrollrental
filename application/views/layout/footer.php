@@ -162,10 +162,10 @@
                                                 <label class="text-black font-md font-bold mb-1">PICKUP</label>
                                                 <div class="row px-2">
                                                     <div class="col-xl-12 mb-1">
-                                                        <input type="date" name="pickupdate" value="<?=date("Y-m-d", time())?>" id="pickupdate" class="w-60 text-dark border-0" placeholder="">
+                                                        <input type="date" name="pickupdate" value="<?=date("Y-m-d", time())?>" id="pickupdate" class="w-60 px-2  text-dark border rounded" placeholder="">
                                                     </div>
                                                     <div class="col-xl-12">
-                                                        <select id="pickuptime" name="pickuptime" class="w-50 form-select border-0">
+                                                        <select id="pickuptime" name="pickuptime" class="w-50 form-select">
                                                         </select>
                                                     </div>
                                                 </div>
@@ -175,10 +175,10 @@
                                                 <label class="text-black font-md font-bold mb-1">DROPOFF</label>
                                                 <div class="row px-2">
                                                     <div class="col-xl-12 mb-1">
-                                                        <input type="date" name="dropoffdate" id="dropoffdate" value="<?=date("Y-m-d", time())?>" class="w-60 text-dark border-0" placeholder="">
+                                                        <input type="date" name="dropoffdate" id="dropoffdate" value="<?=date("Y-m-d", time())?>" class="w-60 px-2 text-dark border rounded" placeholder="">
                                                     </div>
                                                     <div class="col-xl-12">
-                                                        <select id="dropofftime" name="dropofftime" class="w-50 form-select border-0">
+                                                        <select id="dropofftime" name="dropofftime" class="w-50 form-select">
                                                         </select>
                                                     </div>
                                                 </div>
