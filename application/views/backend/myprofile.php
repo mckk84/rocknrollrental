@@ -33,57 +33,26 @@
                     <?php } ?>
                 </div>
 
-                <div class="col-6">
-                  <div class="row mb-2">
-                    <div class="col-md-3">
-                      <label for="validationDefault01" class="form-label mt-2">Name</label>
-                    </div>
-                    <div class="col-md-4">
-                      <span class="d-block p-2 text-primary border-bottom" id="name"><?=$record['name']?></span>
-                    </div>
-                  </div>
-                  <div class="row mb-2">
-                    <div class="col-md-3">
-                      <label for="validationDefault02" class="form-label mt-2">Email</label>
-                    </div>
-                    <div class="col-md-4">
-                      <span class="d-block p-2 text-primary border-bottom" id="email"><?=($record['email']=="")?"---":$record['email']?></span>
-                    </div>
-                  </div>
-                  <div class="row mb-2">
-                    <div class="col-md-3">
-                      <label for="validationDefault03" class="form-label mt-2">Phone</label>
-                    </div>
-                    <div class="col-md-4">
-                      <span class="d-block p-2 text-primary border-bottom" id="phone"><?=($record['phone']=="")?"---":$record['phone']?></span>
-                    </div>
-                  </div>
-                  <div class="row mb-2">
-                    <div class="col-md-3">
-                      <label for="validationDefault04" class="form-label mt-2">Username</label>
-                    </div>
-                    <div class="col-md-4">
-                      <span class="d-block p-2 text-primary border-bottom" id="subject"><?=$record['username']?></span>
-                    </div>
-                  </div>
-                  <div class="row mb-2">
-                    <div class="col-md-3">
-                      <label for="validationDefault04" class="form-label mt-2">Role</label>
-                    </div>
-                    <div class="col-md-4">
-                      <span class="d-block p-2 text-primary border-bottom" id="role"><?=$record['user_type']?></span>
-                    </div>
-                  </div>
+                <div class="col-4 p-2 m-1">
+                  <table class="table table-bordered rounded">
+                    <tbody>
+                      <tr><th class="p-2 w-30">Name</th><td><?=$record['name']?></td></tr>
+                      <tr><th class="p-2 w-30">Email</th><td><?=$record['email']?></td></tr>
+                      <tr><th class="p-2 w-30">Phone</th><td><?=$record['phone']?></td></tr>
+                      <tr><th class="p-2 w-30">Username</th><td><?=$record['username']?></td></tr>
+                      <tr><th class="p-2 w-30">Role</th><td><?=$record['user_type']?></td></tr>
+                    </tbody>
+                  </table>
                 </div>
-                
               </div>
 
               <div class="card-body">
-                <div class="bg-white rounded mt-5">
-                    <h4 class="h4 m-2">Change Password</h4>
-                    <div class="row p-2 m-2">
+                <div class="bg-white rounded mt-2">
+                    <h5 class="card-title">Change Password</h5>
+                    <div class="row m-1">
+                      <div class="col-md-4">
                         <form class="form-control" id="update-password" method="POST" action="<?=base_url('admin/Myprofile/changepassword')?>">
-                            <div class="col-2">
+                            <div class="col-6">
                                 <div class="input-field mb-2">
                                     <label for="cp">Current Password</label>
                                     <input type="password" class="form-control" autocomplete="off" id="cp" name="current_password" value="" required>
@@ -105,6 +74,7 @@
                                 </div>
                             </div>
                         </form>
+                      </div>
                     </div>
                 </div>
               </div>
