@@ -93,7 +93,11 @@
                           <?php } ?>
                         <?php } else if($row['status'] == 1) { ?>
                           <span class="d-block mx-auto mb-1 py-2 badge bg-success">Rented</span>
+                          <?php if($user['user_type'] == "Admin"){?>
+                          <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="superedit-booking-record shadow py-1 px-2 bg-danger badge"><i class="bi bi-pencil-fill me-1"></i>Update</a>
+                          <?php } else { ?>
                           <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record shadow py-1 px-2 bg-info badge"><i class="bi bi-pencil-fill me-1"></i>Update</a>
+                          <?php } ?>
                         <?php } else { ?>
                           <span class="d-block mx-auto mb-1 py-2 badge bg-info">Closed</span>
                         <?php } ?>
@@ -165,7 +169,11 @@
                         <td><?=$row['total_amount']?><br/><?=$row['paymentmode']?></td>
                         <td>
                           <a title="Send Reminder in Whatsapp" class="btn btn-sm text-success" target="_blank" href="<?=base_url('admin/Bookings/whatsapp_reminder?bid='.$row['id'])?>"><i class="bi bi-whatsapp"></i></a>
-                          <a title="Edit" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record btn btn-sm text-warning"><i class="bi bi-pencil-fill"></i></a>
+                          <?php if($user['user_type'] == "Admin"){?>
+                          <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="superedit-booking-record shadow py-1 px-2 bg-danger badge"><i class="bi bi-pencil-fill me-1"></i>Update</a>
+                          <?php } else { ?>
+                          <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record shadow py-1 px-2 bg-info badge"><i class="bi bi-pencil-fill me-1"></i>Update</a>
+                          <?php } ?>
                         </td>
                       </tr>
                        <?php } ?>

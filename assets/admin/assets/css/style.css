@@ -1212,10 +1212,11 @@ h6 {
 # Footer
 --------------------------------------------------------------*/
 .footer {
-    padding: 20px 0;
-    font-size: 14px;
+    padding: 10px 0;
+    font-size: 12px;
     transition: all 0.3s;
     border-top: 1px solid #cddfff;
+    box-shadow:1px 0px 3px 0px #cddfff;
 }
 
 .footer .copyright {
@@ -1305,6 +1306,10 @@ select, input{
     min-width: 650px;
 }
 
+.modal-lg, .modal-xl {
+    --bs-modal-width: 850px;
+}
+
 .form-control, .form-select{
   font-size: 0.85rem !important;
 }
@@ -1378,6 +1383,22 @@ button#multiSelectDropdown {
   max-height: 98%;
 }
 
+.w-80{
+  width: 80% !important;
+}
+
+.w-90{
+  width: 90% !important;
+}
+
+.w-85{
+  width: 85% !important;
+}
+
+.w-95{
+  width: 95% !important;
+}
+
 .w-70{
   width: 70% !important;
 }
@@ -1418,7 +1439,7 @@ button#multiSelectDropdown {
 }
 
 .fs-8 {
-    font-size: 0.8rem!important;
+    font-size: 11px;
 }
 
 .form-select:focus {
@@ -1455,4 +1476,33 @@ input[type="checkbox" i]:disabled {
   padding: 2px 4px;
   background-color: #fff3cd;
   border: 2px solid black;
+}
+
+.cursor_pointer{
+  cursor: pointer !important;
+}
+
+a.badge:hover {
+    color: black !important;
+}
+
+table#extra_bikes {
+    border-top: 2px solid indianred !important;
+}
+
+table.small th, table.small td {
+    padding: 2px 10px;
+}
+
+table.medium th, table.medium td {
+    padding: 4px 10px;
+}
+
+table.small th {
+    font-size: 12px;
+}
+
+.booking_form input, .booking_form textarea, .booking_form select {
+    background-color: aliceblue;
+    padding: 5px 10px;
 }

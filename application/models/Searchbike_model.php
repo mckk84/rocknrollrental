@@ -177,7 +177,7 @@ class Searchbike_model extends CI_Model
 
         $sub_query = "SELECT tbl_booking_bikes.type_id as bike_type_id, COUNT(tbl_booking_bikes.bike_id) as not_available FROM tbl_bookings LEFT JOIN tbl_booking_bikes ON tbl_booking_bikes.booking_id=tbl_bookings.id 
         LEFT JOIN tbl_bikes ON tbl_booking_bikes.bike_id=tbl_bikes.id 
-        WHERE tbl_bookings.pickup_date >= '".dateformatdb($pickup_date)."' AND tbl_bookings.dropoff_date <= '".dateformatdb($dropoff_date)."' GROUP BY tbl_booking_bikes.type_id";
+        WHERE (tbl_bookings.status = 0 OR tbl_bookings.status = 1) AND tbl_bookings.pickup_date >= '".dateformatdb($pickup_date)."' AND tbl_bookings.dropoff_date <= '".dateformatdb($dropoff_date)."' GROUP BY tbl_booking_bikes.type_id";
 
         $sub_query1 = $this->db->query($sub_query);
         $result1 = array();
@@ -226,11 +226,16 @@ class Searchbike_model extends CI_Model
 
         $query = $this->db->get();
 
-        $sub_query = "SELECT tbl_booking_bikes.type_id as bike_type_id, COUNT(tbl_booking_bikes.bike_id) as not_available FROM tbl_bookings LEFT JOIN tbl_booking_bikes ON tbl_booking_bikes.booking_id=tbl_bookings.id LEFT JOIN tbl_bikes ON tbl_booking_bikes.bike_id=tbl_bikes.id 
-        WHERE ( tbl_bookings.pickup_date = '".dateformatdb($pickup_date)."' OR tbl_bookings.dropoff_date='".dateformatdb($dropoff_date)."') GROUP BY tbl_booking_bikes.type_id";
+        //echo $this->db->last_query();
+        //echo "==\n\n";
+
+        $sub_query = "SELECT tbl_booking_bikes.type_id as bike_type_id, tbl_booking_bikes.bike_id FROM tbl_bookings LEFT JOIN tbl_booking_bikes ON tbl_booking_bikes.booking_id=tbl_bookings.id LEFT JOIN tbl_bikes ON tbl_booking_bikes.bike_id=tbl_bikes.id 
+        WHERE (tbl_bookings.status = 0 OR tbl_bookings.status = 1) AND ( tbl_bookings.pickup_date = '".dateformatdb($pickup_date)."' OR tbl_bookings.dropoff_date='".dateformatdb($dropoff_date)."') GROUP BY tbl_booking_bikes.type_id";
 
         $sub_query1 = $this->db->query($sub_query);
         $result1 = array();
+        //echo $this->db->last_query();
+        //echo "==\n\n";
         if( $sub_query1->num_rows() > 0 )
         {
             $result1 = $sub_query1->result_array();
@@ -243,6 +248,26 @@ class Searchbike_model extends CI_Model
             {
                 $row['rent_price'] = $this->getRentPrice($row['bike_type_id'], $pickup_date, $pickup_time, $dropoff_date, $dropoff_time);
                 $result[$index] = $row;
+                if( $sub_query1->num_rows() > 0 )
+                {
+                    foreach($result1 as $row1)
+                    {
+                        if( $row['bike_type_id'] == $row1['bike_type_id'] && $row['bid'] == $row1['bike_id'] )
+                        {
+                            $row['bikes_available'] = 0;
+                        }
+                        else
+                        {
+                            $row['bikes_available'] = 1;
+                        }
+                        $result[$index] = $row;
+                    }
+                }
+                else
+                {
+                    $row['bikes_available'] = 1;
+                    $result[$index] = $row;
+                }
             }
             return $result;
         } 
@@ -268,7 +293,7 @@ class Searchbike_model extends CI_Model
         $query = $this->db->get();
 
         $sub_query = "SELECT tbl_booking_bikes.type_id as bike_type_id, COUNT(tbl_booking_bikes.bike_id) as not_available FROM tbl_bookings LEFT JOIN tbl_booking_bikes ON tbl_booking_bikes.booking_id=tbl_bookings.id LEFT JOIN tbl_bikes ON tbl_booking_bikes.bike_id=tbl_bikes.id 
-        WHERE ( tbl_bookings.pickup_date = '".dateformatdb($pickup_date)."' OR tbl_bookings.dropoff_date='".dateformatdb($dropoff_date)."') GROUP BY tbl_booking_bikes.type_id";
+        WHERE (tbl_bookings.status = 0 OR tbl_bookings.status = 1) AND ( tbl_bookings.pickup_date = '".dateformatdb($pickup_date)."' OR tbl_bookings.dropoff_date='".dateformatdb($dropoff_date)."') GROUP BY tbl_booking_bikes.type_id";
 
         $sub_query1 = $this->db->query($sub_query);
         $result1 = array();

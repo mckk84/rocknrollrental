@@ -16,24 +16,31 @@
 
             <div class="card">
               <div class="card-body w-75">
-                <h5 class="card-title">Booking #<?=$booking_id?><a title="Edit Record" href="javascript:void(0)" record-data="<?=$booking_id?>" class="edit-booking-record float-right btn btn-warning btn-sm mx-2">Edit</a></h5>
+                <h5 class="card-title">Booking Id: #<?=$booking_id?>
 
-                <table style="width:49%;float:left;" class="table table-responsive border rounded mb-2 small">
+                <?php if( isset($user['user_type']) && $user['user_type'] == 'Admin' ){?>
+                  <a title="Edit Record" href="javascript:void(0)" record-data="<?=$booking_id?>" class="superedit-booking-record float-right btn btn-danger btn-sm mx-2">Edit</a>
+                  <?php } else { ?>
+                    <a title="Edit Record" href="javascript:void(0)" record-data="<?=$booking_id?>" class="edit-booking-record float-right btn btn-warning btn-sm mx-2">Edit</a>
+                  <?php } ?>
+              </h5>
+
+                <table style="width:49%;float:left;" class="table table-responsive border rounded mb-2">
                   <tbody>
                     <tr>
-                      <th class="bg-success-light w-30">Pickup Date</th><td><?=$order['pickup_date']." ".$order['pickup_time']?></td></tr>
+                      <th class="bg-success-light w-30">Pickup Date</th><th><?=$order['pickup_date']." ".$order['pickup_time']?></th></tr>
                   </tbody>
                 </table>
-                <table style="width:51%;float:left;" class="table table-responsive border rounded mb-2 small">
+                <table style="width:51%;float:left;" class="table table-responsive border rounded mb-2">
                   <tbody>
-                    <tr><th class="bg-success-light w-30">Dropoff Date</th><td><?=$order['dropoff_date']." ".$order['dropoff_time']?></td></tr>
+                    <tr><th class="bg-success-light w-30">Dropoff Date</th><th><?=$order['dropoff_date']." ".$order['dropoff_time']?></th></tr>
                   </tbody>
                 </table>
-                <table style="width:49%;float:left;" class="table table-responsive border rounded mb-2 small">
+                <table style="width:49%;float:left;" class="table table-responsive border rounded mb-2">
                   <tbody>
                   <tr><th class="bg-success-light w-30">Customer</th><td class="fw-bold"><?=$customer['name']?> ( <?=$customer['phone']?>)</td></tr>
                   <tr><th class="bg-success-light">Bikes Ordered</th><td><?=$ordered_bikes?></td></tr>
-                  <tr><th class="bg-success-light">Helmets </th><td class="fw-bold">Free Helemts: <?=$order['free_helmet']?>,&nbsp;&nbsp; Extra Helmet : <?=$order['helmet_quantity']?></td></tr>
+                  <tr><th class="bg-success-light">Helmets </th><td class="fw-bold">Free Helmets: <?=$order['free_helmet']?>,&nbsp;&nbsp; Extra Helmet : <?=$order['helmet_quantity']?></td></tr>
                   <?php 
                   if( $order['notes'] != "" ) {?>
                       <tr><th class="bg-success-light">Notes:</th><td> <b><?=$order['notes']?></b></td></tr>
@@ -42,7 +49,7 @@
                   <?php } ?>
                   </tbody>
                 </table>
-                <table style="width:51%;float:right;" class="table table-responsive border rounded mb-2 small">
+                <table style="width:51%;float:right;" class="table table-responsive border rounded mb-2">
                   <tbody>      
                     <tr><th class="bg-success-light w-30">Duration</td><th> <?=$period_days?> days, <b><?=$period_hours?></b> hours</th></tr>
                     <tr><th class="bg-success-light">Weekend</th><td>
@@ -66,7 +73,7 @@
 
                 
 
-                <table class="table table-responsive rounded border text-center mb-2 small">
+                <table class="table table-responsive rounded border text-center mb-2">
                 <thead>
                   <tr><th class="bg-success-light text-center">#</th><th class="bg-success-light">Bike Type</th><th class="bg-success-light">Image</th>
                 <th class="bg-success-light">Assigned Vehicle</th><th class="bg-success-light">Rent Price</th></tr></thead>
@@ -108,7 +115,7 @@
                 ?>
 
                 <div style='width:49%;float:left;' class="table-responisve">
-                  <table class="table small">
+                  <table class="table">
                   <tr>
                     <th class="text-start bg-success-light" colspan="2">Order Updaes</th></tr>
                   <tr>
@@ -141,10 +148,28 @@
                   </tr>
 
                   </table>
+
+                  <?php if( $user['user_type'] == "Admin" ) {?>
+                  <table class="table">
+                  <tr>
+                    <th class="text-start bg-warning-light" colspan="2">Send Whatsapp Messages</th></tr>
+                  <tr>
+                  <tr>
+                    <th class="w-30 text-start">First Reminder</th><td><a title="Send First Reminder message to Customer" class="fs-6" target="_blank" href="<?=base_url('admin/Bookings/whatsapp_pickup?bid='.$booking_id)?>"><i class="bi bi-whatsapp"></i></a></td></tr>
+                  <tr>
+                  <tr>
+                    <th class="w-30 text-start">Second Reminder</th><td><a title="Send Second Reminder message to Customer" class="fs-6" target="_blank" href="<?=base_url('admin/Bookings/whatsapp_pickup_second?bid='.$booking_id)?>"><i class="bi bi-whatsapp"></i></a></td></tr>
+                  <tr>
+                  <tr>
+                    <th class="w-30 text-start">Cancel Reminder</th><td><a title="Send Cancel Reminder message to Customer" class="fs-6" target="_blank" href="<?=base_url('admin/Bookings/whatsapp_cancel?bid='.$booking_id)?>"><i class="bi bi-whatsapp"></i></a></td></tr>
+                  <tr>
+                  </table>
+                  <?php } ?>
+
                 </div>
 
                 <div style='float:right;' class="w-50 table-responisve">
-                  <table class="table small">
+                  <table class="table">
                     <tr><th class="text-start bg-success-light" colspan="3">Order Summary</th></tr>
                     <tr><th class="text-start">Bike Rental</th><th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block text-info p-1"><?=$order['total_amount'] - $order['gst']?></span></th>
                     </tr>

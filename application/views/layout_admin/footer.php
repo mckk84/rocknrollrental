@@ -1,39 +1,40 @@
 <div class="modal fade" id="edit-booking" tabindex="-1" data-bs-backdrop="false">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <form id="updatebooking" class="booking_form" action="<?=base_url('admin/Bookings/update')?>" method="POST">
-            <input type="hidden" name="booking_id" value="">
-            <div class="modal-header">
-              <span class="modal-title h5">Booking Order</span>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row g-0 px-2">
-                  <div id="order_dates" class="col-md-12 mb-1 px-1">
-                  </div>
-                  <div id="order_details" class="col-md-8 mb-1 px-1">
-
-                  </div>
-                  <div id="order_details1" class="col-md-4 mb-1 px-1">
-
-                  </div>
-                  <div id="bike_select" class="col-md-12 px-1 mb-1">
-                    
-                  </div>
-                  <div id="order_summary" class="col-md-12 px-1">
-                    
-                  </div>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form id="updatebooking" class="booking_form" action="<?=base_url('admin/Bookings/update')?>" method="POST">
+          <input type="hidden" name="booking_id" value="">
+          <div class="modal-header">
+            <span class="modal-title h5">Booking Order</span>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="row g-1 px-2">
+                <div id="order_dates" class="col-md-12 mb-1 px-1">
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-sm btn-primary" id="submitbooking" type="button">Submit</button>
-                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            </div>
-        </form>
-      </div>
+                <div id="order_details" class="col-md-8 mb-1 px-1">
+
+                </div>
+                <div id="order_details1" class="col-md-4 mb-1 px-1">
+
+                </div>
+                <div id="bike_select" class="col-md-12 px-1 mb-1">
+                  
+                </div>
+                <div id="order_summary" class="col-md-12 px-1">
+                  
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-sm btn-primary" id="submitbooking" type="button">Submit</button>
+              <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+      </form>
     </div>
-  </div><!-- End Disabled Backdrop Modal-->
-<!-- ======= Footer ======= -->
+  </div>
+</div>
+  
+  <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
       &copy; Copyright <strong><a class="text-warning" href="https://rocknrollrental.com">ROCK N ROLL RENTALS</a></strong>. All Rights Reserved

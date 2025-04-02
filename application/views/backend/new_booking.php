@@ -154,14 +154,14 @@
                   <div class="row g-3">                    
                     <div id="cart_sidebar" class="col-md-8">
                       <div class="row">
-                        <div id="bikes_row" class="col-md-12">
+                        <div id="bikes_row" class="col-md-8">
                         </div>
                       </div>
                       <div class="row">
                           <input type="hidden" name="vehicle_count" value="0">
                           <input type="hidden" name="vehicle_numbers" value="">
-                          <div class="col-md-12 table-responisve">
-                              <table class="table small">
+                          <div class="col-md-8 table-responisve">
+                              <table class="table">
                                   <tr>
                                       <th class="text-start bg-warning" colspan="2">Order Summary</th>
                                   </tr>
@@ -173,6 +173,9 @@
                                       <th class="text-start">GST</th>
                                       <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="order_gst d-inline-block p-1"></span></th>
                                   </tr>
+                                  <tr>
+                                      <th colspan="2" class="bg-warning-light text-center p-1">Addons</th>
+                                  </tr>
                                   <tr style="display:none" id="helmets_row">
                                       <th class="text-start">Helmet</th>
                                       <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="helmet_total d-inline-block p-1">50</span></th>
@@ -181,7 +184,7 @@
                                       <th class="text-start">Early Pickup</th>
                                       <th class="text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="earlypickup_charge d-inline-block p-1">200</span></th>
                                   </tr>
-                                  <tr>
+                                  <tr style="border-top:2px solid black;">
                                       <th class="text-start">Total</th>
                                       <td class="fw-bold text-end"><i class="fa fa-indian-rupee-sign me-1"></i><span class="total d-inline-block p-1"></span></td>
                                   </tr>
@@ -318,14 +321,16 @@
       var helmet_qty = 0;
       var helmet_total = 0;
       var early_pickup = 0;
-
+      console.log("bikes_qty"+bikes_qty);
       if( $("input[name='helmets']").is(":checked") )
       {
+        $("#helmets_row").show();
         var helmet_qty = $("input[name='helmets_qty']").val();
         helmet_total = helmet_qty * 50; 
       }
       if( $("input[name='early_pickup']").is(":checked") )
       {
+        $("#earlypickup_row").show();
         early_pickup = 200 * bikes_qty; 
       }
 
@@ -335,11 +340,12 @@
 
       $(".bike_total").html(bikes_total - order_gst);
       $(".helmet_total").html(helmet_total);
+      $(".earlypickup_charge").html(early_pickup);
       $(".refund_deposit").html(refund_deposit);
       $(".order_gst").html(order_gst);
       $(".total").html(total);
 
-      var final_amount = total + refund_deposit;
+      var final_amount = total;
       $(".final_total").html(final_amount);
 
       var pay_mode = $("input[name='paymentOption']:checked").val();
@@ -349,7 +355,7 @@
       } 
       else
       {
-        final_amount = (bikes_total/2).toFixed(2) + helmet_total + early_pickup + refund_deposit;
+        final_amount = parseFloat((bikes_total / 2).toFixed(2)) + parseFloat(helmet_total) + parseFloat(early_pickup);
         $("input[name='paid']").val(final_amount);
       }
 
@@ -414,9 +420,11 @@
         if ($(this).is(":checked")) {
           $("input[name='helmets_qty']").val(1);
           $("#extra_helemt_block").slideDown();
+          $("#helmets_row").show();
         } else {
           $("input[name='helmets_qty']").val(0);
           $("#extra_helemt_block").slideUp();
+          $("#helmets_row").hide();
         }
         updateCart();
       });
@@ -490,19 +498,19 @@
                 {
                   $(".booking_form #search_bike").prop("disabled", false);
                   
-                  var html = "<table class='table datatable table-responsive rounded border small'>";
+                  var html = "<table class='table datatable table-responsive rounded border'>";
                   html += "<tbody><tr><td class='bg-warning-light font-bold w-30'>Pickup</td><td><span class='d-block p-1 fs-8 font-bold'>"+formatdate(response.data.pickup_date)+" &nbsp;&nbsp;&nbsp; "+response.data.pickup_time+"</span></td></tr><tr><td class='bg-warning-light font-bold w-30'>Dropoff</td><td><span class='d-block p-1 fs-8 font-bold'>"+formatdate(response.data.dropoff_date)+" &nbsp;&nbsp;&nbsp; "+response.data.dropoff_time+"</span></td></tr><tr><td class='bg-warning-light font-bold w-30'>Duration</td><td><b>"+response.data.period_days+"</b> days, <b>"+response.data.period_hours+"</b> hours </td></tr><tr><td class='bg-warning-light font-bold w-30'>Holiday</td><td>"+((response.data.holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr><tr><td class='bg-warning-light font-bold w-30'>Public Holiday</td><td>"+((response.data.public_holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr><tr><td class='bg-warning-light font-bold w-30'>Weekend</td><td>"+((response.data.weekend)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr></tbody></table>";
 
                   $(".booking_form #search_bikes_row").html(html);
 
-                  html = "<table class='table datatable table-responsive rounded border small text-center'>";
-                  html += "<thead><tr><th class='bg-warning'>Id</th><th class='bg-warning'>Bike</th><th class='bg-warning'>Image</th><th class='bg-warning'>CC</th><th class='bg-warning'>Vehicle Number</th><th class='bg-warning'>Rent Price</th><th class='bg-warning'>Available</th></tr></thead>";
+                  html = "<table class='table datatable table-responsive rounded border text-center'>";
+                  html += "<thead><tr><th class='bg-warning'>Id</th><th class='bg-warning'>Bike</th><th class='bg-warning'>Image</th><th class='bg-warning'>Vehicle Number</th><th class='bg-warning'>Rent Price</th></tr></thead>";
                   html += "<tbody>";
                   var bikes = response.data.cart_bikes;
                   for (var i = 0; i < bikes.length; i++) 
                   {
                     var row = bikes[i];
-                    html += "<tr><td><div class='form-check'><input class='form-check-input' id='bike_"+row.bid+"' type='checkbox' style='height:20px;width:20px;' onchange='bike_added("+row.bid+", "+row.rent_price+")' class='bike_check' value='1'></div></td><td><span style='vertical-align:middle;'>"+row.bike_type_name+"</span></td><td><img style='max-width:50px;float:left;' class='img-fluid' src='"+bike_url+row.image+"'></td><td>"+row.cc+"</td><td>"+row.vehicle_number+"</td><td>"+row.rent_price+"</td><td><span class='badge bg-success'>Yes</span></td></tr>";
+                    html += "<tr><td><div class='form-check'><input class='form-check-input' id='bike_"+row.bid+"' type='checkbox' style='height:20px;width:20px;' onchange='bike_added("+row.bid+", "+row.rent_price+")' class='bike_check' value='1'></div></td><td><span style='vertical-align:middle;'>"+row.bike_type_name+"</span></td><td><img style='max-width:50px;float:left;' class='img-fluid' src='"+bike_url+row.image+"'></td><td>"+row.vehicle_number+"</td><td>"+row.rent_price+"</td></tr>";
                   }
                   html += "</tbody>";
                   html += "</table>";

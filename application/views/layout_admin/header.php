@@ -113,7 +113,7 @@
       </li> -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="<?=base_url('admin/Bookings?status=0')?>">
+        <a class="nav-link collapsed" href="<?=base_url('admin/Bookings?status=new')?>">
           <i class="bi bi-card-list"></i>
           <span>New Bookings</span>
         </a>

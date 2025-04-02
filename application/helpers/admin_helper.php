@@ -195,6 +195,63 @@ function sendReturnReminderTodayToCustomer($phone, $customer_name, $return_date,
     return true;
 }
 
+// Send Message to Customer for pickup late by 1 Hr
+function sendPickupReminderTodayToCustomer($phone, $customer_name, $pickup_date, $pickup_time)
+{
+    //rock_reminder
+    $pickup_datetime = $pickup_date." ".$pickup_time;
+    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=rnr_return_reminder&priority=wa&stype=normal&Params=".urlencode($customer_name).",".urlencode($pickup_datetime);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    if(curl_errno($ch)) 
+    {
+        curl_close($ch);
+        return false;
+    }
+    curl_close($ch); // Close the connection
+    return true;
+}
+
+// Send Message to Customer for pickup late by 2 Hr
+function sendPickupReminderTodayToCustomer2($phone, $customer_name, $pickup_date, $pickup_time)
+{
+    //rock_reminder
+    $pickup_datetime = $pickup_date." ".$pickup_time;
+    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=rnr_return_reminder_second&priority=wa&stype=normal&Params=".urlencode($customer_name).",".urlencode($pickup_datetime);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    if(curl_errno($ch)) 
+    {
+        curl_close($ch);
+        return false;
+    }
+    curl_close($ch); // Close the connection
+    return true;
+}
+
+// Send Message to Customer for pickup before 1 Hr
+function sendCancelReminderTodayToCustomer($phone, $customer_name, $pickup_date, $pickup_time)
+{
+    //rock_reminder
+    $pickup_datetime = $pickup_date." ".$pickup_time;
+    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=rnr_cancel&priority=wa&stype=normal&Params=".urlencode($customer_name).",".urlencode($pickup_datetime);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    if(curl_errno($ch)) 
+    {
+        curl_close($ch);
+        return false;
+    }
+    curl_close($ch); // Close the connection
+    return true;
+}
+
 function sendSafetyMessageCustomer($customer_name)
 {
     //rnr_safetys

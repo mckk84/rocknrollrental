@@ -43,7 +43,11 @@ class Bookings extends CI_Controller
             $data['page_title'] = "Bookings";
             $biketypes = $this->biketypes_model->getAll();
             $data['biketypes'] = result_to_array($biketypes);
-            $data['records'] = $this->bookings_model->getAll($status);
+            if( $status == "new" ){
+                $data['records'] = $this->bookings_model->getAll("0,1");
+            }else{
+                $data['records'] = $this->bookings_model->getAll();
+            }
             
             $this->load->view('layout_admin/header', $data);
             $this->load->view('backend/bookings', $data);
@@ -196,6 +200,53 @@ class Bookings extends CI_Controller
         $response["success_message"] = "Success";
         $response["data"] = $data;
         die(json_encode($response));
+    }
+
+    public function getAvailableBikes()
+    {
+        $response = array("error" => 0, "error_message" => "", "success_message" => "");
+        $this->load->library('form_validation'); 
+        $this->form_validation->set_rules('type_ids','Bike Type','trim|required|max_length[128]');
+        $this->form_validation->set_rules('booking_id','Booking Id','trim|required|max_length[128]');
+        
+        if($this->form_validation->run() == FALSE)
+        {
+            $response["error"] = 1;
+            $response["error_message"] = $this->form_validation->error_string();
+            die(json_encode($response));
+        }
+        else
+        {
+            $data['booking_id'] = trim($this->input->post('booking_id'));
+            $data['type_id'] = trim($this->input->post('type_ids'));
+            $data['order'] = $this->bookings_model->getById($data['booking_id']);
+            $data['pickup_date'] = trim($this->input->post('pickup_date'));
+            $data['pickup_time'] = trim($this->input->post('pickup_time'));
+            $data['dropoff_date'] = trim($this->input->post('dropoff_date'));
+            $data['dropoff_time'] = trim($this->input->post('dropoff_time'));
+            
+            $data['available_bikes'] = $this->searchbike_model->searchBikes($data['type_id'], $data['pickup_date'], $data['pickup_time'], $data['dropoff_date'], $data['dropoff_time']);
+
+            $data['bikes'] = [];
+            foreach($data['available_bikes'] as $row)
+            {
+                if( array_key_exists( $row['bike_type_id'], $data['bikes'] ) )
+                {
+                    $data['bikes'][$row['bike_type_id']][] = $row;
+                }
+                else
+                {
+                    $data['bikes'][$row['bike_type_id']][] = $row;
+                }
+            }
+            unset($data['available_bikes']);
+
+            $response["error"] = 0;
+            $response["error_message"] = "";
+            $response["success_message"] = "Success";
+            $response["data"] = $data;
+            die(json_encode($response));
+        }
     }
 
     public function getRecord()
@@ -365,6 +416,54 @@ class Bookings extends CI_Controller
         $data['customer'] = $this->customers_model->getById($data['order']['customer_id']);
         
         echo sendReturnReminderTodayToCustomer($data['customer']['phone'], $data['customer']['name'], dateformatuser($data['order']['dropoff_date']), $data['order']['dropoff_time']);
+    }
+
+    public function whatsapp_pickup()
+    {
+        $booking_id = (isset($_GET['bid']) && $_GET['bid'] != "") ? intval($_GET['bid']) : 0;
+        if( $booking_id == 0 )
+        {
+            redirect('admin/Bookings');
+        } 
+        $data['user'] = $this->session->userdata();
+        $data['admin_phone'] = $this->users_model->getAdminPhone();
+        $data['booking_id'] = $booking_id;
+        $data['order'] = $this->bookings_model->getById($booking_id);
+        $data['customer'] = $this->customers_model->getById($data['order']['customer_id']);
+        
+        echo sendPickupReminderTodayToCustomer($data['customer']['phone'], $data['customer']['name'], dateformatuser($data['order']['pickup_date']), $data['order']['pickup_time']);
+    }
+
+    public function whatsapp_pickup_second()
+    {
+        $booking_id = (isset($_GET['bid']) && $_GET['bid'] != "") ? intval($_GET['bid']) : 0;
+        if( $booking_id == 0 )
+        {
+            redirect('admin/Bookings');
+        } 
+        $data['user'] = $this->session->userdata();
+        $data['admin_phone'] = $this->users_model->getAdminPhone();
+        $data['booking_id'] = $booking_id;
+        $data['order'] = $this->bookings_model->getById($booking_id);
+        $data['customer'] = $this->customers_model->getById($data['order']['customer_id']);
+        
+        echo sendPickupReminderTodayToCustomer2($data['customer']['phone'], $data['customer']['name'], dateformatuser($data['order']['pickup_date']), $data['order']['pickup_time']);
+    }
+
+    public function whatsapp_cancel()
+    {
+        $booking_id = (isset($_GET['bid']) && $_GET['bid'] != "") ? intval($_GET['bid']) : 0;
+        if( $booking_id == 0 )
+        {
+            redirect('admin/Bookings');
+        } 
+        $data['user'] = $this->session->userdata();
+        $data['admin_phone'] = $this->users_model->getAdminPhone();
+        $data['booking_id'] = $booking_id;
+        $data['order'] = $this->bookings_model->getById($booking_id);
+        $data['customer'] = $this->customers_model->getById($data['order']['customer_id']);
+        
+        echo sendCancelReminderTodayToCustomer($data['customer']['phone'], $data['customer']['name'], dateformatuser($data['order']['pickup_date']), $data['order']['pickup_time']);
     }
 
     public function search()
@@ -630,219 +729,457 @@ class Bookings extends CI_Controller
         $response = array("error" => 0, "error_message" => "", "success_message" => "");
         $this->load->library('form_validation'); 
 
-        $this->form_validation->set_rules('booking_id','Booking Id','trim|required|max_length[128]');
-        $this->form_validation->set_rules('pickup_status','Pickup status','trim|required|max_length[128]');
-        $this->form_validation->set_rules('refund_status','Refund status','trim|required|max_length[128]');
+        if( isset($_POST['pickup_date']) && $_POST['pickup_date'] != "" )
+        {
+            $this->form_validation->set_rules('booking_id','Booking Id','trim|required|max_length[128]');
+            $this->form_validation->set_rules('pickup_date','Pickup date','trim|required|max_length[128]');
+            $this->form_validation->set_rules('pickup_time','Pickup time','trim|required|max_length[128]');
 
-        if($this->form_validation->run() == FALSE)
-        {
-            $response["error"] = 1;
-            $response["error_message"] = $this->form_validation->error_string();
-            die(json_encode($response));
-        }
-        else
-        {
-            // check booking id
-            $data['booking_id'] = trim($this->input->post('booking_id'));
-            $data['order'] = $this->bookings_model->getById($data['booking_id']);
-            $data['bike_types'] = $this->bookingbikes_model->getByBookingId($data['booking_id']);
-            if( count($data['order']) == 0 )
+            $this->form_validation->set_rules('dropoff_date','Dropoff date','trim|required|max_length[128]');
+            $this->form_validation->set_rules('dropoff_time','Dropoff time','trim|required|max_length[128]');
+            $this->form_validation->set_rules('pickup_status','Pickup status','trim|required|max_length[128]');
+            $this->form_validation->set_rules('refund_status','Refund status','trim|required|max_length[128]');
+
+            if($this->form_validation->run() == FALSE)
             {
                 $response["error"] = 1;
-                $response["error_message"] = "Booking Id ".$data['booking_id']." not found.";
+                $response["error_message"] = $this->form_validation->error_string();
                 die(json_encode($response));
-            }
-
-            $user = $this->session->userdata();
-
-            if( $this->input->post('free_helmet') != null ){
-                $data['free_helmet'] = trim($this->input->post('free_helmet'));
-            }else{
-                $data['free_helmet'] = 0;
-            }
-
-            if( $this->input->post('extra_helemts') != null ){
-                $data['helmets_qty'] = trim($this->input->post('helmets_qty'));
-            }else{
-                $data['helmets_qty'] = 0;
-            }
-
-            $data['delivery_notes'] = trim($this->input->post('delivery_notes'));
-            $data['pickup_status'] = trim($this->input->post('pickup_status'));
-            $data['refund_status'] = trim($this->input->post('refund_status'));
-            $data['new_payment'] = trim($this->input->post('new_payment'));
-            $data['order_bike_types'] = trim($this->input->post('order_bike_types'));
-
-            $old_biketypes = [];
-            foreach($data['bike_types'] as $obs)
-            {
-                $old_biketypes[] = $obs['type_id'];
-            }
-            
-            $obt_rows = explode(",", $data['order_bike_types']);
-            $bikes_assigned = [];
-            $bike_types_assigned = [];
-            foreach($obt_rows as $row_id)
-            {
-                if( !isset($_POST['assign_bike_row_'.$row_id]))
-                {
-                    $response["error"] = 1;
-                    $response["error_message"] = "Please assign vehicles.";
-                    die(json_encode($response));
-                }
-                else if( isset($_POST['assign_bike_row_'.$row_id]) && $_POST['assign_bike_row_'.$row_id] == 0 )
-                {
-                    $response["error"] = 1;
-                    $response["error_message"] = "Please assign vehicles.";
-                    die(json_encode($response));
-                }
-                else
-                {
-                    if( !in_array( $_POST['assign_bike_row_'.$row_id], $bikes_assigned ) )
-                    {
-                        $bikes_assigned[] = $_POST['assign_bike_row_'.$row_id];
-                        $bike_types_assigned[] = $_POST['assign_biketype_row_'.$row_id];
-                    }
-                    else
-                    {
-                        $response["error"] = 1;
-                        $response["error_message"] = "Assigned same vehicle multiple times.";
-                        die(json_encode($response));
-                    }
-                }
-            }
-            $order_snap = [];
-            $diff = array_diff_assoc($old_biketypes, $bike_types_assigned);
-            if( count($diff) > 0 )
-            {
-                // New Bikes assigned
-                $total = 0;
-                $gst = 0;
-
-                // OLD BIKES FREE
-                foreach($data['bike_types'] as $obs)
-                {
-                    if( $obs['bike_id'] != 0 )
-                    {
-                        $this->bike_model->updateRecord(array("available" => 1), $obs['bike_id']);
-                    }
-                }
-                $this->bookingbikes_model->deleteByBookingId($data['booking_id']);
-
-                $bike_total = 0;
-                // INSERT NEW BIKE TYPES
-                foreach($obt_rows as $row_id)
-                {
-                    $bike_id = $_POST['assign_bike_row_'.$row_id];
-                    $bike_type_id = $_POST['assign_biketype_row_'.$row_id];
-                    $rent = $_POST['assign_bike_rent_'.$row_id];
-
-                    $bookingbikes_record = array(
-                        "booking_id" => $data['booking_id'],
-                        "type_id" => $bike_type_id,
-                        "bike_id" => $bike_id,
-                        "quantity" => 1,
-                        "created_by" => $user['userId'],  
-                    );
-                    $this->bookingbikes_model->addNew($bookingbikes_record);
-                    $order_snap['booking_bikes_records'][] = $bookingbikes_record;
-
-                    if( $data['pickup_status'] == 1 )
-                    {
-                        // update bikerecord to unavailable
-                        $this->bike_model->updateRecord(array("available" => 0), $bike_id);
-                    }
-                    else
-                    {
-                        // update bikerecord to available
-                        $this->bike_model->updateRecord(array("available" => 1), $bike_id);
-                    }
-
-                    $bike_total += $rent;
-                }
-
-                $total = $bike_total;
-                $gst = round(($bike_total * 0.05), 2);
-
-                $booking_record = array(
-                    "total_amount" => $total,
-                    "gst" => $gst,
-                    "helmet_quantity" => $data['helmets_qty'],
-                    "free_helmet" => $data['free_helmet'],
-                    "refund_status" => $data['refund_status'],
-                    "status" => $data['pickup_status'],
-                    "delivery_notes" => $data['delivery_notes'],  
-                );
-                $this->bookings_model->updateRecord($booking_record, $data['booking_id']);
-                $order_snap['booking_record'] = $booking_record;
             }
             else
             {
-                $booking_record = array(
-                    "helmet_quantity" => $data['helmets_qty'],
-                    "free_helmet" => $data['free_helmet'],
-                    "refund_status" => $data['refund_status'],
-                    "status" => $data['pickup_status'],
-                    "delivery_notes" => $data['delivery_notes'],  
-                );
-            
-                $this->bookings_model->updateRecord($booking_record, $data['booking_id']);
-                $order_snap['booking_record'] = $booking_record;
+                $data['pickup_date'] = trim($this->input->post('pickup_date'));
+                $data['pickup_time'] = trim($this->input->post('pickup_time'));
+                $data['dropoff_date'] = trim($this->input->post('dropoff_date'));
+                $data['dropoff_time'] = trim($this->input->post('dropoff_time'));
+                $data['helmets_qty'] = trim($this->input->post('helmets_qty'));
+                $data['free_helmet'] = trim($this->input->post('free_helmet'));
+                $data['early_pickup'] = trim($this->input->post('early_pickup'));
+                $data['booking_id'] = trim($this->input->post('booking_id'));
+                $data['order'] = $this->bookings_model->getById($data['booking_id']);
+                $data['bike_types'] = $this->bookingbikes_model->getByBookingId($data['booking_id']);
+                if( count($data['order']) == 0 )
+                {
+                    $response["error"] = 1;
+                    $response["error_message"] = "Booking Id ".$data['booking_id']." not found.";
+                    die(json_encode($response));
+                }
+
+                $user = $this->session->userdata();
+
+                if( $this->input->post('free_helmet') != null ){
+                    $data['free_helmet'] = trim($this->input->post('free_helmet'));
+                }else{
+                    $data['free_helmet'] = 0;
+                }
+
+                if( $this->input->post('extra_helemts') != null ){
+                    $data['helmets_qty'] = trim($this->input->post('helmets_qty'));
+                }else{
+                    $data['helmets_qty'] = 0;
+                }
+                $data['delivery_notes'] = trim($this->input->post('delivery_notes'));
+                $data['pickup_status'] = trim($this->input->post('pickup_status'));
+                $data['refund_status'] = trim($this->input->post('refund_status'));
+                $data['new_payment'] = trim($this->input->post('new_payment'));
+                $data['order_bike_types'] = trim($this->input->post('order_bike_types'));
                 
+                $old_biketypes = [];
+                foreach($data['bike_types'] as $obs)
+                {
+                    $old_biketypes[] = $obs['type_id'];
+                }
+                
+                $obt_rows = explode(",", $data['order_bike_types']);
+                $bikes_assigned = [];
+                $bike_types_assigned = [];
                 foreach($obt_rows as $row_id)
                 {
-                    $old_row = $this->bookingbikes_model->getById($row_id);
-
-                    $bike_id = $_POST['assign_bike_row_'.$row_id];
-                    $bike_type_id = $_POST['assign_biketype_row_'.$row_id];
-
-                    if( $old_row['type_id'] !== $bike_type_id )
+                    if( !isset($_POST['assign_bike_row_'.$row_id]))
                     {
-                        if( $old_row['bike_id'] != 0 )
-                        {
-                            $this->bike_model->updateRecord(array("available" => 1), $old_row['bike_id']);
-                        }
+                        $response["error"] = 1;
+                        $response["error_message"] = "Please assign vehicles.";
+                        die(json_encode($response));
                     }
-
-                    $this->bookingbikes_model->updateRecord(array("bike_id" => $bike_id, "type_id" => $bike_type_id), $row_id);
-                    $order_snap['booking_bikes_records'][] = array("bike_id" => $bike_id, "type_id" => $bike_type_id);
-                    if( $data['pickup_status'] == 1 )
+                    else if( isset($_POST['assign_bike_row_'.$row_id]) && $_POST['assign_bike_row_'.$row_id] == 0 )
                     {
-                        // update bikerecord to unavailable
-                        $this->bike_model->updateRecord(array("available" => 0), $bike_id);
+                        $response["error"] = 1;
+                        $response["error_message"] = "Please assign vehicles.";
+                        die(json_encode($response));
                     }
                     else
                     {
-                        // update bikerecord to available
-                        $this->bike_model->updateRecord(array("available" => 1), $bike_id);
+                        if( !in_array( $_POST['assign_bike_row_'.$row_id], $bikes_assigned ) )
+                        {
+                            $bikes_assigned[] = $_POST['assign_bike_row_'.$row_id];
+                            $bike_types_assigned[] = $_POST['assign_biketype_row_'.$row_id];
+                        }
+                        else
+                        {
+                            $response["error"] = 1;
+                            $response["error_message"] = "Assigned same vehicle multiple times.";
+                            die(json_encode($response));
+                        }
                     }
                 }
-            }
-            
+                $order_snap = [];
+                $diff = array_diff_assoc($old_biketypes, $bike_types_assigned);
+                if( count($diff) > 0 )
+                {
+                    // New Bikes assigned
+                    $total = 0;
+                    $gst = 0;
 
-            if( $data['new_payment'] != "" && $data['new_payment'] != 0 )
+                    // OLD BIKES FREE
+                    foreach($data['bike_types'] as $obs)
+                    {
+                        if( $obs['bike_id'] != 0 )
+                        {
+                            $this->bike_model->updateRecord(array("available" => 1), $obs['bike_id']);
+                        }
+                    }
+                    $this->bookingbikes_model->deleteByBookingId($data['booking_id']);
+
+                    $bike_total = 0;
+                    // INSERT NEW BIKE TYPES
+                    foreach($obt_rows as $row_id)
+                    {
+                        $bike_id = $_POST['assign_bike_row_'.$row_id];
+                        $bike_type_id = $_POST['assign_biketype_row_'.$row_id];
+                        $rent = $_POST['assign_bike_rent_'.$row_id];
+
+                        $bookingbikes_record = array(
+                            "booking_id" => $data['booking_id'],
+                            "type_id" => $bike_type_id,
+                            "bike_id" => $bike_id,
+                            "quantity" => 1,
+                            "created_by" => $user['userId'],  
+                        );
+                        $this->bookingbikes_model->addNew($bookingbikes_record);
+                        $order_snap['booking_bikes_records'][] = $bookingbikes_record;
+
+                        if( $data['pickup_status'] == 1 )
+                        {
+                            // update bikerecord to unavailable
+                            $this->bike_model->updateRecord(array("available" => 0), $bike_id);
+                        }
+                        else
+                        {
+                            // update bikerecord to available
+                            $this->bike_model->updateRecord(array("available" => 1), $bike_id);
+                        }
+
+                        $bike_total += $rent;
+                    }
+
+                    $total = $bike_total;
+                    $gst = round(($bike_total * 0.05), 2);
+
+                    $booking_record = array(
+                        "pickup_date" => dateformatdb($data['pickup_date']),
+                        "pickup_time" => $data['pickup_time'],
+                        "dropoff_date" => dateformatdb($data['dropoff_date']),
+                        "dropoff_time" => $data['dropoff_time'],
+                        "total_amount" => $total,
+                        "gst" => $gst,
+                        "helmet_quantity" => $data['helmets_qty'],
+                        "free_helmet" => $data['free_helmet'],
+                        "refund_status" => $data['refund_status'],
+                        "status" => $data['pickup_status'],
+                        "delivery_notes" => $data['delivery_notes'],  
+                    );
+                    $this->bookings_model->updateRecord($booking_record, $data['booking_id']);
+                    $order_snap['booking_record'] = $booking_record;
+                }
+                else
+                {
+                    $booking_record = array(
+                        "pickup_date" => dateformatdb($data['pickup_date']),
+                        "pickup_time" => $data['pickup_time'],
+                        "dropoff_date" => dateformatdb($data['dropoff_date']),
+                        "dropoff_time" => $data['dropoff_time'],
+                        "helmet_quantity" => $data['helmets_qty'],
+                        "free_helmet" => $data['free_helmet'],
+                        "refund_status" => $data['refund_status'],
+                        "status" => $data['pickup_status'],
+                        "delivery_notes" => $data['delivery_notes'],  
+                    );
+                
+                    $this->bookings_model->updateRecord($booking_record, $data['booking_id']);
+                    $order_snap['booking_record'] = $booking_record;
+                    
+                    foreach($obt_rows as $row_id)
+                    {
+                        $old_row = $this->bookingbikes_model->getById($row_id);
+
+                        $bike_id = $_POST['assign_bike_row_'.$row_id];
+                        $bike_type_id = $_POST['assign_biketype_row_'.$row_id];
+
+                        if( $old_row['type_id'] !== $bike_type_id )
+                        {
+                            if( $old_row['bike_id'] != 0 )
+                            {
+                                $this->bike_model->updateRecord(array("available" => 1), $old_row['bike_id']);
+                            }
+                        }
+
+                        $this->bookingbikes_model->updateRecord(array("bike_id" => $bike_id, "type_id" => $bike_type_id), $row_id);
+                        $order_snap['booking_bikes_records'][] = array("bike_id" => $bike_id, "type_id" => $bike_type_id);
+                        if( $data['pickup_status'] == 1 )
+                        {
+                            // update bikerecord to unavailable
+                            $this->bike_model->updateRecord(array("available" => 0), $bike_id);
+                        }
+                        else
+                        {
+                            // update bikerecord to available
+                            $this->bike_model->updateRecord(array("available" => 1), $bike_id);
+                        }
+                    }
+                }
+                
+
+                if( $data['new_payment'] != "" && $data['new_payment'] != 0 )
+                {
+                    $booking_payment = array(
+                        "booking_id" => $data['booking_id'],
+                        "amount" => $data['new_payment'],
+                        "payment_mode" => 1,
+                        "created_by" => $user['userId']
+                    );
+                    $this->bookingpayment_model->addNew($booking_payment);
+                    $order_snap['booking_payment_record'] = $booking_payment;
+                }
+
+                // Save Snapshot
+                $order_history["booking_id"] = $data['booking_id'];
+                $order_history["order_json"] = json_encode($order_snap);
+                $order_history["created_by"] = $user['userId'];
+                $this->orderhistory_model->addNew($order_history);
+                
+                $response["error"] = 0;
+                $response["error_message"] = "";
+                $response["success_message"] = "Record updated successfully";
+
+                die(json_encode($response));
+            }
+        }
+        else
+        {
+            $this->form_validation->set_rules('booking_id','Booking Id','trim|required|max_length[128]');
+            $this->form_validation->set_rules('pickup_status','Pickup status','trim|required|max_length[128]');
+            $this->form_validation->set_rules('refund_status','Refund status','trim|required|max_length[128]');
+
+            if($this->form_validation->run() == FALSE)
             {
-                $booking_payment = array(
-                    "booking_id" => $data['booking_id'],
-                    "amount" => $data['new_payment'],
-                    "payment_mode" => 1,
-                    "created_by" => $user['userId']
-                );
-                $this->bookingpayment_model->addNew($booking_payment);
-                $order_snap['booking_payment_record'] = $booking_payment;
+                $response["error"] = 1;
+                $response["error_message"] = $this->form_validation->error_string();
+                die(json_encode($response));
             }
+            else
+            {
+                // check booking id
+                $data['booking_id'] = trim($this->input->post('booking_id'));
+                $data['order'] = $this->bookings_model->getById($data['booking_id']);
+                $data['bike_types'] = $this->bookingbikes_model->getByBookingId($data['booking_id']);
+                if( count($data['order']) == 0 )
+                {
+                    $response["error"] = 1;
+                    $response["error_message"] = "Booking Id ".$data['booking_id']." not found.";
+                    die(json_encode($response));
+                }
 
-            // Save Snapshot
-            $order_history["booking_id"] = $data['booking_id'];
-            $order_history["order_json"] = json_encode($order_snap);
-            $order_history["created_by"] = $user['userId'];
-            $this->orderhistory_model->addNew($order_history);
-            
-            $response["error"] = 0;
-            $response["error_message"] = "";
-            $response["success_message"] = "Record updated successfully";
+                $user = $this->session->userdata();
 
-            die(json_encode($response));
+                if( $this->input->post('free_helmet') != null ){
+                    $data['free_helmet'] = trim($this->input->post('free_helmet'));
+                }else{
+                    $data['free_helmet'] = 0;
+                }
+
+                if( $this->input->post('extra_helemts') != null ){
+                    $data['helmets_qty'] = trim($this->input->post('helmets_qty'));
+                }else{
+                    $data['helmets_qty'] = 0;
+                }
+
+                $data['delivery_notes'] = trim($this->input->post('delivery_notes'));
+                $data['pickup_status'] = trim($this->input->post('pickup_status'));
+                $data['refund_status'] = trim($this->input->post('refund_status'));
+                $data['new_payment'] = trim($this->input->post('new_payment'));
+                $data['order_bike_types'] = trim($this->input->post('order_bike_types'));
+
+                $old_biketypes = [];
+                foreach($data['bike_types'] as $obs)
+                {
+                    $old_biketypes[] = $obs['type_id'];
+                }
+                
+                $obt_rows = explode(",", $data['order_bike_types']);
+                $bikes_assigned = [];
+                $bike_types_assigned = [];
+                foreach($obt_rows as $row_id)
+                {
+                    if( !isset($_POST['assign_bike_row_'.$row_id]))
+                    {
+                        $response["error"] = 1;
+                        $response["error_message"] = "Please assign vehicles.";
+                        die(json_encode($response));
+                    }
+                    else if( isset($_POST['assign_bike_row_'.$row_id]) && $_POST['assign_bike_row_'.$row_id] == 0 )
+                    {
+                        $response["error"] = 1;
+                        $response["error_message"] = "Please assign vehicles.";
+                        die(json_encode($response));
+                    }
+                    else
+                    {
+                        if( !in_array( $_POST['assign_bike_row_'.$row_id], $bikes_assigned ) )
+                        {
+                            $bikes_assigned[] = $_POST['assign_bike_row_'.$row_id];
+                            $bike_types_assigned[] = $_POST['assign_biketype_row_'.$row_id];
+                        }
+                        else
+                        {
+                            $response["error"] = 1;
+                            $response["error_message"] = "Assigned same vehicle multiple times.";
+                            die(json_encode($response));
+                        }
+                    }
+                }
+                $order_snap = [];
+                $diff = array_diff_assoc($old_biketypes, $bike_types_assigned);
+                if( count($diff) > 0 )
+                {
+                    // New Bikes assigned
+                    $total = 0;
+                    $gst = 0;
+
+                    // OLD BIKES FREE
+                    foreach($data['bike_types'] as $obs)
+                    {
+                        if( $obs['bike_id'] != 0 )
+                        {
+                            $this->bike_model->updateRecord(array("available" => 1), $obs['bike_id']);
+                        }
+                    }
+                    $this->bookingbikes_model->deleteByBookingId($data['booking_id']);
+
+                    $bike_total = 0;
+                    // INSERT NEW BIKE TYPES
+                    foreach($obt_rows as $row_id)
+                    {
+                        $bike_id = $_POST['assign_bike_row_'.$row_id];
+                        $bike_type_id = $_POST['assign_biketype_row_'.$row_id];
+                        $rent = $_POST['assign_bike_rent_'.$row_id];
+
+                        $bookingbikes_record = array(
+                            "booking_id" => $data['booking_id'],
+                            "type_id" => $bike_type_id,
+                            "bike_id" => $bike_id,
+                            "quantity" => 1,
+                            "created_by" => $user['userId'],  
+                        );
+                        $this->bookingbikes_model->addNew($bookingbikes_record);
+                        $order_snap['booking_bikes_records'][] = $bookingbikes_record;
+
+                        if( $data['pickup_status'] == 1 )
+                        {
+                            // update bikerecord to unavailable
+                            $this->bike_model->updateRecord(array("available" => 0), $bike_id);
+                        }
+                        else
+                        {
+                            // update bikerecord to available
+                            $this->bike_model->updateRecord(array("available" => 1), $bike_id);
+                        }
+
+                        $bike_total += $rent;
+                    }
+
+                    $total = $bike_total;
+                    $gst = round(($bike_total * 0.05), 2);
+
+                    $booking_record = array(
+                        "total_amount" => $total,
+                        "gst" => $gst,
+                        "helmet_quantity" => $data['helmets_qty'],
+                        "free_helmet" => $data['free_helmet'],
+                        "refund_status" => $data['refund_status'],
+                        "status" => $data['pickup_status'],
+                        "delivery_notes" => $data['delivery_notes'],  
+                    );
+                    $this->bookings_model->updateRecord($booking_record, $data['booking_id']);
+                    $order_snap['booking_record'] = $booking_record;
+                }
+                else
+                {
+                    $booking_record = array(
+                        "helmet_quantity" => $data['helmets_qty'],
+                        "free_helmet" => $data['free_helmet'],
+                        "refund_status" => $data['refund_status'],
+                        "status" => $data['pickup_status'],
+                        "delivery_notes" => $data['delivery_notes'],  
+                    );
+                
+                    $this->bookings_model->updateRecord($booking_record, $data['booking_id']);
+                    $order_snap['booking_record'] = $booking_record;
+                    
+                    foreach($obt_rows as $row_id)
+                    {
+                        $old_row = $this->bookingbikes_model->getById($row_id);
+
+                        $bike_id = $_POST['assign_bike_row_'.$row_id];
+                        $bike_type_id = $_POST['assign_biketype_row_'.$row_id];
+
+                        if( $old_row['type_id'] !== $bike_type_id )
+                        {
+                            if( $old_row['bike_id'] != 0 )
+                            {
+                                $this->bike_model->updateRecord(array("available" => 1), $old_row['bike_id']);
+                            }
+                        }
+
+                        $this->bookingbikes_model->updateRecord(array("bike_id" => $bike_id, "type_id" => $bike_type_id), $row_id);
+                        $order_snap['booking_bikes_records'][] = array("bike_id" => $bike_id, "type_id" => $bike_type_id);
+                        if( $data['pickup_status'] == 1 )
+                        {
+                            // update bikerecord to unavailable
+                            $this->bike_model->updateRecord(array("available" => 0), $bike_id);
+                        }
+                        else
+                        {
+                            // update bikerecord to available
+                            $this->bike_model->updateRecord(array("available" => 1), $bike_id);
+                        }
+                    }
+                }
+                
+
+                if( $data['new_payment'] != "" && $data['new_payment'] != 0 )
+                {
+                    $booking_payment = array(
+                        "booking_id" => $data['booking_id'],
+                        "amount" => $data['new_payment'],
+                        "payment_mode" => 1,
+                        "created_by" => $user['userId']
+                    );
+                    $this->bookingpayment_model->addNew($booking_payment);
+                    $order_snap['booking_payment_record'] = $booking_payment;
+                }
+
+                // Save Snapshot
+                $order_history["booking_id"] = $data['booking_id'];
+                $order_history["order_json"] = json_encode($order_snap);
+                $order_history["created_by"] = $user['userId'];
+                $this->orderhistory_model->addNew($order_history);
+                
+                $response["error"] = 0;
+                $response["error_message"] = "";
+                $response["success_message"] = "Record updated successfully";
+
+                die(json_encode($response));
+            }
         }
     }
 
@@ -927,13 +1264,13 @@ class Bookings extends CI_Controller
         }
         else
         {
-            if( $data['record']['status'] <= 1 )
+            if( $data['record']['status'] >= 1 )
             {
                 $data['order_bike_types'] = $this->bookingbikes_model->getByBookingId($record_id);
                 foreach($data['order_bike_types'] as $row)
                 {
                     // update bikerecord to unavailable
-                    $this->bike_model->updateRecord(array("available" => 0), $row['bike_id']);
+                    $this->bike_model->updateRecord(array("available" => 1), $row['bike_id']);
                 }
             }
 
