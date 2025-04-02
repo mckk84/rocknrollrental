@@ -72,7 +72,7 @@
                             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
                                 <div class="md-listing-single bg-white position-relative">   
                                     <figure style="border-bottom: 1px solid #FFDD06;" class="overflow-hidden rounded-top mb-0">
-                                        <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" style="width:100%;height:100%;min-height: 167px;" class="img-fluid m-2">
+                                        <img src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" style="height:180px;width:100%;" class="img-fluid m-2">
                                     </figure>
                                     <div class="md-listing-single-content">
                                         <a href="javascript:void(0)">
@@ -114,6 +114,9 @@
                                             <?php } else { ?>    
                                                 <?php if(isset($bike['not_available']) && $bike['not_available'] == $bike['bikes_available']) { ?>
                                                 <a href="javascript:void(0)" title="<?=$bike['bike_type_name']?>">Sold Out</a>
+                                                <?php if( isset($bike['available_from']) && $bike['available_from'] != "" ){?>
+                                                    <span class="special_note fw-bold text-danger">*Avaialble from <?=getAvailableDate($bike['available_from'])?>.</span>
+                                                <?php } ?>
                                                 <?php } else { ?>
                                                 <a href="javascript:void(0)" class="booknow btn md-primary-btn p-1 px-2" bike-name="<?=$bike['bike_type_name']?>" bike-id="<?=$bike['bike_type_id']?>" title="Book Now">BOOK NOW</a>    
                                                 <?php } ?>

@@ -175,12 +175,12 @@ class Searchbike_model extends CI_Model
         $this->db->join('tbl_prices', 'tbl_prices.type_id = tbl_bikes.type_id', 'left');
         $query = $this->db->get();
 
-        $sub_query = "SELECT tbl_booking_bikes.type_id as bike_type_id, COUNT(tbl_booking_bikes.bike_id) as not_available FROM tbl_bookings LEFT JOIN tbl_booking_bikes ON tbl_booking_bikes.booking_id=tbl_bookings.id 
+        $sub_query = "SELECT tbl_booking_bikes.type_id as bike_type_id, COUNT(tbl_booking_bikes.bike_id) as not_available, CONCAT(tbl_bookings.dropoff_date,' ',tbl_bookings.dropoff_time) as available_from FROM tbl_bookings LEFT JOIN tbl_booking_bikes ON tbl_booking_bikes.booking_id=tbl_bookings.id 
         LEFT JOIN tbl_bikes ON tbl_booking_bikes.bike_id=tbl_bikes.id 
-        WHERE (tbl_bookings.status = 0 OR tbl_bookings.status = 1) AND tbl_bookings.pickup_date >= '".dateformatdb($pickup_date)."' AND tbl_bookings.dropoff_date <= '".dateformatdb($dropoff_date)."' GROUP BY tbl_booking_bikes.type_id";
-
+        WHERE (tbl_bookings.status = 0 OR tbl_bookings.status = 1) AND CONCAT(tbl_bookings.dropoff_date, ' ', STR_TO_DATE(tbl_bookings.dropoff_time, '%l:%i %p')) > '".dateformatdb($pickup_date)." ".$pickup_time."' AND CONCAT(tbl_bookings.pickup_date, ' ', STR_TO_DATE(tbl_bookings.pickup_time, '%l:%i %p')) < '".dateformatdb($dropoff_date)." ".$dropoff_time."' GROUP BY tbl_booking_bikes.type_id ";
         $sub_query1 = $this->db->query($sub_query);
         $result1 = array();
+        //echo "bookigng=".$this->db->last_query();
         if( $sub_query1->num_rows() > 0 )
         {
             $result1 = $sub_query1->result_array();
@@ -190,15 +190,16 @@ class Searchbike_model extends CI_Model
             $result = $query->result_array();
             foreach($result as $index => $row)
             {
-                //echo "\n\n".$row['bike_type_id']."===".$row['bike_type_name'];
+                
                 $row['rent_price'] = $this->getRentPrice($row['bike_type_id'], $pickup_date, $pickup_time, $dropoff_date, $dropoff_time);
-                //echo "\n======".$row['rent_price']."";
+                
                 $result[$index] = $row;
                 foreach($result1 as $row1)
                 {
                     if( $row['bike_type_id'] == $row1['bike_type_id'] )
                     {
                         $row['not_available'] = $row1['not_available'];
+                        $row['available_from'] = $row1['available_from'];
                     }
                     $result[$index] = $row;
                 }
@@ -229,8 +230,8 @@ class Searchbike_model extends CI_Model
         //echo $this->db->last_query();
         //echo "==\n\n";
 
-        $sub_query = "SELECT tbl_booking_bikes.type_id as bike_type_id, tbl_booking_bikes.bike_id FROM tbl_bookings LEFT JOIN tbl_booking_bikes ON tbl_booking_bikes.booking_id=tbl_bookings.id LEFT JOIN tbl_bikes ON tbl_booking_bikes.bike_id=tbl_bikes.id 
-        WHERE (tbl_bookings.status = 0 OR tbl_bookings.status = 1) AND ( tbl_bookings.pickup_date = '".dateformatdb($pickup_date)."' OR tbl_bookings.dropoff_date='".dateformatdb($dropoff_date)."') GROUP BY tbl_booking_bikes.type_id";
+        $sub_query = "SELECT tbl_booking_bikes.type_id as bike_type_id, tbl_booking_bikes.bike_id, CONCAT(tbl_bookings.dropoff_date,' ',tbl_bookings.dropoff_time) as available_from FROM tbl_bookings LEFT JOIN tbl_booking_bikes ON tbl_booking_bikes.booking_id=tbl_bookings.id LEFT JOIN tbl_bikes ON tbl_booking_bikes.bike_id=tbl_bikes.id 
+        WHERE (tbl_bookings.status = 0 OR tbl_bookings.status = 1) AND CONCAT(tbl_bookings.dropoff_date, ' ', STR_TO_DATE(tbl_bookings.dropoff_time, '%l:%i %p')) > '".dateformatdb($pickup_date)." ".$pickup_time."' AND CONCAT(tbl_bookings.pickup_date, ' ', STR_TO_DATE(tbl_bookings.pickup_time, '%l:%i %p')) < '".dateformatdb($dropoff_date)." ".$dropoff_time."' GROUP BY tbl_booking_bikes.type_id ";
 
         $sub_query1 = $this->db->query($sub_query);
         $result1 = array();
@@ -292,8 +293,8 @@ class Searchbike_model extends CI_Model
         $this->db->where("tbl_bike_types.id IN (".$bike_ids.") ");
         $query = $this->db->get();
 
-        $sub_query = "SELECT tbl_booking_bikes.type_id as bike_type_id, COUNT(tbl_booking_bikes.bike_id) as not_available FROM tbl_bookings LEFT JOIN tbl_booking_bikes ON tbl_booking_bikes.booking_id=tbl_bookings.id LEFT JOIN tbl_bikes ON tbl_booking_bikes.bike_id=tbl_bikes.id 
-        WHERE (tbl_bookings.status = 0 OR tbl_bookings.status = 1) AND ( tbl_bookings.pickup_date = '".dateformatdb($pickup_date)."' OR tbl_bookings.dropoff_date='".dateformatdb($dropoff_date)."') GROUP BY tbl_booking_bikes.type_id";
+        $sub_query = "SELECT tbl_booking_bikes.type_id as bike_type_id, COUNT(tbl_booking_bikes.bike_id) as not_available, CONCAT(tbl_bookings.dropoff_date,' ',tbl_bookings.dropoff_time) as available_from FROM tbl_bookings LEFT JOIN tbl_booking_bikes ON tbl_booking_bikes.booking_id=tbl_bookings.id LEFT JOIN tbl_bikes ON tbl_booking_bikes.bike_id=tbl_bikes.id 
+        WHERE (tbl_bookings.status = 0 OR tbl_bookings.status = 1) AND CONCAT(tbl_bookings.dropoff_date, ' ', STR_TO_DATE(tbl_bookings.dropoff_time, '%l:%i %p')) > '".dateformatdb($pickup_date)." ".$pickup_time."' AND CONCAT(tbl_bookings.pickup_date, ' ', STR_TO_DATE(tbl_bookings.pickup_time, '%l:%i %p')) < '".dateformatdb($dropoff_date)." ".$dropoff_time."' GROUP BY tbl_booking_bikes.type_id ";
 
         $sub_query1 = $this->db->query($sub_query);
         $result1 = array();

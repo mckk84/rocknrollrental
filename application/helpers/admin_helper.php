@@ -5,6 +5,17 @@ function checkMobile()
     return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
 }
 
+function getAvailableDate($date)
+{
+    $hr = date("H", strtotime($date));
+    if( $hr >= 20 )
+    {
+        return date("d M Y", strtotime('+1 days', strtotime($date)))." 07:30 AM";
+    }    
+    return date("d M Y h:i A", strtotime($date));
+}
+
+
 function checkOrderEdit($date, $time)
 {
     return true;

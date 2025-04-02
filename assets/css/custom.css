@@ -496,3 +496,11 @@ input[type="checkbox"] {
     top: 10px;
     z-index: 9;
 }
+
+span.special_note{
+    position: absolute;
+    border: 2px;
+    font-size: 12px;
+    right: 5px;
+    bottom: 5px;
+}
