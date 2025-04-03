@@ -3,7 +3,7 @@
     <div class="pagetitle">
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="<?=base_url('admin')?>">Home</a></li>
           <li class="breadcrumb-item active">Bookings</li>
         </ol>
       </nav>
@@ -193,7 +193,9 @@ $(function()
 $("document").ready(function(){
 
   $(".datatable-search").hide();
-
+  <?php if(isset($daterange) && $daterange == ""){?>
+    $('input[name="daterange"]').val('')
+  <?php } ?>
 
 });
 

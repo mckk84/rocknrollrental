@@ -3,7 +3,7 @@
     <div class="pagetitle">
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="<?=base_url('admin')?>">Home</a></li>
           <li class="breadcrumb-item"><a href="<?=base_url('admin/Bikes')?>">Bikes</a></li>
           <li class="breadcrumb-item active">Manufacturer</li>
         </ol>

@@ -184,7 +184,20 @@
           </li>
         </ul>
       </li><!-- End Components Nav -->
-
+      <?php if($user['user_type'] == 'Admin'){?>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#Reports-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="Reports-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="<?=base_url('admin/Reports')?>">
+              <i class="bi bi-bicycle"></i><span>Reports</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <?php } ?>
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-layout-text-window-reverse"></i><span>Admin</span><i class="bi bi-chevron-down ms-auto"></i>
