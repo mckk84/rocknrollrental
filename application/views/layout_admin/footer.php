@@ -54,7 +54,9 @@
   <script src="<?=base_url()?>assets/admin/assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="<?=base_url()?>assets/admin/assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="<?=base_url()?>assets/admin/assets/vendor/php-email-form/validate.js"></script>
-
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  
   <!-- Template Main JS File -->
   <script src="<?=base_url()?>assets/admin/assets/js/main.js"></script>
   <!-- Ajax Calls -->

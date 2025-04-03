@@ -194,22 +194,22 @@ h6 {
 
 .bg-success-light {
   background-color: #d1e7dd !important;
-  border-color: rgba(0, 0, 0, 0.175);
+  border: 1px solid rgba(0, 0, 0, 0.275) !important;
 }
 
 .bg-danger-light {
-  background-color: #f8d7da;
-  border-color: #f8d7da;
+  background-color: #f8d7da !important;
+  border: 1px solid rgba(0, 0, 0, 0.275) !important;
 }
 
 .bg-warning-light {
   background-color: #fff3cd !important;
-  border-color: rgba(0, 0, 0, 0.175);
+  border: 1px solid rgba(0, 0, 0, 0.275) !important;
 }
 
 .bg-info-light {
-  background-color: #cff4fc;
-  border-color: #cff4fc;
+  background-color: #cff4fc !important;
+  border: 1px solid #cff4fc !important;
 }
 
 .bg-dark-light {
@@ -1365,6 +1365,7 @@ button#multiSelectDropdown {
     font-size: 10px;
     vertical-align: middle;
     border-radius: 1.5rem;
+    max-width: 85px;
 }
 
 .bg-warning{
@@ -1403,6 +1404,10 @@ button#multiSelectDropdown {
   width: 70% !important;
 }
 
+.w-60{
+  width: 60% !important;
+}
+
 .w-45{
   width: 45% !important;
 }
@@ -1424,6 +1429,10 @@ button#multiSelectDropdown {
 
 .w-30{
   width: 30% !important;
+}
+
+.w-40{
+  width: 40% !important;
 }
 
 .row {

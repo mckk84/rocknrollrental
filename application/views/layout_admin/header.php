@@ -24,7 +24,7 @@
   <script src="<?php echo base_url();?>/assets/admin/assets/js/jquery.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
   <!-- Template Main CSS File -->
   <link href="<?=base_url()?>assets/admin/assets/css/style.css" rel="stylesheet">

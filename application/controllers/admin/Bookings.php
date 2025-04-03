@@ -38,14 +38,27 @@ class Bookings extends CI_Controller
         }
         else
         {
-            $status = isset($_GET['status']) ? intval($_GET['status']) : ""; 
+            $data['status'] = isset($_GET['status']) ? $_GET['status'] : ""; 
+            $data['daterange'] = isset($_GET['daterange']) ? $_GET['daterange'] : ""; 
+
             $data['user'] = $this->session->userdata();
             $data['page_title'] = "Bookings";
             $biketypes = $this->biketypes_model->getAll();
             $data['biketypes'] = result_to_array($biketypes);
-            if( $status == "new" ){
+            if( gettype($data['status']) === 'string' && $data['status'] == "new" )
+            {
                 $data['records'] = $this->bookings_model->getAll("0,1");
-            }else{
+            } 
+            elseif ( $data['status'] != "" ) 
+            {
+                $data['records'] = $this->bookings_model->searchBookings($data['status'], $data['daterange']);
+            }
+            elseif ( $data['daterange'] != "" ) 
+            {
+                $data['records'] = $this->bookings_model->searchBookings($data['status'], $data['daterange']);
+            }
+            else
+            {
                 $data['records'] = $this->bookings_model->getAll();
             }
             

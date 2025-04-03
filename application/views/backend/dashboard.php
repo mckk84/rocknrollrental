@@ -30,16 +30,15 @@
               <div class="card recent-sales overflow-auto">
                 <div class="card-body">
                   <h5 class="card-title px-2 mb-0">Recent Bookings</h5>
-                  <table class="table table-bordered">
+                  <table class="table table-bordered  text-center small">
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Bikes</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">From</th>
-                        <th scope="col">To</th>
-                        <th scope="col">Total</th>   
-                        <th scope="col">Status</th>
+                        <th class="bg-success-light" scope="col">#</th>
+                        <th class="bg-success-light" scope="col">Bikes</th>
+                        <th class="bg-success-light" scope="col">Customer</th>
+                        <th class="bg-success-light" scope="col">From</th>
+                        <th class="bg-success-light" scope="col">To</th>
+                        <th class="bg-success-light" scope="col">Status</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -84,7 +83,6 @@
                         <td><?=$row['name']?><br/><?=$row['phone']?></td>
                         <td><?=date("d-m-Y", strtotime($row['pickup_date']))?><br/><?=$row['pickup_time']?></td>
                         <td><?=date("d-m-Y", strtotime($row['dropoff_date']))?><br/><?=$row['dropoff_time']?></td>
-                        <td><?=$row['total_amount']?><br/><?=$row['paymentmode']?></td>
                         <td><?php if( $row['status'] == 0) { ?>
                           <span class="d-block mx-auto mb-1 py-2 badge bg-warning">Pre Booked</span>
                           <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record shadow py-1 px-2 bg-info badge"><i class="bi bi-pencil-fill me-1"></i>EDIT</a>
@@ -116,16 +114,16 @@
               <div class="card recent-sales overflow-auto">
                 <div class="card-body">
                   <h5 class="card-title px-2 mb-0">Returns Today</h5>
-                  <table class="table table-bordered">
+                  <table class="table table-bordered text-center small">
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Bikes</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">From</th>
-                        <th scope="col">To</th>
-                        <th scope="col">Total</th>   
-                        <th scope="col">Action</th>   
+                        <th class="bg-warning-light" scope="col">#</th>
+                        <th class="bg-warning-light" scope="col">Bikes</th>
+                        <th class="bg-warning-light" scope="col">Customer</th>
+                        <th class="bg-warning-light" scope="col">From</th>
+                        <th class="bg-warning-light" scope="col">To</th>
+                        <th class="bg-warning-light" scope="col">Late By</th>
+                        <th class="bg-warning-light" scope="col">Action</th>   
                       </tr>
                     </thead>
                     <tbody>
@@ -159,6 +157,10 @@
                         {
                           $bikes_order .= "<br/>Helmet(<b>".$row['helmet_quantity']."</b>)";
                         }
+                        $d1= new DateTime(date("Y-m-d h:i A")); // first date
+                        $d2= new DateTime($row['dropoff_date']." ".$row['dropoff_time']); // second date
+                        $interval= $d1->diff($d2); 
+                        $row['late_by'] = $interval->days." Days, ".$interval->h." Hours"; 
                         ?>
                       <tr>
                         <td><a title="View Record" href="<?=base_url('admin/Bookings/view?bid='.$row['id'])?>" class="mx-2"><?=$row['id']?></a></td>
@@ -166,7 +168,7 @@
                         <td><?=$row['name']?><br/><?=$row['phone']?></td>
                         <td><?=date("d-m-Y", strtotime($row['pickup_date']))?><br/><?=$row['pickup_time']?></td>
                         <td><?=date("d-m-Y", strtotime($row['dropoff_date']))?><br/><?=$row['dropoff_time']?></td>
-                        <td><?=$row['total_amount']?><br/><?=$row['paymentmode']?></td>
+                        <td><?=$row['late_by']?></td>
                         <td>
                           <a title="Send Reminder in Whatsapp" class="btn btn-sm text-success" target="_blank" href="<?=base_url('admin/Bookings/whatsapp_reminder?bid='.$row['id'])?>"><i class="bi bi-whatsapp"></i></a>
                           <?php if($user['user_type'] == "Admin"){?>
@@ -186,7 +188,109 @@
 
           </div>
         </div><!-- End Left side columns -->
-      
+        <!-- Left side columns -->
+        <div class="col-lg-12 p-0">
+          <div class="row">
+
+            <!-- Recent Sales -->
+            <div class="col-6">
+              <div class="card recent-sales overflow-auto">
+                <div class="card-body">
+                  <h5 class="card-title px-2 mb-0">Late Pickups</h5>
+                  <table class="table table-bordered text-center small">
+                    <thead>
+                      <tr>
+                        <th class="bg-danger-light" scope="col">#</th>
+                        <th class="bg-danger-light" scope="col">Bikes</th>
+                        <th class="bg-danger-light" scope="col">Customer</th>
+                        <th class="bg-danger-light" scope="col">From</th>
+                        <th class="bg-danger-light" scope="col">To</th>  
+                        <th class="bg-danger-light" scope="col">Late By</th>  
+                        <th class="bg-danger-light" scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php foreach($late_pickups as $index => $row) {
+
+                        $early_pickup = $row['early_pickup'];
+                        $bikes_ordered = "";
+                        $bk = explode(",", $row['bikes_types']);
+                        $bk_qty = explode(",", $row['bikes_qty']);
+                        $bikes_ordered = array();
+                        $bikes_order = "";
+
+                        foreach($bk as $index => $bky)
+                        {
+                          if( isset( $bikes_ordered[ $biketypes[$bky] ] ) )
+                          {
+                            $bikes_ordered[ $biketypes[$bky] ] = $bikes_ordered[ $biketypes[$bky] ] + $bk_qty[$index];
+                          }
+                          else
+                          {
+                            $bikes_ordered[ $biketypes[$bky] ] = $bk_qty[$index];
+                          }
+                        }
+
+                        foreach($bikes_ordered as $name => $qty)
+                        {
+                          $bikes_order .= ( $bikes_order == "" ) ? $name."(<b>".$qty."</b>)" : "<br/>".$name."(<b>".$qty."</b>)";
+                        }
+
+                        if( isset($row['free_helmet']) && $row['free_helmet'] > 0 )
+                        {
+                          $bikes_order .= "<br/>Free Helmet(<b>".$row['free_helmet']."</b>)";
+                        }
+                        if( isset($row['helmet_quantity']) && $row['helmet_quantity'] > 0 )
+                        {
+                          $bikes_order .= "<br/>Helmet(<b>".$row['helmet_quantity']."</b>)";
+                        }
+
+                        $d1= new DateTime(date("Y-m-d h:i A")); // first date
+                        $d2= new DateTime($row['pickup_date']." ".$row['pickup_time']); // second date
+                        $interval= $d1->diff($d2); 
+                        $row['late_by'] = $interval->days." Days, ".$interval->h." Hours"; 
+
+                        ?>
+                      <tr>
+                        <td><a title="View Record" href="<?=base_url('admin/Bookings/view?bid='.$row['id'])?>" ><?=$row['id']?></a></td>
+                        <td><?=$bikes_order?></td>
+                        <td><?=$row['name']?><br/><?=$row['phone']?></td>
+                        <td><?=date("d-m-Y", strtotime($row['pickup_date']))?><br/><?=$row['pickup_time']?></td>
+                        <td><?=date("d-m-Y", strtotime($row['dropoff_date']))?><br/><?=$row['dropoff_time']?></td>
+                        <td><?=$row['late_by']?></td>
+                        <td><?php if( $row['status'] == 0) { ?>
+                          <span class="d-block mx-auto mb-1 py-2 badge bg-warning">Pre Booked</span>
+                          <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record shadow py-1 px-2 bg-info badge"><i class="bi bi-pencil-fill me-1"></i>EDIT</a>
+                          <?php if($user['user_type'] == "Admin"){?>
+                            <a title="Cancel Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="cancel-booking-record shadow py-1 px-2 bg-danger badge"><i class="bi bi-trash me-1"></i>Cancel</a>
+                          <?php } ?>
+                        <?php } else if($row['status'] == 1) { ?>
+                          <span class="d-block mx-auto mb-1 py-2 badge bg-success">Rented</span>
+                          <?php if($user['user_type'] == "Admin"){?>
+                          <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="superedit-booking-record shadow py-1 px-2 bg-danger badge"><i class="bi bi-pencil-fill me-1"></i>Update</a>
+                          <?php } else { ?>
+                          <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record shadow py-1 px-2 bg-info badge"><i class="bi bi-pencil-fill me-1"></i>Update</a>
+                          <?php } ?>
+                        <?php } else { ?>
+                          <span class="d-block mx-auto mb-1 py-2 badge bg-info">Closed</span>
+                        <?php } ?>
+                        </td>
+                      </tr>
+                       <?php } ?>
+                    </tbody>
+                  </table>  
+                </div>
+
+              </div>
+            </div><!-- End Recent Sales -->
+
+            <!-- Recent Sales -->
+            <div class="col-6">
+              
+            </div><!-- End Recent Sales -->
+
+          </div>
+        </div><!-- End Left side columns -->
 
       </div>
     </section>
