@@ -1,5 +1,27 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
+
+function rangeMonth($datestr) 
+{
+   date_default_timezone_set (date_default_timezone_get());
+   $dt = strtotime ($datestr);
+   return array (
+     "start_date" => date ('Y-m-d', strtotime ('first day of this month', $dt)),
+     "end_date" => date ('Y-m-d', strtotime ('last day of this month', $dt))
+   );
+}
+
+function rangeWeek($datestr) 
+{
+   date_default_timezone_set (date_default_timezone_get());
+   $dt = strtotime ($datestr);
+   return array (
+     "start_date" => date ('N', $dt) == 1 ? date ('Y-m-d', $dt) : date ('Y-m-d', strtotime ('last monday', $dt)),
+     "end_date" => date('N', $dt) == 7 ? date ('Y-m-d', $dt) : date ('Y-m-d', strtotime ('next sunday', $dt))
+   );
+}
+
+
 function checkMobile()
 {
     return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);

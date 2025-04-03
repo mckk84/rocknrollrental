@@ -14,6 +14,7 @@ class Dashboard extends CI_Controller
         parent::__construct();
         $this->load->model('bookings_model');
         $this->load->model('biketypes_model');
+        $this->load->model('customers_model');
     }
 
     /**
@@ -35,7 +36,19 @@ class Dashboard extends CI_Controller
             $data['records'] = $this->bookings_model->getAll("0", 5);
             $data['returns'] = $this->bookings_model->getAllReturnsToday();
             $data['late_pickups'] = $this->bookings_model->getAllPickupsToday();
+
+            $data['today_pickups'] = $this->bookings_model->getAllPickups(("Y-m-d"));
+            $data['today_dropoffs'] = $this->bookings_model->getAllDropoffs(("Y-m-d"));
+
             
+            $data['today_bookings'] = $this->bookings_model->getAllByCreatedDate(date("Y-m-d"));
+            $data['week_bookings'] = $this->bookings_model->getAllByCreatedDateBetween(rangeWeek(date("Y-m-d")));
+            $data['month_bookings'] = $this->bookings_model->getAllByCreatedDateBetween(rangeMonth(date("Y-m-d")));
+
+            $data['today_customers'] = $this->customers_model->getAllByCreatedDate(date("Y-m-d"));
+            $data['week_customers'] = $this->customers_model->getAllByCreatedDateBetween(rangeWeek(date("Y-m-d")));
+            $data['month_customers'] = $this->customers_model->getAllByCreatedDateBetween(rangeMonth(date("Y-m-d")));
+
             $this->load->view('layout_admin/header', $data);
             $this->load->view('backend/dashboard', $data);
             $this->load->view('layout_admin/footer');

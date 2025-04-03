@@ -32,6 +32,70 @@ class Bookings_model extends CI_Model
         }
     }
 
+    public function getAllPickups($date)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_bookings');
+        $this->db->where('tbl_bookings.status=0 ');    
+        if( $date != "" )
+        {
+            $start_date = trim($date)." 00:00:00";
+            $end_date = trim($date)." 23:59:59";
+            $this->db->where(" tbl_bookings.pickup_date <= '".$end_date."' AND tbl_bookings.pickup_date >= '".$start_date."' ");    
+        }
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function getAllDropoffs($date)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_bookings');
+        $this->db->where('tbl_bookings.status=0 ');    
+        if( $date != "" )
+        {
+            $start_date = trim($date)." 00:00:00";
+            $end_date = trim($date)." 23:59:59";
+            $this->db->where(" tbl_bookings.dropoff_date <= '".$end_date."' AND tbl_bookings.dropoff_date >= '".$start_date."' ");    
+        }
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function getAllByCreatedDate($date)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_bookings');
+        $this->db->where('tbl_bookings.status IN (0,1)');    
+        if( $date != "" )
+        {
+            $start_date = trim($date)." 00:00:00";
+            $end_date = trim($date)." 23:59:59";
+            $this->db->where(" tbl_bookings.created_date <= '".$end_date."' AND tbl_bookings.created_date >= '".$start_date."' ");    
+        }
+
+        $query = $this->db->get();
+
+        return $query->num_rows();
+    }
+
+    public function getAllByCreatedDateBetween($date_array)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_bookings');
+        $this->db->where('tbl_bookings.status IN (0,1)');    
+        if( is_array($date_array) )
+        {
+            $start_date = trim($date_array['start_date'])." 00:00:00";
+            $end_date = trim($date_array['end_date'])." 23:59:59";
+            $this->db->where(" tbl_bookings.created_date <= '".$end_date."' AND tbl_bookings.created_date >= '".$start_date."' ");    
+        }
+
+        $query = $this->db->get();
+        
+        return $query->num_rows();
+    }
+
     public function searchBookings($status='', $daterange='')
     {
         $this->db->group_by('tbl_bookings.id');

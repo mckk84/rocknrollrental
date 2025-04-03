@@ -34,6 +34,38 @@ class Customers_model extends CI_Model
         }
     }
 
+    public function getAllByCreatedDate($date)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_customers');
+        if( $date != "" )
+        {
+            $start_date = trim($date)." 00:00:00";
+            $end_date = trim($date)." 23:59:59";
+            $this->db->where(" tbl_customers.created_date <= '".$end_date."' AND tbl_customers.created_date >= '".$start_date."' ");    
+        }
+
+        $query = $this->db->get();
+
+        return $query->num_rows();
+    }
+
+    public function getAllByCreatedDateBetween($date_array)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_customers');  
+        if( is_array($date_array) )
+        {
+            $start_date = trim($date_array['start_date'])." 00:00:00";
+            $end_date = trim($date_array['end_date'])." 23:59:59";
+            $this->db->where(" tbl_customers.created_date <= '".$end_date."' AND tbl_customers.created_date >= '".$start_date."' ");    
+        }
+
+        $query = $this->db->get();
+        
+        return $query->num_rows();
+    }
+
     public function search($search)
     {
         $this->db->select('id, name as text, phone');

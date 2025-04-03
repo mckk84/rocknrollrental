@@ -25,6 +25,160 @@
         <div class="col-lg-12 p-0">
           <div class="row">
 
+            <!-- Pickup Card -->
+            <div class="col-xl-3 col-md-3">
+              <div class="card info-card pickup-card">
+                <div id="today_bookings" class="card-body">
+                  <h5 class="card-title">Pickups <span>| Today</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-box-arrow-up-right"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><?=$today_pickups?></h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Pickup Card -->
+
+            <!-- Pickup Card -->
+            <div class="col-xl-3 col-md-3">
+              <div class="card info-card dropoff-card">
+                <div id="today_bookings" class="card-body">
+                  <h5 class="card-title">Dropoffs <span>| Today</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-box-arrow-in-down-left"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><?=$today_dropoffs?></h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Pickup Card -->
+
+            <!-- Sales Card -->
+            <div class="col-xl-3 col-md-3">
+              <div class="card info-card sales-card">
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+                    <li><a class="dropdown-item" onclick="showdiv('sales-card','#today_bookings')" href="javascript:void(0)">Today</a></li>
+                    <li><a class="dropdown-item" onclick="showdiv('sales-card','#week_bookings')" href="javascript:void(0)">This Week</a></li>
+                    <li><a class="dropdown-item" onclick="showdiv('sales-card','#month_bookings')" href="javascript:void(0)">This Month</a></li>
+                  </ul>
+                </div>
+
+                <div id="today_bookings" class="card-body">
+                  <h5 class="card-title">Bookings <span>| Today</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-journal-check"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><?=$today_bookings?></h6>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="display: none;" id="week_bookings" class="card-body">
+                  <h5 class="card-title">Bookings <span>| Week</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-journal-check"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><?=$week_bookings?></h6>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="display: none;" id="month_bookings" class="card-body">
+                  <h5 class="card-title">Bookings <span>| Month</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-journal-check"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><?=$month_bookings?></h6>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Customers Card -->
+            <div class="col-xl-3 col-md-3">
+
+              <div class="card info-card customers-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" onclick="showdiv('customers-card', '#today_customers')" href="javascript:void(0)">Today</a></li>
+                    <li><a class="dropdown-item" onclick="showdiv('customers-card', '#week_customers')" href="javascript:void(0)">This Week</a></li>
+                    <li><a class="dropdown-item" onclick="showdiv('customers-card', '#month_customers')" href="javascript:void(0)">This Month</a></li>
+                  </ul>
+                </div>
+
+                <div id="today_customers" class="card-body">
+                  <h5 class="card-title">Customers <span>| Today</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><?=$today_customers?></h6>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="display: none;" id="week_customers" class="card-body">
+                  <h5 class="card-title">Customers <span>| This Week</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><?=$week_customers?></h6>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="display: none;" id="month_customers" class="card-body">
+                  <h5 class="card-title">Customers <span>| This Month</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><?=$month_customers?></h6>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div><!-- End Customers Card -->
+
             <!-- Recent Sales -->
             <div class="col-6">
               <div class="card recent-sales overflow-auto">
@@ -297,6 +451,14 @@
 
   </main><!-- End #main -->
   <script type="text/javascript">
+
+    function showdiv(eleparent, ele)
+    {
+        $("."+eleparent+" .card-body").each(function(){
+          $(this).hide();
+        });
+        $(ele).show();
+    }
 
     $(document).ready(function(){
 
