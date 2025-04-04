@@ -290,6 +290,18 @@ $(document).ready(function(){
         form.find(".alert").each(function(){
           $(this).remove();
         });
+
+        if( $("#signin input[name='phone']").val().trim() == "" )
+        {
+          $("#signin input[name='phone']").focus();
+          return false;
+        }
+
+        if( $("#signin input[name='password']").val().trim() == "" )
+        {
+          $("#signin input[name='password']").focus();
+          return false;
+        }
         
         var formdata = {
           phone:$("#signin input[name='phone']").val(),
@@ -320,6 +332,14 @@ $(document).ready(function(){
                     window.location.reload();
                   }, 2000);
                 }
+
+                setTimeout(function(){
+
+                  form.find(".alert").each(function(){
+                    $(this).remove();
+                  });
+
+                }, 3000);
             },
             error: function (data) {
                 form.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
@@ -523,6 +543,30 @@ $(document).ready(function(){
         form.find(".alert").each(function(){
           $(this).remove();
         });
+
+        if( $("#signup input[name='name']").val().trim() == "" )
+        {
+          $("#signup input[name='name']").focus();
+          return false;
+        }
+
+        if( $("#signup input[name='email']").val().trim() == "" )
+        {
+          $("#signup input[name='email']").focus();
+          return false;
+        }
+
+        if( $("#signup input[name='phone']").val().trim() == "" )
+        {
+          $("#signup input[name='phone']").focus();
+          return false;
+        }
+
+        if( $("#signup input[name='password']").val().trim() == "" )
+        {
+          $("#signup input[name='password']").focus();
+          return false;
+        }
         
         var formdata = {
           name:$("#signup input[name='name']").val(),
@@ -555,6 +599,15 @@ $(document).ready(function(){
                     window.location.reload();
                   }, 2000);
                 }
+
+                setTimeout(function(){
+
+                  form.find(".alert").each(function(){
+                    $(this).remove();
+                  });
+
+                }, 3000);
+
             },
             error: function (data) {
                 form.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
