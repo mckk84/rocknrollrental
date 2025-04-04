@@ -680,7 +680,7 @@ $(document).ready(function(){
         console.log("bike_qty"+bike_qty);
         if( (v + 1) > bike_qty )
         {
-            $(".addons_table").append("<div class='alert alert-danger mt-1 mb-0'>Extra helmets is limited to 1/bike.</div>");
+            $(".addons_table").append("<div class='alert alert-danger mt-1 mb-0'>Extra helmets is limited to 1 per Vehicle.</div>");
             setTimeout(function(){
                 $(".addons_table").find(".alert").each(function(){
                   $(this).remove();
