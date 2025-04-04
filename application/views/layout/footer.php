@@ -318,7 +318,7 @@
                                         <button type="button" class="signin btn btn-primary btn-lg">Sign in</button>
                                     </div>
                                     <p class="text-center text-muted mt-4">Don't have an account yet?
-                                        <a data-bs-toggle="modal" data-bs-target="#at_signup" href="javascript:void(0)" class="text-decoration-none forgot_pass_inside">Sign up</a>.
+                                        <a href="javascript:void(0)" class="signup_button text-decoration-none forgot_pass_inside">Sign up</a>.
                                     </p>
                                 </form>
                             </div>

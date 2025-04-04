@@ -280,10 +280,6 @@ $(document).ready(function(){
   // login
   $(".signin").click(function () {
 
-        $("#signin :input").prop("disabled", true);
-        $("#signin button[type='button']").prop("disabled", true);
-        $("#signin button[type='button']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> PLease wait..");
-
         let form = $("#signin");
         let url = form.attr('action');
 
@@ -307,6 +303,9 @@ $(document).ready(function(){
           phone:$("#signin input[name='phone']").val(),
           password:$("#signin input[name='password']").val(),
         };
+
+        $("#signin button[type='button']").prop("disabled", true);
+        $("#signin button[type='button']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> PLease wait..");
 
         $.ajax({
             type: "POST",
@@ -530,12 +529,18 @@ $(document).ready(function(){
       });
     });
 
+  $(".signup_button").click(function(){
+
+    $("#login_form").modal('hide');
+    $("#at_signup").modal('show');
+
+  });
+
   // signup
   $(".signup").click(function () {
 
-        $("#signup :input").prop("disabled", true);
-        $("#signup button[type='button']").prop("disabled", true);
-        $("#signup button[type='button']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> PLease wait..");
+        //$("#signup :input").prop("disabled", true);
+        
 
         let form = $("#signup");
         let url = form.attr('action');
@@ -567,6 +572,9 @@ $(document).ready(function(){
           $("#signup input[name='password']").focus();
           return false;
         }
+
+        $("#signup button[type='button']").prop("disabled", true);
+        $("#signup button[type='button']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> PLease wait..");
         
         var formdata = {
           name:$("#signup input[name='name']").val(),

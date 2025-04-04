@@ -269,9 +269,9 @@
                                 </div>
                                 <?php } ?>
                                 <div class="row px-2 mb-4 justify-content-center">
-                                    <label class="w-100 p-0 fa-md mb-1 fw-semibold text-center"><input style="width:20px;height:20px;vertical-align:middle;" type="radio" name="paymentOption" value="PAY_FULL" onclick="__setPayment('PAY_FULL');" checked> FULL PAYMENT</label>
+                                    <label class="w-100 p-0 fa-md mb-1 fw-semibold text-center"><input style="width:20px;height:20px;vertical-align:middle;" type="radio" name="paymentOption" value="PAY_FULL" checked> FULL PAYMENT</label>
                                     <span class="w-100 p-0 d-inline-block text-center fw-bold text-warning">OR</span>
-                                    <label class="w-100 p-0 fa-md mt-1 fw-semibold text-center"><input style="width:20px;height:20px;vertical-align:middle;" type="radio" name="paymentOption" value="PAY_PARTIAL" onclick="__setPayment('PAY_PARTIAL');"> 50% ADVANCE</label>
+                                    <label class="w-100 p-0 fa-md mt-1 fw-semibold text-center"><input style="width:20px;height:20px;vertical-align:middle;" type="radio" name="paymentOption" value="PAY_PARTIAL" > 50% ADVANCE</label>
                                 </div>
                                 <div class="row px-2 mb-4 justify-content-center">
                                     <?php if( !isset($user) || !isset($user['Authorization']) || ( isset($user['Authorization']) && $user['Authorization'] == false) ) { ?>
@@ -302,63 +302,72 @@
                     <div class="table-content table-responsive bg-white rounded mb-4">
                             <?php 
                             if( isset($cart) && isset($cart['cart_bikes']) )
-                            { 
+                            {   ?>
+                                <table class="mt-1 table cartbikes">
+                                <?php
                                 foreach($cart['cart_bikes'] as $index => $bike) 
                                 {
                                     $rent_price = $bike['rent_price'];
                                     $subtotal += round($rent_price * $bike['quantity'], 2);
                                     $bike_quantity += $bike['quantity'];
                                     $sl = $index + 1;
-                                ?>
-                                <table class="mt-1 table cartbikes">
-                                <tr class="border bike-row" data-id="<?=$bike['bike_type_id']?>">
-                                    <td class="position-relative" colspan="2">
-                                        <span style="position: absolute;top: 1px;left: 1px;padding: 5px;border-right: 1px solid rgba(11, 22, 63, 0.07);border-bottom: 1px solid rgba(11, 22, 63, 0.07);z-index: 9;display: block;width: 50px;background-color: rgb(255, 220, 0);" class="fw-bold fa-md text-center"><?=$sl?></span>
-                                        <span class="d-block fw-bold fa-xl w-100 text-center p-3"><?=$bike['bike_type_name']?></span>
-                                        <img style="max-width:250px;display: block; margin:auto;" src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid">
-                                        <button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" style="right:5px;bottom:5px" class="position-absolute cart-delete text-danger bg-transparent"><i class="fa fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr class="border">
-                                    <td colspan="2" class="text-center position-relative p-1">
-                                        <span class="d-block w-45 float-left">
-                                            <span class="w-100 m-1 p-1 fa-md d-block"><b><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
-                                            <span class="w-100 m-1 py-1 px-4 fa-md d-block"><b><?=$cart['pickup_time']?></b></span>
-                                        </span>
-                                        <span style="width: 30px;float: left;display: block;text-align: center;color: orange;padding: 5px 10px;font-size:30px;margin-top:10px;">></span>
-                                        <span class="d-block w-45 float-left">
-                                            <span class="w-100 m-1 p-1 fa-md d-block"><b><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
-                                            <span class="w-100 m-1 py-1 px-4 fa-md d-block"><b><?=$cart['dropoff_time']?></b></span>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr class="border">
-                                    <td colspan="2" class="border-0 text-center p-1">
-                                        <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">Qty</label>
-                                        <?php if( $bike['bikes_available'] > 1 ){?>
-                                        <div class="cart-count border p-0 d-inline-flex align-items-center">
-                                            <button class="cart-minus p-2 btn btn-sm bg-secondary text-white rounded-0"><i class="fa fa-minus"></i></button>
-                                            <input type="text" style="padding:8px" data-bike="<?=$bike['bike_type_id']?>" data-available="<?=$bike['bikes_available']?>" class="bg-white cart-input" value="<?=$bike['quantity']?>">
-                                            <button class="cart-plus p-2 btn btn-sm bg-secondary text-white rounded-0"><i class="fa fa-plus"></i></button>
-                                        </div>
-                                        <?php } else { ?>
-                                        <div class="cart-count border d-inline-flex align-items-center">
-                                            <input type="text" disabled class="cart-input" value="<?=$bike['quantity']?>">
-                                        </div>
-                                        <?php } ?>
-                                        &nbsp;
-                                        <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">X</label>
-                                        &nbsp;
-                                        <i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block bike_rent"><?=$rent_price?></span>
-                                        &nbsp;
-                                        <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">=</label>
-                                        &nbsp;
-                                        <i class="fa fa-indian-rupee-sign me-1"></i><span class="bike_subtotal fw-semibold fa-md d-inline-block p-1"><b><?=round($rent_price * $bike['quantity'], 2)?></b></span>
-                                    </td>
-                                </tr>
-                                </table>
+                                ?>                                
+                                    <tr class="border bike-row" data-id="<?=$bike['bike_type_id']?>">
+                                        <td class="position-relative" colspan="2">
+                                            <table class="table">
+                                                <tr class="border">
+                                                    <td class="position-relative" colspan="2">
+                                                        <!-- <span style="position: absolute;top: 1px;left: 1px;padding: 5px;border-right: 1px solid rgba(11, 22, 63, 0.07);border-bottom: 1px solid rgba(11, 22, 63, 0.07);z-index: 9;display: block;width: 50px;background-color: rgb(255, 220, 0);" class="fw-bold fa-md text-center"><?=$sl?></span> -->
+                                                        <span class="d-block fw-bold fa-xl w-100 text-center p-3"><?=$bike['bike_type_name']?></span>
+                                                        <img style="max-width:250px;display: block; margin:auto;" src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid">
+                                                        <button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" style="right:5px;bottom:5px" class="position-absolute cart-delete text-danger bg-transparent"><i class="fa fa-trash"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr class="border">
+                                                    <td colspan="2" class="text-center position-relative p-1">
+                                                        <span class="d-block w-45 float-left">
+                                                            <span class="w-100 m-1 p-1 fa-md d-block"><b><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
+                                                            <span class="w-100 m-1 py-1 px-4 fa-md d-block"><b><?=$cart['pickup_time']?></b></span>
+                                                        </span>
+                                                        <span style="width: 30px;float: left;display: block;text-align: center;color: orange;padding: 5px 10px;font-size:30px;margin-top:10px;">></span>
+                                                        <span class="d-block w-45 float-left">
+                                                            <span class="w-100 m-1 p-1 fa-md d-block"><b><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
+                                                            <span class="w-100 m-1 py-1 px-4 fa-md d-block"><b><?=$cart['dropoff_time']?></b></span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr class="border">
+                                                    <td colspan="2" class="border-0 text-center p-1">
+                                                        <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">Qty</label>
+                                                        <?php if( $bike['bikes_available'] > 1 ){?>
+                                                        <div class="cart-count border p-0 d-inline-flex align-items-center">
+                                                            <button class="cart-minus p-2 btn btn-sm bg-secondary text-white rounded-0"><i class="fa fa-minus"></i></button>
+                                                            <input type="text" style="padding:8px" data-bike="<?=$bike['bike_type_id']?>" data-available="<?=$bike['bikes_available']?>" class="bg-white cart-input" value="<?=$bike['quantity']?>">
+                                                            <button class="cart-plus p-2 btn btn-sm bg-secondary text-white rounded-0"><i class="fa fa-plus"></i></button>
+                                                        </div>
+                                                        <?php } else { ?>
+                                                        <div class="cart-count border d-inline-flex align-items-center">
+                                                            <input type="text" disabled class="cart-input" value="<?=$bike['quantity']?>">
+                                                        </div>
+                                                        <?php } ?>
+                                                        &nbsp;
+                                                        <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">X</label>
+                                                        &nbsp;
+                                                        <i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block bike_rent"><?=$rent_price?></span>
+                                                        &nbsp;
+                                                        <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">=</label>
+                                                        &nbsp;
+                                                        <i class="fa fa-indian-rupee-sign me-1"></i><span class="bike_subtotal fw-semibold fa-md d-inline-block p-1"><b><?=round($rent_price * $bike['quantity'], 2)?></b></span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                
                                 <?php } 
-                                $total = $subtotal;
+                                $total = $subtotal;?>
+                                </table>
+                                <?php 
                             }
                         ?>
                         <form id="cartform" method="POST" action="<?=base_url('Cart/addtoCart')?>">
@@ -526,9 +535,9 @@
                                 </div>                                
                                 <?php } ?>
                                 <div class="row px-2 mb-4 justify-content-center">
-                                    <label class="w-100 p-1 text-center fw-semibold fa-md mb-1"><input style="width:20px;height:20px;vertical-align: middle;" type="radio" name="paymentOption" value="PAY_FULL" onclick="__setPayment('PAY_FULL');" checked> FULL PAYMENT</label>
+                                    <label class="w-100 p-1 text-center fw-semibold fa-md mb-1"><input style="width:20px;height:20px;vertical-align: middle;" type="radio" name="paymentOption" value="PAY_FULL" checked> FULL PAYMENT</label>
                                     <span class="w-100 p-0 d-inline-block text-center fw-bold text-warning">OR</span>
-                                    <label class="w-100 p-1 text-center fw-semibold fa-md mt-1"><input style="width:20px;height:20px;vertical-align: middle;" type="radio" name="paymentOption" value="PAY_PARTIAL" onclick="__setPayment('PAY_PARTIAL');"> 50% ADVANCE</label>
+                                    <label class="w-100 p-1 text-center fw-semibold fa-md mt-1"><input style="width:20px;height:20px;vertical-align: middle;" type="radio" name="paymentOption" value="PAY_PARTIAL" > 50% ADVANCE</label>
                                 </div>
                                 <div class="row px-2 mb-4 justify-content-center">
                                 <?php if( !isset($user) || !isset($user['Authorization']) || ( isset($user['Authorization']) && $user['Authorization'] == false) ) { ?>
