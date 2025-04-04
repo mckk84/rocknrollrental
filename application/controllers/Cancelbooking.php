@@ -33,7 +33,6 @@ class Cancelbooking extends CI_Controller {
 		        $paid = $this->bookingpayment_model->getPaid($booking_id);
 
 		        $total = $data['order']['total_amount'];
-		        $data['admin_phone'] = "+919980019504";
 		        $res = sendCancelAlertToAdmin($data['admin_phone'], $data['user']['name'], $booking_id, $data['order']['pickup_date'], $data['order']['pickup_time'], $total, $paid, $data['user']['phone']);
 
 		        $this->session->set_flashdata('success', "Booking Order cancelled successfully.");
