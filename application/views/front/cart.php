@@ -669,13 +669,15 @@ $(document).ready(function(){
     {
         var temp = localStorage.getItem("bike_ids");
         var bike_ids = JSON.parse(temp);
-        var v = $(".cart-helmets").val();
+        var v = parseInt($(".cart-helmets").val());
         var bike_qty = 0;
         for (var prop in bike_ids) 
         {
             var p = bike_ids[prop];
             bike_qty += parseInt(p.qty);
         }
+        console.log("helmets_qty"+(v + 1));
+        console.log("bike_qty"+bike_qty);
         if( (v + 1) > bike_qty )
         {
             $(".addons_table").append("<div class='alert alert-danger mt-1 mb-0'>Extra helmets is limited to 1/bike.</div>");
