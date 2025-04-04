@@ -126,7 +126,7 @@
                             <tr>
                                 <td>
                                     <div class="helmet-option">
-                                        <label class="w-100"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="free_helmet" name="free_helmet" class="me-2" <?=($cart["free_helmet"] > 0)?"checked":""?> > 1 Helmet free per Vehicle  </label>
+                                        <label class="w-100"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="free_helmet" name="free_helmet" class="me-2" <?=($cart["free_helmet"] > 0)?"checked":""?> > 1 Helmet is free per vehicle.  </label>
                                     </div>
                                 </td>
                                 <td>
@@ -403,7 +403,7 @@
                             <tr>
                                 <td>
                                     <div class="helmet-option">
-                                        <label class="w-100"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="free_helmet" name="free_helmet" class="me-2" <?=($cart["free_helmet"] > 0)?"checked":""?> > 1 Helmet free per Vehicle </label>
+                                        <label class="w-100"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="free_helmet" name="free_helmet" class="me-2" <?=($cart["free_helmet"] > 0)?"checked":""?> > 1 Helmet is free per vehicle. </label>
                                     </div>
                                 </td>
                                 <td>

@@ -233,7 +233,7 @@
                                         </div>
                                         <div class="border-bottom-dotted-primary row px-2">
                                             <div class="col-xl-8 col-sm-8 py-1">
-                                                <div class="w-50 text-sm mt-1 pt-1 text-dark float-left"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="free_helmet" name="free_helmet" value="1" class="me-2">1 Helmet free per Vehicle. </div>
+                                                <div class="w-50 text-sm mt-1 pt-1 text-dark float-left"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="free_helmet" name="free_helmet" value="1" class="me-2">1 Helmet is free per vehicle. </div>
                                             </div>
                                             <div class="col-xl-4  col-sm-4 py-1">
                                                <div class="text-dark m-1"> <i class="fa fa-indian-rupee-sign me-1"></i><span class="d-inline-block p-1">0</span></div>
