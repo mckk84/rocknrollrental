@@ -52,6 +52,27 @@ class Bookingpayment_model extends CI_Model
             return array();
         }
     }     
+
+    function getPaid($booking_id)
+    {
+        $this->db->select('amount');
+        $this->db->from('tbl_booking_payment');
+        $this->db->where('booking_id', $booking_id);
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0)
+        {
+            $total_paid = 0;
+            $result = $query->result_array();
+            foreach ($result as $key => $row) 
+            {
+                $total_paid += floatval($row['amount']);
+            }
+            return $total_paid;
+        } else {
+            return 0;
+        }
+    }
     
     /**
      * This function is used to add new user to system

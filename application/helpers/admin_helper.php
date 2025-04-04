@@ -285,6 +285,34 @@ function sendCancelReminderTodayToCustomer($phone, $customer_name, $pickup_date,
     return true;
 }
 
+// Send Message to Admin booking cancelled
+function sendCancelAlertToAdmin($phone, $customer_name, $booking_id, $pickup_date, $pickup_time, $total, $paid, $customer_phone)
+{
+    //rock_reminder
+    $pickup_datetime = $pickup_date." ".$pickup_time;
+
+    $params = urlencode($customer_name);
+    $params .= ",".$booking_id;
+    $params .= ",".urlencode($pickup_datetime);
+    $params .= ",".$total;
+    $params .= ",".$paid;
+    $params .= ",".$customer_phone;
+
+    $url = "http://bhashsms.com/api/sendmsg.php?user=RNR_bw&pass=123456&sender=BUZWAP&phone=".$phone."&text=rnr_customer_cancel&priority=wa&stype=normal&Params=".$params;
+    echo $url;
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    if(curl_errno($ch)) 
+    {
+        curl_close($ch);
+        return false;
+    }
+    curl_close($ch); // Close the connection
+    return true;
+}
+
 function sendSafetyMessageCustomer($customer_name)
 {
     //rnr_safetys
