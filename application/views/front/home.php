@@ -1046,7 +1046,7 @@ $(document).ready(function(){
                     $("#custom_bike #cart_total").html(total);
 
                     if( response.data.bike_availability == 0 ){
-                        $("#bike_availability").html("Availability : <i class='fa text-danger fa-close'></i>");
+                        $("#bike_availability").html("Availability : <i class='fa text-danger fa-close'></i><span class='text-danger mt-1 text-sm d-block float-left'>*Avaialble from "+response.data.available_from+"</span>");
                     } else {
                         $("#bike_availability").html("Availability : <i class='fa fa-check'></i>");
                     }

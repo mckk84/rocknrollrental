@@ -141,7 +141,7 @@
                                     <tr>
                                         <td>
                                             <div class="helmet-option">
-                                                <label class="w-100">1 Helmet is free.  </label>
+                                                <label class="w-100">1 Helmet free per Vehicle </label>
                                             </div>
                                         </td>
                                         <td>
@@ -248,7 +248,7 @@
                                     <tr>
                                         <td>
                                             <div class="helmet-option">
-                                                <label class="w-100">1 Helmet is free.  </label>
+                                                <label class="w-100">1 Helmet free per Vehicle </label>
                                             </div>
                                         </td>
                                         <td>

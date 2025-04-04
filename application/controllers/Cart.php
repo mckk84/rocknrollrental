@@ -309,6 +309,7 @@ class Cart extends CI_Controller {
 							$bike['quantity'] = $bike['bikes_available'];
 							$data['bike_availability'] = $bike['bikes_available'];
 							$data['rent_price'] = $bike['rent_price'];
+							$data['available_from'] = isset($bike['available_from']) ? getAvailableDate($bike['available_from']) : "";
 							break;
 						}					
 					    $data['cart_bikes'][$index] = $bike;

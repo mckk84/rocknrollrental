@@ -261,6 +261,7 @@ class Searchbike_model extends CI_Model
                         {
                             $row['bikes_available'] = 1;
                         }
+                        $row['available_from'] = $row1['available_from'];
                         $result[$index] = $row;
                     }
                 }
@@ -315,6 +316,11 @@ class Searchbike_model extends CI_Model
                     if( $row['bike_type_id'] == $row1['bike_type_id'] )
                     {
                         $row['bikes_available'] = $row['bikes_available'] - $row1['not_available'];
+                        $row['available_from'] = $row1['available_from'];
+                    }
+                    else
+                    {
+                        $row['available_from'] = "";
                     }
                     $result[$index] = $row;
                 }
