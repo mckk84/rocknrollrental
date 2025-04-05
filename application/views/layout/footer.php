@@ -312,7 +312,7 @@
                                     </div>
                                     <div class="d-flex mb-2 justify-content-between">
                                         <a href="javascript:void(0)" id="otplogin" class="forgot_pass_inside">Login with OTP</a>
-                                        <a href="javascript:void(0)" id="forgot-pass" class="forgot_pass_inside">Forgot password?</a>
+                                        <!-- <a href="javascript:void(0)" id="forgot-pass" class="forgot_pass_inside">Forgot password?</a> -->
                                     </div>
                                     <div class="d-grid">
                                         <button type="button" class="signin btn btn-primary btn-lg">Sign in</button>
