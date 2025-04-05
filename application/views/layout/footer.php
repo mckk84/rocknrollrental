@@ -191,7 +191,7 @@
                                     <div class="col-xl-12 border-bottom-primary">
                                         <div class="row">
                                             <div class="col-xl-12 col-sm-12 py-2">
-                                                <p class="font-md mb-1"><span class="text-dark">LOCATION :</span>&nbsp;Chokanna Street, near Mayura Hotel Opp: Sai Angels School, Chikmagaluru, Karnataka 577101. <a target="_blank" href="https://maps.app.goo.gl/XkDwJyZ2tcNp9YUy6" class="text-success d-inline-block" title="View on Map"><img style="width:25px;" src="<?=base_url('assets/img/icons/map-pin.svg')?>" class="img-fluid"/></a></p>
+                                                <p class="font-md mb-1"><span class="text-dark">LOCATION :</span>&nbsp;Near KSRTC bus stand Chikmagaluru, Karnataka 577101. <a target="_blank" href="https://maps.app.goo.gl/XkDwJyZ2tcNp9YUy6" class="text-success d-inline-block" title="View location on Map"><img style="width:25px;" src="<?=base_url('assets/img/icons/map-pin.svg')?>" class="img-fluid"/></a></p>
                                             </div>
                                         </div>
                                     </div>
