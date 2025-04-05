@@ -145,6 +145,65 @@ class Auth extends CI_Controller {
             if ($this->input->method(TRUE) == "POST") 
             {
             	$this->load->library('form_validation');   
+            	$this->load->model('customers_model');
+
+            	$opt_login = $this->security->xss_clean($this->input->post('opt_login'));
+            	$this->form_validation->set_rules('phone','Phone','trim|required|numeric|max_length[10]');
+
+            	if( $opt_login == 1 )
+            	{
+            		$otp = $this->security->xss_clean($this->input->post('otp'));
+            		$phone = $this->security->xss_clean($this->input->post('phone'));
+            		
+            		if( $this->customers_model->checkPhoneExists($phone) )
+            		{
+            			$response["error"] = 1;
+	            		$response["error_message"] = "Phone number is already registered.";	
+	            		die(json_encode($response));
+            		}
+
+            		if( isset($otp) && !is_null($otp) && $otp != "" )
+            		{
+            			$otp_session = $this->session->userdata('signup_otp');
+		                if ( $otp == $otp_session )
+		                {
+		                    $response["error"] = 0;
+		                    $response["error_message"] = "";
+		                    $response["success_message"] = "OTP Verified";
+		                    die(json_encode($response));
+		                } 
+		                else 
+		                {
+		                    $response["error"] = 1;
+		                    $response["error_message"] = "OTP Incorrect";
+		                    die(json_encode($response));
+		                }
+            		}
+            		else
+            		{
+            			// Send whatsapp OTP
+	            		$random6 = generateOtp();
+
+	            		$api_response = sendOtpWhatsapp($phone, $random6);
+
+	            		if( $api_response ){
+		            		// insert OTP
+		            		$this->session->set_userdata('signup_otp', $random6);
+
+		            		$response["error"] = 0;
+		            		$response["error_message"] = "";
+		            		$response["success_message"] = "Otp sent to your phone number.";
+		            		die(json_encode($response));	
+	            		}
+	            		else
+	            		{
+	            			$response["error"] = 1;
+		            		$response["error_message"] = "Otp login unavailable. Please use password.";
+		            		$response["success_message"] = "";
+		            		die(json_encode($response));	
+	            		}
+            		}            		
+            	}
 
             	$this->form_validation->set_rules('name','Name','trim|required|max_length[128]');
             	$this->form_validation->set_rules('email','Email','trim|required|max_length[128]');

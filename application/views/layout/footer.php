@@ -318,7 +318,7 @@
                                         <button type="button" class="signin btn btn-primary btn-lg">Sign in</button>
                                     </div>
                                     <p class="text-center text-muted mt-4">Don't have an account yet?
-                                        <a href="javascript:void(0)" class="signup_button text-decoration-none forgot_pass_inside">Sign up</a>.
+                                        <a href="javascript:void(0)" class="signup_button text-decoration-none forgot_pass_inside">Sign up</a>
                                     </p>
                                 </form>
                             </div>
@@ -387,8 +387,32 @@
                                         <a class="infoicon"><i class="fa fa-info"></i></a>
                                         <span class="tooltiptext">Password should contain alphanumberic with atleast 1 special character.</span>
                                     </div>
+                                    <div otp-validated="0" id="signup_otp" style="display:none" class="position-relative">
+                                        <div class="card p-2 text-center">
+                                            <h6>Please enter the OTP to verify</h6>
+                                            <div> <span>A code has been sent to</span> <small id="maskedNumber"></small> </div>
+                                            <div id="otp1" class="inputs d-flex flex-row justify-content-center mt-2">
+                                                <input class="m-2 text-center form-control rounded" type="text" id="first" maxlength="1" />
+                                                <input class="m-2 text-center form-control rounded" type="text" id="second" maxlength="1" />
+                                                <input class="m-2 text-center form-control rounded" type="text" id="third" maxlength="1" />
+                                                <input class="m-2 text-center form-control rounded" type="text" id="fourth" maxlength="1" />
+                                                <input class="m-2 text-center form-control rounded" type="text" id="fifth" maxlength="1" />
+                                                <input class="m-2 text-center form-control rounded" type="text" id="sixth" maxlength="1" />
+                                            </div>
+                                            <div id="otp_div1" class="mt-4"> 
+                                                <button id="validateSignupBtn" type="button" class="float-right btn btn-warning px-4 validate">Validate</button> 
+                                                <div class="row justify-content-left">
+                                                    <span style="display:inline-block;width:50px;font-size:20px;font-weight:bold;border-radius:50%;border:1px solid red;" class="mx-2 my-1 p-2" id="otp_counter1"></span>
+                                                    <button id="resendOtp1" style="display:none;position: absolute;text-decoration: underline;left: 18%;margin-top: 8px;width: 100px;" class="btn btn-sm btn-link text-info p-2 float-right">Resend OTP</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="cookies-area d-flex align-items-center flex-wrap justify-content-between mt-3">
                                         <label><input type="checkbox" checked class="me-1">Get Updates on Whatsapp</label>
+                                        <p class="text-center text-muted mt-4">Already have an account?
+                                            <a href="javascript:void(0)" class="signin_button text-decoration-none forgot_pass_inside">Sign In</a>
+                                        </p>
                                     </div>
                                     <div class="d-grid mt-2">
                                         <button type="button" class="signup btn btn-primary btn-lg">Sign Up</button>

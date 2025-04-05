@@ -58,6 +58,33 @@ $(document).ready(function(){
     }  
   }
 
+  function OTPInput1() {
+    const inputs = document.querySelectorAll('#otp1 > *[id]');
+    for (let i = 0; i < inputs.length; i++) 
+    { 
+      inputs[i].addEventListener('keydown', function(event) { 
+      if (event.key==="Backspace" ) { 
+          inputs[i].value=''; 
+          if (i !==0) inputs[i - 1].focus(); 
+      } 
+      else { 
+        if (i===inputs.length - 1 && inputs[i].value !=='' ) { 
+          return true; } 
+        else if (event.keyCode> 47 && event.keyCode < 58) { 
+          inputs[i].value=event.key; 
+          if (i !==inputs.length - 1) inputs[i + 1].focus(); 
+          event.preventDefault(); 
+        } 
+        else if (event.keyCode> 64 && event.keyCode < 91) { 
+          inputs[i].value=String.fromCharCode(event.keyCode); 
+          if (i !==inputs.length - 1) inputs[i + 1].focus(); 
+          event.preventDefault(); 
+        } 
+      } 
+      }); 
+    }  
+  }
+
   function startTimer()
   {
     let counter = 60;
@@ -73,7 +100,23 @@ $(document).ready(function(){
     }
   }
 
+  function startTimer1()
+  {
+    let counter = 60;
+    let myVar = setInterval(myTimer ,1000);
+    function myTimer() {
+      document.getElementById("otp_counter1").innerHTML = counter;
+      counter--;
+      if( counter < 0 )
+      {
+        clearInterval(myVar);
+        $("#resendOtp1").show();
+      }
+    }
+  }
+
   OTPInput();
+  OTPInput1();
 
   $(".payment_proceed").click(function()
   {
@@ -115,7 +158,7 @@ $(document).ready(function(){
     e.preventDefault();
     var form = $("#subscribe-form");
     var url = $("#subscribe-form").attr('action');
-    $("#subscribe").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> PLease wait..");
+    $("#subscribe").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
     var formdata = {
         email:$("#subscribe-form input[name='email']").val()
       };
@@ -226,7 +269,7 @@ $(document).ready(function(){
 
         $("#update-password :input").prop("disabled", true);
         $("#update-password button[type='submit']").prop("disabled", true);
-        $("#update-password button[type='submit']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> PLease wait..");
+        $("#update-password button[type='submit']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
 
         let form = $("#update-password");
         let url = form.attr('action');
@@ -305,7 +348,7 @@ $(document).ready(function(){
         };
 
         $("#signin button[type='button']").prop("disabled", true);
-        $("#signin button[type='button']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> PLease wait..");
+        $("#signin button[type='button']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
 
         $.ajax({
             type: "POST",
@@ -398,6 +441,61 @@ $(document).ready(function(){
                 window.location.reload();
               }, 2000);
               
+            }
+        },
+        error: function (data) {
+            otp_div.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+            elem.prop("disabled", false);
+        }
+    });
+
+  });
+
+  $("#validateSignupBtn").click(function(){
+
+    let form = $("#signup");
+    let url = form.attr('action');
+    form.find(".alert").each(function(){
+      $(this).remove();
+    });
+
+    var otp_div = $("#otp_div1");
+    otp_div.find(".alert").each(function(){
+        $(this).remove();
+      });
+    var elem = $(this);
+    elem.prop("disabled", true);
+
+    var phone = $("#signup input[name='phone']").val();
+    var otp = '';
+    document.querySelectorAll('#otp1 > input').forEach(input => otp += input.value);
+
+    var formdata = {
+      phone:$("#signup input[name='phone']").val(),
+      opt_login:1,
+      otp:otp,
+    };
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        dataType: "json",
+        data: formdata, // Serialize form data
+        success: function (data) {
+            console.log(data);
+            if( data.error == 1 )
+            {
+              // error occured
+              elem.prop("disabled", false);
+              otp_div.append("<div class='alert alert-danger mt-1 mb-0'>"+data.error_message+"</div>");
+            }
+            else
+            {
+              otp_div.append("<div class='alert alert-success mt-1 mb-0'>"+data.success_message+"</div>");
+              elem.text("Validate");
+              $("#signup_otp").hide();  
+              $("#signup_otp").attr("otp-validated", 1);
+              $(".signup").trigger('click');
             }
         },
         error: function (data) {
@@ -529,6 +627,53 @@ $(document).ready(function(){
       });
     });
 
+  // login
+  $("#resendOtp1").click(function () {
+
+      $("#resendOtp1").hide();
+      let form = $("#signup");
+      let url = form.attr('action');
+      var otp_div = $("#otp_div1");
+      otp_div.find(".alert").each(function(){
+        $(this).remove();
+      });
+      $("#validateSignupBtn").prop("disabled", true);
+      var phone = $("#signup input[name='phone']").val();
+      var formdata = {
+        phone:$("#signup input[name='phone']").val(),
+        opt_login:1,
+      };
+
+      $.ajax({
+          type: "POST",
+          url: url,
+          dataType: "json",
+          data: formdata, // Serialize form data
+          success: function (data) {
+              console.log(data);
+              if( data.error == 1 )
+              {
+                $("#validateSignupBtn").prop("disabled", false);
+                otp_div.append("<div class='alert alert-danger mt-1 mb-0'>"+data.error_message+"</div>");
+              }
+              else
+              {
+                $("#validateSignupBtn").prop("disabled", false);
+                otp_div.append("<div class='alert alert-success mt-1 mb-0'>"+data.success_message+"</div>");
+                document.getElementById("otp_counter1").innerHTML = 60;
+                startTimer1();
+                otp_div.find(".alert").each(function(){
+                  $(this).remove();
+                });
+              }
+          },
+          error: function (data) {
+              otp_div.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+              $("#validateSignupBtn").prop("disabled", false);
+          }
+      });
+    });
+
   $(".signup_button").click(function(){
 
     $("#login_form").modal('hide');
@@ -536,11 +681,13 @@ $(document).ready(function(){
 
   });
 
+  $(".signin_button").click(function(){
+    $("#login_form").modal('show');
+    $("#at_signup").modal('hide');
+  });
+
   // signup
   $(".signup").click(function () {
-
-        //$("#signup :input").prop("disabled", true);
-        
 
         let form = $("#signup");
         let url = form.attr('action');
@@ -573,8 +720,69 @@ $(document).ready(function(){
           return false;
         }
 
-        $("#signup button[type='button']").prop("disabled", true);
-        $("#signup button[type='button']").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> PLease wait..");
+        var phone = $("#signup input[name='phone']").val().trim();
+        var phno = /^\d{10}$/;
+        if( phone == "")
+        {
+          // error occured
+          form.append("<div class='alert alert-danger mt-1 mb-0'>Please enter valid phone no.</div>");         
+          return false;
+        }
+        else if(!phone.match(phno))
+        {
+          form.append("<div class='alert alert-danger mt-1 mb-0'>Please enter valid phone no.</div>");         
+          return false;
+        }
+        else
+        {
+          //valid
+        }
+
+        var otp_validated = $("#signup_otp").attr("otp-validated");
+        if( otp_validated == 0 )
+        {
+          $("#signup_otp").show();
+          $("#signup .signup").prop("disabled", true);
+          // ask for otp
+          var formdata = {
+            phone:phone,
+            opt_login:1,
+          };
+
+          $.ajax({
+              type: "POST",
+              url: url,
+              dataType: "json",
+              data: formdata, // Serialize form data
+              success: function (data) {
+                  console.log(data);
+                  if( data.error == 1 )
+                  {
+                    // error occured
+                    $("#signup button[type='button']").prop("disabled", false);
+                    form.append("<div class='alert alert-danger mt-1 mb-0'>"+data.error_message+"</div>");
+                  }
+                  else
+                  {
+                    form.append("<div class='alert alert-success mt-1 mb-0'>"+data.success_message+"</div>");
+                    var last_digits = phone.substring(6 ,10);
+                    $("#signup_otp #maskedNumber").html("*******"+last_digits);
+                    document.getElementById("otp_counter1").innerHTML = 60;
+                    startTimer1();
+                  }
+              },
+              error: function (data) {
+                  form.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
+                  // error occured
+                  $("#signup button[type='button']").prop("disabled", false);
+              }
+          });
+
+          return false;
+        }
+
+        $("#signup .signup").prop("disabled", true);
+        $("#signup .signup").html("<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span> Please wait..");
         
         var formdata = {
           name:$("#signup input[name='name']").val(),
@@ -593,16 +801,15 @@ $(document).ready(function(){
                 if( data.error == 1 )
                 {
                   // error occured
-                  $("#signup :input").prop("disabled", false);
-                  $("#signup button[type='button']").prop("disabled", false);
-                  $("#signup button[type='button']").html("Sign Up");
+                  $("#signup .signup").prop("disabled", false);
+                  $("#signup .signup").html("Sign Up");
 
                   form.append("<div class='alert alert-danger mt-1 mb-0'>"+data.error_message+"</div>");
                 }
                 else
                 {
                   form.append("<div class='alert alert-success mt-1 mb-0'>"+data.success_message+"</div>");
-                  $("#signup button[type='button']").html("Success. Redirecting..");
+                  $("#signup .signup").html("Success. Redirecting..");
                   setTimeout(function(){
                     window.location.reload();
                   }, 2000);
@@ -615,14 +822,12 @@ $(document).ready(function(){
                   });
 
                 }, 3000);
-
             },
             error: function (data) {
                 form.append("<div class='alert alert-danger mt-1 mb-0'>Error Occured. Try again later.</div>");
                 // error occured
-                $("#signup :input").prop("disabled", false);
-                $("#signup button[type='button']").prop("disabled", false);
-                $("#signup button[type='button']").html("Sign Up");
+                $("#signup .signup").prop("disabled", false);
+                $("#signup .signup").html("Sign Up");
             }
         });
     });
