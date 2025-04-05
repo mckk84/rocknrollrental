@@ -403,7 +403,7 @@
                                                 <button id="validateSignupBtn" type="button" class="float-right btn btn-warning px-4 validate">Validate</button> 
                                                 <div class="row justify-content-left">
                                                     <span style="display:inline-block;width:50px;font-size:20px;font-weight:bold;border-radius:50%;border:1px solid red;" class="mx-2 my-1 p-2" id="otp_counter1"></span>
-                                                    <button id="resendOtp1" style="display:none;position: absolute;text-decoration: underline;left: 18%;margin-top: 8px;width: 100px;" class="btn btn-sm btn-link text-info p-2 float-right">Resend OTP</button>
+                                                    <button  id="resendOtp1" style="display:none;position: absolute;text-decoration: underline;left: 18%;margin-top: 8px;width: 100px;" class="btn btn-sm btn-link text-info p-2 float-right">Resend OTP</button>
                                                 </div>
                                             </div>
                                         </div>
