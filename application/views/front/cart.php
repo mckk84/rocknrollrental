@@ -341,9 +341,9 @@
                                                         <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">Qty</label>
                                                         <?php if( $bike['bikes_available'] > 1 ){?>
                                                         <div class="cart-count border p-0 d-inline-flex align-items-center">
-                                                            <button class="cart-minus p-2 btn btn-sm bg-secondary text-white rounded-0"><i class="fa fa-minus"></i></button>
+                                                            <button class="cart-minus p-2 btn btn-sm bg-primary text-white rounded-0"><i class="fa fa-minus"></i></button>
                                                             <input type="text" style="padding:8px" data-bike="<?=$bike['bike_type_id']?>" data-available="<?=$bike['bikes_available']?>" class="bg-white cart-input" value="<?=$bike['quantity']?>">
-                                                            <button class="cart-plus p-2 btn btn-sm bg-secondary text-white rounded-0"><i class="fa fa-plus"></i></button>
+                                                            <button class="cart-plus p-2 btn btn-sm bg-primary text-white rounded-0"><i class="fa fa-plus"></i></button>
                                                         </div>
                                                         <?php } else { ?>
                                                         <div class="cart-count border d-inline-flex align-items-center">
