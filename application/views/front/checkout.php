@@ -31,7 +31,7 @@
                 <?php } else { ?> 
                 <div class="checkout-badge bg-light px-0 d-flex align-items-center justify-content-between">
                     <h4 class="h5 px-4 mb-0">
-                        Personal Details
+                        Customer Information
                     </h4>
                 </div>
                 <?php
@@ -108,7 +108,8 @@
                                         <span class="d-block mb-2 fw-bold fa-md w-100 text-center"><?=$bike['bike_type_name']?></span>
                                         <img style="max-width:200px;" src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="d-block mx-auto img-fluid">
                                     </td>
-                                    <td><span class="w-100 m-2 p-2 fa-sm font-bold d-block"><b><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
+                                    <td>
+                                        <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><b><?=date("d M Y", strtotime($cart['pickup_date']))?></b></span>
                                         <span class="w-100 m-2 py-2 px-4 fa-sm font-bold d-block"><b><?=$cart['pickup_time']?></b></span>
                                         <span style="width:30px;display:block;margin:10px;margin-left:35px;text-align: center;color: black; background-color: #FFDD06; color: #ffffff; border-radius:20px; font-size:10px; padding:5px 10px;">to</span>
                                         <span class="w-100 m-2 p-2 fa-sm font-bold d-block"><b><?=date("d M Y", strtotime($cart['dropoff_date']))."<b>";?></b></span>
@@ -189,10 +190,8 @@
                                 <table class="table cartbikes mb-1">
                                     <tr class="border bike-row" data-id="<?=$bike['bike_type_id']?>">
                                         <td class="position-relative" colspan="2">
-                                            <span style="position: absolute;top: 1px;left: 1px;padding: 5px;border-right: 1px solid rgba(11, 22, 63, 0.07);border-bottom: 1px solid rgba(11, 22, 63, 0.07);z-index: 9;display: block;width: 50px;background-color: rgb(255, 220, 0);" class="fw-bold fa-md text-center"><?=$sl?></span>
                                             <span class="d-block fw-bold fa-xl w-100 text-center p-3"><?=$bike['bike_type_name']?></span>
                                             <img style="max-width:250px;display: block; margin:auto;" src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid">
-                                            <button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" style="right:5px;bottom:5px" class="position-absolute cart-delete text-danger bg-transparent"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
                                     <tr class="border">
@@ -211,19 +210,8 @@
                                     <tr class="border">
                                         <td colspan="2" class="border-0 text-center p-1">
                                             <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">Qty</label>
-                                            <?php if( $bike['bikes_available'] > 1 ){?>
-                                            <div class="cart-count border p-0 d-inline-flex align-items-center">
-                                                <button class="cart-minus p-2 btn btn-sm bg-primary text-white rounded-0"><i class="fa fa-minus"></i></button>
-                                                <input type="text" style="padding:8px" data-bike="<?=$bike['bike_type_id']?>" data-available="<?=$bike['bikes_available']?>" class="bg-white cart-input" value="<?=$bike['quantity']?>">
-                                                <button class="cart-plus p-2 btn btn-sm bg-primary text-white rounded-0"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                            <?php } else { ?>
-                                            <div class="cart-count border d-inline-flex align-items-center">
-                                                <input type="text" disabled class="cart-input" value="<?=$bike['quantity']?>">
-                                            </div>
-                                            <?php } ?>
                                             &nbsp;
-                                            <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;">X</label>
+                                            <label class="fw-semibold" style="width:auto; padding:5px 5px;display: inline-block;"><?=$bike['quantity']?> &nbsp; &nbsp; X</label>
                                             &nbsp;
                                             <i class="fa fa-indian-rupee-sign me-1"></i><?=$rent_price?>
                                             &nbsp;
