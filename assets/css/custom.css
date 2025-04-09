@@ -428,9 +428,12 @@ ul.footer-nav {
     .footer-section{
         padding-bottom:55px;
     }
-    .theme-scrolltop-btn{
-        bottom: 120px !important;
-    }
+    .theme-scrolltop-btn {
+        bottom: 50px !important;
+        position: relative;
+        right: 5px;
+        left: 80%;
+    }   
 }
 
 input[type="checkbox"] {
