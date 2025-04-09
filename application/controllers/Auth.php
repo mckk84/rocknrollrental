@@ -334,10 +334,7 @@ class Auth extends CI_Controller {
 
 	function signoff()
 	{
-		$sessionArray = array('userId' => 0, 'Authorization' => false);
-        $this->session->set_userdata("Auth", $sessionArray);
-        unset($sessionArray['userId'], $sessionArray['Authorization']);
-        
+		$this->session->sess_destroy(); 
         $this->session->set_flashdata('success', 'Logged Out');
         redirect();
 	}
