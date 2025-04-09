@@ -313,12 +313,11 @@
                                     $sl = $index + 1;
                                 ?>                                
                                     <tr class="border bike-row" data-id="<?=$bike['bike_type_id']?>">
-                                        <td class="position-relative" colspan="2">
+                                        <td class="position-relative p-0" colspan="2">
                                             <table class="table">
                                                 <tr class="border">
                                                     <td class="position-relative" colspan="2">
-                                                        <!-- <span style="position: absolute;top: 1px;left: 1px;padding: 5px;border-right: 1px solid rgba(11, 22, 63, 0.07);border-bottom: 1px solid rgba(11, 22, 63, 0.07);z-index: 9;display: block;width: 50px;background-color: rgb(255, 220, 0);" class="fw-bold fa-md text-center"><?=$sl?></span> -->
-                                                        <span class="d-block fw-bold fa-xl w-100 text-center p-3"><?=$bike['bike_type_name']?></span>
+                                                        <span class="d-block fw-bold fa-1x w-100 text-center p-3"><?=$bike['bike_type_name']?></span>
                                                         <img style="max-width:250px;display: block; margin:auto;" src="<?=base_url('bikes/'.$bike['image'])?>" alt="<?=$bike['bike_type_name']?>" class="img-fluid">
                                                         <button title="Remove Bike" bike-id="<?=$bike['bike_type_id']?>" style="right:5px;bottom:5px" class="position-absolute cart-delete text-danger bg-transparent"><i class="fa fa-trash"></i></button>
                                                     </td>
@@ -412,7 +411,7 @@
                             </tr>
                             <tr>
                                <td>
-                                    <label class="w-50 text-wrap float-left"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] > 0)?"checked":""?> > Add extra for ₹50/day. </label>
+                                    <label class="w-50 text-wrap float-left"><input type="checkbox" style="width:20px;height:20px;margin-left:5px;vertical-align: middle;" id="add_helmet" name="add_helmet" class="me-2" <?=($cart["helmets_qty"] > 0)?"checked":""?> > <span class="d-inline-block p-1">Add extra for ₹50/day.</span> </label>
                                     <div style="display: <?=($cart["helmets_qty"] > 0)?"inline-flex":"none"?>;float: left;" class="helmet-row cart-count bg-white justify-content-center">
                                         <span class="btn btn-sm p-2 cart-hminus bg-primary text-white rounded-0"><i class="fa fa-minus"></i></span>
                                         <input type="text" name="helmets_qty" class="cart-helmets text-center border text-black rounded-0" value="<?=isset($cart["helmets_qty"])?$cart["helmets_qty"]:0?>">
