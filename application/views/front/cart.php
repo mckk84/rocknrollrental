@@ -533,7 +533,7 @@
                             <form method="POST" action="<?=base_url('Checkout')?>">
                                 <?php if( $cart['early_pickup'] == 1 || $cart['pickup_time'] == '07:30 AM' ){?>
                                 <div class="w-100 mb-4 border rounded bg-light">
-                                    <label class="fa-md text-info py-2 px-2"><input type="checkbox" name="early_pickup_charge" value="1" <?=($cart['early_pickup']==1)?"checked":""?> > Pickup early at 6:00 AM for  200 extra / bike.</label>
+                                    <label class="fa-15 text-info py-2 px-2"><input type="checkbox" name="early_pickup_charge" value="1" <?=($cart['early_pickup']==1)?"checked":""?> > Pickup early at 6:00 AM for  200 extra / bike.</label>
                                 </div>                                
                                 <?php } ?>
                                 <div class="row px-2 mb-4 justify-content-center">
