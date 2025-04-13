@@ -3,13 +3,7 @@
     <div class="pagetitle">
       <h1>Dashboard
 
-        <span class="d-inline float-right p-1">
-        <?php
-        $start_date = new DateTime($last_update);
-        $since_start = $start_date->diff(new DateTime(date("Y-m-d H:i:s")));
-        echo "Last Updated: ".$since_start->h.' hours,'.$since_start->i.' minutes,'.$since_start->s.' seconds ago';
-        ?>
-        </span>
+        <span id="last_updated" class="d-inline small text-danger float-right p-1"></span>
       </h1>
     </div><!-- End Page Title -->
 
@@ -461,6 +455,26 @@
   </main><!-- End #main -->
   <script type="text/javascript">
 
+    function diff_hours(dt2, dt1) 
+    {
+      var diff =(dt2.getTime() - dt1.getTime()) / 1000;
+      var hrs = diff / (60 * 60);
+      var min = diff / (60 * 60 * 60);
+      var sec = diff / (60 * 60 * 60 * 60);
+      return Math.abs(Math.round(hrs))+" hrs,"+Math.abs(Math.round(min))+" mins,"+Math.abs(Math.round(sec))+" sec ago";
+    }
+
+    function formatDate(date) {
+      var year = date.getFullYear().toString();
+      var month = (date.getMonth() + 101).toString().substring(1);
+      var day = (date.getDate() + 100).toString().substring(1);
+      var hrs = date.getHours();
+      var min = date.getMinutes();
+      var sec = date.getSeconds();
+      return year + "-" + month + "-" + day + " "+hrs+":"+min+":"+sec;
+    }
+
+
     function showdiv(eleparent, ele)
     {
         $("."+eleparent+" .card-body").each(function(){
@@ -469,11 +483,24 @@
         $(ele).show();
     }
 
+    function showdifftime()
+    {
+      var last_updated = '<?=$last_update?>';
+      console.log(last_updated);
+      
+      var now = formatDate(new Date());
+      console.log(now);
+
+      var diff = diff_hours(new Date(last_updated), new Date(now));
+      $('#last_updated').html(diff);
+    }
+
     $(document).ready(function(){
 
-
-
-
+      setInterval(function(){
+        showdifftime();
+      }, 5000)
+      
     });
 
   </script>
