@@ -489,11 +489,14 @@ $(document).ready(function(){
     $("#add_price").click(function(){
         $("#add-price").modal('show');
         $("#add-price").find("input[type=text], select").val("");
+
     });
 
     $("#add_user").click(function(){
         $("#add-user").modal('show');
         $("#add-user").find("input[type=text], select").val("");
+        $('#add-user input[name="password"]').parent().show();
+        $('#add-user input[name="password"]').show();
     });
 
     $("#submitcoupon").click(function(event){
@@ -1874,7 +1877,8 @@ $(document).ready(function(){
                 $('#add-user input[name="phone"]').val(d.phone);
                 $('#add-user input[name="username"]').val(d.username);
 
-                $('#add-user input[name="password"]').prop('disabled', true);
+                $('#add-user input[name="password"]').hide();
+                $('#add-user input[name="password"]').parent().hide();
                 
             },
             error: function (data) {
