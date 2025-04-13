@@ -39,7 +39,7 @@
                 <!-- Multi Columns Form -->
                 <form id="mybooking_form" class="booking_form" method="POST" action="<?=base_url('admin/Bookings/save')?>">
                   <div class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <div class="row mb-2">
                         <div class="col-md-6">
                               <label class="text-dark mb-1">Pickup date</label>
@@ -99,9 +99,9 @@
                       </div>                      
                       <div id="payment_form" class="row">
                         <div id="sumit_form" class="col-md-12 p-2">
-                          <div class="row border-bottom p-2">
+                          <div class="row p-2">
                             <div class="col-md-4">
-                              <label class="d-block text-dark mt-2">Customer</label>
+                              <label class="d-block text-dark text-center font-bold mt-2">Customer</label>
                             </div>
                             <div class="col-md-8">
                               <select id="customer_id" name="customer_id" class="form-select">
@@ -112,32 +112,22 @@
                               </select>
                             </div>
                           </div>
-                          <div class="row border-bottom p-2">
-                            <div class="col-md-4">
-                                <label class="text-dark align-middle">Free Helmet</label>
+                          <div class="row p-2">
+                            <div class="border border-warning rounded p-2 m-2 col-md-3">
+                                <label class="text-dark me-2 align-middle">Free Helmet</label>
+                                <input type="checkbox" name="free_helmet" style="float:right;display:inline;width: 20px;height: 20px;vertical-align: bottom;" value="1">
                             </div>
-                            <div class="col-md-6">
-                                <input type="checkbox" name="free_helmet" style="display:inline;width: 20px;height: 20px;vertical-align: bottom;" value="1">
-                            </div>
-                          </div>
-                          <div class="row border-bottom p-2">
-                            <div class="col-md-4">
-                                <label class="text-dark align-middle">Extra Helmets</label>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="checkbox" name="helmets" style="display:inline;width: 20px;height: 20px;vertical-align: bottom;" value="1">
-                                <span id="extra_helemt_block" style="display:none;margin-left:5px;" class="float-right w-60">
-                                  <label class="w-20 float-left d-block p-1 text-dark align-middle">Qty:</label>
-                                  <input type="number" style="line-height: 1rem;" class="w-30 form-control float-left text-dark p-1 px-2" name="helmets_qty" value="1">
+                            <div class="border border-warning rounded p-2 m-2 col-md-5">
+                                <label class="text-dark me-2 float-left align-middle">Extra Helmets</label>
+                                <input type="checkbox" name="helmets" style="float:left;display:inline;width: 20px;height: 20px;vertical-align: bottom;" value="1">
+                                <span id="extra_helemt_block" style="display:none;margin-left:5px;" class="w-40">
+                                  <label class="w-20 text-center d-iline p-0 float-left font-bold text-dark align-middle">Qty:</label>
+                                  <input type="number" class="w-20 d-inline float-left text-center text-dark p-0" name="helmets_qty" value="1">
                                 </span>
                             </div>
-                          </div>  
-                          <div class="row border-bottom p-2">
-                            <div class="col-md-4">
-                                <label class="text-dark align-middle">Early Pickup</label>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="checkbox" name="early_pickup" style="display:inline;width: 20px;height: 20px;vertical-align: bottom;" value="1">
+                            <div class="border border-warning rounded p-2 m-2 col-md-3">
+                                <label class="text-dark me-2 align-middle">Early Pickup</label>
+                                <input type="checkbox" name="early_pickup" style="float:right;display:inline;width: 20px;height: 20px;vertical-align: bottom;" value="1">
                             </div>
                           </div>                       
                         </div>
@@ -154,13 +144,13 @@
                   <div class="row g-3">                    
                     <div id="cart_sidebar" class="col-md-8">
                       <div class="row">
-                        <div id="bikes_row" class="col-md-8">
+                        <div id="bikes_row" class="col-md-9">
                         </div>
                       </div>
                       <div class="row">
                           <input type="hidden" name="vehicle_count" value="0">
                           <input type="hidden" name="vehicle_numbers" value="">
-                          <div class="col-md-8 table-responisve">
+                          <div class="col-md-9 table-responisve">
                               <table class="table">
                                   <tr>
                                       <th class="text-start bg-warning" colspan="2">Order Summary</th>
@@ -419,11 +409,11 @@
       $("input[name='helmets']").change(function(){
         if ($(this).is(":checked")) {
           $("input[name='helmets_qty']").val(1);
-          $("#extra_helemt_block").slideDown();
+          $("#extra_helemt_block").css('display', "inline");
           $("#helmets_row").show();
         } else {
           $("input[name='helmets_qty']").val(0);
-          $("#extra_helemt_block").slideUp();
+          $("#extra_helemt_block").hide();
           $("#helmets_row").hide();
         }
         updateCart();
@@ -499,7 +489,7 @@
                   $(".booking_form #search_bike").prop("disabled", false);
                   
                   var html = "<table class='table datatable table-responsive rounded border'>";
-                  html += "<tbody><tr><td class='bg-warning-light font-bold w-30'>Pickup</td><td><span class='d-block p-1 fs-8 font-bold'>"+formatdate(response.data.pickup_date)+" &nbsp;&nbsp;&nbsp; "+response.data.pickup_time+"</span></td></tr><tr><td class='bg-warning-light font-bold w-30'>Dropoff</td><td><span class='d-block p-1 fs-8 font-bold'>"+formatdate(response.data.dropoff_date)+" &nbsp;&nbsp;&nbsp; "+response.data.dropoff_time+"</span></td></tr><tr><td class='bg-warning-light font-bold w-30'>Duration</td><td><b>"+response.data.period_days+"</b> days, <b>"+response.data.period_hours+"</b> hours </td></tr><tr><td class='bg-warning-light font-bold w-30'>Holiday</td><td>"+((response.data.holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr><tr><td class='bg-warning-light font-bold w-30'>Public Holiday</td><td>"+((response.data.public_holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr><tr><td class='bg-warning-light font-bold w-30'>Weekend</td><td>"+((response.data.weekend)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr></tbody></table>";
+                  html += "<tbody><tr><td class='bg-warning-light font-bold w-30'>Pickup</td><td><span class='d-block p-1 font-bold'>"+formatdate(response.data.pickup_date)+" &nbsp;&nbsp;&nbsp; "+response.data.pickup_time+"</span></td></tr><tr><td class='bg-warning-light font-bold w-30'>Dropoff</td><td><span class='d-block p-1 font-bold'>"+formatdate(response.data.dropoff_date)+" &nbsp;&nbsp;&nbsp; "+response.data.dropoff_time+"</span></td></tr><tr><td class='bg-warning-light font-bold w-30'>Duration</td><td><b>"+response.data.period_days+"</b> days, <b>"+response.data.period_hours+"</b> hours </td></tr><tr><td class='bg-warning-light font-bold w-30'>Holiday</td><td>"+((response.data.holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr><tr><td class='bg-warning-light font-bold w-30'>Public Holiday</td><td>"+((response.data.public_holiday)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr><tr><td class='bg-warning-light font-bold w-30'>Weekend</td><td>"+((response.data.weekend)?"<span class='badge bg-success'>Yes</span>":"<span class='badge bg-danger'>No</span>")+"</td></tr></tbody></table>";
 
                   $(".booking_form #search_bikes_row").html(html);
 
