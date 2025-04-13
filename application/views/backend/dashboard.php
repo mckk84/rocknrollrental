@@ -1,7 +1,16 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Dashboard</h1>
+      <h1>Dashboard
+
+        <span class="d-inline float-right p-1">
+        <?php
+        $start_date = new DateTime($last_update);
+        $since_start = $start_date->diff(new DateTime(date("Y-m-d H:i:s")));
+        echo "Last Updated: ".$since_start->h.' hours,'.$since_start->i.' minutes,'.$since_start->s.' seconds ago';
+        ?>
+        </span>
+      </h1>
     </div><!-- End Page Title -->
 
     <section class="section dashboard">

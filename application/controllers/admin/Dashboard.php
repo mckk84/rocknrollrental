@@ -49,6 +49,8 @@ class Dashboard extends CI_Controller
             $data['week_customers'] = $this->customers_model->getAllByCreatedDateBetween(rangeWeek(date("Y-m-d")));
             $data['month_customers'] = $this->customers_model->getAllByCreatedDateBetween(rangeMonth(date("Y-m-d")));
 
+            $data['last_update'] = date("Y-m-d H:i:s");
+
             $this->load->view('layout_admin/header', $data);
             $this->load->view('backend/dashboard', $data);
             $this->load->view('layout_admin/footer');
