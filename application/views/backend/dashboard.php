@@ -461,7 +461,18 @@
       var hrs = diff / (60 * 60);
       var min = diff / (60 * 60 * 60);
       var sec = diff / (60 * 60 * 60 * 60);
-      return Math.abs(Math.round(hrs))+" hrs,"+Math.abs(Math.round(min))+" mins,"+Math.abs(Math.round(sec))+" sec ago";
+      if( min > 0 )
+      {
+        if( Math.abs(Math.round(hrs)) > 0 ){
+          return Math.abs(Math.round(hrs))+" hrs,"+Math.abs(Math.round(min))+" mins ago";
+        }else{
+          return Math.abs(Math.round(min))+" mins ago";
+        }
+      }
+      else
+      {
+        return "";
+      }
     }
 
     function formatDate(date) {
