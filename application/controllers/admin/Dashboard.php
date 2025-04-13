@@ -37,8 +37,8 @@ class Dashboard extends CI_Controller
             $data['returns'] = $this->bookings_model->getAllReturnsToday();
             $data['late_pickups'] = $this->bookings_model->getAllPickupsToday();
 
-            $data['today_pickups'] = $this->bookings_model->getAllPickups(("Y-m-d"));
-            $data['today_dropoffs'] = $this->bookings_model->getAllDropoffs(("Y-m-d"));
+            $data['today_pickups'] = $this->bookings_model->getAllPickups(date("Y-m-d"));
+            $data['today_dropoffs'] = $this->bookings_model->getAllDropoffs(date("Y-m-d"));
 
             
             $data['today_bookings'] = $this->bookings_model->getAllByCreatedDate(date("Y-m-d"));
