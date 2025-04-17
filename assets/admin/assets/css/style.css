@@ -1514,4 +1514,5 @@ table.small th {
 .booking_form input, .booking_form textarea, .booking_form select {
     background-color: aliceblue;
     padding: 5px 10px;
+    border-radius: 0;
 }

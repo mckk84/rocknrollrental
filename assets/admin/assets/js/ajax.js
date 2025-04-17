@@ -607,7 +607,7 @@ $(document).ready(function(){
                 html += "&nbsp; <label class='d-inline-block'>Extra Helmets:<input type='checkbox' class='align-middle form-checkbox' value='1' "+((response.data.order.helmet_quantity > 0)?"checked":"")+" name='extra_helemts'/></label>";
 
                 html += "<div style='display:"+((response.data.order.helmet_quantity > 0)?"inline-block":"none")+"' class='w-30 mx-2 helmet-row cart-count bg-white justify-content-center'>";
-                html += "<input type='number' name='helmets_qty' class='w-70 py-1 px-2 font-bold text-center border text-black' value='"+((response.data.order.helmet_quantity > 0)? response.data.order.helmet_quantity :0)+"'>";
+                html += "<input type='number' name='helmets_qty' class='w-70 py-0 px-2 font-bold text-center border text-black' value='"+((response.data.order.helmet_quantity > 0)? response.data.order.helmet_quantity :0)+"'>";
                 html += "</div></div></td></tr>";
 
                 if( response.data.order.notes != "" )
