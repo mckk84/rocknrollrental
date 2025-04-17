@@ -643,7 +643,6 @@ $(document).ready(function(){
                 for (var i = 0; i < bikes.length; i++) 
                 {
                   var row = bikes[i];
-                  console.log(row);
                   var available_bikes = response.data.available_bikes;
                   if( order_bike_types.indexOf(row.id) < 0 )
                   {
@@ -658,6 +657,7 @@ $(document).ready(function(){
                     {
                         row.rent_price = ab.rent_price;
                         row.bike_image = ab.image;
+                        console.log(row.bike_id);
                         ab_html += "<option "+((row.bike_id==ab.bid)?'selected':'')+" value='"+ab.bid+"'>"+ab.vehicle_number+"</option>";
                     }
                   }
@@ -671,7 +671,7 @@ $(document).ready(function(){
                   });
                   bt_html += "</select></td>";
 
-                  html += bt_html; //<td><span style='vertical-align:middle;'>"+row.type+"</span></td>";
+                  html += bt_html;
                   html += "<td style='width:10%'><img style='max-width:50px;margin:auto;display:block;' class='img-fluid' src='"+response.data.bike_url+row.image+"'/></td>";
                   html += "<td class='w-30'>"+ab_html+"</td><td  style='width:10%'><input type='hidden' name='assign_bike_rent_"+row.id+"' value='"+row.rent_price+"'/> <span class='d-block w-100' id='assign_bike_rent_"+row.id+"'>"+row.rent_price+"</span></td><td><a onclick='deletebikerow1("+row.id+")' href='javascript:void(0)' class='d-block text-danger w-100' id='assign_bike_"+row.id+"'><i class='bi bi-trash'></a></td></tr>";
                 }
@@ -679,7 +679,8 @@ $(document).ready(function(){
                 html += "</table><input type='hidden' name='order_bike_types' value='"+order_bike_types.join(',')+"'>";
                 html += "<table style='display:none' id='extra_bikes' class='table datatable table-responsive rounded border text-center mt-1 mb-0 small'><tbody></tbody></table>";
                 html += "<a id='addnewbike' onclick='addnewbike()' class='badge fs-8 bg-primary d-block float-left mt-1 cursor_pointer'><i class='align-middle bi bi-plus-circle me-1'></i>Add Bikes</a>";
-                html += "<span class='d-inline-block mx-2' id='sumit_row'></span><a id='updatebookingform' title='Check form' onclick='checkbikesubmitform()' class='badge fs-8 bg-info d-block float-right mt-1 cursor_pointer'><i class='align-middle bi bi-check me-1'></i>Update</a>";
+                html += "<span class='d-inline-block mx-2' id='sumit_row'></span>";
+                html += "<a id='updatebookingform' title='Check form' onclick='checkbikesubmitform()' class='badge fs-8 bg-info d-block float-right mt-1 cursor_pointer'><i class='align-middle bi bi-check me-1'></i>Update</a>";
                 $(".booking_form #bike_select").html(html);
 
                 var total_amount = 0;
