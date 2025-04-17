@@ -48,6 +48,9 @@
                       <th scope="col">Amount</th>
                       <th scope="col">Added By</th>
                       <th scope="col">Added On</th>
+                      <?php if( isset($user['user_type']) && $user['user_type'] == 'Admin' ){?>
+                      <th scope="col">Action</th>
+                      <?php } ?>
                     </tr>
                   </thead>
                   <tbody>
@@ -61,6 +64,11 @@
                       <td><?=$row['amount']?></td>
                       <td><?=($row['created_by'] == "") ? "ONLINE":$row['created_by']?></td>
                       <td><?=date("d-m-Y h:m A", strtotime($row['created_date']))?></td>
+                      <?php if( isset($user['user_type']) && $user['user_type'] == 'Admin' ){?>
+                      <td><div class="d-flex justify-content-center">
+                        <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record text-danger float-right mx-2"><i class="bi bi-trash-fill"></i></a>
+                      </div></td>
+                      <?php } ?>
                     </tr>
                      <?php } ?>
                   </tbody>
