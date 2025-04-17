@@ -640,6 +640,7 @@ $(document).ready(function(){
                 html += "<tbody>";
                 var bikes = response.data.order_bike_types;
                 var order_bike_types = new Array();
+                var bikes_assigned = 0;
                 for (var i = 0; i < bikes.length; i++) 
                 {
                   var row = bikes[i];
@@ -657,7 +658,10 @@ $(document).ready(function(){
                     {
                         row.rent_price = ab.rent_price;
                         row.bike_image = ab.image;
-                        console.log(row.bike_id);
+                        if( row.bike_id != 0 )
+                        {
+                            bikes_assigned = 1;
+                        }
                         ab_html += "<option "+((row.bike_id==ab.bid)?'selected':'')+" value='"+ab.bid+"'>"+ab.vehicle_number+"</option>";
                     }
                   }
@@ -680,7 +684,9 @@ $(document).ready(function(){
                 html += "<table style='display:none' id='extra_bikes' class='table datatable table-responsive rounded border text-center mt-1 mb-0 small'><tbody></tbody></table>";
                 html += "<a id='addnewbike' onclick='addnewbike()' class='badge fs-8 bg-primary d-block float-left mt-1 cursor_pointer'><i class='align-middle bi bi-plus-circle me-1'></i>Add Bikes</a>";
                 html += "<span class='d-inline-block mx-2' id='sumit_row'></span>";
-                html += "<a id='updatebookingform' title='Check form' onclick='checkbikesubmitform()' class='badge fs-8 bg-info d-block float-right mt-1 cursor_pointer'><i class='align-middle bi bi-check me-1'></i>Update</a>";
+                if( bikes_assigned  == 0 ){
+                    html += "<a id='updatebookingform' title='Check form' onclick='checkbikesubmitform()' class='badge fs-8 bg-info d-block float-right mt-1 cursor_pointer'><i class='align-middle bi bi-check me-1'></i>Update</a>";
+                }
                 $(".booking_form #bike_select").html(html);
 
                 var total_amount = 0;
