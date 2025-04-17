@@ -333,9 +333,9 @@
                         <td>
                           <a title="Send Reminder in Whatsapp" class="btn btn-sm text-success" target="_blank" href="<?=base_url('admin/Bookings/whatsapp_reminder?bid='.$row['id'])?>"><i class="bi bi-whatsapp"></i></a>
                           <?php if($user['user_type'] == "Admin"){?>
-                          <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="superedit-booking-record text-warning py-1 px-2"><i class="bi bi-pencil-square me-1"></i>Update</a>
+                          <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="superedit-booking-record text-warning py-1 px-2"><i class="bi bi-pencil-square me-1"></i></a>
                           <?php } else { ?>
-                          <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record py-1 px-2 text-warning"><i class="bi bi-pencil-square me-1"></i>Update</a>
+                          <a title="Edit Order" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record py-1 px-2 text-warning"><i class="bi bi-pencil-square me-1"></i></a>
                           <?php } ?>
                         </td>
                       </tr>
