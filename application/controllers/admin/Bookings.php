@@ -799,7 +799,7 @@ class Bookings extends CI_Controller
 
                 if( $data['new_payment'] != "" && $data['new_payment'] > 0 )
                 {
-                    $data['order']['booking_amount'] = parseFloat($data['order']['booking_amount']) + parseFloat($data['new_payment']);
+                    $data['order']['booking_amount'] = floatval($data['order']['booking_amount']) + floatval($data['new_payment']);
                 }
                 
                 $old_biketypes = [];
@@ -1030,7 +1030,7 @@ class Bookings extends CI_Controller
                 
                 if( $data['new_payment'] != "" && $data['new_payment'] > 0 )
                 {
-                    $data['order']['booking_amount'] = parseFloat($data['order']['booking_amount']) + parseFloat($data['new_payment']);
+                    $data['order']['booking_amount'] = floatval($data['order']['booking_amount']) + floatval($data['new_payment']);
                 }
 
                 $old_biketypes = [];
