@@ -796,6 +796,11 @@ class Bookings extends CI_Controller
                 $data['refund_status'] = trim($this->input->post('refund_status'));
                 $data['new_payment'] = trim($this->input->post('new_payment'));
                 $data['order_bike_types'] = trim($this->input->post('order_bike_types'));
+
+                if( $data['new_payment'] != "" && $data['new_payment'] > 0 )
+                {
+                    $data['order']['booking_amount'] = parseFloat($data['order']['booking_amount']) + parseFloat($data['new_payment']);
+                }
                 
                 $old_biketypes = [];
                 foreach($data['bike_types'] as $obs)
@@ -894,6 +899,7 @@ class Bookings extends CI_Controller
                         "dropoff_date" => dateformatdb($data['dropoff_date']),
                         "dropoff_time" => $data['dropoff_time'],
                         "total_amount" => $total,
+                        "booking_amount" => $data['order']['booking_amount'],
                         "gst" => $gst,
                         "helmet_quantity" => $data['helmets_qty'],
                         "free_helmet" => $data['free_helmet'],
@@ -907,6 +913,7 @@ class Bookings extends CI_Controller
                 else
                 {
                     $booking_record = array(
+                        "booking_amount" => $data['order']['booking_amount'],
                         "pickup_date" => dateformatdb($data['pickup_date']),
                         "pickup_time" => $data['pickup_time'],
                         "dropoff_date" => dateformatdb($data['dropoff_date']),
@@ -951,7 +958,6 @@ class Bookings extends CI_Controller
                     }
                 }
                 
-
                 if( $data['new_payment'] != "" && $data['new_payment'] != 0 )
                 {
                     $booking_payment = array(
@@ -1021,6 +1027,11 @@ class Bookings extends CI_Controller
                 $data['refund_status'] = trim($this->input->post('refund_status'));
                 $data['new_payment'] = trim($this->input->post('new_payment'));
                 $data['order_bike_types'] = trim($this->input->post('order_bike_types'));
+                
+                if( $data['new_payment'] != "" && $data['new_payment'] > 0 )
+                {
+                    $data['order']['booking_amount'] = parseFloat($data['order']['booking_amount']) + parseFloat($data['new_payment']);
+                }
 
                 $old_biketypes = [];
                 foreach($data['bike_types'] as $obs)
@@ -1115,6 +1126,7 @@ class Bookings extends CI_Controller
 
                     $booking_record = array(
                         "total_amount" => $total,
+                        "booking_amount" => $data['order']['booking_amount'],
                         "gst" => $gst,
                         "helmet_quantity" => $data['helmets_qty'],
                         "free_helmet" => $data['free_helmet'],
@@ -1128,6 +1140,7 @@ class Bookings extends CI_Controller
                 else
                 {
                     $booking_record = array(
+                        "booking_amount" => $data['order']['booking_amount'],
                         "helmet_quantity" => $data['helmets_qty'],
                         "free_helmet" => $data['free_helmet'],
                         "refund_status" => $data['refund_status'],
