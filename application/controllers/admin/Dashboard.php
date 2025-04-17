@@ -39,7 +39,6 @@ class Dashboard extends CI_Controller
 
             $data['today_pickups'] = $this->bookings_model->getAllPickups(date("Y-m-d"));
             $data['today_dropoffs'] = $this->bookings_model->getAllDropoffs(date("Y-m-d"));
-
             
             $data['today_bookings'] = $this->bookings_model->getAllByCreatedDate(date("Y-m-d"));
             $data['week_bookings'] = $this->bookings_model->getAllByCreatedDateBetween(rangeWeek(date("Y-m-d")));

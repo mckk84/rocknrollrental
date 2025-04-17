@@ -186,7 +186,7 @@
             <div class="col-6">
               <div class="card recent-sales overflow-auto">
                 <div class="card-body">
-                  <h5 class="card-title px-2 mb-0">Recent Bookings</h5>
+                  <h5 class="card-title px-2 mb-0">Pre Booked</h5>
                   <table class="table table-bordered  text-center small">
                     <thead>
                       <tr>
