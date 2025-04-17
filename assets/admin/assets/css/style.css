@@ -1361,11 +1361,10 @@ button#multiSelectDropdown {
 }
 
 .badge {
-    text-transform: uppercase;    
-    font-size: 10px;
+    font-size: 12px;
     vertical-align: middle;
     border-radius: 1.5rem;
-    max-width: 85px;
+    max-width: 90px;
 }
 
 .bg-warning{
