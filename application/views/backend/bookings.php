@@ -149,10 +149,10 @@
                         <?php } ?>
 
                         <?php if( isset($user['user_type']) && $user['user_type'] == 'Admin' ){?>
-                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="superedit-booking-record fs-6 text-warning float-right mx-2"><i class="bi bi-pencil-fill"></i></a>
+                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="superedit-booking-record fs-6 text-warning float-right mx-2"><i class="bi bi-pencil-square me-1"></i></a>
                         <a title="Delete Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="delete-record fs-6 text-danger float-right mx-2"><i class="bi bi-trash-fill"></i></a>
                         <?php } else { ?>
-                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record fs-6 text-warning float-right mx-2"><i class="bi bi-pencil-fill"></i></a>
+                        <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record fs-6 text-warning float-right mx-2"><i class="bi bi-pencil-square me-1"></i></a>
                         <?php } ?>
                       </div></td>
                     </tr>
