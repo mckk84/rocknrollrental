@@ -116,7 +116,7 @@
                       <td><div class="d-flex justify-content-center">
                         <!-- <a title="Send Whatsapp" class="fs-6" target="_blank" href="<?=base_url('admin/Bookings/whatsapp?bid='.$row['id'])?>"><i class="bi bi-whatsapp"></i></a> -->
 
-                        <a title="View Record" href="<?=base_url('admin/Bookings/view?bid='.$row['id'])?>" class="text-info float-right fs-6 mx-2"><i class="bi bi-eye-square"></i></a>
+                        <a title="View Record" href="<?=base_url('admin/Bookings/view?bid='.$row['id'])?>" class="text-info float-right fs-6 mx-2"><i class="bi bi-eye-fill"></i></a>
                         
                         <?php if( isset($user['user_type']) && $user['user_type'] == 'Admin' ){?>
                         <a title="Edit Record" href="javascript:void(0)" record-data="<?=$row['id']?>" class="edit-booking-record fs-6 text-warning float-right mx-2"><i class="bi bi-pencil-square me-1"></i></a>
